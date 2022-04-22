@@ -1,0 +1,4 @@
+name = TearWare
+author = LilWeaboo
+description = Csgo style cheat for teardown.
+tags = Gameplay
