@@ -1,1 +1,15 @@
-press insert to open the menu
+Teardown cheat inspired by modern csgo cheats/pastes.
+
+Press insert in game to open the menu
+
+Features:
+    Infinite Ammo
+    Objective ESP
+    Valuable ESP
+    Speed
+    Fly
+    Floor Strafe
+    Jetpack
+    Godmode
+    Rubberband
+    Disable Alarm

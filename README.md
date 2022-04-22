@@ -1,4 +1,4 @@
-# CheatMenu
-Teardown Lua. This script adds a cheat menu inspired by modern counter strike cheats.
+# Tearware
+Teardown Lua. This script is a simple cheat inspired by modern csgo projects.
 
-[Steam Workshop Page](-link-)
+[Steam Workshop Page](https://steamcommunity.com/sharedfiles/filedetails/?id=2798126764)

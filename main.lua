@@ -4,43 +4,52 @@
 -- shame on you global variable!
 isMenuOpen = false
 
+cfgstr = "savegame.mod.tearware_"
+
 function DefineBool(var, default) 
-    if HasKey(var) then 
+    if HasKey(cfgstr .. var) then 
         return 
     end
-    SetBool(var, default)
+    SetBool(cfgstr .. var, default)
+end
+
+function DefineInt(var, default) 
+    if HasKey(cfgstr .. var) then 
+        return 
+    end
+    SetInt(cfgstr .. var, default)
 end
 
 -- dll main, but more gay
 function init()
     -- weapons/aim/triggerbot idk?
-    DefineBool("savegame.mod.infiniteammo", false)
+    DefineBool("infiniteammo", false)
     
     -- visuals
-    DefineBool("savegame.mod.hud", true)
-    DefineBool("savegame.mod.watermark", true)
-    DefineBool("savegame.mod.objectiveesp", false)
-    DefineBool("savegame.mod.valueesp", false)
+    DefineBool("visuals", true)
+    DefineBool("watermark", true)
+    DefineBool("objectiveesp", false)
+    DefineBool("valueesp", false)
     
     -- movement
-    DefineBool("savegame.mod.speedhack", false)
-    DefineBool("savegame.mod.fly", false)
-    DefineBool("savegame.mod.floorstrafe", false)
-    DefineBool("savegame.mod.jetpack", false)
+    DefineBool("speedhack", false)
+    DefineBool("fly", false)
+    DefineBool("floorstrafe", false)
+    DefineBool("jetpack", false)
 
     -- misc
-    DefineBool("savegame.mod.godmode", false)
-    DefineBool("savegame.mod.rubberband", false)
+    DefineBool("godmode", false)
+    DefineBool("rubberband", false)
     
     -- *misc
-    DefineBool("savegame.mod.disablealarm", false)
+    DefineBool("disablealarm", false)
 
-    SetInt("savegame.mod.activetab", 0)
+    DefineInt("activetab", 0)
 end
 
 function Rubberband() 
     
-    if not GetBool("savegame.mod.rubberband") then
+    if not GetBool(cfgstr .. "rubberband") then
         rubberband_pos = nil
 
         if rubberband_transform == nil then 
@@ -64,7 +73,7 @@ function Rubberband()
 end
 
 function Disablealarm()
-	if not GetBool("savegame.mod.disablealarm") then
+	if not GetBool(cfgstr .. "disablealarm") then
         return
     end
     SetFloat("level.alarmtimer", 817)
@@ -73,7 +82,7 @@ function Disablealarm()
 end
 
 function InfiniteAmmo() 
-    if not GetBool("savegame.mod.infiniteammo") then 
+    if not GetBool(cfgstr .. "infiniteammo") then 
         return 
     end
 
@@ -81,7 +90,7 @@ function InfiniteAmmo()
 end
 
 function Godmode() 
-    if not GetBool("savegame.mod.godmode") then
+    if not GetBool(cfgstr .. "godmode") then
         return 
     end
 	
@@ -91,7 +100,7 @@ function Godmode()
 end
 
 function Fly()
-    if not GetBool("savegame.mod.fly") then 
+    if not GetBool(cfgstr .. "fly") then 
         return 
     end
 
@@ -207,7 +216,7 @@ function Fly()
 end
 
 function Speedhack()
-    if not GetBool("savegame.mod.speedhack") then 
+    if not GetBool(cfgstr .. "speedhack") then 
         return 
     end
 
@@ -297,7 +306,7 @@ function Speedhack()
 end
 
 function Floorstrafe() 
-    if not GetBool("savegame.mod.floorstrafe") then 
+    if not GetBool(cfgstr .. "floorstrafe") then 
         return 
     end
 
@@ -307,14 +316,14 @@ function Floorstrafe()
 
     local velocity = GetPlayerVelocity()
 
-    velocity[2] = 666
+    velocity[2] = 1
 
     SetPlayerGroundVelocity(velocity)
 
 end
 
 function Jetpack() 
-    if not GetBool("savegame.mod.jetpack") then 
+    if not GetBool(cfgstr .. "jetpack") then 
         return 
     end
 
@@ -366,17 +375,17 @@ function Checkbox(name, var)
     UiAlign("left top")
 
     UiTextShadow(0, 0, 0, 0.5, 2.0)
-    if GetBool(var) then 
+    if GetBool(cfgstr .. var) then 
         UiColor(0.6, 1.0, 0.6, 1)
     else 
         UiColor(1.0, 0.6, 0.6, 1)
     end
 
     if UiTextButton(name) then
-        if GetBool(var) then 
-            SetBool(var, false)
+        if GetBool(cfgstr .. var) then 
+            SetBool(cfgstr .. var, false)
         else 
-            SetBool(var, true)
+            SetBool(cfgstr .. var, true)
         end
     end
     UiPop()
@@ -416,7 +425,7 @@ function NavButton(name, tabid)
         UiTranslate(50 + (tabid * 100), -20)
         UiFont("bold.ttf", 120)
 
-        if tabid == GetInt("savegame.mod.activetab") then 
+        if tabid == GetInt(cfgstr .. "activetab") then 
             UiColor(0.8, 0.8, 0.8, 1)
             UiTextShadow(0.7, 0.7, 0.7, 0.5, 1.0)
         else
@@ -425,7 +434,7 @@ function NavButton(name, tabid)
         end
 
         if UiTextButton(name) then
-            SetInt("savegame.mod.activetab", tabid)
+            SetInt(cfgstr .. "activetab", tabid)
         end
     UiPop()
 end
@@ -439,7 +448,7 @@ function NavSep(tabid)
 end
 
 function Watermark()
-    if not GetBool("savegame.mod.watermark") then 
+    if not GetBool(cfgstr .. "watermark") then 
         return 
     end
 
@@ -453,13 +462,13 @@ function Watermark()
         UiAlign("left top")
         UiFont("bold.ttf", 25)
         UiTextShadow(0, 0, 0, 0.5, 2.0)
-        UiText("TearWare")
+        UiText("Tearware")
         
     UiPop()
 end
 
 function ObjectiveEsp() 
-    if not GetBool("savegame.mod.objectiveesp") then 
+    if not GetBool(cfgstr .. "objectiveesp") then 
         return 
     end
 
@@ -489,7 +498,7 @@ function ObjectiveEsp()
 end
 
 function ValueableEsp() 
-    if not GetBool("savegame.mod.valueesp") then 
+    if not GetBool(cfgstr .. "valueesp") then 
         return 
     end
 
@@ -513,7 +522,7 @@ function ValueableEsp()
 end
 
 function VisualsDraw()
-    if not GetBool("savegame.mod.visuals") then 
+    if not GetBool(cfgstr .. "visuals") then 
         return 
     end
 
@@ -602,40 +611,40 @@ function draw()
         UiColor(1, 1, 1, 1)
         
         UiPush()
-            if GetInt("savegame.mod.activetab") == 0 then 
+            if GetInt(cfgstr .. "activetab") == 0 then 
                 -- weapons/aim/triggerbot idk?
 
-                Checkbox("Infinite Ammo", "savegame.mod.infiniteammo")
+                Checkbox("Infinite Ammo", "infiniteammo")
 
-            elseif GetInt("savegame.mod.activetab") == 1 then 
+            elseif GetInt(cfgstr .. "activetab") == 1 then 
                 -- visuals
 
-                Checkbox("Visuals", "savegame.mod.visuals")
-                if GetBool("savegame.mod.visuals") then 
+                Checkbox("Visuals", "visuals")
+                if GetBool(cfgstr .. "visuals") then 
                 
-                    Checkbox("Watermark", "savegame.mod.watermark")
-                    Checkbox("Objective ESP", "savegame.mod.objectiveesp")
-                    Checkbox("Valueable ESP", "savegame.mod.valueesp")
+                    Checkbox("Watermark", "watermark")
+                    Checkbox("Objective ESP", "objectiveesp")
+                    Checkbox("Valuable ESP", "valueesp")
                     
                 end
 
-            elseif GetInt("savegame.mod.activetab") == 2 then 
+            elseif GetInt(cfgstr .. "activetab") == 2 then 
                 -- movement
 
-                Checkbox("Speed", "savegame.mod.speedhack")
-                Checkbox("Fly", "savegame.mod.fly")
-                Checkbox("Floor Strafe", "savegame.mod.floorstrafe")
-                Checkbox("Jetpack", "savegame.mod.jetpack")
+                Checkbox("Speed", "speedhack")
+                Checkbox("Fly", "fly")
+                Checkbox("Floor Strafe", "floorstrafe")
+                Checkbox("Jetpack", "jetpack")
 
-            elseif GetInt("savegame.mod.activetab") == 3 then 
+            elseif GetInt(cfgstr .. "activetab") == 3 then 
                 -- misc
-                Checkbox("Godmode", "savegame.mod.godmode")
-                Checkbox("Rubberband", "savegame.mod.rubberband")
+                Checkbox("Godmode", "godmode")
+                Checkbox("Rubberband", "rubberband")
             
-            elseif GetInt("savegame.mod.activetab") == 4 then 
+            elseif GetInt(cfgstr .. "activetab") == 4 then 
 
                 -- *misc
-                Checkbox("Disable Timer", "savegame.mod.disablealarm")
+                Checkbox("Disable Alarm", "disablealarm")
 
 
             end
