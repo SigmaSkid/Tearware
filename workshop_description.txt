@@ -1,4 +1,4 @@
-Teardown cheat inspired by modern csgo cheats/pastes.
+Teardown cheat inspired by modern game cheats.
 
 Press insert in game to open the menu
 
@@ -10,6 +10,13 @@ Features:
     Fly
     Floor Strafe
     Jetpack
+    Jesus
     Godmode
     Rubberband
     Disable Alarm
+    Teleport
+
+All features are bindable.
+To bind something right click on it,
+then press the key you want to use.
+Use enter to remove the bind.

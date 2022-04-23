@@ -6,11 +6,27 @@ isMenuOpen = false
 
 cfgstr = "savegame.mod.tearware_"
 
-function DefineBool(var, default) 
-    if HasKey(cfgstr .. var) then 
+featurelist = {}
+
+function DefineBool(name, var, default) 
+    local feature = {}
+    feature.name = name 
+    feature.var = var
+    featurelist[#featurelist+1] = feature
+
+    if HasKey(cfgstr .. var) and HasKey(cfgstr .. var .. "_key") then 
         return 
     end
     SetBool(cfgstr .. var, default)
+    SetString(cfgstr .. var .. "_key", "null")
+end
+
+function DefineTool(var) 
+    if HasKey(cfgstr .. var) and HasKey(cfgstr .. var .. "_key") then 
+        return 
+    end
+    SetBool(cfgstr .. var, false)
+    SetString(cfgstr .. var .. "_key", "null")
 end
 
 function DefineInt(var, default) 
@@ -20,36 +36,58 @@ function DefineInt(var, default)
     SetInt(cfgstr .. var, default)
 end
 
+function AdvGetBool(var)
+    if not HasKey(var .. "_key") then 
+        return GetBool(var)
+    end
+
+    local key = GetString(var .. "_key")
+    if key == "null" or key == "" or key == nil then 
+        return GetBool(var)
+    end
+
+    if InputPressed(key) then 
+        SetBool(var, not GetBool(var))
+    end
+    
+    return GetBool(var) 
+end
+
 -- dll main, but more gay
 function init()
     -- weapons/aim/triggerbot idk?
-    DefineBool("infiniteammo", false)
+    DefineBool("Infinite Ammo", "infiniteammo", false)
     
     -- visuals
-    DefineBool("visuals", true)
-    DefineBool("watermark", true)
-    DefineBool("objectiveesp", false)
-    DefineBool("valueesp", false)
+    DefineBool("Visuals", "visuals", true)
+    DefineBool("Watermark", "watermark", true)
+    DefineBool("Feature List", "featurelist", false)
+    DefineBool("Objective ESP", "objectiveesp", false)
+    DefineBool("Valuable ESP", "valueesp", false)
     
     -- movement
-    DefineBool("speedhack", false)
-    DefineBool("fly", false)
-    DefineBool("floorstrafe", false)
-    DefineBool("jetpack", false)
+    DefineBool("Speed", "speedhack", false)
+    DefineBool("Fly", "fly", false)
+    DefineBool("Floor Strafe", "floorstrafe", false)
+    DefineBool("Jetpack", "jetpack", false)
+    DefineBool("Jesus", "jesus", false)
 
     -- misc
-    DefineBool("godmode", false)
-    DefineBool("rubberband", false)
-    
-    -- *misc
-    DefineBool("disablealarm", false)
+    DefineBool("Godmode", "godmode", false)
+    DefineBool("Rubberband", "rubberband", false)
+    DefineBool("Disable Alarm", "disablealarm", false)
 
-    DefineInt("activetab", 0)
+    -- tools
+    DefineTool("teleport")
+
+    table.sort(featurelist, function (left, right)
+        return string.len(left.name) > string.len(right.name)
+    end)
 end
 
 function Rubberband() 
     
-    if not GetBool(cfgstr .. "rubberband") then
+    if not AdvGetBool(cfgstr .. "rubberband") then
         rubberband_pos = nil
 
         if rubberband_transform == nil then 
@@ -73,7 +111,7 @@ function Rubberband()
 end
 
 function Disablealarm()
-	if not GetBool(cfgstr .. "disablealarm") then
+	if not AdvGetBool(cfgstr .. "disablealarm") then
         return
     end
     SetFloat("level.alarmtimer", 817)
@@ -81,8 +119,41 @@ function Disablealarm()
     SetBool("level.alarmdisabled", true) 
 end
 
+function Jesus()
+	if not AdvGetBool(cfgstr .. "jesus") then
+        return
+    end
+    local transform = GetPlayerTransform()
+    local inWater, depth = IsPointInWater(transform.pos)
+
+    if not inWater then 
+        return 
+    end
+
+    local velocity = GetPlayerVelocity()
+    
+    if InputDown("jump") then 
+        velocity[2] = 5
+    else
+        velocity[2] = 1
+    end
+
+    SetPlayerVelocity(velocity)
+    
+    if depth > 0.3 then 
+        local camera = GetPlayerCameraTransform()
+        
+        transform.pos[2] = transform.pos[2] + depth
+        
+        transform.rot = camera.rot 
+  
+        SetPlayerTransform(transform, true)
+    end
+
+end
+
 function InfiniteAmmo() 
-    if not GetBool(cfgstr .. "infiniteammo") then 
+    if not AdvGetBool(cfgstr .. "infiniteammo") then 
         return 
     end
 
@@ -90,7 +161,7 @@ function InfiniteAmmo()
 end
 
 function Godmode() 
-    if not GetBool(cfgstr .. "godmode") then
+    if not AdvGetBool(cfgstr .. "godmode") then
         return 
     end
 	
@@ -100,7 +171,7 @@ function Godmode()
 end
 
 function Fly()
-    if not GetBool(cfgstr .. "fly") then 
+    if not AdvGetBool(cfgstr .. "fly") then 
         return 
     end
 
@@ -216,7 +287,7 @@ function Fly()
 end
 
 function Speedhack()
-    if not GetBool(cfgstr .. "speedhack") then 
+    if not AdvGetBool(cfgstr .. "speedhack") then 
         return 
     end
 
@@ -231,6 +302,9 @@ function Speedhack()
     local velocity = GetPlayerVelocity()
 
     local TargetVel = 20
+    if InputDown("shift") then 
+        TargetVel = 40 
+    end
 
     -- scary math below, run.
 
@@ -306,7 +380,7 @@ function Speedhack()
 end
 
 function Floorstrafe() 
-    if not GetBool(cfgstr .. "floorstrafe") then 
+    if not AdvGetBool(cfgstr .. "floorstrafe") then 
         return 
     end
 
@@ -322,8 +396,42 @@ function Floorstrafe()
 
 end
 
+function Teleport() 
+    
+    if not GetBool(cfgstr .. "teleport") then 
+        return 
+    end
+    
+	local camera = GetCameraTransform()
+
+	local maxrange = 666
+
+	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, -maxrange))
+	
+    local direction = VecNormalize(VecSub(parentpoint, camera.pos))
+	
+    local hit, dist = QueryRaycast(camera.pos, direction, maxrange)
+
+    if not hit then 
+        return 
+    end
+
+    local targetPos = TransformToParentPoint(camera, Vec(0, 0, -dist))
+
+    local t = Transform(targetPos, GetCameraTransform().rot)
+
+    -- ParticleReset()
+    -- ParticleType("plain")
+    -- ParticleColor(0.3, 1.0, 0.6)
+    -- SpawnParticle(t.pos, Vec(0, -0.1, 0), 0.1)
+    
+    if InputPressed(GetString(cfgstr .. "teleport" .. "_key")) then 
+        SetPlayerTransform(t, true)
+    end
+end
+
 function Jetpack() 
-    if not GetBool(cfgstr .. "jetpack") then 
+    if not AdvGetBool(cfgstr .. "jetpack") then 
         return 
     end
 
@@ -365,17 +473,36 @@ function tick(dt)
     end
 
     Speedhack()
-    Fly()
+    Jesus()
     Floorstrafe()
     Jetpack()
+    Fly()
+    Teleport()
 end
 
+filthyglobal_editingkeybind = " "
 function Checkbox(name, var)
     UiPush()
     UiAlign("left top")
 
+    local currentkey = GetString(cfgstr .. var .. "_key")
+    local kw, kh = UiGetTextSize(" - " .. currentkey)
+
+    local namew, nameh = UiGetTextSize(name)
+    
+    if UiIsMouseInRect(namew + kw, nameh) then
+        UiColor(0.6, 0.6, 0.6, 1)
+
+        if InputPressed("rmb") then 
+            filthyglobal_editingkeybind = var
+        end
+    end
+
     UiTextShadow(0, 0, 0, 0.5, 2.0)
-    if GetBool(cfgstr .. var) then 
+
+    if filthyglobal_editingkeybind == var then
+        UiColor(1.0, 1.0, 0.6, 1)    
+    elseif GetBool(cfgstr .. var) then 
         UiColor(0.6, 1.0, 0.6, 1)
     else 
         UiColor(1.0, 0.6, 0.6, 1)
@@ -388,6 +515,29 @@ function Checkbox(name, var)
             SetBool(cfgstr .. var, true)
         end
     end
+
+    local lastkey = InputLastPressedKey()
+    if filthyglobal_editingkeybind == var then
+        if lastkey ~= "" then 
+            if lastkey ~= "return" and lastkey ~= "insert" then 
+                SetString(cfgstr .. var .. "_key", lastkey)
+                currentkey = lastkey
+            else 
+                SetString(cfgstr .. var .. "_key", "null") 
+                currentkey = ""   
+            end
+
+            filthyglobal_editingkeybind = " " 
+        end
+    end
+
+    if currentkey ~= "" and currentkey ~= "null" then 
+        UiPush()
+        UiTranslate(namew, 0)
+        UiText(" - " .. currentkey, false)
+        UiPop()
+    end
+
     UiPop()
     UiText("", true)
 end
@@ -448,7 +598,7 @@ function NavSep(tabid)
 end
 
 function Watermark()
-    if not GetBool(cfgstr .. "watermark") then 
+    if not AdvGetBool(cfgstr .. "watermark") then 
         return 
     end
 
@@ -467,8 +617,34 @@ function Watermark()
     UiPop()
 end
 
+function FeatureList()
+    if not AdvGetBool(cfgstr .. "featurelist") then 
+        return 
+    end
+
+    UiPush()
+
+        local R = RGB_rainbow_clamp( GetTime()%5 / 5 )
+        local B = RGB_rainbow_clamp( GetTime()%3 / 3 )
+        local G = RGB_rainbow_clamp( 1 - GetTime()%1 )
+        UiColor(R, G, B, 1)
+        UiTranslate(0, 0)
+        UiAlign("top left")
+        UiTranslate(0, 25)
+        UiFont("bold.ttf", 12)
+        UiTextShadow(0, 0, 0, 0.2, 1.0)
+
+        for i=1, #featurelist do
+            if GetBool(cfgstr .. featurelist[i].var) then 
+                UiText(featurelist[i].name, true)
+            end
+        end
+
+    UiPop()
+end
+
 function ObjectiveEsp() 
-    if not GetBool(cfgstr .. "objectiveesp") then 
+    if not AdvGetBool(cfgstr .. "objectiveesp") then 
         return 
     end
 
@@ -498,7 +674,7 @@ function ObjectiveEsp()
 end
 
 function ValueableEsp() 
-    if not GetBool(cfgstr .. "valueesp") then 
+    if not AdvGetBool(cfgstr .. "valueesp") then 
         return 
     end
 
@@ -522,11 +698,12 @@ function ValueableEsp()
 end
 
 function VisualsDraw()
-    if not GetBool(cfgstr .. "visuals") then 
+    if not AdvGetBool(cfgstr .. "visuals") then 
         return 
     end
 
     Watermark()
+    FeatureList()
     ValueableEsp()
     ObjectiveEsp()
 end
@@ -537,6 +714,7 @@ function draw()
     VisualsDraw()
 
     if not isMenuOpen then
+        filthyglobal_editingkeybind = " "
         return
     end
 
@@ -623,6 +801,7 @@ function draw()
                 if GetBool(cfgstr .. "visuals") then 
                 
                     Checkbox("Watermark", "watermark")
+                    Checkbox("Feature List", "featurelist")
                     Checkbox("Objective ESP", "objectiveesp")
                     Checkbox("Valuable ESP", "valueesp")
                     
@@ -635,17 +814,18 @@ function draw()
                 Checkbox("Fly", "fly")
                 Checkbox("Floor Strafe", "floorstrafe")
                 Checkbox("Jetpack", "jetpack")
+                Checkbox("Jesus", "jesus")
 
             elseif GetInt(cfgstr .. "activetab") == 3 then 
                 -- misc
                 Checkbox("Godmode", "godmode")
                 Checkbox("Rubberband", "rubberband")
+                Checkbox("Disable Alarm", "disablealarm")
             
             elseif GetInt(cfgstr .. "activetab") == 4 then 
+                -- tools
 
-                -- *misc
-                Checkbox("Disable Alarm", "disablealarm")
-
+                Checkbox("Teleport", "teleport")
 
             end
         UiPop()
