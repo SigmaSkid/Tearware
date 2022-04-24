@@ -19,6 +19,7 @@ Press insert in game to open the menu
 - Godmode
 - Rubberband
 - Disable Alarm
+- Skip Objective
 - Teleport
 
 All features are bindable.

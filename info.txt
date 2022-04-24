@@ -1,4 +1,4 @@
 name = Tearware
 author = LilWeaboo
-description = csgo style cheat for teardown
+description = cheat for teardown
 tags = Gameplay

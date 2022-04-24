@@ -76,6 +76,7 @@ function init()
     DefineBool("Godmode", "godmode", false)
     DefineBool("Rubberband", "rubberband", false)
     DefineBool("Disable Alarm", "disablealarm", false)
+    DefineBool("Skip Objective", "skipobjective", false)
 
     -- tools
     DefineTool("teleport")
@@ -84,6 +85,51 @@ function init()
         return string.len(left.name) > string.len(right.name)
     end)
 end
+
+function SkipObjective()
+    if not AdvGetBool(cfgstr .. "skipobjective") then
+        return
+    end
+
+    if HasKey("temp_" .. cfgstr .. "skipobjective") then 
+        return
+    end
+
+    SetBool("temp_" .. cfgstr .. "skipobjective", true)
+
+	local targets = FindBodies("target", true)
+
+	for i=1, #targets do
+        SetTag(targets[i], "target", "cleared")
+	end
+end
+
+-- mods aren't allowed to modify cash.. so whatever
+-- function CollectValuables()
+--     if not AdvGetBool(cfgstr .. "autocollect") then
+--         return
+--     end
+-- 
+--     local v = FindBodies("valuable", true)
+--     for i=1,#v do
+--         local s = v[i]
+--         local id = GetTagValue(s, "valuable")
+--         SetBool("savegame.valuable."..id, true);
+--         local value = tonumber(GetTagValue(s, "value"))
+--         if not value then value = 0 end
+--         local cash = GetInt("savegame.cash")
+-- 
+--         SetInt("savegame.cash", cash + value)
+--         if GetInt("savegame.cash") == cash then 
+--             DebugPrint("cant edit moneey")
+--         end
+--         
+--         SetString("hud.notification", "Picked up "..GetDescription(s).." worth $"..value)
+--         Delete(s)
+--         PlaySound(LoadSound("valuable.ogg"), GetCameraTransform().pos, 1.0, false)
+-- 
+--     end
+-- end
 
 function Rubberband() 
     
@@ -114,9 +160,12 @@ function Disablealarm()
 	if not AdvGetBool(cfgstr .. "disablealarm") then
         return
     end
-    SetFloat("level.alarmtimer", 817)
-    SetBool("level.alarm", false)
-    SetBool("level.alarmdisabled", true) 
+    -- done this way to make sure it doesn't break during fire alarm
+    if GetFloat("level.alarmtimer") < 780 and GetBool("level.alarm") then 
+        SetFloat("level.alarmtimer", 817)
+        SetBool("level.alarm", false)  
+    end
+    SetBool("level.alarmdisabled", true)
 end
 
 function Jesus()
@@ -156,8 +205,12 @@ function InfiniteAmmo()
     if not AdvGetBool(cfgstr .. "infiniteammo") then 
         return 
     end
-
-    SetInt("game.tool."..GetString("game.player.tool")..".ammo", 420)
+    local pTool = GetString("game.player.tool")
+    local Ammo = GetInt("savegame.tool."..pTool..".ammo")
+    if Ammo == nil or Ammo == 0 then 
+        Ammo = 420
+    end
+    SetInt("game.tool."..pTool..".ammo", Ammo)
 end
 
 function Godmode() 
@@ -455,12 +508,12 @@ end
 -- Called once every fixed tick, 60tps
 function update(dt)
     InfiniteAmmo()
+    Rubberband()
 
     Disablealarm()
-
     Godmode()
 
-    Rubberband()
+    SkipObjective()
 end
 
 -- called once per frame
@@ -548,7 +601,7 @@ function Button(name)
 
     UiTextShadow(0, 0, 0, 0.5, 2.0)
     
-    UiColor(1.0, 1.0, 0.6, 1)
+    UiColor(1.0, 0.6, 1.0, 1)
     
     if UiTextButton(name) then
         UiPop()
@@ -690,7 +743,7 @@ function ValueableEsp()
                 UiAlign("center middle")
                 UiTranslate(x, y)
                 UiColor(0.7, 0.7, 0.3, 0.7)
-                UiText(math.floor(value) .. "$", true)
+                UiText("$" .. math.floor(value), true)
                 UiText(math.floor(dist) .. "m")
             UiPop() 
         end
@@ -821,6 +874,7 @@ function draw()
                 Checkbox("Godmode", "godmode")
                 Checkbox("Rubberband", "rubberband")
                 Checkbox("Disable Alarm", "disablealarm")
+                Checkbox("Skip Objective", "skipobjective")
             
             elseif GetInt(cfgstr .. "activetab") == 4 then 
                 -- tools
