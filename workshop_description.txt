@@ -25,4 +25,4 @@ All features are bindable.
 To bind something right click on it,
 then press the key you want to use.
 Use enter to remove the bind.
-Some faetures require a bind to function e.g. teleport.
+[b] Some features require a bind to function e.g. teleport. [/b]

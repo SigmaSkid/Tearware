@@ -26,4 +26,5 @@ Alternatively open it from the pause menu.
 All features are bindable.  
 To bind something right click on it,  
 then press the key you want to use.  
-Use enter to remove the bind.
+Use enter to remove the bind.  
+**Some features require a bind to function e.g. teleport.**
