@@ -507,6 +507,7 @@ end
 
 -- Called once every fixed tick, 60tps
 function update(dt)
+
     InfiniteAmmo()
     Rubberband()
 
@@ -518,9 +519,18 @@ end
 
 -- called once per frame
 function tick(dt) 
+    if PauseMenuButton("Tearware") then
+		isMenuOpen = true
+	end
+
+    if InputPressed("esc") then
+        isMenuOpen = false
+    end
+
     if InputPressed("insert") then
         isMenuOpen = not isMenuOpen
     end
+
     if isMenuOpen then
         UiMakeInteractive()
     end

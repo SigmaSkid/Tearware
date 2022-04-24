@@ -1,11 +1,12 @@
 # Tearware
-Teardown Lua.
-
 Teardown cheat inspired by modern game cheats.
+  
+  
+Press insert in game to open the menu.  
+Alternatively open it from the pause menu.
 
-Press insert in game to open the menu
-
-[Steam Workshop Page](https://steamcommunity.com/sharedfiles/filedetails/?id=2798126764)
+### [Steam Workshop Page](https://steamcommunity.com/sharedfiles/filedetails/?id=2798126764) 
+### [Github Page](https://github.com/SigmaSkid/Tearware)
 
 ## Features:
 - Infinite Ammo
@@ -22,7 +23,7 @@ Press insert in game to open the menu
 - Skip Objective
 - Teleport
 
-All features are bindable.
-To bind something right click on it,
-then press the key you want to use.
+All features are bindable.  
+To bind something right click on it,  
+then press the key you want to use.  
 Use enter to remove the bind.

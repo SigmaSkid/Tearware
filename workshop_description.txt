@@ -1,23 +1,28 @@
-Teardown cheat inspired by modern game cheats.
+[h1] Teardown cheat inspired by modern game cheats. [/h1]
 
 Press insert in game to open the menu
+Alternatively open it from the pause menu
 
-Features:
-    Infinite Ammo
-    Objective ESP
-    Valuable ESP
-    Speed
-    Fly
-    Floor Strafe
-    Jetpack
-    Jesus
-    Godmode
-    Rubberband
-    Disable Alarm
-    Skip Objective
-    Teleport
+[h2]Features:[/h2]
+[list]
+[*] Infinite Ammo
+[*] Objective ESP
+[*] Valuable ESP
+[*] Speed
+[*] Fly
+[*] Floor Strafe
+[*] Jetpack
+[*] Jesus
+[*] Godmode
+[*] Rubberband
+[*] Disable Alarm
+[*] Skip Objective
+[*] Teleport
+[/list]
 
+[h2] Binds [/h2]
 All features are bindable.
 To bind something right click on it,
 then press the key you want to use.
 Use enter to remove the bind.
+Some faetures require a bind to function e.g. teleport.
