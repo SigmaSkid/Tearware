@@ -13,6 +13,7 @@ Alternatively open it from the pause menu.
 - Objective ESP
 - Valuable ESP
 - Speed
+- Spider
 - Fly
 - Floor Strafe
 - Jetpack

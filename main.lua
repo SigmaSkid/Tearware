@@ -67,6 +67,7 @@ function init()
     
     -- movement
     DefineBool("Speed", "speedhack", false)
+    DefineBool("Spider", "spider", false)
     DefineBool("Fly", "fly", false)
     DefineBool("Floor Strafe", "floorstrafe", false)
     DefineBool("Jetpack", "jetpack", false)
@@ -483,6 +484,22 @@ function Teleport()
     end
 end
 
+function Spider() 
+    if not AdvGetBool(cfgstr .. "spider") then 
+        return 
+    end
+
+    local hit = QueryRaycast(GetPlayerPos(), Vec(0, -1, 0), 0.1, 0.7)
+
+    if not hit or not InputDown("jump") then 
+        return 
+    end
+
+    local vel = GetPlayerVelocity()
+    vel[2] = 4
+    SetPlayerVelocity(vel)
+end
+
 function Jetpack() 
     if not AdvGetBool(cfgstr .. "jetpack") then 
         return 
@@ -535,6 +552,7 @@ function tick(dt)
         UiMakeInteractive()
     end
 
+    Spider() 
     Speedhack()
     Jesus()
     Floorstrafe()
@@ -874,6 +892,7 @@ function draw()
                 -- movement
 
                 Checkbox("Speed", "speedhack")
+                Checkbox("Spider", "spider")
                 Checkbox("Fly", "fly")
                 Checkbox("Floor Strafe", "floorstrafe")
                 Checkbox("Jetpack", "jetpack")
