@@ -15,6 +15,7 @@ Alternatively open it from the pause menu.
 - Speed
 - Spider
 - Fly
+- Noclip
 - Floor Strafe
 - Jetpack
 - Jesus

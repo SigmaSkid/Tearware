@@ -69,10 +69,11 @@ function init()
     DefineBool("Speed", "speedhack", false)
     DefineBool("Spider", "spider", false)
     DefineBool("Fly", "fly", false)
+    DefineBool("Noclip", "noclip", false)
     DefineBool("Floor Strafe", "floorstrafe", false)
     DefineBool("Jetpack", "jetpack", false)
     DefineBool("Jesus", "jesus", false)
-
+    
     -- misc
     DefineBool("Godmode", "godmode", false)
     DefineBool("Rubberband", "rubberband", false)
@@ -86,6 +87,56 @@ function init()
         return string.len(left.name) > string.len(right.name)
     end)
 end
+
+function TransformYawByInput(y)
+    local K = InputDown("up") 
+    local L = InputDown("down")
+    
+    if K then
+        if InputDown("left")  then
+            y = y + 45
+            if y > 180 then
+                y = y - 360
+            end
+        elseif InputDown("right")  then
+            y = y - 45
+            if y < -180 then
+                y = y + 360
+            end
+        end
+    elseif L then 
+        y = y + 180
+        if y > 180 then
+            y = y - 360
+        end
+
+        if InputDown("left")  then
+            y = y - 45
+            if y > 180 then
+                y = y - 360
+            end
+        elseif InputDown("right")  then
+            y = y + 45
+            if y < -180 then
+                y = y + 360
+            end
+        end
+    else
+        if InputDown("left")  then
+            y = y + 90
+            if y > 180 then
+                y = y - 360
+            end
+        elseif InputDown("right")  then
+            y = y - 90
+            if y < -180 then
+                y = y + 360
+            end
+        end
+    end
+    return y
+end
+
 
 function SkipObjective()
     if not AdvGetBool(cfgstr .. "skipobjective") then
@@ -103,6 +154,8 @@ function SkipObjective()
 	for i=1, #targets do
         SetTag(targets[i], "target", "cleared")
 	end
+
+    -- SetString("level.state", "win") 
 end
 
 -- mods aren't allowed to modify cash.. so whatever
@@ -229,10 +282,6 @@ function Fly()
         return 
     end
 
-    if GetPlayerVehicle() ~= 0 then
-        return
-    end
-
     SetPlayerVelocity(Vec(0, 0, 0))
 
     local TargetVel = 20
@@ -264,53 +313,8 @@ function Fly()
     -- get scary quat
     local rot = GetCameraTransform().rot
     -- convert to cool angles
-    local x, y, z = GetQuatEuler(rot)
-
-    local K = InputDown("up") 
-    local L = InputDown("down")
-
-    if K then
-        if InputDown("left")  then
-            y = y + 45
-            if y > 180 then
-                y = y - 360
-            end
-        elseif InputDown("right")  then
-            y = y - 45
-            if y < -180 then
-                y = y + 360
-            end
-        end
-    elseif L then 
-        y = y + 180
-        if y > 180 then
-            y = y - 360
-        end
-
-        if InputDown("left")  then
-            y = y - 45
-            if y > 180 then
-                y = y - 360
-            end
-        elseif InputDown("right")  then
-            y = y + 45
-            if y < -180 then
-                y = y + 360
-            end
-        end
-    else
-        if InputDown("left")  then
-            y = y + 90
-            if y > 180 then
-                y = y - 360
-            end
-        elseif InputDown("right")  then
-            y = y - 90
-            if y < -180 then
-                y = y + 360
-            end
-        end
-    end
+    local x, backupy, z = GetQuatEuler(rot)
+    local y = TransformYawByInput(backupy)
 
     -- euler to vector
     local rady = math.rad(y)
@@ -345,10 +349,6 @@ function Speedhack()
         return 
     end
 
-    if GetPlayerVehicle() ~= 0 then
-        return
-    end
-
     if not InputDown("left") and not InputDown("right") and  not InputDown("up") and  not InputDown("down") then
         return 
     end 
@@ -365,53 +365,8 @@ function Speedhack()
     -- get scary quat
     local rot = GetCameraTransform().rot
     -- convert to cool angles
-    local x, y, z = GetQuatEuler(rot)
-
-    local K = InputDown("up") 
-    local L = InputDown("down")
-
-    if K then
-        if InputDown("left")  then
-            y = y + 45
-            if y > 180 then
-                y = y - 360
-            end
-        elseif InputDown("right")  then
-            y = y - 45
-            if y < -180 then
-                y = y + 360
-            end
-        end
-    elseif L then 
-        y = y + 180
-        if y > 180 then
-            y = y - 360
-        end
-
-        if InputDown("left")  then
-            y = y - 45
-            if y > 180 then
-                y = y - 360
-            end
-        elseif InputDown("right")  then
-            y = y + 45
-            if y < -180 then
-                y = y + 360
-            end
-        end
-    else
-        if InputDown("left")  then
-            y = y + 90
-            if y > 180 then
-                y = y - 360
-            end
-        elseif InputDown("right")  then
-            y = y - 90
-            if y < -180 then
-                y = y + 360
-            end
-        end
-    end
+    local x, backupy, z = GetQuatEuler(rot)
+    local y = TransformYawByInput(backupy)
 
     -- euler to vector
     local rady = math.rad(y)
@@ -438,16 +393,62 @@ function Floorstrafe()
         return 
     end
 
-    if GetPlayerVehicle() ~= 0 then
-        return
-    end
-
     local velocity = GetPlayerVelocity()
 
     velocity[2] = 1
 
     SetPlayerGroundVelocity(velocity)
 
+end
+
+function NoClip()
+    if not AdvGetBool(cfgstr .. "noclip") then
+        noclipbackuppos = nil
+        return 
+    end
+
+    local trans = GetPlayerTransform()
+    
+    -- lazy teleport/edge of map/respawn detection
+    local delta = VecLength( VecSub(noclipbackuppos, trans.pos) )
+
+    if delta > 10 or noclipbackuppos == nil then 
+        noclipbackuppos = trans.pos
+    end
+    
+    trans.pos = noclipbackuppos
+
+    local speed = 0.1
+    if InputDown("shift") then 
+        speed = 0.9
+    end
+
+    if InputDown("left") or InputDown("right") or InputDown("up") or InputDown("down") then
+
+        local x, backupy, z = GetQuatEuler(trans.rot) 
+        local y = TransformYawByInput(backupy)
+
+        trans.rot = QuatEuler(x, y, z)
+
+        local parentpoint = TransformToParentPoint(trans, Vec(0, 0, -1))
+
+        trans.rot = QuatEuler(x, backupy, z)
+        
+        local direction = VecScale(VecNormalize(VecSub(parentpoint, trans.pos)), speed)
+
+        trans.pos[1] = trans.pos[1] + direction[1]
+        trans.pos[3] = trans.pos[3] + direction[3]
+    end 
+    
+    if InputDown("jump") then
+        trans.pos[2] = trans.pos[2] + speed
+    end 
+
+    if InputDown("crouch") then
+        trans.pos[2] = trans.pos[2] - speed
+    end 
+
+    SetPlayerTransform(trans)
 end
 
 function Teleport() 
@@ -505,10 +506,6 @@ function Jetpack()
         return 
     end
 
-    if GetPlayerVehicle() ~= 0 then
-        return
-    end
-
     if InputDown("jump") then 
         local velocity = GetPlayerVelocity()
 
@@ -530,7 +527,7 @@ function update(dt)
 
     Disablealarm()
     Godmode()
-
+    
     SkipObjective()
 end
 
@@ -552,12 +549,17 @@ function tick(dt)
         UiMakeInteractive()
     end
 
+    if GetPlayerVehicle() ~= 0 then
+        return
+    end
+
     Spider() 
     Speedhack()
     Jesus()
     Floorstrafe()
     Jetpack()
     Fly()
+    NoClip()
     Teleport()
 end
 
@@ -894,12 +896,14 @@ function draw()
                 Checkbox("Speed", "speedhack")
                 Checkbox("Spider", "spider")
                 Checkbox("Fly", "fly")
+                Checkbox("Noclip", "noclip")
                 Checkbox("Floor Strafe", "floorstrafe")
                 Checkbox("Jetpack", "jetpack")
                 Checkbox("Jesus", "jesus")
 
             elseif GetInt(cfgstr .. "activetab") == 3 then 
                 -- misc
+
                 Checkbox("Godmode", "godmode")
                 Checkbox("Rubberband", "rubberband")
                 Checkbox("Disable Alarm", "disablealarm")
