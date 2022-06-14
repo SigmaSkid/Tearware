@@ -77,6 +77,7 @@ function init()
     DefineBool("Floor Strafe", "floorstrafe", false)
     DefineBool("Jetpack", "jetpack", false)
     DefineBool("Jesus", "jesus", false)
+    DefineBool("Quickstop", "quickstop", false)
     
     -- misc
     DefineBool("Godmode", "godmode", false)
@@ -527,6 +528,20 @@ function Jetpack(dts)
 
 end
 
+function Quickstop() 
+    if not AdvGetBool(cfgstr .. "quickstop") then 
+        return 
+    end
+
+    if IsDirectionalInputDown() then
+        return 
+    end
+
+    local velocity = {0, 0, 0}
+    velocity[2] = GetPlayerVelocity()[2]
+    SetPlayerVelocity(velocity) 
+end
+
 -- Called once every fixed tick, 60tps (dt is a constant)
 function update(dt)
 
@@ -572,6 +587,7 @@ function tick(dt)
     Fly()
     NoClip(dts)
     Teleport()
+    Quickstop()
 end
 
 filthyglobal_editingkeybind = " "
@@ -911,6 +927,7 @@ function draw()
                 Checkbox("Floor Strafe", "floorstrafe")
                 Checkbox("Jetpack", "jetpack")
                 Checkbox("Jesus", "jesus")
+                Checkbox("Quickstop", "quickstop")
 
             elseif GetInt(cfgstr .. "activetab") == 3 then 
                 -- misc

@@ -19,6 +19,7 @@ Alternatively open it from the pause menu.
 - Floor Strafe
 - Jetpack
 - Jesus
+- Quickstop
 - Godmode
 - Rubberband
 - Disable Alarm
