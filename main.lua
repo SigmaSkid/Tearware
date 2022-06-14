@@ -8,6 +8,10 @@ cfgstr = "savegame.mod.tearware_"
 
 featurelist = {}
 
+-- universal constants
+fixed_update_rate = 1/60 -- 0.01(6)
+
+
 function DefineBool(name, var, default) 
     local feature = {}
     feature.name = name 
@@ -89,54 +93,49 @@ function init()
 end
 
 function TransformYawByInput(y)
-    local K = InputDown("up") 
-    local L = InputDown("down")
-    
-    if K then
-        if InputDown("left")  then
-            y = y + 45
-            if y > 180 then
-                y = y - 360
-            end
-        elseif InputDown("right")  then
-            y = y - 45
-            if y < -180 then
-                y = y + 360
-            end
-        end
-    elseif L then 
-        y = y + 180
-        if y > 180 then
-            y = y - 360
-        end
+    local Forward = InputDown("up") 
+    local Back = InputDown("down")
+    local Left = InputDown("left")
+    local Right = InputDown("right")
 
-        if InputDown("left")  then
-            y = y - 45
-            if y > 180 then
-                y = y - 360
-            end
-        elseif InputDown("right")  then
+    -- there must be a better way of doing this...
+    if Forward then
+        if Left  then
             y = y + 45
-            if y < -180 then
-                y = y + 360
-            end
+        elseif Right then
+            y = y - 45
+        end
+    elseif Back then 
+        y = y + 180
+        if Left  then
+            y = y - 45
+        elseif Right  then
+            y = y + 45
         end
     else
-        if InputDown("left")  then
+        if Left  then
             y = y + 90
-            if y > 180 then
-                y = y - 360
-            end
-        elseif InputDown("right")  then
+        elseif Right  then
             y = y - 90
-            if y < -180 then
-                y = y + 360
-            end
+        else 
+            return 
         end
     end
+
+    -- clamp
+    while y > 180 do
+        y = y - 360
+    end
+    while y < -180 do
+        y = y + 360
+    end
+
     return y
 end
 
+function IsDirectionalInputDown() 
+    return InputDown("up") or InputDown("down") or InputDown("left") or InputDown("right")
+end
 
 function SkipObjective()
     if not AdvGetBool(cfgstr .. "skipobjective") then
@@ -259,6 +258,12 @@ function InfiniteAmmo()
     if not AdvGetBool(cfgstr .. "infiniteammo") then 
         return 
     end
+
+    -- already has inf ammo / return to prevent visual glitches 
+    if GetBool("level.unlimitedammo") then 
+        return 
+    end
+    
     local pTool = GetString("game.player.tool")
     local Ammo = GetInt("savegame.tool."..pTool..".ammo")
     if Ammo == nil or Ammo == 0 then 
@@ -289,7 +294,7 @@ function Fly()
         TargetVel = 40 
     end
 
-    if not InputDown("left") and not InputDown("right") and not InputDown("up") and not InputDown("down") then
+    if not IsDirectionalInputDown() then
 
         local ohno = 0
         if InputDown("jump") then 
@@ -349,15 +354,15 @@ function Speedhack()
         return 
     end
 
-    if not InputDown("left") and not InputDown("right") and  not InputDown("up") and  not InputDown("down") then
+    if not IsDirectionalInputDown() then
         return 
     end 
 
     local velocity = GetPlayerVelocity()
 
-    local TargetVel = 20
+    local TargetVel = 14
     if InputDown("shift") then 
-        TargetVel = 40 
+        TargetVel = 28 
     end
 
     -- scary math below, run.
@@ -401,15 +406,15 @@ function Floorstrafe()
 
 end
 
-function NoClip()
+function NoClip(dts)
     if not AdvGetBool(cfgstr .. "noclip") then
         noclipbackuppos = nil
         return 
     end
 
     local trans = GetPlayerTransform()
-    
-    -- lazy teleport/edge of map/respawn detection
+
+    -- teleport/edge of map/respawn detection
     local delta = VecLength( VecSub(noclipbackuppos, trans.pos) )
 
     if delta > 10 or noclipbackuppos == nil then 
@@ -423,16 +428,19 @@ function NoClip()
         speed = 0.9
     end
 
-    if InputDown("left") or InputDown("right") or InputDown("up") or InputDown("down") then
+    -- scale by update rate
+    speed = speed * dts
 
-        local x, backupy, z = GetQuatEuler(trans.rot) 
-        local y = TransformYawByInput(backupy)
+    if IsDirectionalInputDown() then
 
-        trans.rot = QuatEuler(x, y, z)
+        local x, y, z = GetQuatEuler(trans.rot) 
+        local dir = TransformYawByInput(y)
+
+        trans.rot = QuatEuler(x, dir, z)
 
         local parentpoint = TransformToParentPoint(trans, Vec(0, 0, -1))
 
-        trans.rot = QuatEuler(x, backupy, z)
+        trans.rot = QuatEuler(x, y, z)
         
         local direction = VecScale(VecNormalize(VecSub(parentpoint, trans.pos)), speed)
 
@@ -501,7 +509,7 @@ function Spider()
     SetPlayerVelocity(vel)
 end
 
-function Jetpack() 
+function Jetpack(dts) 
     if not AdvGetBool(cfgstr .. "jetpack") then 
         return 
     end
@@ -509,7 +517,7 @@ function Jetpack()
     if InputDown("jump") then 
         local velocity = GetPlayerVelocity()
 
-        velocity[2] = velocity[2] + 0.5
+        velocity[2] = velocity[2] + (0.5 * dts)
         if velocity[2] > 7 then 
             velocity[2] = 7 
         end
@@ -519,7 +527,7 @@ function Jetpack()
 
 end
 
--- Called once every fixed tick, 60tps
+-- Called once every fixed tick, 60tps (dt is a constant)
 function update(dt)
 
     InfiniteAmmo()
@@ -531,7 +539,7 @@ function update(dt)
     SkipObjective()
 end
 
--- called once per frame
+-- called once per frame (dt is a dynamic float value between 0 and .0(3), 60fps = 0.1(6) )
 function tick(dt) 
     if PauseMenuButton("Tearware") then
 		isMenuOpen = true
@@ -553,13 +561,16 @@ function tick(dt)
         return
     end
 
+    -- delta time scaled, .5 = 120fps, 1 = 60fps, 2 = 30fps
+    local dts = dt / fixed_update_rate
+
     Spider() 
     Speedhack()
     Jesus()
     Floorstrafe()
-    Jetpack()
+    Jetpack(dts)
     Fly()
-    NoClip()
+    NoClip(dts)
     Teleport()
 end
 
