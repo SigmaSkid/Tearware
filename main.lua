@@ -101,7 +101,7 @@ function TransformYawByInput(y)
 
     -- there must be a better way of doing this...
     if Forward then
-        if Left  then
+        if Left then
             y = y + 45
         elseif Right then
             y = y - 45
@@ -114,9 +114,9 @@ function TransformYawByInput(y)
             y = y + 45
         end
     else
-        if Left  then
+        if Left then
             y = y + 90
-        elseif Right  then
+        elseif Right then
             y = y - 90
         else 
             return 
@@ -237,22 +237,13 @@ function Jesus()
     
     if InputDown("jump") then 
         velocity[2] = 5
+    elseif depth > 0.1 then 
+        velocity[2] = 6
     else
-        velocity[2] = 1
+        velocity[2] = depth*20
     end
 
     SetPlayerVelocity(velocity)
-    
-    if depth > 0.3 then 
-        local camera = GetPlayerCameraTransform()
-        
-        transform.pos[2] = transform.pos[2] + depth
-        
-        transform.rot = camera.rot 
-  
-        SetPlayerTransform(transform, true)
-    end
-
 end
 
 function InfiniteAmmo() 
