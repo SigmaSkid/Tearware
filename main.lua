@@ -214,12 +214,23 @@ function Disablealarm()
 	if not AdvGetBool(cfgstr .. "disablealarm") then
         return
     end
-    -- done this way to make sure it doesn't break during fire alarm
+
+    local onlyModifyTimer = false 
+
+    if GetString("game.levelid") == "carib_alarm" then 
+        onlyModifyTimer = true
+    end
+
     if GetFloat("level.alarmtimer") < 780 and GetBool("level.alarm") then 
         SetFloat("level.alarmtimer", 817)
-        SetBool("level.alarm", false)  
+        if not onlyModifyTimer then 
+            SetBool("level.alarm", false) 
+        end 
     end
-    SetBool("level.alarmdisabled", true)
+
+    if not onlyModifyTimer then 
+        SetBool("level.alarmdisabled", true)
+    end
 end
 
 function Jesus()
@@ -759,6 +770,7 @@ function ObjectiveEsp()
                 UiPush()
                     UiFont("bold.ttf", 25)
                     UiAlign("center middle")
+                    UiTextShadow(0, 0, 0, 0.5, 2.0)
                     UiTranslate(x, y)
                     if optional then 
                         UiColor(0.3, 0.3, 0.7, 0.7)
@@ -789,6 +801,7 @@ function ValueableEsp()
             UiPush()
                 UiFont("bold.ttf", 25)
                 UiAlign("center middle")
+                UiTextShadow(0, 0, 0, 0.5, 2.0)
                 UiTranslate(x, y)
                 UiColor(0.7, 0.7, 0.3, 0.7)
                 UiText("$" .. math.floor(value), true)
