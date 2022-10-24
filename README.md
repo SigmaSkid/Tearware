@@ -21,6 +21,7 @@ Alternatively open it from the pause menu.
 - Jesus
 - Quickstop
 - Godmode
+- Bullet Time
 - Rubberband
 - Disable Alarm
 - Skip Objective

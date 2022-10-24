@@ -81,6 +81,7 @@ function init()
     
     -- misc
     DefineBool("Godmode", "godmode", false)
+    DefineBool("Bullet Time", "timer", false)
     DefineBool("Rubberband", "rubberband", false)
     DefineBool("Disable Alarm", "disablealarm", false)
     DefineBool("Skip Objective", "skipobjective", false)
@@ -285,6 +286,14 @@ function Godmode()
     end
 end
 
+function Timer()
+    if not AdvGetBool(cfgstr .. "timer") then 
+        return 
+    end
+    -- Call every frame from tick function to get steady slow-motion. 
+    SetTimeScale(0.1) -- 0.1 is the minimum, cringe
+end
+
 function Fly()
     if not AdvGetBool(cfgstr .. "fly") then 
         return 
@@ -463,8 +472,7 @@ function NoClip(dts)
 end
 
 function Teleport() 
-    
-    if not GetBool(cfgstr .. "teleport") then 
+    if not AdvGetBool(cfgstr .. "teleport") then 
         return 
     end
     
@@ -485,15 +493,9 @@ function Teleport()
     local targetPos = TransformToParentPoint(camera, Vec(0, 0, -dist))
 
     local t = Transform(targetPos, GetCameraTransform().rot)
-
-    -- ParticleReset()
-    -- ParticleType("plain")
-    -- ParticleColor(0.3, 1.0, 0.6)
-    -- SpawnParticle(t.pos, Vec(0, -0.1, 0), 0.1)
     
-    if InputPressed(GetString(cfgstr .. "teleport" .. "_key")) then 
-        SetPlayerTransform(t, true)
-    end
+    SetPlayerTransform(t, true)
+    SetBool(cfgstr .. "teleport", not GetBool(cfgstr .. "teleport"))
 end
 
 function Spider() 
@@ -574,13 +576,19 @@ function tick(dt)
         UiMakeInteractive()
     end
 
-    if GetPlayerVehicle() ~= 0 then
-        return
-    end
-
     -- delta time scaled, .5 = 120fps, 1 = 60fps, 2 = 30fps
     local dts = dt / fixed_update_rate
 
+    -- universal features
+    Timer()
+
+    if GetPlayerVehicle() ~= 0 then
+        -- in vehicle
+
+        return
+    end
+
+    -- strict
     Spider() 
     Speedhack()
     Jesus()
@@ -742,7 +750,11 @@ function FeatureList()
         UiColor(R, G, B, 1)
         UiTranslate(0, 0)
         UiAlign("top left")
-        UiTranslate(0, 25)
+
+        if AdvGetBool(cfgstr .. "watermark") then 
+            UiTranslate(0, 25)
+        end
+
         UiFont("bold.ttf", 12)
         UiTextShadow(0, 0, 0, 0.2, 1.0)
 
@@ -937,6 +949,7 @@ function draw()
                 -- misc
 
                 Checkbox("Godmode", "godmode")
+                Checkbox("Bullet Time", "timer")
                 Checkbox("Rubberband", "rubberband")
                 Checkbox("Disable Alarm", "disablealarm")
                 Checkbox("Skip Objective", "skipobjective")
