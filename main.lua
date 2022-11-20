@@ -564,16 +564,8 @@ function tick(dt)
 		isMenuOpen = true
 	end
 
-    if InputPressed("esc") then
-        isMenuOpen = false
-    end
-
     if InputPressed("insert") then
         isMenuOpen = not isMenuOpen
-    end
-
-    if isMenuOpen then
-        UiMakeInteractive()
     end
 
     -- delta time scaled, .5 = 120fps, 1 = 60fps, 2 = 30fps
@@ -842,6 +834,12 @@ function draw()
     if not isMenuOpen then
         filthyglobal_editingkeybind = " "
         return
+    end
+
+    UiMakeInteractive()
+    SetBool("game.disablepause", true)
+    if InputPressed("pause") then
+        isMenuOpen = false
     end
 
     -- funny rgb blur background
