@@ -68,6 +68,7 @@ function init()
     DefineBool("Feature List", "featurelist", false)
     DefineBool("Objective ESP", "objectiveesp", false)
     DefineBool("Valuable ESP", "valueesp", false)
+    DefineBool("Tool ESP", "toolesp", false)
     
     -- movement
     DefineBool("Speed", "speedhack", false)
@@ -82,9 +83,10 @@ function init()
     -- misc
     DefineBool("Godmode", "godmode", false)
     DefineBool("Bullet Time", "timer", false)
-    DefineBool("Rubberband", "rubberband", false)
+    DefineBool("Disable Physics", "disablephysics", false)
     DefineBool("Disable Alarm", "disablealarm", false)
     DefineBool("Skip Objective", "skipobjective", false)
+    DefineBool("Rubberband", "rubberband", false)
 
     -- tools
     DefineTool("teleport")
@@ -286,12 +288,53 @@ function Godmode()
     end
 end
 
+activeBodyCache = {}
 function Timer()
     if not AdvGetBool(cfgstr .. "timer") then 
+        if #activeBodyCache > 0 then
+			activeBodyCache = {}
+		end
         return 
     end
     -- Call every frame from tick function to get steady slow-motion. 
     SetTimeScale(0.1) -- 0.1 is the minimum, cringe
+
+    -- prevent the engine from freezing the objects.
+	local bodies = FindBodies(nil,true)
+	for i=1,#bodies do
+		local body = bodies[i]
+		if IsBodyActive(body) then
+            local exists = false
+            for i=1, #activeBodyCache do
+                local item = activeBodyCache[i]
+                if body == item then
+                    exists = true
+                end
+            end
+            if not exists then
+                table.insert(activeBodyCache,body)
+            end
+		end
+	end
+
+	if #activeBodyCache > 0 then
+        for i=1, #activeBodyCache do
+            local body = activeBodyCache[i]
+            -- DrawBodyOutline(body, 1, 0, 0, 1)
+            ApplyBodyImpulse(body,GetBodyTransform(body).pos,Vec(0,0,0))
+        end
+	end
+end
+
+function DisablePhysics()
+    if not AdvGetBool(cfgstr .. "disablephysics") then
+        return 
+    end
+
+	local bodies = FindBodies(nil,true)
+    for i=1,#bodies do
+        SetBodyActive(bodies[i], false)
+    end
 end
 
 function Fly()
@@ -573,6 +616,7 @@ function tick(dt)
 
     -- universal features
     Timer()
+    DisablePhysics()
 
     if GetPlayerVehicle() ~= 0 then
         -- in vehicle
@@ -759,6 +803,11 @@ function FeatureList()
     UiPop()
 end
 
+function GetBodyCenter(body)
+    local min, max = GetBodyBounds(body)
+    return VecLerp(min, max, 0.5)
+end
+
 function ObjectiveEsp() 
     if not AdvGetBool(cfgstr .. "objectiveesp") then 
         return 
@@ -767,12 +816,12 @@ function ObjectiveEsp()
     local targets = FindBodies("target", true)
 	for i=1,#targets do		 
 		if GetTagValue(targets[i], "target") ~= "cleared" and GetTagValue(targets[i], "target") ~= "disabled" then
-			local targetpos = GetBodyTransform(targets[i]).pos
+			local targetpos = GetBodyCenter(targets[i])
             local optional = HasTag(targets[i], "optional")
             local x, y, dist = UiWorldToPixel(targetpos)
             if dist > 2 then
                 UiPush()
-                    UiFont("bold.ttf", 25)
+                    UiFont("bold.ttf", 16)
                     UiAlign("center middle")
                     UiTextShadow(0, 0, 0, 0.5, 2.0)
                     UiTranslate(x, y)
@@ -780,11 +829,17 @@ function ObjectiveEsp()
                         UiColor(0.3, 0.3, 0.7, 0.7)
                         UiText("Optional", true)
                     else 
-                        UiColor(0.3, 0.7, 0.3, 0.7)
+                        UiColor(0.7, 0.3, 0.3, 0.7)
                         UiText("Target", true)
                     end
                     UiText(math.floor(dist) .. "m")
                 UiPop() 
+            end
+
+            if optional then 
+                DrawBodyOutline(targets[i], 0.3, 0.3, 0.7, 0.3)
+            else 
+                DrawBodyOutline(targets[i], 0.7, 0.3, 0.3, 0.3)
             end
         end
 	end
@@ -799,20 +854,54 @@ function ValueableEsp()
     for i=1,#v do
         local isValuable = HasTag(v[i], "valuable")
         local value = GetTagValue(v[i], "value")
-        local targetpos = GetBodyTransform(v[i]).pos
+        local targetpos = GetBodyCenter(v[i])
         local x, y, dist = UiWorldToPixel(targetpos)
-        if dist > 2 and isValuable then 
-            UiPush()
-                UiFont("bold.ttf", 25)
-                UiAlign("center middle")
-                UiTextShadow(0, 0, 0, 0.5, 2.0)
-                UiTranslate(x, y)
-                UiColor(0.7, 0.7, 0.3, 0.7)
-                UiText("$" .. math.floor(value), true)
-                UiText(math.floor(dist) .. "m")
-            UiPop() 
+        if isValuable then 
+            if dist > 2 then 
+                UiPush()
+                    UiFont("bold.ttf", 16)
+                    UiAlign("center middle")
+                    UiTextShadow(0, 0, 0, 0.5, 2.0)
+                    UiTranslate(x, y)
+                    UiColor(0.3, 0.7, 0.3, 0.7)
+                    -- UiText(GetDescription(v[i]), true)
+                    UiText("$" .. math.floor(value), true)
+                    UiText(math.floor(dist) .. "m")
+                UiPop() 
+            end
+            DrawBodyOutline(v[i], 0.3, 0.7, 0.3, 0.3)
         end
     end
+end
+
+function ToolEsp() 
+    if not AdvGetBool(cfgstr .. "toolesp") then 
+        return 
+    end
+
+    local interactables = FindBodies("interact", true)
+    for i=1,#interactables do
+        local interactType = GetTagValue(interactables[i], "interact")
+        local isTool = interactType == "Pick up" 
+        
+        local targetpos = GetBodyCenter(interactables[i])
+        local x, y, dist = UiWorldToPixel(targetpos)
+        if isTool then 
+            if dist > 2 then 
+                UiPush()
+                    UiFont("bold.ttf", 16)
+                    UiAlign("center middle")
+                    UiTextShadow(0, 0, 0, 0.5, 2.0)
+                    UiTranslate(x, y)
+                    UiColor(0.7, 0.7, 0.3, 0.7)
+                    UiText(GetDescription(interactables[i]), true)
+                    UiText(math.floor(dist) .. "m")
+                UiPop() 
+            end
+            DrawBodyOutline(interactables[i], 0.7, 0.7, 0.3, 0.3)
+        end
+    end
+
 end
 
 function VisualsDraw()
@@ -824,6 +913,7 @@ function VisualsDraw()
     FeatureList()
     ValueableEsp()
     ObjectiveEsp()
+    ToolEsp()
 end
 
 -- called on each draw
@@ -928,7 +1018,8 @@ function draw()
                     Checkbox("Feature List", "featurelist")
                     Checkbox("Objective ESP", "objectiveesp")
                     Checkbox("Valuable ESP", "valueesp")
-                    
+                    Checkbox("Tool ESP", "toolesp")
+
                 end
 
             elseif GetInt(cfgstr .. "activetab") == 2 then 
@@ -948,9 +1039,10 @@ function draw()
 
                 Checkbox("Godmode", "godmode")
                 Checkbox("Bullet Time", "timer")
-                Checkbox("Rubberband", "rubberband")
+                Checkbox("Disable Physics", "disablephysics")
                 Checkbox("Disable Alarm", "disablealarm")
                 Checkbox("Skip Objective", "skipobjective")
+                Checkbox("Rubberband", "rubberband")
             
             elseif GetInt(cfgstr .. "activetab") == 4 then 
                 -- tools

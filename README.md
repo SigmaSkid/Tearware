@@ -12,6 +12,7 @@ Alternatively open it from the pause menu.
 - Infinite Ammo
 - Objective ESP
 - Valuable ESP
+- Tool ESP
 - Speed
 - Spider
 - Fly
@@ -22,13 +23,13 @@ Alternatively open it from the pause menu.
 - Quickstop
 - Godmode
 - Bullet Time
-- Rubberband
+- Disable Physics
 - Disable Alarm
 - Skip Objective
+- Rubberband
 - Teleport
 
 All features are bindable.  
 To bind something right click on it,  
 then press the key you want to use.  
 Use enter to remove the bind.  
-**Some features require a bind to function e.g. teleport.**

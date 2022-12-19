@@ -8,6 +8,7 @@ Alternatively open it from the pause menu
 [*] Infinite Ammo
 [*] Objective ESP
 [*] Valuable ESP
+[*] Tool ESP
 [*] Speed
 [*] Spider
 [*] Fly
@@ -18,9 +19,10 @@ Alternatively open it from the pause menu
 [*] Quickstop
 [*] Godmode
 [*] Bullet Time
-[*] Rubberband
+[*] Disable Physics
 [*] Disable Alarm
 [*] Skip Objective
+[*] Rubberband
 [*] Teleport
 [/list]
 
