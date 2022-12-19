@@ -273,7 +273,7 @@ function InfiniteAmmo()
     local pTool = GetString("game.player.tool")
     local Ammo = GetInt("savegame.tool."..pTool..".ammo")
     if Ammo == nil or Ammo == 0 then 
-        Ammo = 420
+        Ammo = 9999
     end
     SetInt("game.tool."..pTool..".ammo", Ammo)
 end
