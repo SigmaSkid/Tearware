@@ -91,9 +91,13 @@ function init()
     -- tools
     DefineTool("teleport")
 
-    table.sort(featurelist, function (left, right)
-        return string.len(left.name) > string.len(right.name)
-    end)
+    -- sort for feature list.
+    UiPush()
+        UiFont("bold.ttf", 12)
+        table.sort(featurelist, function (left, right)
+            return UiGetTextSize(left.name) > UiGetTextSize(right.name)
+        end)
+    UiPop()
 end
 
 function TransformYawByInput(y)
