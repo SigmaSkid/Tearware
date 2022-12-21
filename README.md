@@ -13,6 +13,8 @@ Alternatively open it from the pause menu.
 - Objective ESP
 - Valuable ESP
 - Tool ESP
+- Weapon Glow
+- Active Glow
 - Speed
 - Spider
 - Fly

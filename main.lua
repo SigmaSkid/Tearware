@@ -10,7 +10,7 @@ featurelist = {}
 
 -- universal constants
 fixed_update_rate = 1/60 -- 0.01(6)
-
+origin_to_eye_distance = 1.7
 
 function DefineBool(name, var, default) 
     local feature = {}
