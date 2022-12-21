@@ -30,6 +30,8 @@ Alternatively open it from the pause menu.
 - Skip Objective
 - Rubberband
 - Teleport
+- Explosion Brush
+- Fire Brush
 
 All features are bindable.  
 To bind something right click on it,  

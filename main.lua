@@ -88,10 +88,12 @@ function init()
     DefineBool("Disable Physics", "disablephysics", false)
     DefineBool("Disable Alarm", "disablealarm", false)
     DefineBool("Skip Objective", "skipobjective", false)
-    DefineBool("Rubberband", "rubberband", false)
 
     -- tools
+    DefineBool("Rubberband", "rubberband", false)
     DefineTool("teleport")
+    DefineBool("Explosion Brush", "explosionbrush", false)
+    DefineBool("Fire Brush", "firebrush", false)
 
     -- sort for feature list.
     UiPush()
@@ -373,7 +375,6 @@ function Fly()
 
     local velocity = GetPlayerVelocity()
 
-
     -- scary math below, run.
 
     -- get scary quat
@@ -520,31 +521,57 @@ function NoClip(dts)
     SetPlayerTransform(trans, true)
 end
 
+function GetPosWeAreLookingAt()
+	local camera = GetCameraTransform()
+
+	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, -666))
+	
+    local direction = VecNormalize(VecSub(parentpoint, camera.pos))
+	
+    local hit, dist = QueryRaycast(camera.pos, direction, 666)
+
+    if hit then 
+        return TransformToParentPoint(camera, Vec(0, 0, -dist))
+    end
+
+    return nil 
+end
+
 function Teleport() 
     if not AdvGetBool(cfgstr .. "teleport") then 
         return 
     end
     
-	local camera = GetCameraTransform()
+    local TargetPos = GetPosWeAreLookingAt()
+    if TargetPos ~= nil then 
+        local t = Transform(TargetPos, GetCameraTransform().rot)
+        
+        SetPlayerTransform(t, true)
+    end
+    SetBool(cfgstr .. "teleport", false)
+end
 
-	local maxrange = 666
-
-	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, -maxrange))
-	
-    local direction = VecNormalize(VecSub(parentpoint, camera.pos))
-	
-    local hit, dist = QueryRaycast(camera.pos, direction, maxrange)
-
-    if not hit then 
+function ExplosionBrush() 
+    if not AdvGetBool(cfgstr .. "explosionbrush") then 
         return 
     end
-
-    local targetPos = TransformToParentPoint(camera, Vec(0, 0, -dist))
-
-    local t = Transform(targetPos, GetCameraTransform().rot)
     
-    SetPlayerTransform(t, true)
-    SetBool(cfgstr .. "teleport", not GetBool(cfgstr .. "teleport"))
+    local TargetPos = GetPosWeAreLookingAt()
+    if TargetPos ~= nil then 
+        Explosion(TargetPos, 1)
+    end
+end
+
+function FireBrush(dt) 
+    if not AdvGetBool(cfgstr .. "firebrush") then 
+        return 
+    end
+    
+    local TargetPos = GetPosWeAreLookingAt()
+    if TargetPos ~= nil then 
+        SpawnFire(TargetPos)
+        PointLight(TargetPos, 0.7, 0.2, 0.2, 1)
+    end
 end
 
 function Spider() 
@@ -599,6 +626,7 @@ end
 function update(dt)
 
     InfiniteAmmo()
+
     Rubberband()
 
     Disablealarm()
@@ -639,6 +667,8 @@ function tick(dt)
     Fly()
     NoClip(dts)
     Teleport()
+    ExplosionBrush()
+    FireBrush(dt)
     Quickstop()
 end
 
@@ -662,6 +692,7 @@ function Checkbox(name, var)
 
     UiTextShadow(0, 0, 0, 0.5, 2.0)
 
+    -- highlight the checkbox, if this is the keybind we're editing
     if filthyglobal_editingkeybind == var then
         UiColor(1.0, 1.0, 0.6, 1)    
     elseif GetBool(cfgstr .. var) then 
@@ -671,24 +702,23 @@ function Checkbox(name, var)
     end
 
     if UiTextButton(name) then
-        if GetBool(cfgstr .. var) then 
-            SetBool(cfgstr .. var, false)
-        else 
-            SetBool(cfgstr .. var, true)
-        end
+        SetBool(cfgstr .. var, not GetBool(cfgstr .. var))
     end
 
-    local lastkey = InputLastPressedKey()
+    -- check if this is the checkbox of the keybind we're editing
     if filthyglobal_editingkeybind == var then
-        if lastkey ~= "" then 
-            if lastkey ~= "return" and lastkey ~= "insert" then 
-                SetString(cfgstr .. var .. "_key", lastkey)
-                currentkey = lastkey
-            else 
+        local lastKey = InputLastPressedKey()
+        -- if a button was pressed
+        if lastKey ~= "" then 
+            if lastKey == "return" or lastKey == "esc" or lastKey == "insert" then 
+                -- remove keybind
                 SetString(cfgstr .. var .. "_key", "null") 
-                currentkey = ""   
+                currentkey = ""  
+            else
+                SetString(cfgstr .. var .. "_key", lastKey)
+                currentkey = lastKey
             end
-
+            -- we're no longer editing a keybind.
             filthyglobal_editingkeybind = " " 
         end
     end
@@ -846,10 +876,11 @@ function ObjectiveEsp()
     end
 
     local targets = FindBodies("target", true)
-	for i=1,#targets do		 
-		if GetTagValue(targets[i], "target") ~= "cleared" and GetTagValue(targets[i], "target") ~= "disabled" then
-			local targetpos = GetBodyCenter(targets[i])
-            local optional = HasTag(targets[i], "optional")
+	for i=1,#targets do
+        local body = targets[i]
+		if GetTagValue(body, "target") ~= "cleared" and GetTagValue(body, "target") ~= "disabled" then
+			local targetpos = GetBodyCenter(body)
+            local optional = HasTag(body, "optional")
             local x, y, dist = UiWorldToPixel(targetpos)
             if dist > 2 then
                 UiPush()
@@ -869,9 +900,9 @@ function ObjectiveEsp()
             end
 
             if optional then 
-                DrawBodyOutline(targets[i], 0.3, 0.3, 0.7, 0.3)
+                DrawBodyOutline(body, 0.3, 0.3, 0.7, 0.3)
             else 
-                DrawBodyOutline(targets[i], 0.7, 0.3, 0.3, 0.3)
+                DrawBodyOutline(body, 0.7, 0.3, 0.3, 0.3)
             end
         end
 	end
@@ -884,24 +915,27 @@ function ValueableEsp()
 
     local v = FindBodies("valuable", true)
     for i=1,#v do
-        local isValuable = HasTag(v[i], "valuable")
-        local value = GetTagValue(v[i], "value")
-        local targetpos = GetBodyCenter(v[i])
-        local x, y, dist = UiWorldToPixel(targetpos)
-        if isValuable then 
-            if dist > 2 then 
-                UiPush()
-                    UiFont("bold.ttf", 16)
-                    UiAlign("center middle")
-                    UiTextShadow(0, 0, 0, 0.5, 2.0)
-                    UiTranslate(x, y)
-                    UiColor(0.3, 0.7, 0.3, 0.7)
-                    -- UiText(GetDescription(v[i]), true)
-                    UiText("$" .. math.floor(value), true)
-                    UiText(math.floor(dist) .. "m")
-                UiPop() 
+        local body = v[i]
+        if not IsBodyBroken(body) then 
+            local isValuable = HasTag(body, "valuable")
+            local value = GetTagValue(body, "value")
+            local targetpos = GetBodyCenter(body)
+            local x, y, dist = UiWorldToPixel(targetpos)
+            if isValuable then 
+                if dist > 2 then 
+                    UiPush()
+                        UiFont("bold.ttf", 16)
+                        UiAlign("center middle")
+                        UiTextShadow(0, 0, 0, 0.5, 2.0)
+                        UiTranslate(x, y)
+                        UiColor(0.3, 0.7, 0.3, 0.7)
+                        -- UiText(GetDescription(body), true)
+                        UiText("$" .. math.floor(value), true)
+                        UiText(math.floor(dist) .. "m")
+                    UiPop() 
+                end
+                DrawBodyOutline(body, 0.3, 0.7, 0.3, 0.3)
             end
-            DrawBodyOutline(v[i], 0.3, 0.7, 0.3, 0.3)
         end
     end
 end
@@ -913,27 +947,29 @@ function ToolEsp()
 
     local interactables = FindBodies("interact", true)
     for i=1,#interactables do
-        local interactType = GetTagValue(interactables[i], "interact")
-        local isTool = interactType == "Pick up" 
-        
-        local targetpos = GetBodyCenter(interactables[i])
-        local x, y, dist = UiWorldToPixel(targetpos)
-        if isTool then 
-            if dist > 2 then 
-                UiPush()
-                    UiFont("bold.ttf", 16)
-                    UiAlign("center middle")
-                    UiTextShadow(0, 0, 0, 0.5, 2.0)
-                    UiTranslate(x, y)
-                    UiColor(0.7, 0.7, 0.3, 0.7)
-                    UiText(GetDescription(interactables[i]), true)
-                    UiText(math.floor(dist) .. "m")
-                UiPop() 
+        local body = interactables[i]
+        if not IsBodyBroken(body) then 
+            local interactType = GetTagValue(body, "interact")
+            local isTool = interactType == "Pick up" 
+            
+            local targetpos = GetBodyCenter(body)
+            local x, y, dist = UiWorldToPixel(targetpos)
+            if isTool then 
+                if dist > 2 then 
+                    UiPush()
+                        UiFont("bold.ttf", 16)
+                        UiAlign("center middle")
+                        UiTextShadow(0, 0, 0, 0.5, 2.0)
+                        UiTranslate(x, y)
+                        UiColor(0.7, 0.7, 0.3, 0.7)
+                        UiText(GetDescription(body), true)
+                        UiText(math.floor(dist) .. "m")
+                    UiPop() 
+                end
+                DrawBodyOutline(body, 0.7, 0.7, 0.3, 0.3)
             end
-            DrawBodyOutline(interactables[i], 0.7, 0.7, 0.3, 0.3)
         end
     end
-
 end
 
 function VisualsDraw()
@@ -1078,12 +1114,14 @@ function draw()
                 Checkbox("Disable Physics", "disablephysics")
                 Checkbox("Disable Alarm", "disablealarm")
                 Checkbox("Skip Objective", "skipobjective")
-                Checkbox("Rubberband", "rubberband")
             
             elseif GetInt(cfgstr .. "activetab") == 4 then 
                 -- tools
 
+                Checkbox("Rubberband", "rubberband")
                 Checkbox("Teleport", "teleport")
+                Checkbox("Explosion Brush", "explosionbrush")
+                Checkbox("Fire Brush", "firebrush")
 
             end
         UiPop()
