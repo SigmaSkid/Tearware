@@ -25,9 +25,10 @@ Alternatively open it from the pause menu.
 - Quickstop
 - Godmode
 - Bullet Time
-- Disable Physics
-- Disable Alarm
 - Skip Objective
+- Disable Alarm
+- Disable Physics
+- Force Update Physics
 - Rubberband
 - Teleport
 - Explosion Brush

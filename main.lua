@@ -85,16 +85,17 @@ function init()
     -- misc
     DefineBool("Godmode", "godmode", false)
     DefineBool("Bullet Time", "timer", false)
-    DefineBool("Disable Physics", "disablephysics", false)
-    DefineBool("Disable Alarm", "disablealarm", false)
     DefineBool("Skip Objective", "skipobjective", false)
+    DefineBool("Disable Alarm", "disablealarm", false)
+    DefineBool("Disable Physics", "disablephysics", false)
+    DefineBool("Force Update Physics", "forceupdatephysics", false)
 
     -- tools
     DefineBool("Rubberband", "rubberband", false)
     DefineTool("teleport")
     DefineBool("Explosion Brush", "explosionbrush", false)
     DefineBool("Fire Brush", "firebrush", false)
-
+    
     -- sort for feature list.
     UiPush()
         UiFont("bold.ttf", 12)
@@ -342,6 +343,17 @@ function DisablePhysics()
 	local bodies = FindBodies(nil,true)
     for i=1,#bodies do
         SetBodyActive(bodies[i], false)
+    end
+end
+
+function ForceUpdateAllBodies()
+    if not AdvGetBool(cfgstr .. "forceupdatephysics") then
+        return 
+    end
+
+    local bodies = FindBodies(nil,true)
+    for i=1,#bodies do
+        SetBodyActive(bodies[i], true)
     end
 end
 
@@ -650,6 +662,7 @@ function tick(dt)
 
     -- universal features
     Timer()
+    ForceUpdateAllBodies()
     DisablePhysics()
 
     if GetPlayerVehicle() ~= 0 then
@@ -1111,9 +1124,10 @@ function draw()
 
                 Checkbox("Godmode", "godmode")
                 Checkbox("Bullet Time", "timer")
-                Checkbox("Disable Physics", "disablephysics")
-                Checkbox("Disable Alarm", "disablealarm")
                 Checkbox("Skip Objective", "skipobjective")
+                Checkbox("Disable Alarm", "disablealarm")
+                Checkbox("Disable Physics", "disablephysics")
+                Checkbox("Force Update Physics", "forceupdatephysics")
             
             elseif GetInt(cfgstr .. "activetab") == 4 then 
                 -- tools
