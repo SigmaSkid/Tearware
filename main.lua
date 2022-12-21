@@ -69,6 +69,8 @@ function init()
     DefineBool("Objective ESP", "objectiveesp", false)
     DefineBool("Valuable ESP", "valueesp", false)
     DefineBool("Tool ESP", "toolesp", false)
+    DefineBool("Weapon Glow", "weaponglow", false)
+    DefineBool("Active Glow", "activeglow", false)
     
     -- movement
     DefineBool("Speed", "speedhack", false)
@@ -807,6 +809,32 @@ function FeatureList()
     UiPop()
 end
 
+function WeaponGlow() 
+    if not AdvGetBool(cfgstr .. "weaponglow") then 
+        return 
+    end
+
+    local toolBody = GetToolBody()
+    if toolBody~=0 then
+        DrawBodyOutline(toolBody, 0.3, 0.3, 0.7, 1)
+        DrawBodyHighlight(toolBody, 0.7)
+    end
+end
+
+function ActiveGlow() 
+    if not AdvGetBool(cfgstr .. "activeglow") then 
+        return 
+    end
+    local bodies = FindBodies(nil,true)
+	for i=1,#bodies do
+		local body = bodies[i]
+		if IsBodyActive(body) then
+            DrawBodyOutline(body, 0.3, 0.3, 0.7, 1)
+            DrawBodyHighlight(body, 0.7)
+        end
+    end
+end
+
 function GetBodyCenter(body)
     local min, max = GetBodyBounds(body)
     return VecLerp(min, max, 0.5)
@@ -918,6 +946,8 @@ function VisualsDraw()
     ValueableEsp()
     ObjectiveEsp()
     ToolEsp()
+    WeaponGlow()
+    ActiveGlow()
 end
 
 -- called on each draw
@@ -1023,6 +1053,8 @@ function draw()
                     Checkbox("Objective ESP", "objectiveesp")
                     Checkbox("Valuable ESP", "valueesp")
                     Checkbox("Tool ESP", "toolesp")
+                    Checkbox("Weapon Glow", "weaponglow")
+                    Checkbox("Active Glow", "activeglow")
 
                 end
 
