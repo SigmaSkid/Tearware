@@ -709,7 +709,7 @@ filthyglobal_editingkeybind = " "
 function Checkbox(name, var)
     UiPush()
     UiAlign("left top")
-
+    
     local currentkey = GetString(cfgstr .. var .. "_key")
     local kw, kh = UiGetTextSize(" - " .. currentkey)
 
@@ -723,7 +723,8 @@ function Checkbox(name, var)
         end
     end
 
-    UiTextShadow(0, 0, 0, 0.5, 2.0)
+    UiTextShadow(0, 0, 0, 0.5, 1.5)
+    UiTextOutline(0, 0, 0, 1, 0.1)
 
     -- highlight the checkbox, if this is the keybind we're editing
     if filthyglobal_editingkeybind == var then
@@ -785,20 +786,21 @@ function Button(name)
     return false
 end
 
-function RGB_rainbow_clamp(X) 
-    if X > 0.5 then
-        X = 1 - X 
-    else 
-        X = X
-    end
+function seedToRGB(y)
+    local rgb = {} 
+    
+    rgb.R = math.sin(y + 0) * 0.5 + 0.5;
+    rgb.G = math.sin(y + 2) * 0.5 + 0.5;
+    rgb.B = math.sin(y + 4) * 0.5 + 0.5;
 
-    return 0.2 + (X * 1.6)
+    return rgb 
 end
 
 function NavButton(name, tabid)
     UiPush()
         UiTranslate(50 + (tabid * 100), -20)
         UiFont("bold.ttf", 120)
+        UiTextOutline(0, 0, 0, 1, 0.1)
 
         if tabid == GetInt(cfgstr .. "activetab") then 
             UiColor(0.8, 0.8, 0.8, 1)
@@ -828,15 +830,13 @@ function Watermark()
     end
 
     UiPush()
-
-        local R = RGB_rainbow_clamp( GetTime()%5 / 5 )
-        local B = RGB_rainbow_clamp( GetTime()%3 / 3 )
-        local G = RGB_rainbow_clamp( 1 - GetTime()%1 )
-        UiColor(R, G, B, 1)
+        local rgb = seedToRGB(GetTime())
+        UiColor(rgb.R, rgb.G, rgb.B, 1)
         UiTranslate(0, 0)
         UiAlign("left top")
         UiFont("bold.ttf", 25)
-        UiTextShadow(0, 0, 0, 0.5, 2.0)
+        UiTextShadow(0, 0, 0, 0.5, 1.5)
+        UiTextOutline(0, 0, 0, 0.7, 0.07)
         UiText("Tearware")
         
     UiPop()
@@ -847,12 +847,9 @@ function FeatureList()
         return 
     end
 
-    UiPush()
+    local visibleFeatures = 0.01
 
-        local R = RGB_rainbow_clamp( GetTime()%5 / 5 )
-        local B = RGB_rainbow_clamp( GetTime()%3 / 3 )
-        local G = RGB_rainbow_clamp( 1 - GetTime()%1 )
-        UiColor(R, G, B, 1)
+    UiPush()
         UiTranslate(0, 0)
         UiAlign("top left")
 
@@ -861,10 +858,15 @@ function FeatureList()
         end
 
         UiFont("bold.ttf", 12)
-        UiTextShadow(0, 0, 0, 0.2, 1.0)
+        UiTextShadow(0, 0, 0, 0.2, 1.5)
+        UiTextOutline(0, 0, 0, 0.7, 0.07)
 
         for i=1, #featurelist do
             if GetBool(cfgstr .. featurelist[i].var) then 
+                visibleFeatures = visibleFeatures + 0.01
+                local rgb = seedToRGB(GetTime() + visibleFeatures)
+                UiColor(rgb.R, rgb.G, rgb.B, 1)
+
                 UiText(featurelist[i].name, true)
             end
         end
@@ -879,8 +881,9 @@ function WeaponGlow()
 
     local toolBody = GetToolBody()
     if toolBody~=0 then
-        DrawBodyOutline(toolBody, 0.3, 0.3, 0.7, 1)
-        DrawBodyHighlight(toolBody, 0.7)
+
+        local rgb = seedToRGB(GetTime())
+        DrawBodyOutline(toolBody, rgb.R, rgb.G, rgb.B, 1)
     end
 end
 
@@ -892,8 +895,9 @@ function ActiveGlow()
 	for i=1,#bodies do
 		local body = bodies[i]
 		if IsBodyActive(body) then
-            DrawBodyOutline(body, 0.3, 0.3, 0.7, 1)
-            DrawBodyHighlight(body, 0.7)
+            local rgb = seedToRGB(GetTime() + (i / 10))
+            
+            DrawBodyOutline(body, rgb.R, rgb.G, rgb.B, 1)
         end
     end
 end
@@ -919,7 +923,9 @@ function ObjectiveEsp()
                 UiPush()
                     UiFont("bold.ttf", 16)
                     UiAlign("center middle")
-                    UiTextShadow(0, 0, 0, 0.5, 2.0)
+                    UiTextShadow(0, 0, 0, 0.5, 1.5)
+                    UiTextOutline(0, 0, 0, 0.7, 0.1)
+                    
                     UiTranslate(x, y)
                     if optional then 
                         UiColor(0.3, 0.3, 0.7, 0.7)
@@ -959,7 +965,8 @@ function ValueableEsp()
                     UiPush()
                         UiFont("bold.ttf", 16)
                         UiAlign("center middle")
-                        UiTextShadow(0, 0, 0, 0.5, 2.0)
+                        UiTextShadow(0, 0, 0, 0.5, 1.5)
+                        UiTextOutline(0, 0, 0, 0.7, 0.1)
                         UiTranslate(x, y)
                         UiColor(0.3, 0.7, 0.3, 0.7)
                         -- UiText(GetDescription(body), true)
@@ -992,7 +999,8 @@ function ToolEsp()
                     UiPush()
                         UiFont("bold.ttf", 16)
                         UiAlign("center middle")
-                        UiTextShadow(0, 0, 0, 0.5, 2.0)
+                        UiTextShadow(0, 0, 0, 0.5, 1.5)
+                        UiTextOutline(0, 0, 0, 0.7, 0.1)
                         UiTranslate(x, y)
                         UiColor(0.7, 0.7, 0.3, 0.7)
                         UiText(GetDescription(body), true)
@@ -1039,15 +1047,13 @@ function draw()
     UiPush()
         UiAlign("center middle")
 
-        local R = RGB_rainbow_clamp( 1 - GetTime()%1 )
-        local G = RGB_rainbow_clamp( GetTime()%3 / 3 )
-        local B = RGB_rainbow_clamp( GetTime()%5 / 5 )
-        UiColor(R, G, B, 0.0420)
+        local rgb = seedToRGB(GetTime())
+        UiColor(rgb.R, rgb.G, rgb.B, 0.0420)
         
         UiTranslate(UiCenter(), UiMiddle())
         UiRect(UiWidth(), UiHeight())
         
-        UiBlur(0.1)
+        UiBlur(0.3)
     UiPop()
 
     UiPush()
@@ -1061,22 +1067,17 @@ function draw()
         UiAlign("center middle")
         UiColor(0.23, 0.23, 0.23, 1)
         UiRect(510, 610)
-        UiBlur(0.06)
 
         UiColor(0.53, 0.53, 0.53, 0.6)
         UiRect(500, 600)
 
         -- gradient bar, very important for every cheat
         UiPush()
-            -- worst rgb function you have ever seen!
-            local R = RGB_rainbow_clamp( GetTime()%5 / 5 )
-            local B = RGB_rainbow_clamp( GetTime()%3 / 3 )
-            local G = RGB_rainbow_clamp( 1 - GetTime()%1 )
-            UiColor(R, G, B, 1)
+            -- rgb defined in the same scope by background blur
+            UiColor(rgb.R, rgb.G, rgb.B, 1)
             UiTranslate(0, -UiMiddle() - 2)
             UiRect(UiWidth(), 2)
         UiPop()
-
         -- navigtor
         UiPush()
             UiAlign("center top")
