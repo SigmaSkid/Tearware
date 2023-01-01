@@ -212,7 +212,7 @@ function DoStuffWithValuables()
                         end
 
                         if inflation then         
-                            SetTag(body, "value", 1000_00) --1mio cash moneyy
+                            SetTag(body, "value", 100000) --1mio cash moneyy
                         end
                     end
                 end
