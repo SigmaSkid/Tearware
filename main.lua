@@ -329,10 +329,30 @@ function Timer()
 	if #activeBodyCache > 0 then
         for i=1, #activeBodyCache do
             local body = activeBodyCache[i]
-            -- DrawBodyOutline(body, 1, 0, 0, 1)
-            ApplyBodyImpulse(body,GetBodyTransform(body).pos,Vec(0,0,0))
+            if not IsHandleValid(body) then 
+                -- DebugPrint("trying to update a broken body! cleaning up")
+                table.remove(activeBodyCache, i)
+            else 
+                local velLength = VecLength(GetBodyVelocity(body))
+                local angLength = VecLength(GetBodyAngularVelocity(body))
+                
+                -- completely arbitrary numbers!
+                if velLength > 0.3 or angLength > 0.15 then 
+                    -- DrawBodyOutline(body, 1, 0, 0, 1)
+
+                    ApplyBodyImpulse(body,GetBodyTransform(body).pos,Vec(0,0,0))
+                else 
+                    -- DebugPrint("removing a body that is already inactive.")
+                    -- DrawBodyOutline(body, 0, 1, 0, 1)
+
+                    SetBodyActive(body, false)
+                    table.remove(activeBodyCache, i)
+                end
+            end
         end
 	end
+
+    -- DebugPrint(#activeBodyCache)
 end
 
 function DisablePhysics()
