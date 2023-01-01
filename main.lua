@@ -213,7 +213,7 @@ function DoStuffWithValuables()
 
                         if inflation then
                             
-                            --check so that the stupid game doesnt do a stupid buffer overflow
+                            --check so that the stupid game doesnt do a stupid int overflow
                             --also leave some leeway so it doesnt happen by accident
                             --max: 2.147.483.647
                             
