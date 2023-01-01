@@ -92,6 +92,8 @@ function init()
 
     -- tools
     DefineBool("Rubberband", "rubberband", false)
+    DefineBool("Teleport Valuables To Player", "autocollect", false)
+    DefineBool("Unfair Valuables", "inflationishittinghard", false)
     DefineTool("teleport")
     DefineBool("Explosion Brush", "explosionbrush", false)
     DefineBool("Fire Brush", "firebrush", false)
@@ -170,32 +172,54 @@ function SkipObjective()
     -- SetString("level.state", "win") 
 end
 
--- mods aren't allowed to modify cash.. so whatever
--- function CollectValuables()
---     if not AdvGetBool(cfgstr .. "autocollect") then
---         return
---     end
--- 
---     local v = FindBodies("valuable", true)
---     for i=1,#v do
---         local s = v[i]
---         local id = GetTagValue(s, "valuable")
---         SetBool("savegame.valuable."..id, true);
---         local value = tonumber(GetTagValue(s, "value"))
---         if not value then value = 0 end
---         local cash = GetInt("savegame.cash")
--- 
---         SetInt("savegame.cash", cash + value)
---         if GetInt("savegame.cash") == cash then 
---             DebugPrint("cant edit moneey")
---         end
---         
---         SetString("hud.notification", "Picked up "..GetDescription(s).." worth $"..value)
---         Delete(s)
---         PlaySound(LoadSound("valuable.ogg"), GetCameraTransform().pos, 1.0, false)
--- 
---     end
--- end
+--mods aren't allowed to modify the savefile? who cares?
+
+function DoStuffWithValuables()
+    local autocollet = AdvGetBool(cfgstr .. "autocollect")
+    local inflation = AdvGetBool(cfgstr .. "inflationishittinghard")
+
+    playerTransform = GetPlayerTransform(false);
+    local camera = GetCameraTransform()
+    local v = FindBodies("valuable", true)
+    for i=1,#v do
+        local body = v[i]
+        if body ~= nil then
+            if GetPlayerInteractBody() ~= body then
+                SetBodyActive(body, false)
+                if not IsBodyBroken(body) then 
+                    local isValuable = HasTag(body, "valuable")
+                    if isValuable then  
+                        if autocollet then
+                            if IsBodyJointedToStatic(body) then
+                                local shapes = GetBodyShapes(body)
+                                for i=1,#shapes do
+                                    local shape = shapes[i]
+                                    local joints = GetShapeJoints(shape)
+                                    for i=1, #joints do
+                                        local joint = joints[i]
+                                        DetachJointFromShape(joint, shape)
+                                    end
+                                end
+                            end
+
+                            newTransform = camera
+                            local min, max = GetBodyBounds(body)
+                            local vecdistance = VecAdd(VecSub(max, min), Vec(0.2, 0, 0.2))
+                            newTransform.pos = VecAdd(camera.pos, vecdistance)
+                            SetBodyDynamic(body, false)
+                            SetBodyTransform(body, newTransform)
+                            SetBodyVelocity(body, Vec(0,0,0))
+                        end
+
+                        if inflation then         
+                            SetTag(body, "value", 99999999) --cash moneyy
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
 
 function Rubberband() 
     
@@ -658,7 +682,7 @@ end
 function update(dt)
 
     InfiniteAmmo()
-
+    DoStuffWithValuables()
     Rubberband()
 
     Disablealarm()
@@ -838,7 +862,6 @@ function Watermark()
         UiTextShadow(0, 0, 0, 0.5, 1.5)
         UiTextOutline(0, 0, 0, 0.7, 0.07)
         UiText("Tearware")
-        
     UiPop()
 end
 
@@ -1154,6 +1177,8 @@ function draw()
                 -- tools
 
                 Checkbox("Rubberband", "rubberband")
+                Checkbox("Teleport Valuables To Player", "autocollect")
+                Checkbox("Unfair Valuables", "inflationishittinghard")
                 Checkbox("Teleport", "teleport")
                 Checkbox("Explosion Brush", "explosionbrush")
                 Checkbox("Fire Brush", "firebrush")
