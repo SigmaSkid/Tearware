@@ -92,8 +92,8 @@ function init()
 
     -- tools
     DefineBool("Rubberband", "rubberband", false)
-    DefineBool("Teleport Valuables To Player", "autocollect", false)
-    DefineBool("Unfair Valuables", "inflationishittinghard", false)
+    DefineBool("Teleport Valuables", "autocollect", false)
+    DefineBool("Unfair Valuables", "inflation", false)
     DefineTool("teleport")
     DefineBool("Explosion Brush", "explosionbrush", false)
     DefineBool("Fire Brush", "firebrush", false)
@@ -176,7 +176,7 @@ end
 
 function DoStuffWithValuables()
     local autocollect = AdvGetBool(cfgstr .. "autocollect")
-    local inflation = AdvGetBool(cfgstr .. "inflationishittinghard")
+    local inflation = AdvGetBool(cfgstr .. "inflation")
 
     if not autocollect and not inflation then
         return
@@ -1191,8 +1191,8 @@ function draw()
                 -- tools
 
                 Checkbox("Rubberband", "rubberband")
-                Checkbox("Teleport Valuables To Player", "autocollect")
-                Checkbox("Unfair Valuables", "inflationishittinghard")
+                Checkbox("Teleport Valuables", "autocollect")
+                Checkbox("Unfair Valuables", "inflation")
                 Checkbox("Teleport", "teleport")
                 Checkbox("Explosion Brush", "explosionbrush")
                 Checkbox("Fire Brush", "firebrush")
