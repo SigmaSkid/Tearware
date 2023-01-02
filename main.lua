@@ -174,63 +174,87 @@ end
 
 --mods aren't allowed to modify the savefile? who cares?
 
-function DoStuffWithValuables()
-    local autocollect = AdvGetBool(cfgstr .. "autocollect")
-    local inflation = AdvGetBool(cfgstr .. "inflation")
+valuablesBackup = {}
+function IncreaseValuablesValue() 
+    local targetmoney = 1000000 
 
-    if not autocollect and not inflation then
+    local v = FindBodies("valuable", true)
+    for i=1,#v do
+        local body = v[i]
+        if IsHandleValid(body) and GetPlayerInteractBody() ~= body and not IsBodyBroken(body) then
+            local value = tonumber(GetTagValue(body, "value"))
+            if value ~= targetmoney then 
+                table.insert(valuablesBackup, {body, value})
+                SetTag(body, "value", targetmoney)
+            end
+        end
+    end
+end
+
+function RestoreValuablesValue() 
+    if #valuablesBackup > 0 then 
+        --DebugPrint("restoring value!" .. #valuablesBackup)
+        for i=1,#valuablesBackup do
+            local v = valuablesBackup[i]
+            if IsHandleValid(v[1]) then 
+                SetTag(v[1], "value", v[2])
+            end
+        end
+        valuablesBackup = {}
+    end
+end
+
+function UnfairPrices()
+	if not AdvGetBool(cfgstr .. "inflation") then
+        RestoreValuablesValue() 
+        return
+    end
+    IncreaseValuablesValue() 
+end
+
+function CollectValuables() 
+    if not AdvGetBool(cfgstr .. "autocollect") then
         return
     end
 
     local camera = GetCameraTransform()
     local v = FindBodies("valuable", true)
+    
+    if #v == 0 then 
+        return 
+    end
+
+    local angled = (2 * math.pi) / #v
+    -- fancy stuff right here ;)
+    local radius = 3 / angled
+
     for i=1,#v do
         local body = v[i]
-        if body ~= nil then
-            if GetPlayerInteractBody() ~= body then
-                SetBodyActive(body, false)
-                if not IsBodyBroken(body) then 
-                    if autocollect then
-                        if IsBodyJointedToStatic(body) then
-                            local shapes = GetBodyShapes(body)
-                            for i=1,#shapes do
-                                local shape = shapes[i]
-                                local joints = GetShapeJoints(shape)
-                                for i=1, #joints do
-                                    local joint = joints[i]
-                                    DetachJointFromShape(joint, shape)
-                                end
-                            end
-                        end
-                        local newTransform = camera
-                        local min, max = GetBodyBounds(body)
-                        local vecdistance = VecAdd(VecSub(max, min), Vec(0.1, 0, 0))
-                        newTransform.pos = VecAdd(camera.pos, vecdistance)
-                        SetBodyDynamic(body, false)
-                        SetBodyTransform(body, newTransform)
-                        SetBodyVelocity(body, Vec(0,0,0))
-                    end
-                    if inflation then
-                        
-                        --check so that the stupid game doesnt do a stupid int overflow
-                        --also leave some leeway so it doesnt happen by accident
-                        --max: 2.147.483.647
-                        
-                        local playerMoney = GetInt("savegame.cash")
-                        local targetMoney = 1000000
-                        if playerMoney > 2100000000 then
-                            targetMoney = 0
-                            SetString("hud.notification", "[Tearware] Sadly you are too rich. Blame the game.")
-                        end
-                        if playerMoney < 0 then
-                            targetMoney = (playerMoney * -1) + 1000000 -- giv some pennies to mr poor
-                            SetString("hud.notification", "[Tearware] Money overflow detected! Pick up a valuable to fix..")
-                        end
-                        
-                        SetTag(body, "value", targetMoney) --cash moneyy
+        if IsHandleValid(body) and GetPlayerInteractBody() ~= body and not IsBodyBroken(body) then
+
+            if IsBodyJointedToStatic(body) then
+                local shapes = GetBodyShapes(body)
+                for i=1,#shapes do
+                    local shape = shapes[i]
+                    local joints = GetShapeJoints(shape)
+                    for i=1, #joints do
+                        local joint = joints[i]
+                        DetachJointFromShape(joint, shape)
                     end
                 end
             end
+
+            local angle = (i - 1) * angled
+            local x = radius * math.cos(angle)
+            local z = radius * math.sin(angle)
+
+            local funny = {} 
+            funny.pos = VecCopy(camera.pos)
+            funny.pos = VecAdd(funny.pos, {x, 0, z} )
+
+            funny.rot = GetBodyTransform(body).rot
+            SetBodyTransform(body, funny)
+            SetBodyActive(body, false)
         end
     end
 end
@@ -696,7 +720,8 @@ end
 function update(dt)
 
     InfiniteAmmo()
-    DoStuffWithValuables()
+    UnfairPrices()
+    CollectValuables() 
     Rubberband()
 
     Disablealarm()
@@ -993,26 +1018,23 @@ function ValueableEsp()
     for i=1,#v do
         local body = v[i]
         if not IsBodyBroken(body) then 
-            local isValuable = HasTag(body, "valuable")
             local value = GetTagValue(body, "value")
             local targetpos = GetBodyCenter(body)
             local x, y, dist = UiWorldToPixel(targetpos)
-            if isValuable then 
-                if dist > 2 then 
-                    UiPush()
-                        UiFont("bold.ttf", 16)
-                        UiAlign("center middle")
-                        UiTextShadow(0, 0, 0, 0.5, 1.5)
-                        UiTextOutline(0, 0, 0, 0.7, 0.1)
-                        UiTranslate(x, y)
-                        UiColor(0.3, 0.7, 0.3, 0.7)
-                        -- UiText(GetDescription(body), true)
-                        UiText("$" .. math.floor(value), true)
-                        UiText(math.floor(dist) .. "m")
-                    UiPop() 
-                end
-                DrawBodyOutline(body, 0.3, 0.7, 0.3, 0.3)
+            if dist > 2 then 
+                 UiPush()
+                    UiFont("bold.ttf", 16)
+                    UiAlign("center middle")
+                    UiTextShadow(0, 0, 0, 0.5, 1.5)
+                    UiTextOutline(0, 0, 0, 0.7, 0.1)
+                    UiTranslate(x, y)
+                    UiColor(0.3, 0.7, 0.3, 0.7)
+                    -- UiText(GetDescription(body), true)
+                    UiText("$" .. math.floor(value), true)
+                    UiText(math.floor(dist) .. "m")
+                UiPop() 
             end
+            DrawBodyOutline(body, 0.3, 0.7, 0.3, 0.3)
         end
     end
 end
