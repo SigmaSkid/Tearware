@@ -175,10 +175,13 @@ end
 --mods aren't allowed to modify the savefile? who cares?
 
 function DoStuffWithValuables()
-    local autocollet = AdvGetBool(cfgstr .. "autocollect")
+    local autocollect = AdvGetBool(cfgstr .. "autocollect")
     local inflation = AdvGetBool(cfgstr .. "inflationishittinghard")
 
-    playerTransform = GetPlayerTransform(false);
+    if not autocollect and not inflation then
+        return
+    end
+
     local camera = GetCameraTransform()
     local v = FindBodies("valuable", true)
     for i=1,#v do
@@ -189,7 +192,7 @@ function DoStuffWithValuables()
                 if not IsBodyBroken(body) then 
                     local isValuable = HasTag(body, "valuable")
                     if isValuable then  
-                        if autocollet then
+                        if autocollect then
                             if IsBodyJointedToStatic(body) then
                                 local shapes = GetBodyShapes(body)
                                 for i=1,#shapes do
@@ -202,7 +205,7 @@ function DoStuffWithValuables()
                                 end
                             end
 
-                            newTransform = camera
+                            local newTransform = camera
                             local min, max = GetBodyBounds(body)
                             local vecdistance = VecAdd(VecSub(max, min), Vec(0.1, 0, 0))
                             newTransform.pos = VecAdd(camera.pos, vecdistance)
