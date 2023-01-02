@@ -92,6 +92,8 @@ function init()
 
     -- tools
     DefineBool("Rubberband", "rubberband", false)
+    DefineBool("Teleport Valuables", "autocollect", false)
+    DefineBool("Unfair Valuables", "inflation", false)
     DefineTool("teleport")
     DefineBool("Explosion Brush", "explosionbrush", false)
     DefineBool("Fire Brush", "firebrush", false)
@@ -170,32 +172,68 @@ function SkipObjective()
     -- SetString("level.state", "win") 
 end
 
--- mods aren't allowed to modify cash.. so whatever
--- function CollectValuables()
---     if not AdvGetBool(cfgstr .. "autocollect") then
---         return
---     end
--- 
---     local v = FindBodies("valuable", true)
---     for i=1,#v do
---         local s = v[i]
---         local id = GetTagValue(s, "valuable")
---         SetBool("savegame.valuable."..id, true);
---         local value = tonumber(GetTagValue(s, "value"))
---         if not value then value = 0 end
---         local cash = GetInt("savegame.cash")
--- 
---         SetInt("savegame.cash", cash + value)
---         if GetInt("savegame.cash") == cash then 
---             DebugPrint("cant edit moneey")
---         end
---         
---         SetString("hud.notification", "Picked up "..GetDescription(s).." worth $"..value)
---         Delete(s)
---         PlaySound(LoadSound("valuable.ogg"), GetCameraTransform().pos, 1.0, false)
--- 
---     end
--- end
+--mods aren't allowed to modify the savefile? who cares?
+
+function DoStuffWithValuables()
+    local autocollect = AdvGetBool(cfgstr .. "autocollect")
+    local inflation = AdvGetBool(cfgstr .. "inflation")
+
+    if not autocollect and not inflation then
+        return
+    end
+
+    local camera = GetCameraTransform()
+    local v = FindBodies("valuable", true)
+    for i=1,#v do
+        local body = v[i]
+        if body ~= nil then
+            if GetPlayerInteractBody() ~= body then
+                SetBodyActive(body, false)
+                if not IsBodyBroken(body) then 
+                    if autocollect then
+                        if IsBodyJointedToStatic(body) then
+                            local shapes = GetBodyShapes(body)
+                            for i=1,#shapes do
+                                local shape = shapes[i]
+                                local joints = GetShapeJoints(shape)
+                                for i=1, #joints do
+                                    local joint = joints[i]
+                                    DetachJointFromShape(joint, shape)
+                                end
+                            end
+                        end
+                        local newTransform = camera
+                        local min, max = GetBodyBounds(body)
+                        local vecdistance = VecAdd(VecSub(max, min), Vec(0.1, 0, 0))
+                        newTransform.pos = VecAdd(camera.pos, vecdistance)
+                        SetBodyDynamic(body, false)
+                        SetBodyTransform(body, newTransform)
+                        SetBodyVelocity(body, Vec(0,0,0))
+                    end
+                    if inflation then
+                        
+                        --check so that the stupid game doesnt do a stupid int overflow
+                        --also leave some leeway so it doesnt happen by accident
+                        --max: 2.147.483.647
+                        
+                        local playerMoney = GetInt("savegame.cash")
+                        local targetMoney = 1000000
+                        if playerMoney > 2100000000 then
+                            targetMoney = 0
+                            SetString("hud.notification", "[Tearware] Sadly you are too rich. Blame the game.")
+                        end
+                        if playerMoney < 0 then
+                            targetMoney = (playerMoney * -1) + 1000000 -- giv some pennies to mr poor
+                            SetString("hud.notification", "[Tearware] Money overflow detected! Pick up a valuable to fix..")
+                        end
+                        
+                        SetTag(body, "value", targetMoney) --cash moneyy
+                    end
+                end
+            end
+        end
+    end
+end
 
 function Rubberband() 
     
@@ -658,7 +696,7 @@ end
 function update(dt)
 
     InfiniteAmmo()
-
+    DoStuffWithValuables()
     Rubberband()
 
     Disablealarm()
@@ -838,7 +876,6 @@ function Watermark()
         UiTextShadow(0, 0, 0, 0.5, 1.5)
         UiTextOutline(0, 0, 0, 0.7, 0.07)
         UiText("Tearware")
-        
     UiPop()
 end
 
@@ -1154,6 +1191,8 @@ function draw()
                 -- tools
 
                 Checkbox("Rubberband", "rubberband")
+                Checkbox("Teleport Valuables", "autocollect")
+                Checkbox("Unfair Valuables", "inflation")
                 Checkbox("Teleport", "teleport")
                 Checkbox("Explosion Brush", "explosionbrush")
                 Checkbox("Fire Brush", "firebrush")

@@ -30,6 +30,8 @@ Alternatively open it from the pause menu.
 - Disable Physics
 - Force Update Physics
 - Rubberband
+- Teleport Valuables
+- Unfair Valuables
 - Teleport
 - Explosion Brush
 - Fire Brush
