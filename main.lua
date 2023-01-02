@@ -190,51 +190,45 @@ function DoStuffWithValuables()
             if GetPlayerInteractBody() ~= body then
                 SetBodyActive(body, false)
                 if not IsBodyBroken(body) then 
-                    local isValuable = HasTag(body, "valuable")
-                    if isValuable then  
-                        if autocollect then
-                            if IsBodyJointedToStatic(body) then
-                                local shapes = GetBodyShapes(body)
-                                for i=1,#shapes do
-                                    local shape = shapes[i]
-                                    local joints = GetShapeJoints(shape)
-                                    for i=1, #joints do
-                                        local joint = joints[i]
-                                        DetachJointFromShape(joint, shape)
-                                    end
-                                end
-                            end
-
-                            local newTransform = camera
-                            local min, max = GetBodyBounds(body)
-                            local vecdistance = VecAdd(VecSub(max, min), Vec(0.1, 0, 0))
-                            newTransform.pos = VecAdd(camera.pos, vecdistance)
-                            SetBodyDynamic(body, false)
-                            SetBodyTransform(body, newTransform)
-                            SetBodyVelocity(body, Vec(0,0,0))
-                        end
-
-                        if inflation then
-                            
-                            --check so that the stupid game doesnt do a stupid int overflow
-                            --also leave some leeway so it doesnt happen by accident
-                            --max: 2.147.483.647
-                            
-                            local playerMoney = GetInt("savegame.cash")
-                            local targetMoney = 1000000
-                            if playerMoney > 2100000000 then
-                                targetMoney = 0
-                                SetString("hud.notification", "[Tearware] Sadly you are too rich. Blame the game.")
-                            end
-
-                            if playerMoney < 0 then
-                                targetMoney = (playerMoney * -1) + 1000000 -- giv some pennies to mr poor
-                                SetString("hud.notification", "[Tearware] Money overflow detected! Pick up a valuable to fix..")
-                            end
-                            
-                            SetTag(body, "value", targetMoney) --cash moneyy
-                        end
-                    end
+                       if autocollect then
+                           if IsBodyJointedToStatic(body) then
+                               local shapes = GetBodyShapes(body)
+                               for i=1,#shapes do
+                                   local shape = shapes[i]
+                                   local joints = GetShapeJoints(shape)
+                                   for i=1, #joints do
+                                       local joint = joints[i]
+                                       DetachJointFromShape(joint, shape)
+                                   end
+                               end
+                           end
+                           local newTransform = camera
+                           local min, max = GetBodyBounds(body)
+                           local vecdistance = VecAdd(VecSub(max, min), Vec(0.1, 0, 0))
+                           newTransform.pos = VecAdd(camera.pos, vecdistance)
+                           SetBodyDynamic(body, false)
+                           SetBodyTransform(body, newTransform)
+                           SetBodyVelocity(body, Vec(0,0,0))
+                       end
+                       if inflation then
+                           
+                           --check so that the stupid game doesnt do a stupid int overflow
+                           --also leave some leeway so it doesnt happen by accident
+                           --max: 2.147.483.647
+                           
+                           local playerMoney = GetInt("savegame.cash")
+                           local targetMoney = 1000000
+                           if playerMoney > 2100000000 then
+                               targetMoney = 0
+                               SetString("hud.notification", "[Tearware] Sadly you are too rich. Blame the game.")
+                           end
+                           if playerMoney < 0 then
+                               targetMoney = (playerMoney * -1) + 1000000 -- giv some pennies to mr poor
+                               SetString("hud.notification", "[Tearware] Money overflow detected! Pick up a valuable to fix..")
+                           end
+                           
+                           SetTag(body, "value", targetMoney) --cash moneyy
+                       end
                 end
             end
         end
