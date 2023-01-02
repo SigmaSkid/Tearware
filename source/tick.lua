@@ -77,10 +77,10 @@ function Timer()
                 local angLength = VecLength(GetBodyAngularVelocity(body))
                 
                 -- completely arbitrary numbers!
-                if velLength > 0.3 or angLength > 0.15 then 
+                if velLength > 0.01 or angLength > 0.01 then 
                     -- DrawBodyOutline(body, 1, 0, 0, 1)
 
-                    ApplyBodyImpulse(body,GetBodyTransform(body).pos,Vec(0,0,0))
+                    SetBodyActive(body, true)
                 else 
                     -- DebugPrint("removing a body that is already inactive.")
                     -- DrawBodyOutline(body, 0, 1, 0, 1)
