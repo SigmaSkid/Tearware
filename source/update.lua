@@ -72,12 +72,47 @@ function RestoreValuablesValue()
     end
 end
 
+cachedValuablesPositions = {}
+function CacheValuables() 
+    if #cachedValuablesPositions == 0 then 
+        local v = FindBodies("valuable", true)
+        for i=1,#v do
+            local body = v[i]
+            if IsHandleValid(body) and not IsBodyBroken(body) then
+                local transform = GetBodyTransform(body)
+                local isActive = IsBodyActive(body)
+                table.insert(cachedValuablesPositions, {body, transform, isActive})
+
+
+            end
+        end
+    
+    end
+end
+
+function RestoreValuablesPosition() 
+    if #cachedValuablesPositions > 0 then 
+        for i=1,#cachedValuablesPositions do
+            local v = cachedValuablesPositions[i]
+            if IsHandleValid(v[1]) then 
+                SetBodyTransform(v[1], v[2])
+                SetBodyActive(v[1], v[3])
+                -- can't be bothered with restoring joints.
+            end
+        end
+        cachedValuablesPositions = {}
+    end
+end
+
 function CollectValuables() 
     if not AdvGetBool(cfgstr .. "autocollect") then
+        RestoreValuablesPosition() 
         return
     end
-
+    CacheValuables() 
+    
     local camera = GetCameraTransform()
+
     local v = FindBodies("valuable", true)
     
     if #v == 0 then 
@@ -86,11 +121,18 @@ function CollectValuables()
 
     local angled = (2 * math.pi) / #v
     -- fancy stuff right here ;)
-    local radius = 3 / angled
+    local radius = 2 / angled
 
+	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 1))
+    local direction = VecNormalize(VecSub(camera.pos, parentpoint))
+    local vector = VecScale(direction, (-radius) + 3)
+    vector[2] = -0.3
+    local circleCenter = VecAdd(camera.pos, vector)
+    local spinAngle = GetTime() / 10
+    
     for i=1,#v do
         local body = v[i]
-        if IsHandleValid(body) and GetPlayerInteractBody() ~= body and not IsBodyBroken(body) then
+        if IsHandleValid(body) and not IsBodyBroken(body) then
 
             if IsBodyJointedToStatic(body) then
                 local shapes = GetBodyShapes(body)
@@ -104,12 +146,12 @@ function CollectValuables()
                 end
             end
 
-            local angle = (i - 1) * angled
+            local angle = (i - 1 + spinAngle) * angled
             local x = radius * math.cos(angle)
             local z = radius * math.sin(angle)
 
             local funny = {} 
-            funny.pos = VecCopy(camera.pos)
+            funny.pos = VecCopy(circleCenter)
             funny.pos = VecAdd(funny.pos, {x, 0, z} )
 
             funny.rot = GetBodyTransform(body).rot
