@@ -82,11 +82,8 @@ function CacheValuables()
                 local transform = GetBodyTransform(body)
                 local isActive = IsBodyActive(body)
                 table.insert(cachedValuablesPositions, {body, transform, isActive})
-
-
             end
         end
-    
     end
 end
 
@@ -109,25 +106,31 @@ function CollectValuables()
         RestoreValuablesPosition() 
         return
     end
-    CacheValuables() 
-    
-    local camera = GetCameraTransform()
 
+    CacheValuables() 
+
+    local camera = GetCameraTransform()
     local v = FindBodies("valuable", true)
     
     if #v == 0 then 
         return 
     end
 
+    -- get angle delta between objects 
     local angled = (2 * math.pi) / #v
-    -- fancy stuff right here ;)
+    -- offset objects away from /circleCenter/ 
     local radius = 2 / angled
 
+    -- get the spinning valuables close to our camera by offseting the circle 
 	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 1))
     local direction = VecNormalize(VecSub(camera.pos, parentpoint))
     local vector = VecScale(direction, (-radius) + 3)
+
+    -- offset circle down, so it looks nicer
     vector[2] = -0.3
     local circleCenter = VecAdd(camera.pos, vector)
+
+    -- spin the circle around using time
     local spinAngle = GetTime() / 10
     
     for i=1,#v do
