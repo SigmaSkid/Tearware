@@ -39,7 +39,7 @@ end
 
 activeBodyCache = {}
 function Timer()
-    if not AdvGetBool(cfgstr .. "timer") then 
+    if not AdvGetBool(fBulletTime) then 
         if #activeBodyCache > 0 then
 			activeBodyCache = {}
 		end
@@ -96,7 +96,7 @@ function Timer()
 end
 
 function ForceUpdateAllBodies()
-    if not AdvGetBool(cfgstr .. "forceupdatephysics") then
+    if not AdvGetBool(fForceUpdatePhysics) then
         return 
     end
 
@@ -107,7 +107,7 @@ function ForceUpdateAllBodies()
 end
 
 function DisablePhysics()
-    if not AdvGetBool(cfgstr .. "disablephysics") then
+    if not AdvGetBool(fDisablePhysics) then
         return 
     end
 
@@ -118,7 +118,7 @@ function DisablePhysics()
 end
 
 function Spider() 
-    if not AdvGetBool(cfgstr .. "spider") then 
+    if not AdvGetBool(fSpider) then 
         return 
     end
 
@@ -134,7 +134,7 @@ function Spider()
 end
 
 function Speedhack()
-    if not AdvGetBool(cfgstr .. "speedhack") then 
+    if not AdvGetBool(fSpeed) then 
         return 
     end
 
@@ -178,7 +178,7 @@ function Speedhack()
 end
 
 function Jesus()
-	if not AdvGetBool(cfgstr .. "jesus") then
+	if not AdvGetBool(fJesus) then
         return
     end
     local transform = GetPlayerTransform()
@@ -202,7 +202,7 @@ function Jesus()
 end
 
 function Floorstrafe() 
-    if not AdvGetBool(cfgstr .. "floorstrafe") then 
+    if not AdvGetBool(fFloorStrafe) then 
         return 
     end
 
@@ -215,7 +215,7 @@ function Floorstrafe()
 end
 
 function Jetpack(dts) 
-    if not AdvGetBool(cfgstr .. "jetpack") then 
+    if not AdvGetBool(fJetpack) then 
         return 
     end
 
@@ -233,7 +233,7 @@ function Jetpack(dts)
 end
 
 function Fly()
-    if not AdvGetBool(cfgstr .. "fly") then 
+    if not AdvGetBool(fFly) then 
         return 
     end
 
@@ -299,7 +299,7 @@ function Fly()
 end
 
 function NoClip(dts)
-    if not AdvGetBool(cfgstr .. "noclip") then
+    if not AdvGetBool(fNoclip) then
         noclipbackuppos = nil
         return 
     end
@@ -352,7 +352,7 @@ function NoClip(dts)
 end
 
 function Teleport() 
-    if not AdvGetBool(cfgstr .. "teleport") then 
+    if not AdvGetBool(fTeleport) then 
         return 
     end
     
@@ -362,11 +362,11 @@ function Teleport()
         
         SetPlayerTransform(t, true)
     end
-    SetBool(cfgstr .. "teleport", false)
+    SetBool(cfgstr .. fTeleport[2], false)
 end
 
 function ExplosionBrush() 
-    if not AdvGetBool(cfgstr .. "explosionbrush") then 
+    if not AdvGetBool(fExplosionBrush) then 
         return 
     end
     
@@ -377,7 +377,7 @@ function ExplosionBrush()
 end
 
 function FireBrush() 
-    if not AdvGetBool(cfgstr .. "firebrush") then 
+    if not AdvGetBool(fFireBrush) then 
         return 
     end
     
@@ -389,7 +389,7 @@ function FireBrush()
 end
 
 function Quickstop() 
-    if not AdvGetBool(cfgstr .. "quickstop") then 
+    if not AdvGetBool(fQuickstop) then 
         return 
     end
 

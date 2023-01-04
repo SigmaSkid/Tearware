@@ -1,24 +1,24 @@
 -- tearware on top
 
-function DefineBool(name, var, default) 
-    local feature = {}
-    feature.name = name 
-    feature.var = var
-    featurelist[#featurelist+1] = feature
+#include "source/local.lua"
 
-    if HasKey(cfgstr .. var) and HasKey(cfgstr .. var .. "_key") then 
+function DefineBool(var, default) 
+    featurelist[#featurelist+1] = var
+
+    if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then 
         return 
     end
-    SetBool(cfgstr .. var, default)
-    SetString(cfgstr .. var .. "_key", "null")
+
+    SetBool(cfgstr .. var[2], default)
+    SetString(cfgstr .. var[2] .. "_key", "null")
 end
 
 function DefineTool(var) 
-    if HasKey(cfgstr .. var) and HasKey(cfgstr .. var .. "_key") then 
+    if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then 
         return 
     end
-    SetBool(cfgstr .. var, false)
-    SetString(cfgstr .. var .. "_key", "null")
+    SetBool(cfgstr .. var[2], false)
+    SetString(cfgstr .. var[2] .. "_key", "null")
 end
 
 function DefineInt(var, default) 
@@ -29,68 +29,68 @@ function DefineInt(var, default)
 end
 
 function AdvGetBool(var)
-    if not HasKey(var .. "_key") then 
-        return GetBool(var)
+    if not HasKey(cfgstr .. var[2] .. "_key") then 
+        return GetBool(cfgstr .. var[2])
     end
 
-    local key = GetString(var .. "_key")
+    local key = GetString(cfgstr .. var[2] .. "_key")
     if key == "null" or key == "" or key == nil then 
-        return GetBool(var)
+        return GetBool(cfgstr .. var[2])
     end
 
     if InputPressed(key) then 
-        SetBool(var, not GetBool(var))
+        SetBool(cfgstr .. var[2], not GetBool(cfgstr .. var[2]))
     end
     
-    return GetBool(var) 
+    return GetBool(cfgstr .. var[2]) 
 end
 
 -- dll main, but more gay
 function init()
     -- weapons/aim/triggerbot idk?
-    DefineBool("Infinite Ammo", "infiniteammo", false)
+    DefineBool(fInfiniteAmmo, false)
     
     -- visuals
-    DefineBool("Visuals", "visuals", true)
-    DefineBool("Watermark", "watermark", true)
-    DefineBool("Feature List", "featurelist", false)
-    DefineBool("Objective ESP", "objectiveesp", false)
-    DefineBool("Valuable ESP", "valueesp", false)
-    DefineBool("Tool ESP", "toolesp", false)
-    DefineBool("Weapon Glow", "weaponglow", false)
-    DefineBool("Active Glow", "activeglow", false)
+    DefineBool(fVisuals, true)
+    DefineBool(fWatermark, true)
+    DefineBool(fFeatureList, false)
+    DefineBool(fObjectiveEsp, false)
+    DefineBool(fValuableEsp, false)
+    DefineBool(fToolEsp, false)
+    DefineBool(fWeaponGlow, false)
+    DefineBool(fActiveGlow, false)
     
     -- movement
-    DefineBool("Speed", "speedhack", false)
-    DefineBool("Spider", "spider", false)
-    DefineBool("Fly", "fly", false)
-    DefineBool("Noclip", "noclip", false)
-    DefineBool("Floor Strafe", "floorstrafe", false)
-    DefineBool("Jetpack", "jetpack", false)
-    DefineBool("Jesus", "jesus", false)
-    DefineBool("Quickstop", "quickstop", false)
+    DefineBool(fSpeed, false)
+    DefineBool(fSpider, false)
+    DefineBool(fFly, false)
+    DefineBool(fNoclip, false)
+    DefineBool(fFloorStrafe, false)
+    DefineBool(fJetpack, false)
+    DefineBool(fJesus, false)
+    DefineBool(fQuickstop, false)
     
     -- misc
-    DefineBool("Godmode", "godmode", false)
-    DefineBool("Bullet Time", "timer", false)
-    DefineBool("Skip Objective", "skipobjective", false)
-    DefineBool("Disable Alarm", "disablealarm", false)
-    DefineBool("Disable Physics", "disablephysics", false)
-    DefineBool("Force Update Physics", "forceupdatephysics", false)
+    DefineBool(fGodmode, false)
+    DefineBool(fBulletTime, false)
+    DefineBool(fSkipObjective, false)
+    DefineBool(fDisableAlarm, false)
+    DefineBool(fDisablePhysics, false)
+    DefineBool(fForceUpdatePhysics, false)
 
     -- tools
-    DefineBool("Rubberband", "rubberband", false)
-    DefineBool("Teleport Valuables", "autocollect", false)
-    DefineBool("Unfair Valuables", "inflation", false)
-    DefineTool("teleport")
-    DefineBool("Explosion Brush", "explosionbrush", false)
-    DefineBool("Fire Brush", "firebrush", false)
+    DefineBool(fRubberband, false)
+    DefineBool(fTeleportValuables, false)
+    DefineBool(fUnfairValuables, false)
+    DefineTool(fTeleport)
+    DefineBool(fExplosionBrush, false)
+    DefineBool(fFireBrush, false)
     
     -- sort for feature list.
     UiPush()
         UiFont("bold.ttf", 12)
         table.sort(featurelist, function (left, right)
-            return UiGetTextSize(left.name) > UiGetTextSize(right.name)
+            return UiGetTextSize(left[1]) > UiGetTextSize(right[1])
         end)
     UiPop()
 end

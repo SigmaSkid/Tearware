@@ -15,7 +15,7 @@ function update(dt)
 end
 
 function InfiniteAmmo() 
-    if not AdvGetBool(cfgstr .. "infiniteammo") then 
+    if not AdvGetBool(fInfiniteAmmo) then 
         return 
     end
 
@@ -34,7 +34,7 @@ function InfiniteAmmo()
 end
 
 function UnfairPrices()
-	if not AdvGetBool(cfgstr .. "inflation") then
+	if not AdvGetBool(fUnfairValuables) then
         RestoreValuablesValue() 
         return
     end
@@ -102,7 +102,7 @@ function RestoreValuablesPosition()
 end
 
 function CollectValuables() 
-    if not AdvGetBool(cfgstr .. "autocollect") then
+    if not AdvGetBool(fTeleportValuables) then
         RestoreValuablesPosition() 
         return
     end
@@ -166,7 +166,7 @@ end
 
 function Rubberband() 
     
-    if not AdvGetBool(cfgstr .. "rubberband") then
+    if not AdvGetBool(fRubberband) then
         rubberband_pos = nil
 
         if rubberband_transform == nil then 
@@ -190,7 +190,7 @@ function Rubberband()
 end
 
 function Disablealarm()
-	if not AdvGetBool(cfgstr .. "disablealarm") then
+	if not AdvGetBool(fDisableAlarm) then
         return
     end
 
@@ -213,7 +213,7 @@ function Disablealarm()
 end
 
 function Godmode() 
-    if not AdvGetBool(cfgstr .. "godmode") then
+    if not AdvGetBool(fGodmode) then
         return 
     end
 	
@@ -223,7 +223,7 @@ function Godmode()
 end
 
 function SkipObjective()
-    if not AdvGetBool(cfgstr .. "skipobjective") then
+    if not AdvGetBool(fSkipObjective) then
         return
     end
 

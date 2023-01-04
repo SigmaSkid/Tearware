@@ -3,7 +3,7 @@
 #include "menu.lua"
 
 function Watermark()
-    if not AdvGetBool(cfgstr .. "watermark") then 
+    if not AdvGetBool(fWatermark) then 
         return 
     end
 
@@ -20,7 +20,7 @@ function Watermark()
 end
 
 function FeatureList()
-    if not AdvGetBool(cfgstr .. "featurelist") then 
+    if not AdvGetBool(fFeatureList) then 
         return 
     end
 
@@ -30,7 +30,7 @@ function FeatureList()
         UiTranslate(0, 0)
         UiAlign("top left")
 
-        if AdvGetBool(cfgstr .. "watermark") then 
+        if AdvGetBool(fWatermark) then 
             UiTranslate(0, 25)
         end
 
@@ -39,12 +39,12 @@ function FeatureList()
         UiTextOutline(0, 0, 0, 0.7, 0.07)
 
         for i=1, #featurelist do
-            if GetBool(cfgstr .. featurelist[i].var) then 
+            if GetBool(cfgstr .. featurelist[i][2]) then 
                 visibleFeatures = visibleFeatures + 0.01
                 local rgb = seedToRGB(GetTime() + visibleFeatures)
                 UiColor(rgb.R, rgb.G, rgb.B, 1)
 
-                UiText(featurelist[i].name, true)
+                UiText(featurelist[i][1], true)
             end
         end
 
@@ -52,7 +52,7 @@ function FeatureList()
 end
 
 function WeaponGlow() 
-    if not AdvGetBool(cfgstr .. "weaponglow") then 
+    if not AdvGetBool(fWeaponGlow) then 
         return 
     end
 
@@ -65,7 +65,7 @@ function WeaponGlow()
 end
 
 function ActiveGlow() 
-    if not AdvGetBool(cfgstr .. "activeglow") then 
+    if not AdvGetBool(fActiveGlow) then 
         return 
     end
     local bodies = FindBodies(nil,true)
@@ -80,7 +80,7 @@ function ActiveGlow()
 end
 
 function ObjectiveEsp() 
-    if not AdvGetBool(cfgstr .. "objectiveesp") then 
+    if not AdvGetBool(fObjectiveEsp) then 
         return 
     end
 
@@ -120,7 +120,7 @@ function ObjectiveEsp()
 end
 
 function ValueableEsp() 
-    if not AdvGetBool(cfgstr .. "valueesp") then 
+    if not AdvGetBool(fValuableEsp) then 
         return 
     end
 
@@ -150,7 +150,7 @@ function ValueableEsp()
 end
 
 function ToolEsp() 
-    if not AdvGetBool(cfgstr .. "toolesp") then 
+    if not AdvGetBool(fToolEsp) then 
         return 
     end
 
@@ -183,7 +183,7 @@ function ToolEsp()
 end
 
 function VisualsDraw()
-    if not AdvGetBool(cfgstr .. "visuals") then 
+    if not AdvGetBool(fVisuals) then 
         return 
     end
 

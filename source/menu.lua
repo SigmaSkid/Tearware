@@ -68,55 +68,55 @@ function DrawMenu()
             if GetInt(cfgstr .. "activetab") == 0 then 
                 -- weapons/aim/triggerbot idk?
 
-                Checkbox("Infinite Ammo", "infiniteammo")
+                Checkbox(fInfiniteAmmo)
 
             elseif GetInt(cfgstr .. "activetab") == 1 then 
                 -- visuals
 
-                Checkbox("Visuals", "visuals")
+                Checkbox(fVisuals)
                 if GetBool(cfgstr .. "visuals") then 
                 
-                    Checkbox("Watermark", "watermark")
-                    Checkbox("Feature List", "featurelist")
-                    Checkbox("Objective ESP", "objectiveesp")
-                    Checkbox("Valuable ESP", "valueesp")
-                    Checkbox("Tool ESP", "toolesp")
-                    Checkbox("Weapon Glow", "weaponglow")
-                    Checkbox("Active Glow", "activeglow")
+                    Checkbox(fWatermark)
+                    Checkbox(fFeatureList)
+                    Checkbox(fObjectiveEsp)
+                    Checkbox(fValuableEsp)
+                    Checkbox(fToolEsp)
+                    Checkbox(fWeaponGlow)
+                    Checkbox(fActiveGlow)
 
                 end
 
             elseif GetInt(cfgstr .. "activetab") == 2 then 
                 -- movement
 
-                Checkbox("Speed", "speedhack")
-                Checkbox("Spider", "spider")
-                Checkbox("Fly", "fly")
-                Checkbox("Noclip", "noclip")
-                Checkbox("Floor Strafe", "floorstrafe")
-                Checkbox("Jetpack", "jetpack")
-                Checkbox("Jesus", "jesus")
-                Checkbox("Quickstop", "quickstop")
+                Checkbox(fSpeed)
+                Checkbox(fSpider)
+                Checkbox(fFly)
+                Checkbox(fNoclip)
+                Checkbox(fFloorStrafe)
+                Checkbox(fJetpack)
+                Checkbox(fJesus)
+                Checkbox(fQuickstop)
 
             elseif GetInt(cfgstr .. "activetab") == 3 then 
                 -- misc
 
-                Checkbox("Godmode", "godmode")
-                Checkbox("Bullet Time", "timer")
-                Checkbox("Skip Objective", "skipobjective")
-                Checkbox("Disable Alarm", "disablealarm")
-                Checkbox("Disable Physics", "disablephysics")
-                Checkbox("Force Update Physics", "forceupdatephysics")
+                Checkbox(fGodmode)
+                Checkbox(fBulletTime)
+                Checkbox(fSkipObjective)
+                Checkbox(fDisableAlarm)
+                Checkbox(fDisablePhysics)
+                Checkbox(fForceUpdatePhysics)
             
             elseif GetInt(cfgstr .. "activetab") == 4 then 
                 -- tools
 
-                Checkbox("Rubberband", "rubberband")
-                Checkbox("Teleport Valuables", "autocollect")
-                Checkbox("Unfair Valuables", "inflation")
-                Checkbox("Teleport", "teleport")
-                Checkbox("Explosion Brush", "explosionbrush")
-                Checkbox("Fire Brush", "firebrush")
+                Checkbox(fRubberband)
+                Checkbox(fTeleportValuables)
+                Checkbox(fUnfairValuables)
+                Checkbox(fTeleport)
+                Checkbox(fExplosionBrush)
+                Checkbox(fFireBrush)
 
             end
         UiPop()
@@ -124,20 +124,21 @@ function DrawMenu()
     UiPop() 
 end
 
-function Checkbox(name, var)
+function Checkbox(var)
     UiPush()
     UiAlign("left top")
     
-    local currentkey = GetString(cfgstr .. var .. "_key")
+    local currentkey = GetString(cfgstr .. var[2] .. "_key")
     local kw, kh = UiGetTextSize(" - " .. currentkey)
 
-    local namew, nameh = UiGetTextSize(name)
+    local namew, nameh = UiGetTextSize(var[1])
     
     if UiIsMouseInRect(namew + kw, nameh) then
         UiColor(0.6, 0.6, 0.6, 1)
 
         if InputPressed("rmb") then 
-            filthyglobal_editingkeybind = var
+
+            filthyglobal_editingkeybind = var[2]
         end
     end
 
@@ -145,29 +146,29 @@ function Checkbox(name, var)
     UiTextOutline(0, 0, 0, 1, 0.1)
 
     -- highlight the checkbox, if this is the keybind we're editing
-    if filthyglobal_editingkeybind == var then
+    if filthyglobal_editingkeybind == var[2] then
         UiColor(1.0, 1.0, 0.6, 1)    
-    elseif GetBool(cfgstr .. var) then 
+    elseif GetBool(cfgstr .. var[2]) then 
         UiColor(0.6, 1.0, 0.6, 1)
     else 
         UiColor(1.0, 0.6, 0.6, 1)
     end
 
-    if UiTextButton(name) then
-        SetBool(cfgstr .. var, not GetBool(cfgstr .. var))
+    if UiTextButton(var[1]) then
+        SetBool(cfgstr .. var[2], not GetBool(cfgstr .. var[2]))
     end
 
     -- check if this is the checkbox of the keybind we're editing
-    if filthyglobal_editingkeybind == var then
+    if filthyglobal_editingkeybind == var[2] then
         local lastKey = InputLastPressedKey()
         -- if a button was pressed
         if lastKey ~= "" then 
             if lastKey == "return" or lastKey == "esc" or lastKey == "insert" then 
                 -- remove keybind
-                SetString(cfgstr .. var .. "_key", "null") 
+                SetString(cfgstr .. var[2] .. "_key", "null") 
                 currentkey = ""  
             else
-                SetString(cfgstr .. var .. "_key", lastKey)
+                SetString(cfgstr .. var[2] .. "_key", lastKey)
                 currentkey = lastKey
             end
             -- we're no longer editing a keybind.
