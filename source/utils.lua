@@ -30,15 +30,8 @@ function TransformYawByInput(y)
         end
     end
 
-    -- clamp
-    while y > 180 do
-        y = y - 360
-    end
-    while y < -180 do
-        y = y + 360
-    end
-
-    return y
+    -- clamp it
+    return math.fmod(y + 180, 360) - 180
 end
 
 function IsDirectionalInputDown() 
