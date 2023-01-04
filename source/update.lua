@@ -27,6 +27,7 @@ function InfiniteAmmo()
     local pTool = GetString("game.player.tool")
     local Ammo = GetInt("savegame.tool."..pTool..".ammo")
     if Ammo == nil or Ammo == 0 then 
+        -- seems like the engine really likes 9999
         Ammo = 9999
     end
     SetInt("game.tool."..pTool..".ammo", Ammo)
@@ -180,12 +181,6 @@ function SkipObjective()
     if not AdvGetBool(cfgstr .. "skipobjective") then
         return
     end
-
-    if HasKey("temp_" .. cfgstr .. "skipobjective") then 
-        return
-    end
-
-    SetBool("temp_" .. cfgstr .. "skipobjective", true)
 
 	local targets = FindBodies("target", true)
 
