@@ -182,6 +182,12 @@ function SkipObjective()
         return
     end
 
+    if skipped_objective then 
+        return
+    end 
+
+    skipped_objective = true
+
 	local targets = FindBodies("target", true)
 
 	for i=1, #targets do
