@@ -122,7 +122,7 @@ function CollectValuables()
     local radius = 2 / angled
 
     -- get the spinning valuables close to our camera by offseting the circle 
-	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 1))
+    local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 1))
     local direction = VecNormalize(VecSub(camera.pos, parentpoint))
     local vector = VecScale(direction, (-radius) + 3)
 
