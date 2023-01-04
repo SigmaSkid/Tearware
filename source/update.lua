@@ -42,15 +42,13 @@ end
 -- mods aren't allowed to modify the savefile? who cares?
 valuablesBackup = {}
 function IncreaseValuablesValue()
-    local targetMoney = 1000000
+    local targetMoney = 100000000
     local playerMoney = GetInt("savegame.cash")
 
     -- check if money overflows
     if playerMoney > 2100000000 then
-        local v = valuablesBackup[i]
-        if IsHandleValid(v[1]) then
-            targetMoney = v[2]
-        end
+        RestoreValuablesValue()
+        return
     end
 
     if playerMoney < 0 then
