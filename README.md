@@ -14,6 +14,7 @@ Alternatively open it from the pause menu.
 - Tool ESP
 - Weapon Glow
 - Active Glow
+- Colored Fog
 - Speed
 - Spider
 - Fly
