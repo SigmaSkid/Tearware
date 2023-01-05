@@ -5,7 +5,6 @@ Alternatively open it from the pause menu
 
 [h2]Features:[/h2]
 [list]
-[*] Infinite Ammo
 [*] Objective ESP
 [*] Valuable ESP
 [*] Tool ESP
@@ -19,6 +18,7 @@ Alternatively open it from the pause menu
 [*] Jetpack
 [*] Jesus
 [*] Quickstop
+[*] Infinite Ammo
 [*] Godmode
 [*] Bullet Time
 [*] Skip Objective
