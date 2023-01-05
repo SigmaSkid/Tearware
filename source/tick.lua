@@ -17,6 +17,7 @@ function tick(dt)
     Timer()
     ForceUpdateAllBodies()
     DisablePhysics()
+    ColoredFog()
 
     if GetPlayerVehicle() ~= 0 then
         -- in vehicle
@@ -37,7 +38,6 @@ function tick(dt)
     Quickstop()
 end
 
-activeBodyCache = {}
 function Timer()
     if not AdvGetBool(fBulletTime) then 
         if #activeBodyCache > 0 then
@@ -144,9 +144,9 @@ function Speedhack()
 
     local velocity = GetPlayerVelocity()
 
-    local TargetVel = 14
+    local TargetVel = GetSubFloat(fSpeed, fSpeedAmount)
     if InputDown("shift") then 
-        TargetVel = 28 
+        TargetVel = GetSubFloat(fSpeed, fSpeedBoost)
     end
 
     -- scary math below, run.
@@ -174,7 +174,6 @@ function Speedhack()
     velocity[2] = GetPlayerVelocity()[2]
 
     SetPlayerVelocity(velocity)
-
 end
 
 function Jesus()
@@ -400,4 +399,22 @@ function Quickstop()
     local velocity = {0, 0, 0}
     velocity[2] = GetPlayerVelocity()[2]
     SetPlayerVelocity(velocity) 
+end
+
+function ColoredFog() 
+    if not AdvGetBool(fRainbowFog) then 
+        if #cached_fog_color > 0 then 
+            SetEnvironmentProperty("fogcolor", cached_fog_color[1], cached_fog_color[2], cached_fog_color[3])
+            cached_fog_color = {}
+        end
+        return 
+    end
+
+    -- cache fog color
+    if #cached_fog_color == 0 then 
+        cached_fog_color[1], cached_fog_color[2], cached_fog_color[3] = GetEnvironmentProperty("fogcolor")
+    else
+        local color = GetColor(fRainbowFog, GetTime())
+        SetEnvironmentProperty("fogcolor", color.red, color.green, color.blue)
+    end
 end

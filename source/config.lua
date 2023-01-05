@@ -6,7 +6,9 @@ function DefineBool(var, default)
     featurelist[#featurelist+1] = var
 
     if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then 
-        return 
+        if not overrideConfigValues then 
+            return
+        end
     end
 
     SetBool(cfgstr .. var[2], default)
@@ -15,17 +17,87 @@ end
 
 function DefineTool(var) 
     if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then 
-        return 
+        if not overrideConfigValues then 
+            return
+        end
     end
     SetBool(cfgstr .. var[2], false)
     SetString(cfgstr .. var[2] .. "_key", "null")
 end
 
-function DefineInt(var, default) 
-    if HasKey(cfgstr .. var) then 
+colorStuff = {"_red", "_green", "_blue", "_alpha", "_rainbow"}
+function DefineColor(var, default) 
+    for i = 1, #colorStuff-1 do
+        if (not HasKey(cfgstr .. var[2] .. colorStuff[i])) or overrideConfigValues then 
+            SetFloat(cfgstr .. var[2] .. colorStuff[i], default[i])
+        end    
+    end
+
+    if (not HasKey(cfgstr .. var[2] .. colorStuff[#colorStuff])) or overrideConfigValues then 
+        SetBool(cfgstr .. var[2] .. colorStuff[#colorStuff], default[#colorStuff])
+    end    
+end
+
+function DefineSubFloat(var, sub, default) 
+    if HasKey(cfgstr .. var[2] .. sub[2]) then 
+        if not overrideConfigValues then 
+            return
+        end
+    end
+    SetFloat(cfgstr .. var[2] .. sub[2], default)
+end
+
+function GetSubFloat(var, sub)
+    return GetFloat(cfgstr .. var[2] .. sub[2])
+end
+
+function SetSubFloat(var, sub, value)
+    return SetFloat(cfgstr .. var[2] .. sub[2], value)
+end
+
+function DefineSubBool(var, sub, default) 
+    if HasKey(cfgstr .. var[2] .. sub[2]) then 
+        if not overrideConfigValues then 
+            return
+        end
+    end
+    SetBool(cfgstr .. var[2] .. sub[2], default)
+end
+
+function GetSubBool(var, sub)
+    return GetBool(cfgstr .. var[2], sub[2])
+end
+
+function SetSubBool(var, sub, value)
+    return SetBool(cfgstr .. var[2] .. sub[2], value)
+end
+
+function GetColor(var, seed)
+    local color = {}
+    color.rainbow = GetBool(cfgstr .. var[2] .. colorStuff[5])
+    if color.rainbow then 
+        color.red = math.sin(seed + 0) * 0.5 + 0.5;
+        color.green = math.sin(seed + 2) * 0.5 + 0.5;
+        color.blue = math.sin(seed + 4) * 0.5 + 0.5;
+    else
+        color.red = GetFloat(cfgstr .. var[2] .. colorStuff[1])
+        color.green = GetFloat(cfgstr .. var[2] .. colorStuff[2])
+        color.blue = GetFloat(cfgstr .. var[2] .. colorStuff[3])
+    end
+    color.alpha = GetFloat(cfgstr .. var[2] .. colorStuff[4])
+
+    return color
+end
+
+function SetColor(var, color)
+    SetBool(cfgstr .. var[2] .. colorStuff[5], color.rainbow)
+    SetFloat(cfgstr .. var[2] .. colorStuff[4], color.alpha)
+    if color.rainbow then 
         return 
     end
-    SetInt(cfgstr .. var, default)
+    SetFloat(cfgstr .. var[2] .. colorStuff[1], color.red)
+    SetFloat(cfgstr .. var[2] .. colorStuff[2], color.green)
+    SetFloat(cfgstr .. var[2] .. colorStuff[3], color.blue)
 end
 
 function AdvGetBool(var)
@@ -45,23 +117,41 @@ function AdvGetBool(var)
     return GetBool(cfgstr .. var[2]) 
 end
 
--- dll main, but more gay
-function init()
-    -- weapons/aim/triggerbot idk?
-    DefineBool(fInfiniteAmmo, false)
-    
+function ResetConfig() 
     -- visuals
     DefineBool(fVisuals, true)
     DefineBool(fWatermark, true)
+    DefineColor(fWatermark, {1, 1, 1, 1, true} )
+
     DefineBool(fFeatureList, false)
+    DefineColor(fFeatureList, {1, 1, 1, 1, true} )
+
     DefineBool(fObjectiveEsp, false)
+    DefineColor(fObjectiveEsp, {0.7, 0.3, 0.3, 0.7, false} )
+
+    DefineBool(fOptionalEsp, false)
+    DefineColor(fOptionalEsp, {0.3, 0.3, 0.7, 0.7, false} )
+
     DefineBool(fValuableEsp, false)
+    DefineColor(fValuableEsp, {0.3, 0.7, 0.3, 0.7, false} )
+
     DefineBool(fToolEsp, false)
+    DefineColor(fToolEsp, {0.7, 0.7, 0.3, 0.7, false} )
+
     DefineBool(fWeaponGlow, false)
+    DefineColor(fWeaponGlow, {1, 1, 1, 1, true} )
+
     DefineBool(fActiveGlow, false)
+    DefineColor(fActiveGlow, {1, 1, 1, 1, true} )
+
+    DefineBool(fRainbowFog, false)
+    DefineColor(fRainbowFog, {1, 1, 1, 1, true} )
     
     -- movement
     DefineBool(fSpeed, false)
+    DefineSubFloat(fSpeed, fSpeedAmount, 14)
+    DefineSubFloat(fSpeed, fSpeedBoost, 28)
+
     DefineBool(fSpider, false)
     DefineBool(fFly, false)
     DefineBool(fNoclip, false)
@@ -71,6 +161,7 @@ function init()
     DefineBool(fQuickstop, false)
     
     -- misc
+    DefineBool(fInfiniteAmmo, false)
     DefineBool(fGodmode, false)
     DefineBool(fBulletTime, false)
     DefineBool(fSkipObjective, false)
@@ -80,12 +171,17 @@ function init()
 
     -- tools
     DefineBool(fRubberband, false)
+    DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
+
     DefineBool(fTeleportValuables, false)
     DefineBool(fUnfairValuables, false)
     DefineTool(fTeleport)
     DefineBool(fExplosionBrush, false)
     DefineBool(fFireBrush, false)
     
+    -- debug & config
+    
+
     -- sort for feature list.
     UiPush()
         UiFont("bold.ttf", 12)
@@ -93,4 +189,10 @@ function init()
             return UiGetTextSize(left[1]) > UiGetTextSize(right[1])
         end)
     UiPop()
+end
+
+-- dll main, but more gay
+function init()
+    overrideConfigValues = false
+    ResetConfig() 
 end

@@ -66,30 +66,52 @@ function DrawMenu()
         
         UiPush()
             if GetInt(cfgstr .. "activetab") == 0 then 
-                -- weapons/aim/triggerbot idk?
-
-                Checkbox(fInfiniteAmmo)
-
-            elseif GetInt(cfgstr .. "activetab") == 1 then 
                 -- visuals
 
                 Checkbox(fVisuals)
                 if GetBool(cfgstr .. "visuals") then 
                 
                     Checkbox(fWatermark)
+                    ColorSelector(fWatermark)
+
                     Checkbox(fFeatureList)
+                    ColorSelector(fFeatureList)
+
                     Checkbox(fObjectiveEsp)
+                    ColorSelector(fObjectiveEsp)
+
+                    if AdvGetBool(fObjectiveEsp) then 
+                        Checkbox(fOptionalEsp)
+                        ColorSelector(fOptionalEsp)
+                    end
+
                     Checkbox(fValuableEsp)
+                    ColorSelector(fValuableEsp)
+
                     Checkbox(fToolEsp)
+                    ColorSelector(fToolEsp)
+
                     Checkbox(fWeaponGlow)
+                    ColorSelector(fWeaponGlow)
+
                     Checkbox(fActiveGlow)
+                    ColorSelector(fActiveGlow)
+
+                    Checkbox(fRainbowFog)
+                    ColorSelector(fRainbowFog, false)
 
                 end
 
-            elseif GetInt(cfgstr .. "activetab") == 2 then 
+            elseif GetInt(cfgstr .. "activetab") == 1 then 
                 -- movement
 
                 Checkbox(fSpeed)
+                if FunnySubmenuBegin(fSpeed, 120, 80) then 
+                    SubSettingSlider(fSpeed, fSpeedAmount, 10, 30)
+                    SubSettingSlider(fSpeed, fSpeedBoost, 10, 40)
+                    UiPop()
+                end
+
                 Checkbox(fSpider)
                 Checkbox(fFly)
                 Checkbox(fNoclip)
@@ -98,9 +120,10 @@ function DrawMenu()
                 Checkbox(fJesus)
                 Checkbox(fQuickstop)
 
-            elseif GetInt(cfgstr .. "activetab") == 3 then 
+            elseif GetInt(cfgstr .. "activetab") == 2 then 
                 -- misc
 
+                Checkbox(fInfiniteAmmo)
                 Checkbox(fGodmode)
                 Checkbox(fBulletTime)
                 Checkbox(fSkipObjective)
@@ -108,17 +131,27 @@ function DrawMenu()
                 Checkbox(fDisablePhysics)
                 Checkbox(fForceUpdatePhysics)
             
-            elseif GetInt(cfgstr .. "activetab") == 4 then 
+            elseif GetInt(cfgstr .. "activetab") == 3 then 
                 -- tools
 
                 Checkbox(fRubberband)
+                ColorSelector(fRubberband, false)
+
                 Checkbox(fTeleportValuables)
                 Checkbox(fUnfairValuables)
                 Checkbox(fTeleport)
                 Checkbox(fExplosionBrush)
                 Checkbox(fFireBrush)
 
+            elseif GetInt(cfgstr .. "activetab") == 4 then 
+                -- debug
+                if Button("Reset Config Settings") then 
+                    overrideConfigValues = true
+                    ResetConfig() 
+                    overrideConfigValues = false
+                end
             end
+
         UiPop()
 
     UiPop() 
@@ -137,7 +170,6 @@ function Checkbox(var)
         UiColor(0.6, 0.6, 0.6, 1)
 
         if InputPressed("rmb") then 
-
             filthyglobal_editingkeybind = var[2]
         end
     end
@@ -193,8 +225,6 @@ function Button(name)
 
     UiTextShadow(0, 0, 0, 0.5, 2.0)
     
-    UiColor(1.0, 0.6, 1.0, 1)
-    
     if UiTextButton(name) then
         UiPop()
         UiText("", true)
@@ -231,4 +261,174 @@ function NavSep(tabid)
         UiColor(0.23, 0.23, 0.23, 1)
         UiRect(3, UiHeight() * 0.15)
     UiPop()
+end
+
+function ColorSelector(var, alpha)
+    if alpha == nil then 
+        alpha = true
+    end
+
+    local color = GetColor(var, GetTime())
+
+    if active_sub_menu == var[2] then 
+        local length = 160 
+        if not alpha then 
+            length = length - 30
+        end
+
+        UiPush()
+            UiTranslate(UiWidth() - 5, -20)
+            if InputPressed("lmb") then 
+                if not UiIsMouseInRect(120, length) then
+                    active_sub_menu = nil
+                end
+            end
+
+            UiPush()
+                UiColor(0.23, 0.23, 0.23, 1)
+                UiRect(120, length)
+
+                UiTranslate(2, 2)
+
+                UiColor(0.53, 0.53, 0.53, 0.6)
+                UiRect(116, length-4)
+
+                UiTranslate(10, length - 35)
+
+                if color.rainbow then 
+                    UiColor(0.6, 1.0, 0.6, 1)
+                else 
+                    UiColor(1.0, 0.6, 0.6, 1)
+                end
+
+                if Button("rainbow") then 
+                    color.rainbow = not color.rainbow
+                end
+            UiPop()
+
+            UiPush()
+
+                UiTranslate(20, 30)
+                UiColor(1, 0.5, 0.5)
+                color.red = optionsSlider(color.red * 100, 0, 100, 40) / 100
+
+                UiTranslate(0, 30)
+                UiColor(0.5, 1, 0.5)
+                color.green = optionsSlider(color.green * 100, 0, 100, 40) / 100
+
+                UiTranslate(0, 30)
+                UiColor(0.5, 0.5, 1)
+                color.blue = optionsSlider(color.blue * 100, 0, 100, 40) / 100
+                
+                if alpha then 
+                    UiTranslate(0, 30)
+                    UiColor(0.7, 0.7, 0.7)
+                    color.alpha = optionsSlider(color.alpha * 100, 0, 100, 40) / 100
+                end
+            UiPop()
+
+        UiPop() 
+        
+        SetColor(var, color)
+    end
+
+    UiPush()
+        UiAlign("left top")
+        UiTranslate(UiWidth() - 35, -20)
+
+        local colorSquareSize = 20
+
+        UiColor(0.3,0.3,0.3,1)
+        UiRect(colorSquareSize, colorSquareSize)
+        UiTranslate(1, 1)
+
+        UiColor(color.red, color.green, color.blue,1)
+        UiRect(colorSquareSize-2, colorSquareSize-2)
+
+
+        if UiIsMouseInRect(colorSquareSize, colorSquareSize) then
+            if InputPressed("lmb") then 
+                active_sub_menu = var[2]
+            elseif InputPressed("rmb") then 
+                funnyColorCopyCache = color
+            elseif InputPressed("mmb") then 
+                SetColor(var, funnyColorCopyCache)
+            end
+        end
+    UiPop()
+end
+
+function optionsSlider(val, mi, ma, width)
+	UiPush()	
+        UiTranslate(0, -8)
+        UiTextShadow(0, 0, 0, 0.5, 1.5)
+        UiTextOutline(0, 0, 0, 1, 0.1)
+		val = (val-mi) / (ma-mi)
+		
+		UiRect(width, 3)
+		UiAlign("center middle")
+		val = UiSlider("ui/common/dot.png", "x", val*width, 0, width) / width
+		val = math.floor(val*(ma-mi)+mi)
+
+		UiTranslate(width + 30, 0)
+		UiText(val)
+	UiPop()
+	return val
+end
+
+function SubSettingSlider(var, sub, min, max) 
+    UiPush()
+        UiColor(1,1,1,1)
+        local value = GetSubFloat(var, sub)
+        value = optionsSlider(value, min, max, 40)
+        SetSubFloat(var, sub, value)
+    UiPop()
+    UiTranslate(0, 30)
+end
+
+function FunnySubmenuBegin(var, w, h)
+    local literallyJustEnabled = false
+    UiPush()
+        UiAlign("left top")
+        UiTranslate(UiWidth() - 35, -20)
+        
+        local colorSquareSize = 20
+        UiPush()
+            UiColor(0.3,0.3,0.3,1)
+            UiRect(colorSquareSize, colorSquareSize)
+            UiTranslate(2,2)
+            UiColor(0.7,0.7,0.7,1)
+            UiRect(colorSquareSize-2, colorSquareSize-2)
+        UiPop()
+
+        if UiIsMouseInRect(colorSquareSize, colorSquareSize) then
+            if InputPressed("lmb") then 
+                active_sub_menu = var[2]
+                literallyJustEnabled = true
+            end
+        end
+    UiPop()
+    local enabled = active_sub_menu == var[2]
+
+    if enabled then 
+        UiPush()
+            UiTranslate(UiWidth() - 5, -20)
+            if not UiIsMouseInRect(w, h) then
+                if not literallyJustEnabled then 
+                    if InputPressed("lmb") then 
+                        active_sub_menu = nil
+                    end    
+                end
+            end
+            UiColor(0.23, 0.23, 0.23, 1)
+            UiRect(w, h)
+
+            UiTranslate(1, 1)
+
+            UiColor(0.53, 0.53, 0.53, 0.6)
+            UiRect(w -4, h-4)
+            UiTranslate(20, 30)
+
+    end
+    return enabled
 end

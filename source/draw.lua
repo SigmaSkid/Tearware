@@ -8,13 +8,13 @@ function Watermark()
     end
 
     UiPush()
-        local rgb = seedToRGB(GetTime())
-        UiColor(rgb.R, rgb.G, rgb.B, 1)
+        local color = GetColor(fWatermark, GetTime())
+        UiColor(color.red, color.green, color.blue, color.alpha)
         UiTranslate(0, 0)
         UiAlign("left top")
         UiFont("bold.ttf", 25)
-        UiTextShadow(0, 0, 0, 0.5, 1.5)
-        UiTextOutline(0, 0, 0, 0.7, 0.07)
+        UiTextShadow(0, 0, 0, color.alpha, 1.5)
+        UiTextOutline(0, 0, 0, color.alpha, 0.07)
         UiText("Tearware")
     UiPop()
 end
@@ -24,7 +24,7 @@ function FeatureList()
         return 
     end
 
-    local visibleFeatures = 0.01
+    local visibleFeatures = 0.05
 
     UiPush()
         UiTranslate(0, 0)
@@ -34,15 +34,17 @@ function FeatureList()
             UiTranslate(0, 25)
         end
 
+        local color = GetColor(fFeatureList, GetTime())
+
         UiFont("bold.ttf", 12)
-        UiTextShadow(0, 0, 0, 0.2, 1.5)
-        UiTextOutline(0, 0, 0, 0.7, 0.07)
+        UiTextShadow(0, 0, 0, color.alpha, 1.5)
+        UiTextOutline(0, 0, 0, color.alpha, 0.07)
 
         for i=1, #featurelist do
             if GetBool(cfgstr .. featurelist[i][2]) then 
-                visibleFeatures = visibleFeatures + 0.01
-                local rgb = seedToRGB(GetTime() + visibleFeatures)
-                UiColor(rgb.R, rgb.G, rgb.B, 1)
+                visibleFeatures = visibleFeatures + 0.05
+                local color = GetColor(fFeatureList, GetTime() + visibleFeatures)
+                UiColor(color.red, color.green, color.blue, color.alpha)
 
                 UiText(featurelist[i][1], true)
             end
@@ -58,9 +60,8 @@ function WeaponGlow()
 
     local toolBody = GetToolBody()
     if toolBody~=0 then
-
-        local rgb = seedToRGB(GetTime())
-        DrawBodyOutline(toolBody, rgb.R, rgb.G, rgb.B, 1)
+        local color = GetColor(fWeaponGlow, GetTime())
+        DrawBodyOutline(toolBody, color.red, color.green, color.blue, color.alpha)
     end
 end
 
@@ -69,12 +70,15 @@ function ActiveGlow()
         return 
     end
     local bodies = FindBodies(nil,true)
+    local color = GetColor(fActiveGlow, GetTime())
+
 	for i=1,#bodies do
 		local body = bodies[i]
 		if IsBodyActive(body) then
-            local rgb = seedToRGB(GetTime() + (i / 10))
-            
-            DrawBodyOutline(body, rgb.R, rgb.G, rgb.B, 1)
+            if i % 10 == 0 then 
+                color = GetColor(fActiveGlow, GetTime() + i)
+            end 
+            DrawBodyOutline(body, color.red, color.green, color.blue, color.alpha)
         end
     end
 end
@@ -83,6 +87,10 @@ function ObjectiveEsp()
     if not AdvGetBool(fObjectiveEsp) then 
         return 
     end
+
+    local drawOptional = AdvGetBool(fOptionalEsp)
+    local objectiveColor = GetColor(fObjectiveEsp, GetTime())
+    local optionalColor = GetColor(fOptionalEsp, GetTime())
 
     local targets = FindBodies("target", true)
 	for i=1,#targets do
@@ -95,25 +103,31 @@ function ObjectiveEsp()
                 UiPush()
                     UiFont("bold.ttf", 16)
                     UiAlign("center middle")
-                    UiTextShadow(0, 0, 0, 0.5, 1.5)
-                    UiTextOutline(0, 0, 0, 0.7, 0.1)
-                    
                     UiTranslate(x, y)
                     if optional then 
-                        UiColor(0.3, 0.3, 0.7, 0.7)
-                        UiText("Optional", true)
+                        if drawOptional then 
+                            UiTextShadow(0, 0, 0, optionalColor.alpha, 1.5)
+                            UiTextOutline(0, 0, 0, optionalColor.alpha, 0.1)
+                            UiColor(optionalColor.red, optionalColor.green, optionalColor.blue, optionalColor.alpha)
+                            UiText("Optional", true)
+                            UiText(math.floor(dist) .. "m")
+                        end
                     else 
-                        UiColor(0.7, 0.3, 0.3, 0.7)
+                        UiTextShadow(0, 0, 0, objectiveColor.alpha, 1.5)
+                        UiTextOutline(0, 0, 0, objectiveColor.alpha, 0.1)
+                        UiColor(objectiveColor.red, objectiveColor.green, objectiveColor.blue, objectiveColor.alpha)
                         UiText("Target", true)
+                        UiText(math.floor(dist) .. "m")
                     end
-                    UiText(math.floor(dist) .. "m")
                 UiPop() 
             end
 
             if optional then 
-                DrawBodyOutline(body, 0.3, 0.3, 0.7, 0.3)
+                if drawOptional then 
+                    DrawBodyOutline(body, optionalColor.red, optionalColor.green, optionalColor.blue, optionalColor.alpha)
+                end
             else 
-                DrawBodyOutline(body, 0.7, 0.3, 0.3, 0.3)
+                DrawBodyOutline(body, objectiveColor.red, objectiveColor.green, objectiveColor.blue, objectiveColor.alpha)
             end
         end
 	end
@@ -123,6 +137,7 @@ function ValueableEsp()
     if not AdvGetBool(fValuableEsp) then 
         return 
     end
+    local color = GetColor(fValuableEsp)
 
     local v = FindBodies("valuable", true)
     for i=1,#v do
@@ -135,16 +150,16 @@ function ValueableEsp()
                  UiPush()
                     UiFont("bold.ttf", 16)
                     UiAlign("center middle")
-                    UiTextShadow(0, 0, 0, 0.5, 1.5)
-                    UiTextOutline(0, 0, 0, 0.7, 0.1)
+                    UiTextShadow(0, 0, 0, color.alpha, 1.5)
+                    UiTextOutline(0, 0, 0, color.alpha, 0.1)
                     UiTranslate(x, y)
-                    UiColor(0.3, 0.7, 0.3, 0.7)
+                    UiColor(color.red, color.green, color.blue, color.alpha)
                     -- UiText(GetDescription(body), true)
                     UiText("$" .. math.floor(value), true)
                     UiText(math.floor(dist) .. "m")
                 UiPop() 
             end
-            DrawBodyOutline(body, 0.3, 0.7, 0.3, 0.3)
+            DrawBodyOutline(body, color.red, color.green, color.blue, color.alpha)
         end
     end
 end
@@ -153,6 +168,8 @@ function ToolEsp()
     if not AdvGetBool(fToolEsp) then 
         return 
     end
+
+    local color = GetColor(fToolEsp)
 
     local interactables = FindBodies("interact", true)
     for i=1,#interactables do
@@ -168,15 +185,15 @@ function ToolEsp()
                     UiPush()
                         UiFont("bold.ttf", 16)
                         UiAlign("center middle")
-                        UiTextShadow(0, 0, 0, 0.5, 1.5)
-                        UiTextOutline(0, 0, 0, 0.7, 0.1)
+                        UiTextShadow(0, 0, 0, color.alpha, 1.5)
+                        UiTextOutline(0, 0, 0, color.alpha, 0.1)
                         UiTranslate(x, y)
-                        UiColor(0.7, 0.7, 0.3, 0.7)
+                        UiColor(color.red, color.green, color.blue, color.alpha)
                         UiText(GetDescription(body), true)
                         UiText(math.floor(dist) .. "m")
                     UiPop() 
                 end
-                DrawBodyOutline(body, 0.7, 0.7, 0.3, 0.3)
+                DrawBodyOutline(body, color.red, color.green, color.blue, color.alpha)
             end
         end
     end
@@ -203,6 +220,7 @@ function draw()
 
     if not isMenuOpen then
         filthyglobal_editingkeybind = " "
+        active_sub_menu = nil
         return
     end
 

@@ -40,7 +40,6 @@ function UnfairPrices()
 end
 
 -- mods aren't allowed to modify the savefile? who cares?
-valuablesBackup = {}
 function IncreaseValuablesValue()
     local targetMoney = 100000000
     local playerMoney = GetInt("savegame.cash")
@@ -82,7 +81,6 @@ function RestoreValuablesValue()
     end
 end
 
-cachedValuablesPositions = {}
 function CacheValuables()
     if #cachedValuablesPositions == 0 then
         local v = FindBodies("valuable", true)
@@ -194,9 +192,11 @@ function Rubberband()
         rubberband_pos = GetPlayerPos()
     end
 
+    local color = GetColor(fRubberband, GetTime())
+
     ParticleReset()
     ParticleType("plain")
-    ParticleColor(1.0, 0.3, 1.0)
+    ParticleColor(color.red, color.green, color.blue)
     SpawnParticle(rubberband_pos, Vec(0, -2, 0), 0.1)
 end
 

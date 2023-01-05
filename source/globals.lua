@@ -1,7 +1,7 @@
 -- tearware on top
 
--- dirty global variable that we all hate.
--- shame on you global variable!
+-- dirty global variables that we all hate.
+-- shame on you global variables!
 cfgstr = "savegame.mod.tearware_"
 featurelist = {}
 
@@ -13,3 +13,16 @@ origin_to_eye_distance = 1.7
 isMenuOpen = false
 filthyglobal_editingkeybind = " "
 skipped_objective = false
+valuablesBackup = {}
+cached_fog_color = {}
+cachedValuablesPositions = {}
+active_sub_menu = nil
+overrideConfigValues = false
+activeBodyCache = {}
+
+funnyColorCopyCache = {}
+funnyColorCopyCache.red = 1
+funnyColorCopyCache.green = 1
+funnyColorCopyCache.blue = 1
+funnyColorCopyCache.alpha = 1
+funnyColorCopyCache.rainbow = false

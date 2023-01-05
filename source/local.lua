@@ -2,21 +2,22 @@
 
 -- fFeature = {"menu name", "config string"}
 
--- weapons/aim/triggerbot idk?
-fInfiniteAmmo = {"Infinite Ammo", "infiniteammo"}
-    
 -- visuals
 fVisuals = {"Visuals", "visuals"}
 fWatermark = {"Watermark", "watermark"}
 fFeatureList = {"Feature List", "featurelist"}
 fObjectiveEsp = {"Objective ESP", "objectiveesp"}
+fOptionalEsp = {"Optional ESP", "optionalesp"}
 fValuableEsp = {"Valuable ESP", "valueesp"}
 fToolEsp = {"Tool ESP", "toolesp"}
 fWeaponGlow = {"Weapon Glow", "weaponglow"}
 fActiveGlow = {"Active Glow", "activeglow"}
+fRainbowFog = {"Colored Fog", "rainbowfog"}
 
 -- movement
 fSpeed = {"Speed", "speedhack"}
+fSpeedAmount = {"Amount", "amount" }
+fSpeedBoost = {"Boost", "boost" }
 fSpider = {"Spider", "spider"}
 fFly = {"Fly", "fly"}
 fNoclip = {"Noclip", "noclip"}
@@ -26,6 +27,7 @@ fJesus = {"Jesus", "jesus"}
 fQuickstop = {"Quickstop", "quickstop"}
 
 -- misc
+fInfiniteAmmo = {"Infinite Ammo", "infiniteammo"}
 fGodmode = {"Godmode", "godmode"}
 fBulletTime = {"Bullet Time", "timer"}
 fSkipObjective = {"Skip Objective", "skipobjective"}
