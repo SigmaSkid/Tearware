@@ -1,7 +1,5 @@
 -- tearware on top
-
 -- fFeature = {"menu name", "config string"}
-
 -- visuals
 fVisuals = {"Visuals", "visuals"}
 fWatermark = {"Watermark", "watermark"}
@@ -16,8 +14,8 @@ fRainbowFog = {"Colored Fog", "rainbowfog"}
 
 -- movement
 fSpeed = {"Speed", "speedhack"}
-fSpeedAmount = {"Amount", "amount" }
-fSpeedBoost = {"Boost", "boost" }
+fSpeedAmount = {"Amount", "amount"}
+fSpeedBoost = {"Boost", "boost"}
 
 fSpider = {"Spider", "spider"}
 
@@ -26,7 +24,7 @@ fFlySpeed = {"Speed", "speed"}
 fFlyBoost = {"Boost", "boost"}
 
 fNoclip = {"Noclip", "noclip"}
-fNoclipSpeed  = {"Speed", "speed"}
+fNoclipSpeed = {"Speed", "speed"}
 fNoclipBoost = {"Boost", "boost"}
 
 fFloorStrafe = {"Floor Strafe", "floorstrafe"}

@@ -1,12 +1,11 @@
 -- tearware on top
-
 #include "source/local.lua"
 
-function DefineBool(var, default) 
-    featurelist[#featurelist+1] = var
+function DefineBool(var, default)
+    featurelist[#featurelist + 1] = var
 
-    if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then 
-        if not overrideConfigValues then 
+    if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then
+        if not overrideConfigValues then
             return
         end
     end
@@ -15,9 +14,9 @@ function DefineBool(var, default)
     SetString(cfgstr .. var[2] .. "_key", "null")
 end
 
-function DefineTool(var) 
-    if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then 
-        if not overrideConfigValues then 
+function DefineTool(var)
+    if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then
+        if not overrideConfigValues then
             return
         end
     end
@@ -26,21 +25,21 @@ function DefineTool(var)
 end
 
 colorStuff = {"_red", "_green", "_blue", "_alpha", "_rainbow"}
-function DefineColor(var, default) 
-    for i = 1, #colorStuff-1 do
-        if (not HasKey(cfgstr .. var[2] .. colorStuff[i])) or overrideConfigValues then 
+function DefineColor(var, default)
+    for i = 1, #colorStuff - 1 do
+        if (not HasKey(cfgstr .. var[2] .. colorStuff[i])) or overrideConfigValues then
             SetFloat(cfgstr .. var[2] .. colorStuff[i], default[i])
-        end    
+        end
     end
 
-    if (not HasKey(cfgstr .. var[2] .. colorStuff[#colorStuff])) or overrideConfigValues then 
+    if (not HasKey(cfgstr .. var[2] .. colorStuff[#colorStuff])) or overrideConfigValues then
         SetBool(cfgstr .. var[2] .. colorStuff[#colorStuff], default[#colorStuff])
-    end    
+    end
 end
 
-function DefineSubFloat(var, sub, default) 
-    if HasKey(cfgstr .. var[2] .. sub[2]) then 
-        if not overrideConfigValues then 
+function DefineSubFloat(var, sub, default)
+    if HasKey(cfgstr .. var[2] .. sub[2]) then
+        if not overrideConfigValues then
             return
         end
     end
@@ -55,9 +54,9 @@ function SetSubFloat(var, sub, value)
     return SetFloat(cfgstr .. var[2] .. sub[2], value)
 end
 
-function DefineSubBool(var, sub, default) 
-    if HasKey(cfgstr .. var[2] .. sub[2]) then 
-        if not overrideConfigValues then 
+function DefineSubBool(var, sub, default)
+    if HasKey(cfgstr .. var[2] .. sub[2]) then
+        if not overrideConfigValues then
             return
         end
     end
@@ -75,7 +74,7 @@ end
 function GetColor(var, seed)
     local color = {}
     color.rainbow = GetBool(cfgstr .. var[2] .. colorStuff[5])
-    if color.rainbow then 
+    if color.rainbow then
         color.red = math.sin(seed + 0) * 0.5 + 0.5;
         color.green = math.sin(seed + 2) * 0.5 + 0.5;
         color.blue = math.sin(seed + 4) * 0.5 + 0.5;
@@ -92,8 +91,8 @@ end
 function SetColor(var, color)
     SetBool(cfgstr .. var[2] .. colorStuff[5], color.rainbow)
     SetFloat(cfgstr .. var[2] .. colorStuff[4], color.alpha)
-    if color.rainbow then 
-        return 
+    if color.rainbow then
+        return
     end
     SetFloat(cfgstr .. var[2] .. colorStuff[1], color.red)
     SetFloat(cfgstr .. var[2] .. colorStuff[2], color.green)
@@ -101,52 +100,52 @@ function SetColor(var, color)
 end
 
 function AdvGetBool(var)
-    if not HasKey(cfgstr .. var[2] .. "_key") then 
+    if not HasKey(cfgstr .. var[2] .. "_key") then
         return GetBool(cfgstr .. var[2])
     end
 
     local key = GetString(cfgstr .. var[2] .. "_key")
-    if key == "null" or key == "" or key == nil then 
+    if key == "null" or key == "" or key == nil then
         return GetBool(cfgstr .. var[2])
     end
 
-    if InputPressed(key) then 
+    if InputPressed(key) then
         SetBool(cfgstr .. var[2], not GetBool(cfgstr .. var[2]))
     end
-    
-    return GetBool(cfgstr .. var[2]) 
+
+    return GetBool(cfgstr .. var[2])
 end
 
-function ResetConfig() 
+function ResetConfig()
     -- visuals
     DefineBool(fVisuals, true)
     DefineBool(fWatermark, true)
-    DefineColor(fWatermark, {1, 1, 1, 1, true} )
+    DefineColor(fWatermark, {1, 1, 1, 1, true})
 
     DefineBool(fFeatureList, false)
-    DefineColor(fFeatureList, {1, 1, 1, 1, true} )
+    DefineColor(fFeatureList, {1, 1, 1, 1, true})
 
     DefineBool(fObjectiveEsp, false)
-    DefineColor(fObjectiveEsp, {0.7, 0.3, 0.3, 0.7, false} )
+    DefineColor(fObjectiveEsp, {0.7, 0.3, 0.3, 0.7, false})
 
     DefineBool(fOptionalEsp, false)
-    DefineColor(fOptionalEsp, {0.3, 0.3, 0.7, 0.7, false} )
+    DefineColor(fOptionalEsp, {0.3, 0.3, 0.7, 0.7, false})
 
     DefineBool(fValuableEsp, false)
-    DefineColor(fValuableEsp, {0.3, 0.7, 0.3, 0.7, false} )
+    DefineColor(fValuableEsp, {0.3, 0.7, 0.3, 0.7, false})
 
     DefineBool(fToolEsp, false)
-    DefineColor(fToolEsp, {0.7, 0.7, 0.3, 0.7, false} )
+    DefineColor(fToolEsp, {0.7, 0.7, 0.3, 0.7, false})
 
     DefineBool(fWeaponGlow, false)
-    DefineColor(fWeaponGlow, {1, 1, 1, 1, true} )
+    DefineColor(fWeaponGlow, {1, 1, 1, 1, true})
 
     DefineBool(fActiveGlow, false)
-    DefineColor(fActiveGlow, {1, 1, 1, 1, true} )
+    DefineColor(fActiveGlow, {1, 1, 1, 1, true})
 
     DefineBool(fRainbowFog, false)
-    DefineColor(fRainbowFog, {1, 1, 1, 1, true} )
-    
+    DefineColor(fRainbowFog, {1, 1, 1, 1, true})
+
     -- movement
     DefineBool(fSpeed, false)
     DefineSubFloat(fSpeed, fSpeedAmount, 14)
@@ -157,19 +156,19 @@ function ResetConfig()
     DefineBool(fFly, false)
     DefineSubFloat(fFly, fFlySpeed, 20)
     DefineSubFloat(fFly, fFlyBoost, 40)
-    
+
     DefineBool(fNoclip, false)
     DefineSubFloat(fNoclip, fNoclipSpeed, 1)
     DefineSubFloat(fNoclip, fNoclipBoost, 9)
 
     DefineBool(fFloorStrafe, false)
-    
+
     DefineBool(fJetpack, false)
 
     DefineBool(fJesus, false)
 
     DefineBool(fQuickstop, false)
-    
+
     -- misc
     DefineBool(fInfiniteAmmo, false)
 
@@ -189,7 +188,7 @@ function ResetConfig()
 
     -- tools
     DefineBool(fRubberband, false)
-    DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
+    DefineColor(fRubberband, {1.0, 0.3, 1.0, false})
 
     DefineBool(fTeleportValuables, false)
     DefineBool(fUnfairValuables, false)
@@ -199,21 +198,20 @@ function ResetConfig()
     DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
 
     DefineBool(fFireBrush, false)
-    
+
     -- debug & config
-    
 
     -- sort for feature list.
     UiPush()
-        UiFont("bold.ttf", 12)
-        table.sort(featurelist, function (left, right)
-            return UiGetTextSize(left[1]) > UiGetTextSize(right[1])
-        end)
+    UiFont("bold.ttf", 12)
+    table.sort(featurelist, function(left, right)
+        return UiGetTextSize(left[1]) > UiGetTextSize(right[1])
+    end)
     UiPop()
 end
 
 -- dll main, but more gay
 function init()
     overrideConfigValues = false
-    ResetConfig() 
+    ResetConfig()
 end

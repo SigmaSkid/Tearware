@@ -12,9 +12,9 @@ function update(dt)
     SkipObjective()
 end
 
-function InfiniteAmmo() 
-    if not AdvGetBool(fInfiniteAmmo) then 
-        return 
+function InfiniteAmmo()
+    if not AdvGetBool(fInfiniteAmmo) then
+        return
     end
 
     -- already has inf ammo / return to prevent visual glitches 
@@ -32,8 +32,8 @@ function InfiniteAmmo()
 end
 
 function UnfairPrices()
-	if not AdvGetBool(fUnfairValuables) then
-        RestoreValuablesValue() 
+    if not AdvGetBool(fUnfairValuables) then
+        RestoreValuablesValue()
         return
     end
     IncreaseValuablesValue()
@@ -57,8 +57,7 @@ function IncreaseValuablesValue()
     local v = FindBodies("valuable", true)
     for i = 1, #v do
         local body = v[i]
-        if IsHandleValid(body) and GetPlayerInteractBody() ~= body and
-            not IsBodyBroken(body) then
+        if IsHandleValid(body) and GetPlayerInteractBody() ~= body and not IsBodyBroken(body) then
             local value = tonumber(GetTagValue(body, "value"))
             if value ~= targetMoney then
                 table.insert(valuablesBackup, {body, value})
@@ -89,8 +88,7 @@ function CacheValuables()
             if IsHandleValid(body) and not IsBodyBroken(body) then
                 local transform = GetBodyTransform(body)
                 local isActive = IsBodyActive(body)
-                table.insert(cachedValuablesPositions,
-                             {body, transform, isActive})
+                table.insert(cachedValuablesPositions, {body, transform, isActive})
             end
         end
     end
@@ -110,9 +108,9 @@ function RestoreValuablesPosition()
     end
 end
 
-function CollectValuables() 
+function CollectValuables()
     if not AdvGetBool(fTeleportValuables) then
-        RestoreValuablesPosition() 
+        RestoreValuablesPosition()
         return
     end
 
@@ -173,8 +171,8 @@ function CollectValuables()
     end
 end
 
-function Rubberband() 
-    
+function Rubberband()
+
     if not AdvGetBool(fRubberband) then
         rubberband_pos = nil
 
@@ -201,7 +199,7 @@ function Rubberband()
 end
 
 function Disablealarm()
-	if not AdvGetBool(fDisableAlarm) then
+    if not AdvGetBool(fDisableAlarm) then
         return
     end
 
@@ -224,9 +222,9 @@ function Disablealarm()
     end
 end
 
-function Godmode() 
+function Godmode()
     if not AdvGetBool(fGodmode) then
-        return 
+        return
     end
 
     if GetPlayerHealth() then

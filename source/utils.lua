@@ -1,7 +1,6 @@
 -- tearware on top
-
 function TransformYawByInput(y)
-    local Forward = InputDown("up") 
+    local Forward = InputDown("up")
     local Back = InputDown("down")
     local Left = InputDown("left")
     local Right = InputDown("right")
@@ -13,11 +12,11 @@ function TransformYawByInput(y)
         elseif Right then
             y = y - 45
         end
-    elseif Back then 
+    elseif Back then
         y = y + 180
-        if Left  then
+        if Left then
             y = y - 45
-        elseif Right  then
+        elseif Right then
             y = y + 45
         end
     else
@@ -25,8 +24,8 @@ function TransformYawByInput(y)
             y = y + 90
         elseif Right then
             y = y - 90
-        else 
-            return 
+        else
+            return
         end
     end
 
@@ -34,34 +33,34 @@ function TransformYawByInput(y)
     return math.fmod(y + 180, 360) - 180
 end
 
-function IsDirectionalInputDown() 
+function IsDirectionalInputDown()
     return InputDown("up") or InputDown("down") or InputDown("left") or InputDown("right")
 end
 
 function GetPosWeAreLookingAt()
-	local camera = GetCameraTransform()
+    local camera = GetCameraTransform()
 
-	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 666))
-	
+    local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 666))
+
     local direction = VecNormalize(VecSub(camera.pos, parentpoint))
-	
+
     local hit, dist = QueryRaycast(camera.pos, direction, 666)
 
-    if hit then 
+    if hit then
         return TransformToParentPoint(camera, Vec(0, 0, -dist))
     end
 
-    return nil 
+    return nil
 end
 
 function seedToRGB(y)
-    local rgb = {} 
-    
+    local rgb = {}
+
     rgb.R = math.sin(y + 0) * 0.5 + 0.5;
     rgb.G = math.sin(y + 2) * 0.5 + 0.5;
     rgb.B = math.sin(y + 4) * 0.5 + 0.5;
 
-    return rgb 
+    return rgb
 end
 
 function GetBodyCenter(body)
@@ -70,5 +69,5 @@ function GetBodyCenter(body)
 end
 
 function MathRound(value)
-    return math.floor(value+0.5)
+    return math.floor(value + 0.5)
 end
