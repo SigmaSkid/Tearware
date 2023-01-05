@@ -9,7 +9,6 @@ Alternatively open it from the pause menu.
 ### [Github Page](https://github.com/SigmaSkid/Tearware)
 
 ## Features:
-- Infinite Ammo
 - Objective ESP
 - Valuable ESP
 - Tool ESP
@@ -23,6 +22,7 @@ Alternatively open it from the pause menu.
 - Jetpack
 - Jesus
 - Quickstop
+- Infinite Ammo
 - Godmode
 - Bullet Time
 - Skip Objective
