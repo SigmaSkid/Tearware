@@ -114,7 +114,19 @@ function DrawMenu()
 
                 Checkbox(fSpider)
                 Checkbox(fFly)
+                if FunnySubmenuBegin(fFly, 120, 80) then 
+                    SubSettingSlider(fFly, fFlySpeed, 10, 30)
+                    SubSettingSlider(fFly, fFlyBoost, 20, 40)
+                    UiPop()
+                end
+
                 Checkbox(fNoclip)
+                if FunnySubmenuBegin(fNoclip, 120, 80) then 
+                    SubSettingSlider(fNoclip, fNoclipSpeed, 1, 5)
+                    SubSettingSlider(fNoclip, fNoclipBoost, 1, 20)
+                    UiPop()
+                end
+
                 Checkbox(fFloorStrafe)
                 Checkbox(fJetpack)
                 Checkbox(fJesus)
@@ -126,6 +138,12 @@ function DrawMenu()
                 Checkbox(fInfiniteAmmo)
                 Checkbox(fGodmode)
                 Checkbox(fBulletTime)
+                if FunnySubmenuBegin(fBulletTime, 120, 80) then 
+                    SubSettingSlider(fBulletTime, fBulletTimeScale, 10, 100)
+                    SubSettingCheckbox(fBulletTime, fBulletTimePatch)
+                    UiPop()
+                end
+
                 Checkbox(fSkipObjective)
                 Checkbox(fDisableAlarm)
                 Checkbox(fDisablePhysics)
@@ -141,6 +159,11 @@ function DrawMenu()
                 Checkbox(fUnfairValuables)
                 Checkbox(fTeleport)
                 Checkbox(fExplosionBrush)
+                if FunnySubmenuBegin(fExplosionBrush, 120, 50) then 
+                    SubSettingSlider(fExplosionBrush, fExplosionBrushSize, 0.5, 4)
+                    UiPop()
+                end
+
                 Checkbox(fFireBrush)
 
             elseif GetInt(cfgstr .. "activetab") == 4 then 
@@ -368,10 +391,10 @@ function optionsSlider(val, mi, ma, width)
 		UiRect(width, 3)
 		UiAlign("center middle")
 		val = UiSlider("ui/common/dot.png", "x", val*width, 0, width) / width
-		val = math.floor(val*(ma-mi)+mi)
+		val = val*(ma-mi)+mi
 
 		UiTranslate(width + 30, 0)
-		UiText(val)
+		UiText(MathRound(val*10)/10)
 	UiPop()
 	return val
 end
@@ -431,4 +454,33 @@ function FunnySubmenuBegin(var, w, h)
 
     end
     return enabled
+end
+
+function SubSettingCheckbox(var, sub)
+    UiPush()
+    UiTranslate(0, -20)
+    UiAlign("left top")
+    
+    local namew, nameh = UiGetTextSize(sub[1])
+    
+    if UiIsMouseInRect(namew, nameh) then
+        UiColor(0.6, 0.6, 0.6, 1)
+    end
+
+    UiTextShadow(0, 0, 0, 0.5, 1.5)
+    UiTextOutline(0, 0, 0, 1, 0.1)
+
+    -- highlight the checkbox, if this is the keybind we're editing
+    if GetBool(cfgstr .. var[2] .. sub[2]) then 
+        UiColor(0.6, 1.0, 0.6, 1)
+    else 
+        UiColor(1.0, 0.6, 0.6, 1)
+    end
+
+    if UiTextButton(sub[1]) then
+        SetBool(cfgstr .. var[2] .. sub[2], not GetBool(cfgstr .. var[2] .. sub[2]))
+    end
+
+    UiPop()
+    UiText("", true)
 end

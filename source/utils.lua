@@ -68,3 +68,7 @@ function GetBodyCenter(body)
     local min, max = GetBodyBounds(body)
     return VecLerp(min, max, 0.5)
 end
+
+function MathRound(value)
+    return math.floor(value+0.5)
+end

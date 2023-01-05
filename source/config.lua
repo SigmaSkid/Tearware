@@ -65,7 +65,7 @@ function DefineSubBool(var, sub, default)
 end
 
 function GetSubBool(var, sub)
-    return GetBool(cfgstr .. var[2], sub[2])
+    return GetBool(cfgstr .. var[2] .. sub[2])
 end
 
 function SetSubBool(var, sub, value)
@@ -153,20 +153,38 @@ function ResetConfig()
     DefineSubFloat(fSpeed, fSpeedBoost, 28)
 
     DefineBool(fSpider, false)
+
     DefineBool(fFly, false)
+    DefineSubFloat(fFly, fFlySpeed, 20)
+    DefineSubFloat(fFly, fFlyBoost, 40)
+    
     DefineBool(fNoclip, false)
+    DefineSubFloat(fNoclip, fNoclipSpeed, 1)
+    DefineSubFloat(fNoclip, fNoclipBoost, 9)
+
     DefineBool(fFloorStrafe, false)
+    
     DefineBool(fJetpack, false)
+
     DefineBool(fJesus, false)
+
     DefineBool(fQuickstop, false)
     
     -- misc
     DefineBool(fInfiniteAmmo, false)
+
     DefineBool(fGodmode, false)
+
     DefineBool(fBulletTime, false)
+    DefineSubFloat(fBulletTime, fBulletTimeScale, 10)
+    DefineSubBool(fBulletTime, fBulletTimePatch, true)
+
     DefineBool(fSkipObjective, false)
+
     DefineBool(fDisableAlarm, false)
+
     DefineBool(fDisablePhysics, false)
+
     DefineBool(fForceUpdatePhysics, false)
 
     -- tools
@@ -176,7 +194,10 @@ function ResetConfig()
     DefineBool(fTeleportValuables, false)
     DefineBool(fUnfairValuables, false)
     DefineTool(fTeleport)
+
     DefineBool(fExplosionBrush, false)
+    DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
+
     DefineBool(fFireBrush, false)
     
     -- debug & config

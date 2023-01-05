@@ -45,8 +45,14 @@ function Timer()
 		end
         return 
     end
-    -- Call every frame from tick function to get steady slow-motion. 
-    SetTimeScale(0.1) -- 0.1 is the minimum, cringe
+
+    local scale = GetSubFloat(fBulletTime, fBulletTimeScale)/100
+    SetTimeScale(scale)
+
+    local patch = GetSubBool(fBulletTime, fBulletTimePatch)
+    if not patch then 
+        return 
+    end
 
     -- prevent the engine from freezing the objects.
 	local bodies = FindBodies(nil,true)
@@ -238,9 +244,9 @@ function Fly()
 
     SetPlayerVelocity(Vec(0, 0, 0))
 
-    local TargetVel = 20
+    local TargetVel = GetSubFloat(fFly, fFlySpeed)
     if InputDown("shift") then 
-        TargetVel = 40 
+        TargetVel = GetSubFloat(fFly, fFlyBoost)
     end
 
     if not IsDirectionalInputDown() then
@@ -314,9 +320,9 @@ function NoClip(dts)
     
     trans.pos = noclipbackuppos
 
-    local speed = 0.1
+    local speed = GetSubFloat(fNoclip, fNoclipSpeed)/10
     if InputDown("shift") then 
-        speed = 0.9
+        speed = GetSubFloat(fNoclip, fNoclipBoost)/10
     end
 
     -- scale by update rate
@@ -369,9 +375,10 @@ function ExplosionBrush()
         return 
     end
     
+    local Size = GetSubFloat(fExplosionBrush, fExplosionBrushSize)
     local TargetPos = GetPosWeAreLookingAt()
     if TargetPos ~= nil then 
-        Explosion(TargetPos, 1)
+        Explosion(TargetPos, Size)
     end
 end
 
