@@ -50,6 +50,8 @@ fSkipObjective = {"Skip Objective", "skipobjective"}
 
 fDisableAlarm = {"Disable Alarm", "disablealarm"}
 
+fDisableRobots = {"Disable Robots", "disablerobots"}
+
 fDisablePhysics = {"Disable Physics", "disablephysics"}
 
 fForceUpdatePhysics = {"Force Update Physics", "forceupdatephysics"}
@@ -58,6 +60,7 @@ fForceUpdatePhysics = {"Force Update Physics", "forceupdatephysics"}
 fRubberband = {"Rubberband", "rubberband"}
 fTeleportValuables = {"Teleport Valuables", "autocollect"}
 fUnfairValuables = {"Unfair Valuables", "inflation"}
+
 fTeleport = {"Teleport", "teleport"}
 
 fExplosionBrush = {"Explosion Brush", "explosionbrush"}

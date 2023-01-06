@@ -19,6 +19,7 @@ cachedValuablesPositions = {}
 active_sub_menu = nil
 overrideConfigValues = false
 activeBodyCache = {}
+noclipbackuppos = {}
 
 funnyColorCopyCache = {}
 funnyColorCopyCache.red = 1

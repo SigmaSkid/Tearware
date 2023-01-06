@@ -305,7 +305,7 @@ end
 
 function NoClip(dts)
     if not AdvGetBool(fNoclip) then
-        noclipbackuppos = nil
+        noclipbackuppos = {}
         return 
     end
 
@@ -314,10 +314,10 @@ function NoClip(dts)
     -- teleport/edge of map/respawn detection
     local delta = VecLength( VecSub(noclipbackuppos, trans.pos) )
 
-    if delta > 1 or noclipbackuppos == nil then 
+    if delta > 1 or #noclipbackuppos == 0 then 
         noclipbackuppos = trans.pos
     end
-    
+
     trans.pos = noclipbackuppos
 
     local speed = GetSubFloat(fNoclip, fNoclipSpeed)/10
@@ -360,13 +360,15 @@ function Teleport()
     if not AdvGetBool(fTeleport) then 
         return 
     end
-    
+
     local TargetPos = GetPosWeAreLookingAt()
+
     if TargetPos ~= nil then 
         local t = Transform(TargetPos, GetCameraTransform().rot)
-        
+            
         SetPlayerTransform(t, true)
     end
+        
     SetBool(cfgstr .. fTeleport[2], false)
 end
 

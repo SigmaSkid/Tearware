@@ -3,6 +3,7 @@
 function update(dt)
     InfiniteAmmo()
     UnfairPrices()
+    DisableRobots()
     CollectValuables()
     Rubberband()
 
@@ -133,7 +134,7 @@ function CollectValuables()
     -- get the spinning valuables close to our camera by offseting the circle 
     local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 1))
     local direction = VecNormalize(VecSub(camera.pos, parentpoint))
-    local vector = VecScale(direction, (-radius) + 3)
+    local vector = VecScale(direction, (-radius) + 2)
 
     -- offset circle down, so it looks nicer
     vector[2] = -0.3
@@ -252,4 +253,17 @@ function SkipObjective()
     end
 
     -- SetString("level.state", "win") 
+end
+
+function DisableRobots()
+    if not AdvGetBool(fDisableRobots) then
+        return
+    end
+
+    local robots = FindBodies("body", true)
+
+    for i = 1, #robots do 
+        SetTag(robots[i], "inactive")
+    end
+
 end

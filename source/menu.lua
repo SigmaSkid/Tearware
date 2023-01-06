@@ -146,6 +146,7 @@ function DrawMenu()
 
                 Checkbox(fSkipObjective)
                 Checkbox(fDisableAlarm)
+                Checkbox(fDisableRobots)
                 Checkbox(fDisablePhysics)
                 Checkbox(fForceUpdatePhysics)
             
@@ -158,6 +159,7 @@ function DrawMenu()
                 Checkbox(fTeleportValuables)
                 Checkbox(fUnfairValuables)
                 Checkbox(fTeleport)
+
                 Checkbox(fExplosionBrush)
                 if FunnySubmenuBegin(fExplosionBrush, 120, 50) then 
                     SubSettingSlider(fExplosionBrush, fExplosionBrushSize, 0.5, 4)
@@ -172,6 +174,21 @@ function DrawMenu()
                     overrideConfigValues = true
                     ResetConfig() 
                     overrideConfigValues = false
+                end
+
+                if Button("Finish Level") then
+                    SetString("level.state", "win") 
+                end
+
+                if Button("Activate Robots") then
+                    local robots = FindBodies("body", true)
+
+                    for i = 1, #robots do
+                        local active = HasTag(robots[i], "inactive")
+                        if active then 
+                            RemoveTag(robots[i], "inactive")
+                        end 
+                    end
                 end
             end
 
@@ -458,7 +475,7 @@ end
 
 function SubSettingCheckbox(var, sub)
     UiPush()
-    UiTranslate(0, -20)
+    UiTranslate(-10, -20)
     UiAlign("left top")
     
     local namew, nameh = UiGetTextSize(sub[1])

@@ -193,6 +193,7 @@ function ResetConfig()
 
     DefineBool(fTeleportValuables, false)
     DefineBool(fUnfairValuables, false)
+
     DefineTool(fTeleport)
 
     DefineBool(fExplosionBrush, false)
