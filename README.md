@@ -59,5 +59,5 @@ Click on the color square, on the right, with
 - Right mouse button to copy color to cache.
 
 ## Customizable settings.
-Click the square on the right side next to features
+Click the square on the right side next to features,
 that offer customization, to access their settings.
