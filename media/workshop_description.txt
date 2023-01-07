@@ -4,6 +4,8 @@ Press insert in game to open the menu
 Alternatively open it from the pause menu
 
 [h2]Features:[/h2]
+
+[h3] Visuals [/h3]
 [list]
 [*] Objective ESP
 [*] Valuable ESP
@@ -11,6 +13,10 @@ Alternatively open it from the pause menu
 [*] Weapon Glow
 [*] Active Glow
 [*] Colored Fog
+[/list]
+
+[h3] Movement [/h3]
+[list]
 [*] Speed
 [*] Spider
 [*] Fly
@@ -19,13 +25,22 @@ Alternatively open it from the pause menu
 [*] Jetpack
 [*] Jesus
 [*] Quickstop
+[/list]
+
+[h3] Miscellaneous [/h3]
+[list]
 [*] Infinite Ammo
 [*] Godmode
 [*] Bullet Time
 [*] Skip Objective
 [*] Disable Alarm
+[*] Disable Robots
 [*] Disable Physics
 [*] Force Update Physics
+[/list]
+
+[h3] Tools [/h3]
+[list]
 [*] Rubberband
 [*] Teleport Valuables
 [*] Unfair Valuables
@@ -39,3 +54,15 @@ All features are bindable.
 To bind something right click on it,
 then press the key you want to use.
 Use enter to remove the bind.
+
+[h2] Customizable colors. [/h2]
+Click on the color square, on the right, with
+[list]
+[*] Left mouse button to open color menu. 
+[*] Middle mouse button to paste color from cache.
+[*] Right mouse button to copy color to cache.
+[/list]
+
+[h2] Customizable settings. [/h2]
+Click the square on the right side next to features
+that offer customization, to access their settings.
