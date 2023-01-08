@@ -121,84 +121,59 @@ function ResetConfig()
     -- visuals
     DefineBool(fVisuals, true)
     DefineBool(fWatermark, true)
-    DefineColor(fWatermark, {1, 1, 1, 1, true} )
-
+      DefineColor(fWatermark, {1, 1, 1, 1, true} )
     DefineBool(fFeatureList, false)
-    DefineColor(fFeatureList, {1, 1, 1, 1, true} )
-
+      DefineColor(fFeatureList, {1, 1, 1, 1, true} )
     DefineBool(fObjectiveEsp, false)
-    DefineColor(fObjectiveEsp, {0.7, 0.3, 0.3, 0.7, false} )
-
+      DefineColor(fObjectiveEsp, {0.7, 0.3, 0.3, 0.7, false} )
     DefineBool(fOptionalEsp, false)
-    DefineColor(fOptionalEsp, {0.3, 0.3, 0.7, 0.7, false} )
-
+      DefineColor(fOptionalEsp, {0.3, 0.3, 0.7, 0.7, false} )
     DefineBool(fValuableEsp, false)
-    DefineColor(fValuableEsp, {0.3, 0.7, 0.3, 0.7, false} )
-
+      DefineColor(fValuableEsp, {0.3, 0.7, 0.3, 0.7, false} )
     DefineBool(fToolEsp, false)
-    DefineColor(fToolEsp, {0.7, 0.7, 0.3, 0.7, false} )
-
+      DefineColor(fToolEsp, {0.7, 0.7, 0.3, 0.7, false} )
     DefineBool(fWeaponGlow, false)
-    DefineColor(fWeaponGlow, {1, 1, 1, 1, true} )
-
+      DefineColor(fWeaponGlow, {1, 1, 1, 1, true} )
     DefineBool(fActiveGlow, false)
-    DefineColor(fActiveGlow, {1, 1, 1, 1, true} )
-
+      DefineColor(fActiveGlow, {1, 1, 1, 1, true} )
     DefineBool(fRainbowFog, false)
-    DefineColor(fRainbowFog, {1, 1, 1, 1, true} )
+      DefineColor(fRainbowFog, {1, 1, 1, 1, true} )
     
     -- movement
     DefineBool(fSpeed, false)
-    DefineSubFloat(fSpeed, fSubSpeed, 14)
-    DefineSubFloat(fSpeed, fSubBoost, 28)
-
+      DefineSubFloat(fSpeed, fSubSpeed, 14)
+      DefineSubFloat(fSpeed, fSubBoost, 28)
     DefineBool(fSpider, false)
-
     DefineBool(fFly, false)
-    DefineSubFloat(fFly, fSubSpeed, 20)
-    DefineSubFloat(fFly, fSubBoost, 40)
-    
+      DefineSubFloat(fFly, fSubSpeed, 20)
+      DefineSubFloat(fFly, fSubBoost, 40)
     DefineBool(fNoclip, false)
-    DefineSubFloat(fNoclip, fSubSpeed, 1)
-    DefineSubFloat(fNoclip, fSubBoost, 9)
-
+      DefineSubFloat(fNoclip, fSubSpeed, 1)
+      DefineSubFloat(fNoclip, fSubBoost, 9)
     DefineBool(fFloorStrafe, false)
-    
     DefineBool(fJetpack, false)
-
     DefineBool(fJesus, false)
-
     DefineBool(fQuickstop, false)
     
     -- misc
     DefineBool(fInfiniteAmmo, false)
-
     DefineBool(fGodmode, false)
-
     DefineBool(fBulletTime, false)
-    DefineSubFloat(fBulletTime, fBulletTimeScale, 10)
-    DefineSubBool(fBulletTime, fBulletTimePatch, true)
-
+      DefineSubFloat(fBulletTime, fBulletTimeScale, 10)
+      DefineSubBool(fBulletTime, fBulletTimePatch, true)
     DefineBool(fSkipObjective, false)
-
     DefineBool(fDisableAlarm, false)
-
     DefineBool(fDisablePhysics, false)
-
     DefineBool(fForceUpdatePhysics, false)
 
     -- tools
     DefineBool(fRubberband, false)
-    DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
-
+      DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
     DefineBool(fTeleportValuables, false)
     DefineBool(fUnfairValuables, false)
-
     DefineTool(fTeleport)
-
     DefineBool(fExplosionBrush, false)
-    DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
-
+      DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
     DefineBool(fFireBrush, false)
     
     -- debug & config
