@@ -7,7 +7,7 @@ function update(dt)
     CollectValuables()
     Rubberband()
 
-    Disablealarm()
+    DisableAlarm()
     Godmode()
 
     SkipObjective()
@@ -201,7 +201,7 @@ function Rubberband()
     SpawnParticle(rubberband_pos, Vec(0, -2, 0), 0.1)
 end
 
-function Disablealarm()
+function DisableAlarm()
 	if not AdvGetBool(fDisableAlarm) then
         return
     end

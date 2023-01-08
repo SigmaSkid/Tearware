@@ -16,18 +16,12 @@ fRainbowFog = {"Colored Fog", "rainbowfog"}
 
 -- movement
 fSpeed = {"Speed", "speedhack"}
-fSpeedAmount = {"Amount", "amount" }
-fSpeedBoost = {"Boost", "boost" }
 
 fSpider = {"Spider", "spider"}
 
 fFly = {"Fly", "fly"}
-fFlySpeed = {"Speed", "speed"}
-fFlyBoost = {"Boost", "boost"}
 
 fNoclip = {"Noclip", "noclip"}
-fNoclipSpeed  = {"Speed", "speed"}
-fNoclipBoost = {"Boost", "boost"}
 
 fFloorStrafe = {"Floor Strafe", "floorstrafe"}
 
@@ -67,3 +61,14 @@ fExplosionBrush = {"Explosion Brush", "explosionbrush"}
 fExplosionBrushSize = {"Size", "size"}
 
 fFireBrush = {"Fire Brush", "firebrush"}
+
+-- shared sub settings
+
+fSubSpeed = {"Base Speed", "amount"}
+fSubBoost = {"Boost Speed", "boost"}
+
+-- menu items 
+
+fMenuResetConfig = "Reset Config"
+fMenuFinishLevel = "Finish Level"
+fMenuActivateRobots = "Activate Robots"

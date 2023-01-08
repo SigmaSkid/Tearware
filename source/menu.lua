@@ -107,23 +107,23 @@ function DrawMenu()
 
                 Checkbox(fSpeed)
                 if FunnySubmenuBegin(fSpeed, 120, 80) then 
-                    SubSettingSlider(fSpeed, fSpeedAmount, 10, 30)
-                    SubSettingSlider(fSpeed, fSpeedBoost, 10, 40)
+                    SubSettingSlider(fSpeed, fSubSpeed, 10, 30)
+                    SubSettingSlider(fSpeed, fSubBoost, 10, 40)
                     UiPop()
                 end
 
                 Checkbox(fSpider)
                 Checkbox(fFly)
                 if FunnySubmenuBegin(fFly, 120, 80) then 
-                    SubSettingSlider(fFly, fFlySpeed, 10, 30)
-                    SubSettingSlider(fFly, fFlyBoost, 20, 40)
+                    SubSettingSlider(fFly, fSubSpeed, 10, 30)
+                    SubSettingSlider(fFly, fSubBoost, 20, 40)
                     UiPop()
                 end
 
                 Checkbox(fNoclip)
                 if FunnySubmenuBegin(fNoclip, 120, 80) then 
-                    SubSettingSlider(fNoclip, fNoclipSpeed, 1, 5)
-                    SubSettingSlider(fNoclip, fNoclipBoost, 1, 20)
+                    SubSettingSlider(fNoclip, fSubSpeed, 1, 5)
+                    SubSettingSlider(fNoclip, fSubBoost, 1, 20)
                     UiPop()
                 end
 
@@ -170,17 +170,17 @@ function DrawMenu()
 
             elseif GetInt(cfgstr .. "activetab") == 4 then 
                 -- debug
-                if Button("Reset Config Settings") then 
+                if Button(fMenuResetConfig) then 
                     overrideConfigValues = true
                     ResetConfig() 
                     overrideConfigValues = false
                 end
 
-                if Button("Finish Level") then
+                if Button(fMenuFinishLevel) then
                     SetString("level.state", "win") 
                 end
 
-                if Button("Activate Robots") then
+                if Button(fMenuActivateRobots) then
                     local robots = FindBodies("body", true)
 
                     for i = 1, #robots do

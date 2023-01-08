@@ -149,18 +149,18 @@ function ResetConfig()
     
     -- movement
     DefineBool(fSpeed, false)
-    DefineSubFloat(fSpeed, fSpeedAmount, 14)
-    DefineSubFloat(fSpeed, fSpeedBoost, 28)
+    DefineSubFloat(fSpeed, fSubAmount, 14)
+    DefineSubFloat(fSpeed, fSubBoost, 28)
 
     DefineBool(fSpider, false)
 
     DefineBool(fFly, false)
-    DefineSubFloat(fFly, fFlySpeed, 20)
-    DefineSubFloat(fFly, fFlyBoost, 40)
+    DefineSubFloat(fFly, fSubSpeed, 20)
+    DefineSubFloat(fFly, fSubBoost, 40)
     
     DefineBool(fNoclip, false)
-    DefineSubFloat(fNoclip, fNoclipSpeed, 1)
-    DefineSubFloat(fNoclip, fNoclipBoost, 9)
+    DefineSubFloat(fNoclip, fSubSpeed, 1)
+    DefineSubFloat(fNoclip, fSubBoost, 9)
 
     DefineBool(fFloorStrafe, false)
     

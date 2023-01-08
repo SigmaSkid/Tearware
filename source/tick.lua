@@ -150,9 +150,9 @@ function Speedhack()
 
     local velocity = GetPlayerVelocity()
 
-    local TargetVel = GetSubFloat(fSpeed, fSpeedAmount)
+    local TargetVel = GetSubFloat(fSpeed, fSubSpeed)
     if InputDown("shift") then 
-        TargetVel = GetSubFloat(fSpeed, fSpeedBoost)
+        TargetVel = GetSubFloat(fSpeed, fSubBoost)
     end
 
     -- scary math below, run.
@@ -244,9 +244,9 @@ function Fly()
 
     SetPlayerVelocity(Vec(0, 0, 0))
 
-    local TargetVel = GetSubFloat(fFly, fFlySpeed)
+    local TargetVel = GetSubFloat(fFly, fSubSpeed)
     if InputDown("shift") then 
-        TargetVel = GetSubFloat(fFly, fFlyBoost)
+        TargetVel = GetSubFloat(fFly, fSubBoost)
     end
 
     if not IsDirectionalInputDown() then
@@ -320,9 +320,9 @@ function NoClip(dts)
 
     trans.pos = noclipbackuppos
 
-    local speed = GetSubFloat(fNoclip, fNoclipSpeed)/10
+    local speed = GetSubFloat(fNoclip, fSubSpeed)/10
     if InputDown("shift") then 
-        speed = GetSubFloat(fNoclip, fNoclipBoost)/10
+        speed = GetSubFloat(fNoclip, fSubBoost)/10
     end
 
     -- scale by update rate
