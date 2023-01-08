@@ -2,7 +2,7 @@
 
 -- called once per frame (dt is a dynamic float value between 0 and .0(3), 60fps = 0.1(6) )
 function tick(dt) 
-    if PauseMenuButton("Tearware") then
+    if PauseMenuButton(fProjectName) then
 		isMenuOpen = true
 	end
 

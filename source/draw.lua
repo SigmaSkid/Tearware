@@ -15,7 +15,7 @@ function Watermark()
         UiFont("bold.ttf", 25)
         UiTextShadow(0, 0, 0, color.alpha, 1.5)
         UiTextOutline(0, 0, 0, color.alpha, 0.07)
-        UiText("Tearware")
+        UiText(fProjectName)
     UiPop()
 end
 
