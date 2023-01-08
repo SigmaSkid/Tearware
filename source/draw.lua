@@ -146,7 +146,7 @@ function ValueableEsp()
             local value = GetTagValue(body, "value")
             local targetpos = GetBodyCenter(body)
             local x, y, dist = UiWorldToPixel(targetpos)
-            if dist > 2 then 
+            if dist > 1 then 
                  UiPush()
                     UiFont("bold.ttf", 16)
                     UiAlign("center middle")
