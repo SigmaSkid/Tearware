@@ -1,11 +1,9 @@
-[h1] Teardown cheat inspired by modern game cheats. [/h1]
+[h1]Teardown cheat inspired by modern game cheats.[/h1]
 
-Press insert in game to open the menu
-Alternatively open it from the pause menu
+Access the menu by pressing Insert in-game or through the pause menu.
 
-[h2]Features:[/h2]
-
-[h3] Visuals [/h3]
+[h2]Features[/h2]
+[h3]Visuals[/h3]
 [list]
 [*] Objective ESP
 [*] Valuable ESP
@@ -14,8 +12,7 @@ Alternatively open it from the pause menu
 [*] Active Glow
 [*] Colored Fog
 [/list]
-
-[h3] Movement [/h3]
+[h3]Movement[/h3]
 [list]
 [*] Speed
 [*] Spider
@@ -26,8 +23,7 @@ Alternatively open it from the pause menu
 [*] Jesus
 [*] Quickstop
 [/list]
-
-[h3] Miscellaneous [/h3]
+[h3]Miscellaneous[/h3]
 [list]
 [*] Infinite Ammo
 [*] Godmode
@@ -38,8 +34,7 @@ Alternatively open it from the pause menu
 [*] Disable Physics
 [*] Force Update Physics
 [/list]
-
-[h3] Tools [/h3]
+[h3]Tools[/h3]
 [list]
 [*] Rubberband
 [*] Teleport Valuables
@@ -49,20 +44,20 @@ Alternatively open it from the pause menu
 [*] Fire Brush
 [/list]
 
-[h2] Binds [/h2]
-All features are bindable.
-To bind something right click on it,
-then press the key you want to use.
-Use enter to remove the bind.
+[h2]Binds[/h2]
+Easily customize your experience with bindable features. 
+Simply right-click on a feature and press the key you want to use. 
+Press Enter to remove a bind.
 
-[h2] Customizable colors. [/h2]
-Click on the color square, on the right, with
+[h2]Customizable Colors[/h2]
+Personalize your game with custom colors. 
+Click on the color square and use the following options:
 [list]
-[*] Left mouse button to open color menu. 
-[*] Middle mouse button to paste color from cache.
-[*] Right mouse button to copy color to cache.
+[*] Left mouse button: Open color menu
+[*] Middle mouse button: Paste color from cache
+[*] Right mouse button: Copy color to cache
 [/list]
 
-[h2] Customizable settings. [/h2]
-Click the square on the right side next to features
-that offer customization, to access their settings.
+[h2] Customizable Settings[/h2]
+Fine-tune your experience with customizable settings. 
+Simply click on the square next to a feature to access its settings.
