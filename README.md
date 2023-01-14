@@ -46,8 +46,8 @@ Access the menu by pressing Insert in-game or through the pause menu.
 
 
 ## Binds
-Easily customize your experience with bindable features. 
-Simply right-click on a feature and press the key you want to use. 
+Easily customize your experience with bindable features.
+Simply right-click on a feature and press the key you want to use.
 Press Enter to remove a bind.
 
 ## Customizable colors.
