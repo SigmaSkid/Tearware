@@ -55,3 +55,4 @@ fSubBoost = {"Boost Speed", "boost"}
 fMenuResetConfig = "Reset Config"
 fMenuFinishLevel = "Finish Level"
 fMenuActivateRobots = "Activate Robots"
+fRegistryTool = "Explore Registry"

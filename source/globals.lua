@@ -8,9 +8,10 @@ featurelist = {}
 -- universal constants
 fixed_update_rate = 1/60 -- 0.01(6)
 origin_to_eye_distance = 1.7
+gameVersion = GetVersion()
 
 -- temp values (reset to default on restart/level load/quick load)
-isMenuOpen = false
+openMenu = nil
 filthyglobal_editingkeybind = " "
 skipped_objective = false
 valuablesBackup = {}
@@ -27,3 +28,8 @@ funnyColorCopyCache.green = 1
 funnyColorCopyCache.blue = 1
 funnyColorCopyCache.alpha = 1
 funnyColorCopyCache.rainbow = false
+
+registryCache = {}
+registryEntryPoints = { {"options", false}, {"game", false}, { "savegame", false}, {"level", true} }
+registryScrollPos = 0
+lastRegistryInput = " "

@@ -3,11 +3,15 @@
 -- called once per frame (dt is a dynamic float value between 0 and .0(3), 60fps = 0.1(6) )
 function tick(dt) 
     if PauseMenuButton(fProjectName) then
-		isMenuOpen = true
-	end
+		openMenu = "tearware"
+    end
 
     if InputPressed("insert") then
-        isMenuOpen = not isMenuOpen
+        if openMenu ~= nil then 
+            openMenu = nil 
+        else 
+            openMenu = "tearware"
+        end
     end
 
     -- delta time scaled, .5 = 120fps, 1 = 60fps, 2 = 30fps

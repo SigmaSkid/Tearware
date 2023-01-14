@@ -1,6 +1,7 @@
 -- tearware on top
 
 #include "menu.lua"
+#include "registry.lua"
 
 function Watermark()
     if not AdvGetBool(fWatermark) then 
@@ -218,17 +219,23 @@ function draw()
 
     VisualsDraw()
 
-    if not isMenuOpen then
+    if openMenu == nil then
         filthyglobal_editingkeybind = " "
         active_sub_menu = nil
+        registryCache = {}
         return
     end
 
     UiMakeInteractive()
     SetBool("game.disablepause", true)
+    
     if InputPressed("pause") then
-        isMenuOpen = false
+        openMenu = nil
     end
 
-    DrawMenu()
+    if openMenu == "tearware" then 
+        DrawMenu()
+    elseif openMenu == "registry" then 
+        DrawRegistry()
+    end
 end

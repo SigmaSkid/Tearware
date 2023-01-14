@@ -72,3 +72,9 @@ end
 function MathRound(value)
     return math.floor(value+0.5)
 end
+
+function Clamp(a, x, y) 
+    if a < x then a = x end 
+    if a > y then a = y end 
+    return a
+end

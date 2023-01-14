@@ -190,6 +190,11 @@ function DrawMenu()
                         end 
                     end
                 end
+
+                if Button(fRegistryTool) then
+                    openMenu = "registry"
+                end
+
             end
 
         UiPop()
