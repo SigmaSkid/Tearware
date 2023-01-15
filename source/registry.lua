@@ -67,39 +67,101 @@ function DrawRegistry()
         UiColor(1.0, 1.0, 1.0, 1)
         UiTextShadow(0, 0, 0, 0.5, 1.5)
         UiTextOutline(0, 0, 0, 0.7, 0.07)
-        UiText(fProjectName .. " found " .. #registryCache .. " keys. Game version: " .. gameVersion .. " Last Input: " .. lastRegistryInput, true)
+
+        UiPush()
+            UiText(fProjectName .. " found " .. #registryCache .. " keys. Game version: " .. gameVersion .. " Last Input: " .. lastRegistryInput, true)
         
-        UiAlign("bottom left")
-        local offsetAfterInt, h = UiGetTextSize(registryCache[#registryCache].id .. "n")
+            UiAlign("bottom left")
+            local offsetAfterInt, h = UiGetTextSize(registryCache[#registryCache].id .. "n")
 
-        for i=registryScrollPos, registryScrollPos + VisibleEntries do 
-            local thisObject = registryCache[i]
-            UiTranslate(0, 25)
-            UiPush()
-                if i%2==0 then 
-                    UiColor(0.1, 0.1, 0.1, 0.2)
-                else 
-                    UiColor(0.5, 0.5, 0.5, 0.2)
+            for i=math.floor(registryScrollPos), registryScrollPos + VisibleEntries do 
+                local thisObject = registryCache[i]
+                UiTranslate(0, 25)
+                UiPush()
+                    if i%2==0 then 
+                        UiColor(0.1, 0.1, 0.1, 0.2)
+                    else 
+                        UiColor(0.5, 0.5, 0.5, 0.2)
+                    end
+                    UiRect(UiWidth(), 26)
+                UiPop()
+
+                UiPush()
+                    if thisObject.writeAccess then 
+                        UiColor(0.6, 1.0, 0.6, 1)
+                    else 
+                        UiColor(1.0, 0.6, 0.6, 1)
+                    end
+
+                    UiText(thisObject.id)
+
+                    UiTranslate(offsetAfterInt, 0)
+                    UiText(thisObject.name)
+
+                    UiTranslate(UiMiddle()*1.5, 0)
+                    UiText(thisObject.value) 
+                UiPop()
+            end
+        UiPop()
+
+        -- scroll bar yey
+        UiPush()
+            UiTranslate(UiWidth()-5, 0)
+            UiColor(0.6, 0.6, 0.6, 1)
+            UiRect(5, UiHeight())
+
+            local clickedOnBar = false
+            if UiIsMouseInRect(5, UiHeight()) then
+                if InputPressed("lmb") then 
+                    clickedOnBar = true
                 end
-                UiRect(UiWidth(), 26)
-            UiPop()
-
+            end
+            
             UiPush()
-                if thisObject.writeAccess then 
-                    UiColor(0.6, 1.0, 0.6, 1)
-                else 
-                    UiColor(1.0, 0.6, 0.6, 1)
+                local scrollPercent = registryScrollPos / #registryCache 
+                local scrollOffset = scrollPercent * UiHeight()
+                local scrollSizePercent = VisibleEntries / #registryCache 
+                local scrollSize = scrollSizePercent * UiHeight()
+                
+                UiColor(0.9, 0.9, 0.9, 1)
+                UiTranslate(0, scrollOffset)
+                UiRect(5, scrollSize)
+
+                if clickedOnBar then 
+                    if UiIsMouseInRect(5, scrollSize) then
+                        isScrollingRegistry = true 
+                        local x, y = UiGetMousePos()
+                        registryScrollingBaseOffset = y
+                    else 
+                        UiPush()
+                            -- UiGetMousePos is relative to current cursor. 
+                            -- That's why we need to move our cursor back
+                            UiTranslate(0, -scrollOffset)
+                            local x, y = UiGetMousePos()
+
+                            registryScrollPos = Clamp( (y*#registryCache / UiHeight()) - VisibleEntries/2, 1, #registryCache - VisibleEntries)
+                            --DebugPrint(y .. " " .. registryScrollPos)
+                        UiPop()
+                    end
                 end
 
-                UiText(thisObject.id)
+                if isScrollingRegistry then 
+                    if InputDown("lmb") then 
+                        local x, y = UiGetMousePos()
 
-                UiTranslate(offsetAfterInt, 0)
-                UiText(thisObject.name)
+                        local delta = (y - registryScrollingBaseOffset)
 
-                UiTranslate(UiMiddle()*1.5, 0)
-                UiText(thisObject.value) 
+                        if math.abs(delta) > 1 then 
+                            registryScrollPos = Clamp(registryScrollPos + delta, 1, #registryCache - VisibleEntries)
+                        end
+                    else
+                        isScrollingRegistry = false 
+                    end
+                end
+
             UiPop()
-        end
-
+        UiPop()
     UiPop()
+
+
 end

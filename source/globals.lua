@@ -9,6 +9,8 @@ registryEntryPoints = { {"options", false}, {"game", false}, { "savegame", false
 
 -- temp values (reset to default on restart/level load/quick load)
 openMenu = nil
+isScrollingRegistry = false
+registryScrollingBaseOffset = 0
 featurelist = {}
 filthyglobal_editingkeybind = " "
 skipped_objective = false
