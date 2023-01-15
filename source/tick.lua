@@ -417,8 +417,7 @@ function Quickstop()
 end
 
 -- todo:
--- account for where we grabbed the object
--- correct for wild origin pos on some objects
+-- account for where we grabbed the object (instead of using body center)
 -- prevent scrollwheel from changing tools
 function SuperStrength()
     if not AdvGetBool(fSuperStrength) then 
@@ -483,12 +482,12 @@ function SuperStrength()
     local direction, camera = GetForwardDirection()
     local targetLocation = VecAdd(camera.pos, VecScale(direction, ss_object.dist))
     
-    local objTransform = GetBodyTransform(ss_object.obj)
+    -- local objTransform = GetBodyTransform(ss_object.obj)
     -- objTransform.pos = targetLocation
     -- SetBodyTransform(ss_object.obj, objTransform)
     -- SetBodyActive(ss_object.obj, false)
 
-    local vel = VecSub(targetLocation, objTransform.pos)
+    local vel = VecSub(targetLocation, GetBodyCenter(ss_object.obj))
     vel = VecScale(vel, VecLength(vel))
     SetBodyVelocity(ss_object.obj, vel)
 
