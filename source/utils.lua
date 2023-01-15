@@ -38,17 +38,30 @@ function IsDirectionalInputDown()
     return InputDown("up") or InputDown("down") or InputDown("left") or InputDown("right")
 end
 
-function GetPosWeAreLookingAt()
+-- local direction, camera = GetForwardDirection()
+function GetForwardDirection() 
 	local camera = GetCameraTransform()
+	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 1))
+    return VecNormalize(VecSub(camera.pos, parentpoint)), camera
+end
 
-	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 666))
-	
-    local direction = VecNormalize(VecSub(camera.pos, parentpoint))
-	
+function GetPosWeAreLookingAt()
+    local direction, camera = GetForwardDirection() 
     local hit, dist = QueryRaycast(camera.pos, direction, 666)
 
     if hit then 
         return TransformToParentPoint(camera, Vec(0, 0, -dist))
+    end
+
+    return nil 
+end
+
+function GetObjectWeAreLookingAt()
+    local direction, camera = GetForwardDirection() 
+    local hit, dist, normal, shape = QueryRaycast(camera.pos, direction, 666)
+
+    if hit then 
+        return GetShapeBody(shape), dist
     end
 
     return nil 

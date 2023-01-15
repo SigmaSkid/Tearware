@@ -31,11 +31,24 @@ function DefineColor(var, default)
         if (not HasKey(cfgstr .. var[2] .. colorStuff[i])) or overrideConfigValues then 
             SetFloat(cfgstr .. var[2] .. colorStuff[i], default[i])
         end    
+        SetFloat(cfgstr .. var[2] .. colorStuff[i] .. "_default" , default[i])
     end
 
     if (not HasKey(cfgstr .. var[2] .. colorStuff[#colorStuff])) or overrideConfigValues then 
         SetBool(cfgstr .. var[2] .. colorStuff[#colorStuff], default[#colorStuff])
-    end    
+    end
+    SetBool(cfgstr .. var[2] .. colorStuff[#colorStuff] .. "_default" , default[#colorStuff])
+end
+
+function ResetColorToDefault(var)
+    local base = var[2]
+    for i = 1, #colorStuff-1 do 
+        local default_val = GetFloat(cfgstr .. base .. colorStuff[i] .. "_default")
+        SetFloat(cfgstr .. base .. colorStuff[i], default_val)
+    end
+
+    local default_rainbow = GetBool(cfgstr .. base .. colorStuff[#colorStuff] .. "_default")
+    SetBool(cfgstr .. base .. colorStuff[#colorStuff], default_rainbow)
 end
 
 function DefineSubFloat(var, sub, default) 
@@ -117,7 +130,9 @@ function AdvGetBool(var)
     return GetBool(cfgstr .. var[2]) 
 end
 
-function ResetConfig() 
+function ResetConfig()
+    featurelist = {}
+
     -- visuals
     DefineBool(fVisuals, true)
     DefineBool(fWatermark, true)
@@ -138,6 +153,8 @@ function ResetConfig()
       DefineColor(fActiveGlow, {1, 1, 1, 1, true} )
     DefineBool(fRainbowFog, false)
       DefineColor(fRainbowFog, {1, 1, 1, 1, true} )
+    DefineBool(fPostProcess, false)
+      DefineColor(fPostProcess, {0.5, 0.5, 0.5, 0.5, false} )
     
     -- movement
     DefineBool(fSpeed, false)
@@ -157,6 +174,7 @@ function ResetConfig()
     
     -- misc
     DefineBool(fInfiniteAmmo, false)
+    DefineBool(fSuperStrength, false)
     DefineBool(fGodmode, false)
     DefineBool(fBulletTime, false)
       DefineSubFloat(fBulletTime, fBulletTimeScale, 10)

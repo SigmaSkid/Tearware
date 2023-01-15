@@ -56,6 +56,7 @@ Click on the color square and use the following options:
 - Left mouse button: Open color menu
 - Middle mouse button: Paste color from cache
 - Right mouse button: Copy color to cache
+- Backspace: Reset to default
 
 ## Customizable settings.
 Fine-tune your experience with customizable settings. 

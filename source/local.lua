@@ -15,6 +15,7 @@ fToolEsp = {"Tool ESP", "toolesp"}
 fWeaponGlow = {"Weapon Glow", "weaponglow"}
 fActiveGlow = {"Active Glow", "activeglow"}
 fRainbowFog = {"Colored Fog", "rainbowfog"}
+fPostProcess = {"Post Processing", "postprocessing"}
 
 -- movement
 fSpeed = {"Speed", "speedhack"}
@@ -28,6 +29,7 @@ fQuickstop = {"Quickstop", "quickstop"}
 
 -- misc
 fInfiniteAmmo = {"Infinite Ammo", "infiniteammo"}
+fSuperStrength = {"Super Grab", "superstrength" }
 fGodmode = {"Godmode", "godmode"}
 fBulletTime = {"Bullet Time", "timer"}
   fBulletTimeScale = {"Scale", "scale"}

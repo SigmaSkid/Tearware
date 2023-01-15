@@ -22,6 +22,7 @@ function tick(dt)
     ForceUpdateAllBodies()
     DisablePhysics()
     ColoredFog()
+    PostProcessing()
 
     if GetPlayerVehicle() ~= 0 then
         -- in vehicle
@@ -40,6 +41,7 @@ function tick(dt)
     ExplosionBrush()
     FireBrush()
     Quickstop()
+    SuperStrength()
 end
 
 function Timer()
@@ -414,6 +416,86 @@ function Quickstop()
     SetPlayerVelocity(velocity) 
 end
 
+-- todo:
+-- account for where we grabbed the object
+-- correct for wild origin pos on some objects
+-- prevent scrollwheel from changing tools
+function SuperStrength()
+    if not AdvGetBool(fSuperStrength) then 
+        return 
+    end
+
+    -- engine grab, haha, no
+    ReleasePlayerGrab()
+
+    if not InputDown("rmb") then 
+        ss_object.obj = nil
+        return
+    end
+
+    if InputPressed("rmb") then 
+        local object, dist = GetObjectWeAreLookingAt()
+
+        if ss_object.obj == nil then 
+            if object ~= nil then 
+                ss_object.obj = object 
+                ss_object.dist = dist
+            else 
+                return 
+            end
+        end
+    end
+
+    if not IsHandleValid(ss_object.obj) then 
+        ss_object.obj = nil
+        return
+    end
+
+    if not IsBodyDynamic(ss_object.obj) then 
+        ss_object.obj = nil
+        return
+    end
+
+    if InputDown("lmb") then 
+        -- LAUNCH!
+        if ss_object.obj ~= nil then 
+            local dir = GetForwardDirection()
+            local velocity = GetBodyVelocity(ss_object.obj)
+            
+            velocity = VecAdd(velocity, VecScale(dir, 50))
+
+            SetBodyVelocity(ss_object.obj, velocity)
+            ss_object.obj = nil
+        end
+        return
+    end
+
+    local scrollPos = InputValue("mousewheel")
+    if scrollPos ~= 0 then 
+        if InputDown("shift") then 
+            scrollPos = scrollPos * 5
+        end
+        ss_object.dist = ss_object.dist + scrollPos
+    end
+
+    DrawBodyOutline(ss_object.obj, 1, 1, 1, 1)
+
+    local direction, camera = GetForwardDirection()
+    local targetLocation = VecAdd(camera.pos, VecScale(direction, ss_object.dist))
+    
+    local objTransform = GetBodyTransform(ss_object.obj)
+    -- objTransform.pos = targetLocation
+    -- SetBodyTransform(ss_object.obj, objTransform)
+    -- SetBodyActive(ss_object.obj, false)
+
+    local vel = VecSub(targetLocation, objTransform.pos)
+    vel = VecScale(vel, VecLength(vel))
+    SetBodyVelocity(ss_object.obj, vel)
+
+    -- angular velocity is cringe
+    SetBodyAngularVelocity( {0,0,0} )
+end
+
 function ColoredFog() 
     if not AdvGetBool(fRainbowFog) then 
         if #cached_fog_color > 0 then 
@@ -429,5 +511,25 @@ function ColoredFog()
     else
         local color = GetColor(fRainbowFog, GetTime())
         SetEnvironmentProperty("fogcolor", color.red, color.green, color.blue)
+    end
+end
+
+function PostProcessing()
+    if not AdvGetBool(fPostProcess) then 
+        if #cached_post_process > 0 then 
+            SetPostProcessingProperty("colorbalance", cached_post_process[1], cached_post_process[2], cached_post_process[3])
+            SetPostProcessingProperty("saturation", cached_post_process[4])
+        end
+        return
+    end
+
+    -- cache post process
+    if #cached_post_process == 0 then 
+        cached_post_process[1], cached_post_process[2], cached_post_process[3] = GetPostProcessingProperty("colorbalance")
+        cached_post_process[4] = GetPostProcessingProperty("saturation")
+    else
+        local color = GetColor(fPostProcess, GetTime())
+        SetPostProcessingProperty("colorbalance", color.red * 2, color.green * 2, color.blue * 2)
+        SetPostProcessingProperty("saturation", color.alpha * 2)
     end
 end

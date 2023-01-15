@@ -100,6 +100,8 @@ function DrawMenu()
                     Checkbox(fRainbowFog)
                     ColorSelector(fRainbowFog, false)
 
+                    Checkbox(fPostProcess)
+                    ColorSelector(fPostProcess)
                 end
 
             elseif GetInt(cfgstr .. "activetab") == 1 then 
@@ -136,6 +138,7 @@ function DrawMenu()
                 -- misc
 
                 Checkbox(fInfiniteAmmo)
+                Checkbox(fSuperStrength)
                 Checkbox(fGodmode)
                 Checkbox(fBulletTime)
                 if FunnySubmenuBegin(fBulletTime, 120, 80) then 
@@ -453,6 +456,8 @@ function ColorSelector(var, alpha)
                 funnyColorCopyCache = color
             elseif InputPressed("mmb") then 
                 SetColor(var, funnyColorCopyCache)
+            elseif InputPressed("backspace") then 
+                ResetColorToDefault(var)
             end
         end
     UiPop()
