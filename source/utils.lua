@@ -91,3 +91,16 @@ function Clamp(a, x, y)
     if a > y then a = y end 
     return a
 end
+
+function animateDvd(dvd, dt)
+    dvd.x = dvd.x + dvd.speedx * dt
+    dvd.y = dvd.y + dvd.speedy * dt
+    
+    if dvd.x < 0 or dvd.x + dvd.width > UiWidth() then
+      dvd.speedx = -dvd.speedx
+    end
+    if dvd.y < 0 or dvd.y + dvd.height > UiHeight() then
+      dvd.speedy = -dvd.speedy
+    end
+    return dvd
+end

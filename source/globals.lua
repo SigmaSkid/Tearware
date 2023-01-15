@@ -37,3 +37,11 @@ lastRegistryInput = " "
 ss_object = {}
 ss_object.obj = nil 
 ss_object.dist = nil
+
+resetDvd = {} 
+resetDvd.width = 175 
+resetDvd.height = 25
+resetDvd.x = 0
+resetDvd.y = 0
+resetDvd.speedx = 100
+resetDvd.speedy = 100

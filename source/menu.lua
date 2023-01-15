@@ -174,9 +174,7 @@ function DrawMenu()
             elseif GetInt(cfgstr .. "activetab") == 4 then 
                 -- debug
                 if Button(fMenuResetConfig) then 
-                    overrideConfigValues = true
-                    ResetConfig() 
-                    overrideConfigValues = false
+                    openMenu = "reset"
                 end
 
                 if Button(fMenuFinishLevel) then
@@ -585,4 +583,20 @@ function SubSettingCheckbox(var, sub)
 
     UiPop()
     UiText("", true)
+end
+
+function DrawResetConfigConfirmation(dt)
+    UiPush()
+        UiTranslate(resetDvd.x, resetDvd.y)
+        resetDvd = animateDvd(resetDvd, dt)
+        UiPush()
+            UiFont("bold.ttf", 25)
+            if Button("CONFIRM RESET") then 
+                overrideConfigValues = true
+                ResetConfig() 
+                overrideConfigValues = false
+                openMenu = nil
+            end
+        UiPop()
+    UiPop()
 end

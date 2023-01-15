@@ -214,9 +214,8 @@ function VisualsDraw()
     ActiveGlow()
 end
 
--- called on each draw
-function draw() 
-
+-- called on each draw, dt isn't documented :D
+function draw(dt)
     VisualsDraw()
 
     if openMenu == nil then
@@ -237,5 +236,7 @@ function draw()
         DrawMenu()
     elseif openMenu == "registry" then 
         DrawRegistry()
+    elseif openMenu == "reset" then 
+        DrawResetConfigConfirmation(dt)
     end
 end
