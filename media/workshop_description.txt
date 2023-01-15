@@ -11,6 +11,7 @@ Access the menu by pressing Insert in-game or through the pause menu.
 [*] Weapon Glow
 [*] Active Glow
 [*] Colored Fog
+[*] Post Processing
 [/list]
 [h3]Movement[/h3]
 [list]
@@ -26,6 +27,7 @@ Access the menu by pressing Insert in-game or through the pause menu.
 [h3]Miscellaneous[/h3]
 [list]
 [*] Infinite Ammo
+[*] Super Grab
 [*] Godmode
 [*] Bullet Time
 [*] Skip Objective

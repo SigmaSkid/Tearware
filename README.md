@@ -15,6 +15,7 @@ Access the menu by pressing Insert in-game or through the pause menu.
 - Weapon Glow
 - Active Glow
 - Colored Fog
+- Post Processing
 
 ### Movement:
 - Speed
@@ -28,6 +29,7 @@ Access the menu by pressing Insert in-game or through the pause menu.
 
 ### Miscellaneous:
 - Infinite Ammo
+- Super Grab
 - Godmode
 - Bullet Time
 - Skip Objective
