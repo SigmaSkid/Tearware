@@ -155,6 +155,7 @@ function ResetConfig()
       DefineColor(fRainbowFog, {1, 1, 1, 1, true} )
     DefineBool(fPostProcess, false)
       DefineColor(fPostProcess, {0.5, 0.5, 0.5, 0.5, false} )
+    DefineBool(fSpinnyTool, false)
     
     -- movement
     DefineBool(fSpeed, false)

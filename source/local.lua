@@ -16,6 +16,7 @@ fWeaponGlow = {"Weapon Glow", "weaponglow"}
 fActiveGlow = {"Active Glow", "activeglow"}
 fRainbowFog = {"Colored Fog", "rainbowfog"}
 fPostProcess = {"Post Processing", "postprocessing"}
+fSpinnyTool = {"Spinny Tool", "spinnytool"}
 
 -- movement
 fSpeed = {"Speed", "speedhack"}

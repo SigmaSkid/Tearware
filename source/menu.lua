@@ -69,39 +69,41 @@ function DrawMenu()
                 -- visuals
 
                 Checkbox(fVisuals)
-                if GetBool(cfgstr .. "visuals") then 
+
+                Checkbox(fWatermark)
+                ColorSelector(fWatermark)
+
+                Checkbox(fFeatureList)
+                ColorSelector(fFeatureList)
+
+                Checkbox(fObjectiveEsp)
+                ColorSelector(fObjectiveEsp)
+                if AdvGetBool(fObjectiveEsp) then 
+                    Checkbox(fOptionalEsp)
+                    ColorSelector(fOptionalEsp)
+                end
+
+                Checkbox(fValuableEsp)
+                ColorSelector(fValuableEsp)
+
+                Checkbox(fToolEsp)
+                ColorSelector(fToolEsp)
+
+                Checkbox(fWeaponGlow)
+                ColorSelector(fWeaponGlow)
+
+                Checkbox(fActiveGlow)
+                ColorSelector(fActiveGlow)
+
+                Checkbox(fRainbowFog)
+                ColorSelector(fRainbowFog, false)
                 
-                    Checkbox(fWatermark)
-                    ColorSelector(fWatermark)
-
-                    Checkbox(fFeatureList)
-                    ColorSelector(fFeatureList)
-
-                    Checkbox(fObjectiveEsp)
-                    ColorSelector(fObjectiveEsp)
-
-                    if AdvGetBool(fObjectiveEsp) then 
-                        Checkbox(fOptionalEsp)
-                        ColorSelector(fOptionalEsp)
-                    end
-
-                    Checkbox(fValuableEsp)
-                    ColorSelector(fValuableEsp)
-
-                    Checkbox(fToolEsp)
-                    ColorSelector(fToolEsp)
-
-                    Checkbox(fWeaponGlow)
-                    ColorSelector(fWeaponGlow)
-
-                    Checkbox(fActiveGlow)
-                    ColorSelector(fActiveGlow)
-
-                    Checkbox(fRainbowFog)
-                    ColorSelector(fRainbowFog, false)
-
-                    Checkbox(fPostProcess)
-                    ColorSelector(fPostProcess)
+                Checkbox(fPostProcess)
+                ColorSelector(fPostProcess)
+                
+                -- very secret
+                if InputDown("shift") and UiIsMouseInRect(125, 25) then 
+                    Checkbox(fSpinnyTool)
                 end
 
             elseif GetInt(cfgstr .. "activetab") == 1 then 
