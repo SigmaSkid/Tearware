@@ -211,9 +211,13 @@ function Checkbox(var)
 
     local namew, nameh = UiGetTextSize(var[1])
     
-    if UiIsMouseInRect(namew + kw, nameh) then
-        UiColor(0.6, 0.6, 0.6, 1)
+    local highlight = 0.6
 
+    if UiIsMouseInRect(namew + kw, nameh) then
+        -- make the stuff we're hovering over a little brighter.
+        highlight = 0.8
+
+        -- right click -> edit this bind
         if InputPressed("rmb") then 
             filthyglobal_editingkeybind = var[2]
         end
@@ -224,11 +228,11 @@ function Checkbox(var)
 
     -- highlight the checkbox, if this is the keybind we're editing
     if filthyglobal_editingkeybind == var[2] then
-        UiColor(1.0, 1.0, 0.6, 1)    
+        UiColor(1.0, 1.0, highlight, 1)    
     elseif GetBool(cfgstr .. var[2]) then 
-        UiColor(0.6, 1.0, 0.6, 1)
+        UiColor(highlight, 1.0, highlight, 1)
     else 
-        UiColor(1.0, 0.6, 0.6, 1)
+        UiColor(1.0, highlight, highlight, 1)
     end
 
     if UiTextButton(var[1]) then
@@ -262,6 +266,8 @@ function Checkbox(var)
 
     UiPop()
     UiText("", true)
+    -- make rects not overlap
+    UiTranslate(0, 3)
 end
 
 function Button(name)
@@ -269,7 +275,18 @@ function Button(name)
     UiAlign("left top")
 
     UiTextShadow(0, 0, 0, 0.5, 2.0)
+    UiTextOutline(0, 0, 0, 1, 0.1)
     
+    local namew, nameh = UiGetTextSize(name)
+    
+    local highlight = 0.9
+
+    if UiIsMouseInRect(namew, nameh) then
+        highlight = 1
+    end
+
+    UiColor(highlight, highlight, highlight, 1)
+
     if UiTextButton(name) then
         UiPop()
         UiText("", true)
@@ -277,6 +294,44 @@ function Button(name)
     end
     UiPop()
     UiText("", true)
+    -- make rects not overlap
+    UiTranslate(0, 3)
+    return false
+end
+
+function SimpleCheckbox(name, value) 
+    UiPush()
+    UiAlign("left top")
+
+    UiTextShadow(0, 0, 0, 0.5, 2.0)
+    UiTextOutline(0, 0, 0, 1, 0.1)
+    
+    local namew, nameh = UiGetTextSize(name)
+    
+    local highlight = 0.6
+
+    if UiIsMouseInRect(namew, nameh) then
+        highlight = 0.8
+    end
+
+    if value == true then 
+        UiColor(highlight, 1.0, highlight, 1)
+    else 
+        UiColor(1.0, highlight, highlight, 1)
+    end
+
+    if UiTextButton(name) then
+        UiPop()
+        UiText("", true)
+        -- make rects not overlap
+        UiTranslate(0, 3)
+        return true
+    end
+
+    UiPop()
+    UiText("", true)
+    -- make rects not overlap
+    UiTranslate(0, 3)
     return false
 end
 
@@ -346,7 +401,7 @@ function ColorSelector(var, alpha)
                     UiColor(1.0, 0.6, 0.6, 1)
                 end
 
-                if Button("rainbow") then 
+                if SimpleCheckbox("rainbow", color.rainbow) then 
                     color.rainbow = not color.rainbow
                 end
             UiPop()
@@ -485,8 +540,10 @@ function SubSettingCheckbox(var, sub)
     
     local namew, nameh = UiGetTextSize(sub[1])
     
+    local highlight = 0.6
+
     if UiIsMouseInRect(namew, nameh) then
-        UiColor(0.6, 0.6, 0.6, 1)
+        highlight = 0.8
     end
 
     UiTextShadow(0, 0, 0, 0.5, 1.5)
@@ -494,9 +551,9 @@ function SubSettingCheckbox(var, sub)
 
     -- highlight the checkbox, if this is the keybind we're editing
     if GetBool(cfgstr .. var[2] .. sub[2]) then 
-        UiColor(0.6, 1.0, 0.6, 1)
+        UiColor(highlight, 1.0, highlight, 1)
     else 
-        UiColor(1.0, 0.6, 0.6, 1)
+        UiColor(1.0, highlight, highlight, 1)
     end
 
     if UiTextButton(sub[1]) then
