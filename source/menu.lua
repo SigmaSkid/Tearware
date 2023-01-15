@@ -464,8 +464,25 @@ function ColorSelector(var, alpha)
 end
 
 function optionsSlider(val, mi, ma, width)
-	UiPush()	
+	UiPush()
+        UiPush()
+            UiTranslate(-10, -18)
+            if UiIsMouseInRect(width + 60, 20) then
+                local scrollPos = InputValue("mousewheel")
+                if scrollPos ~= 0 then
+                    if InputDown("shift") then 
+                        val = val + scrollPos
+                    else
+                        val = val + scrollPos/10
+                    end
+                    val = Clamp(val, mi, ma)
+                end
+            end
+            -- UiRect(width + 60, 20)
+        UiPop()
+
         UiTranslate(0, -8)
+
         UiTextShadow(0, 0, 0, 0.5, 1.5)
         UiTextOutline(0, 0, 0, 1, 0.1)
 		val = (val-mi) / (ma-mi)
@@ -474,6 +491,7 @@ function optionsSlider(val, mi, ma, width)
 		UiAlign("center middle")
 		val = UiSlider("ui/common/dot.png", "x", val*width, 0, width) / width
 		val = val*(ma-mi)+mi
+        val = Clamp(val, mi, ma)
 
 		UiTranslate(width + 30, 0)
 		UiText(MathRound(val*10)/10)
