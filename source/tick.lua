@@ -450,7 +450,8 @@ function SuperStrength()
         end
     end
 
-    SetString("game.player.tool", "")
+    SetString("game.player.tool", "tearware_prop")
+    SetInt("game.tool.tearware_prop.ammo", 9999)
 
     if not IsHandleValid(ss_object.obj) then 
         ss_object.obj = nil
