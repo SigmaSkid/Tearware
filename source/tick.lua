@@ -419,7 +419,6 @@ end
 
 -- todo:
 -- account for where we grabbed the object (instead of using body center)
--- prevent scrollwheel from changing tools
 function SuperStrength()
     if not AdvGetBool(fSuperStrength) then 
         return 
@@ -430,11 +429,16 @@ function SuperStrength()
 
     if not InputDown("rmb") then 
         ss_object.obj = nil
+        if ss_last_tool ~= nil then 
+            SetString("game.player.tool", ss_last_tool)
+            ss_last_tool = nil
+        end
         return
     end
 
     if InputPressed("rmb") then 
         local object, dist = GetObjectWeAreLookingAt()
+        ss_last_tool = GetString("game.player.tool")
 
         if ss_object.obj == nil then 
             if object ~= nil then 
@@ -445,6 +449,8 @@ function SuperStrength()
             end
         end
     end
+
+    SetString("game.player.tool", "")
 
     if not IsHandleValid(ss_object.obj) then 
         ss_object.obj = nil

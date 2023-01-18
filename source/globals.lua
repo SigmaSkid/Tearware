@@ -37,6 +37,7 @@ lastRegistryInput = " "
 ss_object = {}
 ss_object.obj = nil 
 ss_object.dist = nil
+ss_last_tool = nil
 
 resetDvd = {} 
 resetDvd.width = 175 
