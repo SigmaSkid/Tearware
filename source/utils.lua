@@ -1,5 +1,9 @@
 -- tearware on top
 
+-- accepts euler yaw[float]
+-- returns modified euler yaw[float] based on inputs
+-- ex. local newyaw = TransformYawByInput(oldyaw)
+-- context ex. changing direction of velocity
 function TransformYawByInput(y)
     local Forward = InputDown("up") 
     local Back = InputDown("down")
@@ -34,28 +38,33 @@ function TransformYawByInput(y)
     return math.fmod(y + 180, 360) - 180
 end
 
+-- returns whether any input is pressed[bool]
+-- ex. if IsDirectionalInputDown then
 function IsDirectionalInputDown() 
     return InputDown("up") or InputDown("down") or InputDown("left") or InputDown("right")
 end
 
--- local direction, camera = GetForwardDirection()
+-- returns direction[vec3] and camera[table]
+-- ex. local direction, camera = GetForwardDirection()
 function GetForwardDirection() 
 	local camera = GetCameraTransform()
 	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 1))
     return VecNormalize(VecSub(camera.pos, parentpoint)), camera
 end
 
+-- returns ray hit[vec3]
+-- ex. local endpos = GetPosWeAreLookingAt()
 function GetPosWeAreLookingAt()
     local direction, camera = GetForwardDirection() 
     local hit, dist = QueryRaycast(camera.pos, direction, 666)
-
     if hit then 
         return TransformToParentPoint(camera, Vec(0, 0, -dist))
     end
-
     return nil 
 end
 
+-- returns body[handle] and distance[float]
+-- ex. local body, dist = GetObjectWeAreLookingAt()
 function GetObjectWeAreLookingAt()
     local direction, camera = GetForwardDirection() 
     local hit, dist, normal, shape = QueryRaycast(camera.pos, direction, 666)
@@ -63,35 +72,43 @@ function GetObjectWeAreLookingAt()
     if hit then 
         return GetShapeBody(shape), dist
     end
-
     return nil 
 end
 
+-- accepts offset[float], ex. GetTime()
+-- returns rgb[table] with R G B [float] values
+-- ex. local rainbow = seedToRGB(GetTime())
 function seedToRGB(y)
-    local rgb = {} 
-    
+    local rgb = {}
     rgb.R = math.sin(y + 0) * 0.5 + 0.5;
     rgb.G = math.sin(y + 2) * 0.5 + 0.5;
     rgb.B = math.sin(y + 4) * 0.5 + 0.5;
-
     return rgb 
 end
 
+-- accepts body[handle]
+-- returns center of body[vec3]
 function GetBodyCenter(body)
     local min, max = GetBodyBounds(body)
     return VecLerp(min, max, 0.5)
 end
 
+-- accepts a [float]
+-- returns closest [int]
 function MathRound(value)
     return math.floor(value+0.5)
 end
 
+-- accepts a 3 values, either [float] or [int]
+-- returns a [float] or [int]
 function Clamp(a, x, y) 
     if a < x then a = x end 
     if a > y then a = y end 
     return a
 end
 
+-- accepts a dvd[table] and delta time[float]
+-- returns updated frame of dvd[table]
 function animateDvd(dvd, dt)
     dvd.x = dvd.x + dvd.speedx * dt
     dvd.y = dvd.y + dvd.speedy * dt
@@ -105,7 +122,8 @@ function animateDvd(dvd, dt)
     return dvd
 end
 
--- accepts registry keys, returns boolean
+-- accepts registry key[string]
+-- returns boolean
 function DirtyWriteAccessCheck(key)
     local d = GetString(key)
     -- attempt to change the key value
@@ -121,8 +139,9 @@ function DirtyWriteAccessCheck(key)
     return false
 end
 
--- accepts a char, outputs modified char
--- otherwise returns input string after wasting cpu cycles
+-- accepts an input[char]
+-- can pass input[string] as unmodified [string], after wasting cpu cycles
+-- returns modified [char]
 function InputCapitalization(input)
     for i=1, #ghettoKeyMap do
         if input == ghettoKeyMap[i][1] then
@@ -136,10 +155,10 @@ function InputCapitalization(input)
     return input
 end
 
--- accepts a string, outputs a modified string.
+-- accepts a [string]
+-- returns a modified [string]
 -- todo:
 -- add a cursor to it, so you don't need to rewrite strings
-inputStringBackspaceTimer = 0
 function ModifyString(base)
     local input = InputLastPressedKey()
     -- not a single char

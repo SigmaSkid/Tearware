@@ -99,3 +99,5 @@ registryScrollingBaseOffset = 0
 registrySelectedKey = {}
 registrySelectedKey.key = ""
 registrySelectedKey.value = ""
+
+inputStringBackspaceTimer = 0
