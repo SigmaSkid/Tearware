@@ -5,7 +5,7 @@ cfgstr = "savegame.mod.tearware_"
 fixed_update_rate = 1/60 -- 0.01(6)
 origin_to_eye_distance = 1.7
 gameVersion = GetVersion()
-registryEntryPoints = { {"options", false}, {"game", false}, { "savegame", false}, {"level", true} }
+registryEntryPoints = { "options", "game", "savegame", "level" }
 
 -- temp values (reset to default on restart/level load/quick load)
 openMenu = nil

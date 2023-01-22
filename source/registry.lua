@@ -1,6 +1,21 @@
 -- tearware on top
 
-function ListChildren(var, writeAccess) 
+function DirtyWriteAccessCheck(key)
+    local d = GetString(key)
+    -- attempt to change the key value
+    SetString(key, "tearware")
+
+    -- successfully changed key value
+    if GetString(key) == "tearware" then
+        SetString(key, d)
+        return true
+    end
+
+    -- we failed to change key value, no need to restore
+    return false
+end
+
+function ListChildren(var)
 
     local Children = ListKeys(var)
     for i=1, #Children do
@@ -16,10 +31,10 @@ function ListChildren(var, writeAccess)
         object.id = #registryCache+1
         object.name = me 
         object.value = d
-        object.writeAccess = writeAccess
+        object.writeAccess = DirtyWriteAccessCheck(me)
 
         registryCache[#registryCache+1] = object
-        ListChildren(me, writeAccess)
+        ListChildren(me)
     end
 end
 
@@ -29,7 +44,7 @@ function CreateRegistry()
     end
 
     for i=1, #registryEntryPoints do
-        ListChildren(registryEntryPoints[i][1], registryEntryPoints[i][2])
+        ListChildren(registryEntryPoints[i])
     end
 end
 
