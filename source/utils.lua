@@ -104,3 +104,70 @@ function animateDvd(dvd, dt)
     end
     return dvd
 end
+
+-- accepts registry keys, returns boolean
+function DirtyWriteAccessCheck(key)
+    local d = GetString(key)
+    -- attempt to change the key value
+    SetString(key, "tearware")
+
+    -- successfully changed key value
+    if GetString(key) == "tearware" then
+        SetString(key, d)
+        return true
+    end
+
+    -- we failed to change key value, no need to restore
+    return false
+end
+
+-- accepts a char, outputs modified char
+-- otherwise returns input string after wasting cpu cycles
+function InputCapitalization(input)
+    for i=1, #ghettoKeyMap do
+        if input == ghettoKeyMap[i][1] then
+            if InputDown("shift") then
+                return ghettoKeyMap[i][3]
+            else
+                return ghettoKeyMap[i][2]
+            end
+        end
+    end
+    return input
+end
+
+-- accepts a string, outputs a modified string.
+-- todo:
+-- add a cursor to it, so you don't need to rewrite strings
+inputStringBackspaceTimer = 0
+function ModifyString(base)
+    local input = InputLastPressedKey()
+    -- not a single char
+    if #input > 1 then
+        if input == "space" then
+            base = base .. " "
+        end
+    elseif input ~= nil and input ~= "" then
+        base = base .. InputCapitalization(input)
+    else
+        for i=1, #keysNotInLastPressedKey do
+            if InputPressed(keysNotInLastPressedKey[i][1]) then
+                if InputDown("shift") then
+                    base = base .. keysNotInLastPressedKey[i][3]
+                else
+                    base = base .. keysNotInLastPressedKey[i][2]
+                end
+            end
+        end
+
+        if InputDown("backspace") then
+            if #base > 0 then
+                if inputStringBackspaceTimer <= GetTime() then
+                    base = base:sub(1, -2)
+                    inputStringBackspaceTimer = GetTime() + 0.1
+                end
+            end
+        end
+    end
+    return base
+end

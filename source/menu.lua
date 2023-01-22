@@ -293,6 +293,7 @@ function Button(name)
     if UiTextButton(name) then
         UiPop()
         UiText("", true)
+        UiTranslate(0, 3)
         return true
     end
     UiPop()

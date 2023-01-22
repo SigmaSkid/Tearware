@@ -1,20 +1,5 @@
 -- tearware on top
 
-function DirtyWriteAccessCheck(key)
-    local d = GetString(key)
-    -- attempt to change the key value
-    SetString(key, "tearware")
-
-    -- successfully changed key value
-    if GetString(key) == "tearware" then
-        SetString(key, d)
-        return true
-    end
-
-    -- we failed to change key value, no need to restore
-    return false
-end
-
 function ListChildren(var)
 
     local Children = ListKeys(var)
@@ -48,6 +33,64 @@ function CreateRegistry()
     end
 end
 
+function DisplayOrEditKey(thisObject, id, offsetAfterInt)
+    UiPush()
+        if registrySelectedKey.key == thisObject.id then
+            UiColor(0.3, 0.7, 0.3, 0.4)
+        else
+            if id%2==0 then
+                UiColor(0.1, 0.1, 0.1, 0.2)
+            else
+                UiColor(0.5, 0.5, 0.5, 0.2)
+            end
+        end
+        UiRect(UiWidth(), 26)
+
+        if UiIsMouseInRect(UiWidth()-10, 26) then
+            if InputPressed("lmb") then
+                if thisObject.writeAccess then
+                    if registrySelectedKey.key == thisObject.id then
+                        registrySelectedKey.key = "nil"
+                    else
+                        registrySelectedKey.key = thisObject.id
+                        registrySelectedKey.value = thisObject.value
+                    end
+                else
+                    registrySelectedKey.key = "nil"
+                end
+            end
+        end
+    UiPop()
+
+    UiPush()
+        if thisObject.writeAccess then
+            UiColor(0.6, 1.0, 0.6, 1)
+        else
+            UiColor(1.0, 0.6, 0.6, 1)
+        end
+
+        UiText(thisObject.id)
+
+        UiTranslate(offsetAfterInt, 0)
+        UiText(thisObject.name)
+
+        UiTranslate(UiMiddle()*1.5, 0)
+        if registrySelectedKey.key == thisObject.id then
+            registrySelectedKey.value = ModifyString(registrySelectedKey.value)
+            UiText(registrySelectedKey.value)
+            if InputDown("return") and thisObject.writeAccess then
+                SetString(thisObject.name, registrySelectedKey.value)
+                thisObject.value = registrySelectedKey.value
+                registryCache[id].value = registrySelectedKey.value
+                registrySelectedKey.key = "nil"
+            end
+        else
+            UiText(thisObject.value)
+        end
+
+    UiPop()
+end
+
 -- called on each draw
 function DrawRegistry()
     CreateRegistry()
@@ -59,8 +102,10 @@ function DrawRegistry()
         scrollspeed = 10
     elseif InputDown("home") then 
         registryScrollPos = 0
+        registrySelectedKey.key = "nil"
     elseif InputDown("end") then 
         registryScrollPos = #registryCache - VisibleEntries
+        registrySelectedKey.key = "nil"
     end
     
     local name = InputLastPressedKey()
@@ -84,39 +129,35 @@ function DrawRegistry()
         UiTextOutline(0, 0, 0, 0.7, 0.07)
 
         UiPush()
-            UiText(fProjectName .. " found " .. #registryCache .. " keys. Game version: " .. gameVersion .. " Last Input: " .. lastRegistryInput, true)
-        
-            UiAlign("bottom left")
-            local offsetAfterInt, h = UiGetTextSize(registryCache[#registryCache].id .. "n")
+            local displayText = fProjectName .. " found " .. #registryCache .. " keys. Game version: " .. gameVersion .. " Last Input: " .. lastRegistryInput 
+            UiText(displayText)
+            UiPush()
+                local displayOffsetX, displayOffsetY = UiGetTextSize(displayText)
+                UiTranslate(displayOffsetX, -displayOffsetY +3)
+                if UiTextButton("Refresh") or InputPressed("f5") then
+                    registryCache = {}
+                    CreateRegistry()
+                    -- DebugPrint("REFRESHED")
+                end
+            UiPop()
 
-            for i=math.floor(registryScrollPos), registryScrollPos + VisibleEntries do 
-                local thisObject = registryCache[i]
-                UiTranslate(0, 25)
-                UiPush()
-                    if i%2==0 then 
-                        UiColor(0.1, 0.1, 0.1, 0.2)
-                    else 
-                        UiColor(0.5, 0.5, 0.5, 0.2)
-                    end
-                    UiRect(UiWidth(), 26)
-                UiPop()
+            UiPush()
+                local offsetAfterInt, h = UiGetTextSize(registryCache[#registryCache].id .. "n")
 
-                UiPush()
-                    if thisObject.writeAccess then 
-                        UiColor(0.6, 1.0, 0.6, 1)
-                    else 
-                        UiColor(1.0, 0.6, 0.6, 1)
-                    end
+                for i=math.floor(registryScrollPos), registryScrollPos + VisibleEntries do
+                    local thisObject = registryCache[i]
+                    UiTranslate(0, 25)
+                    DisplayOrEditKey(thisObject, i, offsetAfterInt)
+                end
+            UiPop()
 
-                    UiText(thisObject.id)
-
-                    UiTranslate(offsetAfterInt, 0)
-                    UiText(thisObject.name)
-
-                    UiTranslate(UiMiddle()*1.5, 0)
-                    UiText(thisObject.value) 
-                UiPop()
-            end
+            UiPush()
+                UiColor(0.7, 0.7, 0.7, 0.7)
+                UiTranslate(offsetAfterInt - 5, 25)
+                UiRect(1, UiHeight())
+                UiTranslate(UiMiddle()*1.5, 0)
+                UiRect(1, UiHeight())
+            UiPop()
         UiPop()
 
         -- scroll bar yey

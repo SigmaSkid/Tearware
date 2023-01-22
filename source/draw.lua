@@ -222,6 +222,7 @@ function draw(dt)
         filthyglobal_editingkeybind = " "
         active_sub_menu = nil
         registryCache = {}
+        registrySelectedKey.key = "nil"
         return
     end
 
