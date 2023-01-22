@@ -52,7 +52,8 @@ function IncreaseValuablesValue()
     end
 
     if playerMoney < 0 then
-        targetMoney = (playerMoney * -1) + 1000000 -- giv some pennies to mr poor
+        targetMoney = (playerMoney * -1) + 1000000 
+        -- giv some pennies to mr poor
     end
 
     local v = FindBodies("valuable", true)
