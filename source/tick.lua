@@ -14,6 +14,8 @@ function tick(dt)
         end
     end
 
+    UpdateAllFeatureStates()
+
     -- delta time scaled, .5 = 120fps, 1 = 60fps, 2 = 30fps
     local dts = dt / fixed_update_rate
 

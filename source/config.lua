@@ -114,6 +114,10 @@ function SetColor(var, color)
 end
 
 function AdvGetBool(var)
+    return GetBool(cfgstr .. var[2])
+end
+
+function UpdateFeatureState(var)
     if not HasKey(cfgstr .. var[2] .. "_key") then 
         return GetBool(cfgstr .. var[2])
     end
@@ -126,9 +130,16 @@ function AdvGetBool(var)
     if InputPressed(key) then 
         SetBool(cfgstr .. var[2], not GetBool(cfgstr .. var[2]))
     end
-    
-    return GetBool(cfgstr .. var[2]) 
 end
+
+-- has to be done this way, because InputPressed
+-- is for some reason unreliable in update function
+function UpdateAllFeatureStates()
+    for i = 1, #featurelist do 
+        UpdateFeatureState(featurelist[i])
+    end
+end
+
 
 function ResetConfig()
     featurelist = {}
@@ -194,6 +205,7 @@ function ResetConfig()
     DefineBool(fExplosionBrush, false)
       DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
     DefineBool(fFireBrush, false)
+    DefineBool(fStructureRestorer, false)
     
     -- debug & config
     

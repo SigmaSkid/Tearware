@@ -172,6 +172,7 @@ function DrawMenu()
                 end
 
                 Checkbox(fFireBrush)
+                Checkbox(fStructureRestorer)
 
             elseif GetInt(cfgstr .. "activetab") == 4 then 
                 -- debug

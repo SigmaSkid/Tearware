@@ -49,6 +49,7 @@ fTeleport = {"Teleport", "teleport"}
 fExplosionBrush = {"Explosion Brush", "explosionbrush"}
   fExplosionBrushSize = {"Size", "size"}
 fFireBrush = {"Fire Brush", "firebrush"}
+fStructureRestorer = {"Structure Restorer", "structurerestorer"}
 
 -- shared sub settings
 fSubSpeed = {"Base Speed", "amount"}
