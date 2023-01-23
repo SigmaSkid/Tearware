@@ -102,3 +102,6 @@ registrySelectedKey.key = ""
 registrySelectedKey.value = ""
 
 inputStringBackspaceTimer = 0
+
+insaneObjectCache = {}
+objectCacheCleared = false

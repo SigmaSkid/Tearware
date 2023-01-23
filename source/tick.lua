@@ -14,6 +14,7 @@ function tick(dt)
         end
     end
 
+    -- input system stuff
     UpdateAllFeatureStates()
 
     -- delta time scaled, .5 = 120fps, 1 = 60fps, 2 = 30fps
