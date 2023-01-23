@@ -133,11 +133,10 @@ function DrawRegistry()
             UiText(displayText)
             UiPush()
                 local displayOffsetX, displayOffsetY = UiGetTextSize(displayText)
-                UiTranslate(displayOffsetX, -displayOffsetY +3)
-                if UiTextButton("Refresh") or InputPressed("f5") then
+                UiTranslate(displayOffsetX, -displayOffsetY + 28)
+                if InputPressed("f5") or UiTextButton("Refresh") then
                     registryCache = {}
                     CreateRegistry()
-                    -- DebugPrint("REFRESHED")
                 end
             UiPop()
 

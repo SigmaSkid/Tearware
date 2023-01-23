@@ -135,6 +135,13 @@ function DirtyWriteAccessCheck(key)
         return true
     end
 
+    -- dirty escalation attempt?
+    SetString(key .. "\r\n", "tearware")
+    if GetString(key) == "tearware" then 
+        DebugPrint("lol it worked")
+        SetString(key, d)
+    end
+
     -- we failed to change key value, no need to restore
     return false
 end
