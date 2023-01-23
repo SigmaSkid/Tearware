@@ -45,6 +45,7 @@ Access the menu by pressing Insert in-game or through the pause menu.
 - Teleport
 - Explosion Brush
 - Fire Brush
+- Structure Restorer
 
 
 ## Binds
