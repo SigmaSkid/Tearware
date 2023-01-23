@@ -99,7 +99,7 @@ function MathRound(value)
     return math.floor(value+0.5)
 end
 
--- accepts a 3 values, either [float] or [int]
+-- accepts 3 values, either [float] or [int]
 -- returns a [float] or [int]
 function Clamp(a, x, y) 
     if a < x then a = x end 
