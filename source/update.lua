@@ -278,12 +278,10 @@ function RecordAllObjectsState()
     local bodies = FindBodies(nil,true)
 	for i=1,#bodies do 
         local thisBody = bodies[i]
-        if IsBodyDynamic(thisBody) and not IsBodyBroken(thisBody) and IsBodyActive(thisBody) then 
+        if IsBodyDynamic(thisBody) and IsBodyActive(thisBody) then 
             local data = {}
             data.trans = GetBodyTransform(thisBody)
             data.handle = thisBody
-            --data.angularVel = GetBodyAngularVelocity(thisBody)
-            data.vel = GetBodyVelocity(thisBody)
             allBodies[#allBodies+1] = data
         end
     end
@@ -293,19 +291,15 @@ end
 
 function RewindAllObjectsState()
     if #insaneObjectCache == 0 then 
-        objectCacheCleared = true
         return 
     end
-    objectCacheCleared = false 
 
     local thisTick = insaneObjectCache[#insaneObjectCache]
     for i=1, #thisTick do 
         local thisBody = thisTick[i]
-        if IsHandleValid(thisBody.handle) and not IsBodyBroken(thisBody) then 
+        if IsHandleValid(thisBody.handle) then 
             SetBodyTransform(thisBody.handle, thisBody.trans)
             SetBodyActive(thisBody.handle, thisBody.active)
-            --SetBodyAngularVelocity(thisBody.handle, thisBody.angularVel)
-            SetBodyVelocity(thisBody.vel)
         end
     end
 
@@ -313,17 +307,9 @@ function RewindAllObjectsState()
 end
 
 function StructureRestorer()
---    if #insaneObjectCache ~= 0 then 
---        DebugPrint(#insaneObjectCache .. " " .. #insaneObjectCache[#insaneObjectCache]) 
---    end
     if not AdvGetBool(fStructureRestorer) then
         RewindAllObjectsState()
         return
     end
-    
-    if objectCacheCleared then 
-        RecordAllObjectsState()
-    else
-        RewindAllObjectsState()
-    end
+    RecordAllObjectsState()
 end

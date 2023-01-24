@@ -222,5 +222,5 @@ end
 -- dll main, but more gay
 function init()
     overrideConfigValues = false
-    ResetConfig() 
+    ResetConfig()
 end
