@@ -205,22 +205,22 @@ function DebugDrawCube(Min, Max, r, g, b, a)
     g=g or 1
     b=b or 1
     a=a or 1
-
-	DebugLine(Vec(Min[1],Min[2],Min[3]),Vec(Min[1],Min[2],Max[3]),r,g,b,a)
-	DebugLine(Vec(Min[1],Min[2],Min[3]),Vec(Min[1],Max[2],Min[3]),r,g,b,a)
-	DebugLine(Vec(Min[1],Min[2],Min[3]),Vec(Max[1],Min[2],Min[3]),r,g,b,a)
-
-	DebugLine(Vec(Max[1],Max[2],Min[3]),Vec(Max[1],Max[2],Max[3]),r,g,b,a)
-	DebugLine(Vec(Max[1],Min[2],Max[3]),Vec(Max[1],Max[2],Max[3]),r,g,b,a)
-	DebugLine(Vec(Min[1],Max[2],Max[3]),Vec(Max[1],Max[2],Max[3]),r,g,b,a)
-
-	DebugLine(Vec(Max[1],Min[2],Min[3]),Vec(Max[1],Min[2],Max[3]),r,g,b,a)
-	DebugLine(Vec(Min[1],Max[2],Min[3]),Vec(Max[1],Max[2],Min[3]),r,g,b,a)
-	DebugLine(Vec(Min[1],Min[2],Max[3]),Vec(Min[1],Max[2],Max[3]),r,g,b,a)
-
-	DebugLine(Vec(Min[1],Max[2],Min[3]),Vec(Min[1],Max[2],Max[3]),r,g,b,a)
-	DebugLine(Vec(Min[1],Min[2],Max[3]),Vec(Max[1],Min[2],Max[3]),r,g,b,a)
-	DebugLine(Vec(Max[1],Min[2],Min[3]),Vec(Max[1],Max[2],Min[3]),r,g,b,a)
+    
+    DebugLine(Vec(Min[1],Min[2],Min[3]),Vec(Min[1],Min[2],Max[3]),r,g,b,a)
+    DebugLine(Vec(Min[1],Min[2],Min[3]),Vec(Min[1],Max[2],Min[3]),r,g,b,a)
+    DebugLine(Vec(Min[1],Min[2],Min[3]),Vec(Max[1],Min[2],Min[3]),r,g,b,a)
+    
+    DebugLine(Vec(Max[1],Max[2],Min[3]),Vec(Max[1],Max[2],Max[3]),r,g,b,a)
+    DebugLine(Vec(Max[1],Min[2],Max[3]),Vec(Max[1],Max[2],Max[3]),r,g,b,a)
+    DebugLine(Vec(Min[1],Max[2],Max[3]),Vec(Max[1],Max[2],Max[3]),r,g,b,a)
+    
+    DebugLine(Vec(Max[1],Min[2],Min[3]),Vec(Max[1],Min[2],Max[3]),r,g,b,a)
+    DebugLine(Vec(Min[1],Max[2],Min[3]),Vec(Max[1],Max[2],Min[3]),r,g,b,a)
+    DebugLine(Vec(Min[1],Min[2],Max[3]),Vec(Min[1],Max[2],Max[3]),r,g,b,a)
+    
+    DebugLine(Vec(Min[1],Max[2],Min[3]),Vec(Min[1],Max[2],Max[3]),r,g,b,a)
+    DebugLine(Vec(Min[1],Min[2],Max[3]),Vec(Max[1],Min[2],Max[3]),r,g,b,a)
+    DebugLine(Vec(Max[1],Min[2],Min[3]),Vec(Max[1],Max[2],Min[3]),r,g,b,a)
 end
 
 -- accepts Min[vec3] Max[vec3]
