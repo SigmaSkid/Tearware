@@ -93,6 +93,13 @@ function GetBodyCenter(body)
     return VecLerp(min, max, 0.5)
 end
 
+-- accepts pointA[vec3] pointB[vec3]
+-- returns a [float]
+function VecDist(vecA, vecB)
+    local delta = VecSub(vecA, vecB)
+    return math.sqrt(delta[1]^2 + delta[2]^2 + delta[3]^2)
+end
+
 -- accepts a [float]
 -- returns closest [int]
 function MathRound(value)
@@ -189,4 +196,54 @@ function ModifyString(base)
         end
     end
     return base
+end
+
+-- accepts Min[vec3] Max[vec3]
+-- optionally accepts R, G, B, A
+function DebugDrawCube(Min, Max, r, g, b, a)
+    r=r or 1
+    g=g or 1
+    b=b or 1
+    a=a or 1
+
+	DebugLine(Vec(Min[1],Min[2],Min[3]),Vec(Min[1],Min[2],Max[3]),r,g,b,a)
+	DebugLine(Vec(Min[1],Min[2],Min[3]),Vec(Min[1],Max[2],Min[3]),r,g,b,a)
+	DebugLine(Vec(Min[1],Min[2],Min[3]),Vec(Max[1],Min[2],Min[3]),r,g,b,a)
+
+	DebugLine(Vec(Max[1],Max[2],Min[3]),Vec(Max[1],Max[2],Max[3]),r,g,b,a)
+	DebugLine(Vec(Max[1],Min[2],Max[3]),Vec(Max[1],Max[2],Max[3]),r,g,b,a)
+	DebugLine(Vec(Min[1],Max[2],Max[3]),Vec(Max[1],Max[2],Max[3]),r,g,b,a)
+
+	DebugLine(Vec(Max[1],Min[2],Min[3]),Vec(Max[1],Min[2],Max[3]),r,g,b,a)
+	DebugLine(Vec(Min[1],Max[2],Min[3]),Vec(Max[1],Max[2],Min[3]),r,g,b,a)
+	DebugLine(Vec(Min[1],Min[2],Max[3]),Vec(Min[1],Max[2],Max[3]),r,g,b,a)
+
+	DebugLine(Vec(Min[1],Max[2],Min[3]),Vec(Min[1],Max[2],Max[3]),r,g,b,a)
+	DebugLine(Vec(Min[1],Min[2],Max[3]),Vec(Max[1],Min[2],Max[3]),r,g,b,a)
+	DebugLine(Vec(Max[1],Min[2],Min[3]),Vec(Max[1],Max[2],Min[3]),r,g,b,a)
+end
+
+-- accepts Min[vec3] Max[vec3]
+-- optionally accepts R, G, B, A
+function DebugDrawCylinder(Min, Max, r, g, b, a)
+    r=r or 1
+    g=g or 1
+    b=b or 1
+    a=a or 1
+    local center = VecLerp(Min, Max, 0.5)
+    local radius = VecDist( {Min[1], 0, Min[3] }, { Max[1], 0, Max[3]}) / 2
+    local height = Max[2] - Min[2]
+    local numSegments = 16
+    local angleIncrement = (2 * math.pi) / numSegments
+    local currentAngle = 0
+    for i = 1, numSegments do
+        local x1 = center[1] + (math.cos(currentAngle) * radius)
+        local z1 = center[3] + (math.sin(currentAngle) * radius)
+        local x2 = center[1] + (math.cos(currentAngle + angleIncrement) * radius)
+        local z2 = center[3] + (math.sin(currentAngle + angleIncrement) * radius)
+        DebugLine(Vec(x1, Min[2], z1), Vec(x1, Max[2], z1), r, g, b, a)
+        DebugLine(Vec(x1, Min[2], z1), Vec(x2, Min[2], z2), r, g, b, a)
+        DebugLine(Vec(x1, Max[2], z1), Vec(x2, Max[2], z2), r, g, b, a)
+        currentAngle = currentAngle + angleIncrement
+    end
 end
