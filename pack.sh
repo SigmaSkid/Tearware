@@ -29,9 +29,19 @@ cp source/* release/source/
 echo "Removing comments, unnecessary spaces, and newlines from .lua files."
 for file in release/source/*.lua; do
     sed -i '/^\s*--/d' "$file"  # remove comments
-    sed -i 's/[[:space:]]*$//' "$file" #remove spaces at the end of lines
-    sed -i 's/^[ \t]*//' "$file" #remove spaces at the start of lines
-    sed -i '/^$/d' "$file" #remove empty lines
+    sed -i 's/[[:space:]]*$//' "$file" # remove spaces at the end of lines
+    sed -i 's/^[ \t]*//' "$file" # remove spaces at the start of lines
+    sed -i '/^$/d' "$file" # remove empty lines
+    sed -i ':a;N;$!ba;s/then\n/then /g' "$file" #replace newline with space after "then"
+    sed -i ':a;N;$!ba;s/else\n/else /g' "$file" #replace newline with space after "else"
+    sed -i ':a;N;$!ba;s/)\n/) /g' "$file" #replace newline with space after ")"
+    sed -i ':a;N;$!ba;s/}\n/} /g' "$file" #replace newline with space after "}"
+    sed -i ':a;N;$!ba;s/]\n/] /g' "$file" #replace newline with space after "]"
+    sed -i ':a;N;$!ba;s/{\n/{ /g' "$file" #replace newline with space after "{"
+    sed -i ':a;N;$!ba;s/,\n/, /g' "$file" #replace newline with space after ","
+    sed -i ':a;N;$!ba;s/end\n/end /g' "$file" #replace newline with space after "end"
+    sed -i ':a;N;$!ba;s/\nelse/ else/g' "$file" #replace newline with space before "else"
+    sed -i ':a;N;$!ba;s/\nend/ end/g' "$file" #replace newline before "end" with space
 done
 
 echo "Updating local.lua"
