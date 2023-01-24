@@ -80,9 +80,9 @@ end
 -- ex. local rainbow = seedToRGB(GetTime())
 function seedToRGB(y)
     local rgb = {}
-    rgb.R = math.sin(y + 0) * 0.5 + 0.5;
-    rgb.G = math.sin(y + 2) * 0.5 + 0.5;
-    rgb.B = math.sin(y + 4) * 0.5 + 0.5;
+    rgb.R = math.sin(y + 0) * 0.5 + 0.5
+    rgb.G = math.sin(y + 2) * 0.5 + 0.5
+    rgb.B = math.sin(y + 4) * 0.5 + 0.5
     return rgb 
 end
 
