@@ -37,6 +37,7 @@ Access the menu by pressing Insert in-game or through the pause menu.
 - Disable Robots
 - Disable Physics
 - Force Update Physics
+- Registry Explorer
 
 ### Tools
 - Rubberband
