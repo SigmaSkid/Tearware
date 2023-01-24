@@ -15,16 +15,6 @@ function DefineBool(var, default)
     SetString(cfgstr .. var[2] .. "_key", "null")
 end
 
-function DefineTool(var) 
-    if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then 
-        if not overrideConfigValues then 
-            return
-        end
-    end
-    SetBool(cfgstr .. var[2], false)
-    SetString(cfgstr .. var[2] .. "_key", "null")
-end
-
 colorStuff = {"_red", "_green", "_blue", "_alpha", "_rainbow"}
 function DefineColor(var, default) 
     for i = 1, #colorStuff-1 do
@@ -201,7 +191,7 @@ function ResetConfig()
       DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
     DefineBool(fTeleportValuables, false)
     DefineBool(fUnfairValuables, false)
-    DefineTool(fTeleport)
+    DefineBool(fTeleport, false)
     DefineBool(fExplosionBrush, false)
       DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
     DefineBool(fFireBrush, false)
