@@ -24,10 +24,12 @@ cp source/* release/source/
 
 echo "Removing comments, unnecessary spaces, and newlines from .lua files."
 for file in release/source/*.lua; do
-    sed -i '/^\s*--/d' "$file"  # remove comments
-    sed -i 's/[[:space:]]*$//' "$file" # remove spaces at the end of lines
+    echo "$file"
+    sed -n '/^\s*--/p' "$file" | awk '{print $0}' # echo comments
+    sed -i '/^\s*--/d' "$file" # remove comments
     sed -i 's/^[ \t]*//' "$file" # remove spaces at the start of lines
     sed -i '/^$/d' "$file" # remove empty lines
+    echo ""
 done
 
 echo "Updating local.lua"

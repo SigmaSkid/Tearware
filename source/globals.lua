@@ -7,6 +7,7 @@ fixed_update_rate = 1/60
 origin_to_eye_distance = 1.7
 gameVersion = GetVersion()
 registryEntryPoints = { "options", "game", "savegame", "level" }
+colorSuffix = {"_red", "_green", "_blue", "_alpha", "_rainbow"}
 
 -- {"Name that InputLastPressedKey() Outputs", "Default Value", "Capitalized Value"}
 ghettoKeyMap = {

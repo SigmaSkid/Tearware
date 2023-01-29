@@ -5,6 +5,8 @@
 -- ex. local newyaw = TransformYawByInput(oldyaw)
 -- context ex. changing direction of velocity
 function TransformYawByInput(y)
+    y=y or 1
+
     local Forward = InputDown("up") 
     local Back = InputDown("down")
     local Left = InputDown("left")

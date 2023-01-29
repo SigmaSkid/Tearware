@@ -5,7 +5,7 @@
 function DefineBool(var, default) 
     featurelist[#featurelist+1] = var
 
-    if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then 
+    if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then
         if not overrideConfigValues then 
             return
         end
@@ -15,30 +15,29 @@ function DefineBool(var, default)
     SetString(cfgstr .. var[2] .. "_key", "null")
 end
 
-colorStuff = {"_red", "_green", "_blue", "_alpha", "_rainbow"}
 function DefineColor(var, default) 
-    for i = 1, #colorStuff-1 do
-        if (not HasKey(cfgstr .. var[2] .. colorStuff[i])) or overrideConfigValues then 
-            SetFloat(cfgstr .. var[2] .. colorStuff[i], default[i])
+    for i = 1, #colorSuffix-1 do
+        if (not HasKey(cfgstr .. var[2] .. colorSuffix[i])) or overrideConfigValues then
+            SetFloat(cfgstr .. var[2] .. colorSuffix[i], default[i])
         end    
-        SetFloat(cfgstr .. var[2] .. colorStuff[i] .. "_default" , default[i])
+        SetFloat(cfgstr .. var[2] .. colorSuffix[i] .. "_default" , default[i])
     end
 
-    if (not HasKey(cfgstr .. var[2] .. colorStuff[#colorStuff])) or overrideConfigValues then 
-        SetBool(cfgstr .. var[2] .. colorStuff[#colorStuff], default[#colorStuff])
+    if (not HasKey(cfgstr .. var[2] .. colorSuffix[#colorSuffix])) or overrideConfigValues then
+        SetBool(cfgstr .. var[2] .. colorSuffix[#colorSuffix], default[#colorSuffix])
     end
-    SetBool(cfgstr .. var[2] .. colorStuff[#colorStuff] .. "_default" , default[#colorStuff])
+    SetBool(cfgstr .. var[2] .. colorSuffix[#colorSuffix] .. "_default" , default[#colorSuffix])
 end
 
 function ResetColorToDefault(var)
     local base = var[2]
-    for i = 1, #colorStuff-1 do 
-        local default_val = GetFloat(cfgstr .. base .. colorStuff[i] .. "_default")
-        SetFloat(cfgstr .. base .. colorStuff[i], default_val)
+    for i = 1, #colorSuffix-1 do
+        local default_val = GetFloat(cfgstr .. base .. colorSuffix[i] .. "_default")
+        SetFloat(cfgstr .. base .. colorSuffix[i], default_val)
     end
 
-    local default_rainbow = GetBool(cfgstr .. base .. colorStuff[#colorStuff] .. "_default")
-    SetBool(cfgstr .. base .. colorStuff[#colorStuff], default_rainbow)
+    local default_rainbow = GetBool(cfgstr .. base .. colorSuffix[#colorSuffix] .. "_default")
+    SetBool(cfgstr .. base .. colorSuffix[#colorSuffix], default_rainbow)
 end
 
 function DefineSubFloat(var, sub, default) 
@@ -77,30 +76,31 @@ end
 
 function GetColor(var, seed)
     local color = {}
-    color.rainbow = GetBool(cfgstr .. var[2] .. colorStuff[5])
+    color.rainbow = GetBool(cfgstr .. var[2] .. colorSuffix[5])
     if color.rainbow then 
         color.red = math.sin(seed + 0) * 0.5 + 0.5;
         color.green = math.sin(seed + 2) * 0.5 + 0.5;
         color.blue = math.sin(seed + 4) * 0.5 + 0.5;
     else
-        color.red = GetFloat(cfgstr .. var[2] .. colorStuff[1])
-        color.green = GetFloat(cfgstr .. var[2] .. colorStuff[2])
-        color.blue = GetFloat(cfgstr .. var[2] .. colorStuff[3])
+        color.red = GetFloat(cfgstr .. var[2] .. colorSuffix[1])
+        color.green = GetFloat(cfgstr .. var[2] .. colorSuffix[2])
+        color.blue = GetFloat(cfgstr .. var[2] .. colorSuffix[3])
     end
-    color.alpha = GetFloat(cfgstr .. var[2] .. colorStuff[4])
+    color.alpha = GetFloat(cfgstr .. var[2] .. colorSuffix[4])
+
 
     return color
 end
 
 function SetColor(var, color)
-    SetBool(cfgstr .. var[2] .. colorStuff[5], color.rainbow)
-    SetFloat(cfgstr .. var[2] .. colorStuff[4], color.alpha)
+    SetBool(cfgstr .. var[2] .. colorSuffix[5], color.rainbow)
+    SetFloat(cfgstr .. var[2] .. colorSuffix[4], color.alpha)
     if color.rainbow then 
         return 
     end
-    SetFloat(cfgstr .. var[2] .. colorStuff[1], color.red)
-    SetFloat(cfgstr .. var[2] .. colorStuff[2], color.green)
-    SetFloat(cfgstr .. var[2] .. colorStuff[3], color.blue)
+    SetFloat(cfgstr .. var[2] .. colorSuffix[1], color.red)
+    SetFloat(cfgstr .. var[2] .. colorSuffix[2], color.green)
+    SetFloat(cfgstr .. var[2] .. colorSuffix[3], color.blue)
 end
 
 function AdvGetBool(var)

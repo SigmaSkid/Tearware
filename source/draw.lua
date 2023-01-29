@@ -205,19 +205,18 @@ function VisualsDraw()
         return 
     end
 
-    Watermark()
-    FeatureList()
-    ValueableEsp()
-    ObjectiveEsp()
-    ToolEsp()
-    WeaponGlow()
-    ActiveGlow()
+    UiPush()
+        Watermark()
+        FeatureList()
+        ValueableEsp()
+        ObjectiveEsp()
+        ToolEsp()
+        WeaponGlow()
+        ActiveGlow()
+    UiPop()
 end
 
--- called on each draw, dt isn't documented :D
-function draw(dt)
-    VisualsDraw()
-
+function UiDraw(dt)
     if openMenu == nil then
         filthyglobal_editingkeybind = " "
         active_sub_menu = nil
@@ -225,19 +224,26 @@ function draw(dt)
         registrySelectedKey.key = "nil"
         return
     end
+    UiPush()
+        UiMakeInteractive()
+        SetBool("game.disablepause", true)
 
-    UiMakeInteractive()
-    SetBool("game.disablepause", true)
-    
-    if InputPressed("pause") then
-        openMenu = nil
-    end
+        if InputPressed("pause") then
+            openMenu = nil
+        end
 
-    if openMenu == "tearware" then 
-        DrawMenu()
-    elseif openMenu == "registry" then 
-        DrawRegistry()
-    elseif openMenu == "reset" then 
-        DrawResetConfigConfirmation(dt)
-    end
+        if openMenu == "tearware" then
+            DrawMenu()
+        elseif openMenu == "registry" then
+            DrawRegistry()
+        elseif openMenu == "reset" then
+            DrawResetConfigConfirmation(dt)
+        end
+    UiPop()
+end
+
+-- called on each draw, dt isn't documented :D
+function draw(dt)
+    VisualsDraw()
+    UiDraw(dt)
 end
