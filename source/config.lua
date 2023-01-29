@@ -88,8 +88,11 @@ function GetColor(var, seed)
     end
     color.alpha = GetFloat(cfgstr .. var[2] .. colorSuffix[4])
 
-
     return color
+end
+
+function FlipBool(var)
+    SetBool(var, not GetBool(var))
 end
 
 function SetColor(var, color)

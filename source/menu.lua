@@ -240,7 +240,7 @@ function Checkbox(var)
     end
 
     if UiTextButton(var[1]) then
-        SetBool(cfgstr .. var[2], not GetBool(cfgstr .. var[2]))
+        FlipBool(cfgstr .. var[2])
     end
 
     -- check if this is the checkbox of the keybind we're editing
@@ -582,7 +582,7 @@ function SubSettingCheckbox(var, sub)
     end
 
     if UiTextButton(sub[1]) then
-        SetBool(cfgstr .. var[2] .. sub[2], not GetBool(cfgstr .. var[2] .. sub[2]))
+        FlipBool(cfgstr .. var[2] .. sub[2])
     end
 
     UiPop()

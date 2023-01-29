@@ -11,7 +11,6 @@ function Watermark()
     UiPush()
         local color = GetColor(fWatermark, GetTime())
         UiColor(color.red, color.green, color.blue, color.alpha)
-        UiTranslate(0, 0)
         UiAlign("left top")
         UiFont("bold.ttf", 25)
         UiTextShadow(0, 0, 0, color.alpha * 0.5, 1.5)
@@ -28,7 +27,6 @@ function FeatureList()
     local visibleFeatures = 0.05
 
     UiPush()
-        UiTranslate(0, 0)
         UiAlign("top left")
 
         if AdvGetBool(fWatermark) then 
@@ -42,7 +40,7 @@ function FeatureList()
         UiTextOutline(0, 0, 0, color.alpha * 0.7, 0.07)
 
         for i=1, #featurelist do
-            if GetBool(cfgstr .. featurelist[i][2]) then 
+            if AdvGetBool(featurelist[i]) then
                 visibleFeatures = visibleFeatures + 0.05
                 local color = GetColor(fFeatureList, GetTime() + visibleFeatures)
                 UiColor(color.red, color.green, color.blue, color.alpha)
