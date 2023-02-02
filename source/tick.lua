@@ -140,7 +140,7 @@ function Spider()
 
     local hit = QueryRaycast(GetPlayerPos(), Vec(0, -1, 0), 0.1, 0.7)
 
-    if not hit or not InputDown("jump") then 
+    if not hit or not TWInputDown("jump") then 
         return 
     end
 
@@ -161,7 +161,7 @@ function Speedhack()
     local velocity = GetPlayerVelocity()
 
     local TargetVel = GetSubFloat(fSpeed, fSubSpeed)
-    if InputDown("shift") then 
+    if TWInputDown("shift") then 
         TargetVel = GetSubFloat(fSpeed, fSubBoost)
     end
 
@@ -205,7 +205,7 @@ function Jesus()
 
     local velocity = GetPlayerVelocity()
     
-    if InputDown("jump") then 
+    if TWInputDown("jump") then 
         velocity[2] = 5
     elseif depth > 0.1 then 
         velocity[2] = 6
@@ -234,7 +234,7 @@ function Jetpack(dts)
         return 
     end
 
-    if InputDown("jump") then 
+    if TWInputDown("jump") then 
         local velocity = GetPlayerVelocity()
 
         velocity[2] = velocity[2] + (0.5 * dts)
@@ -255,18 +255,18 @@ function Fly()
     SetPlayerVelocity(Vec(0, 0, 0))
 
     local TargetVel = GetSubFloat(fFly, fSubSpeed)
-    if InputDown("shift") then 
+    if TWInputDown("shift") then 
         TargetVel = GetSubFloat(fFly, fSubBoost)
     end
 
     if not IsDirectionalInputDown() then
 
         local ohno = 0
-        if InputDown("jump") then 
+        if TWInputDown("jump") then 
             ohno = TargetVel
         end 
         
-        if InputDown("crouch") then 
+        if TWInputDown("crouch") then 
             ohno = ohno -TargetVel
         end
     
@@ -300,11 +300,11 @@ function Fly()
 
         
     local ohno = 0
-    if InputDown("jump") then 
+    if TWInputDown("jump") then 
         ohno = TargetVel
     end 
     
-    if InputDown("crouch") then 
+    if TWInputDown("crouch") then 
         ohno = ohno - TargetVel
     end
 
@@ -331,7 +331,7 @@ function NoClip(dts)
     trans.pos = noclipbackuppos
 
     local speed = GetSubFloat(fNoclip, fSubSpeed)/10
-    if InputDown("shift") then 
+    if TWInputDown("shift") then 
         speed = GetSubFloat(fNoclip, fSubBoost)/10
     end
 
@@ -355,11 +355,11 @@ function NoClip(dts)
         trans.pos[3] = trans.pos[3] + direction[3]
     end 
     
-    if InputDown("jump") then
+    if TWInputDown("jump") then
         trans.pos[2] = trans.pos[2] + speed
     end 
 
-    if InputDown("crouch") then
+    if TWInputDown("crouch") then
         trans.pos[2] = trans.pos[2] - speed
     end 
 
@@ -430,7 +430,7 @@ function SuperStrength()
     -- engine grab, haha, no
     ReleasePlayerGrab()
 
-    if not InputDown("rmb") then 
+    if not TWInputDown("rmb") then 
         ss_object.obj = nil
         if ss_last_tool ~= nil then 
             SetString("game.player.tool", ss_last_tool)
@@ -439,7 +439,7 @@ function SuperStrength()
         return
     end
 
-    if InputPressed("rmb") then 
+    if TWInputPressed("rmb") then 
         local object, dist = GetObjectWeAreLookingAt()
         ss_last_tool = GetString("game.player.tool")
 
@@ -466,7 +466,7 @@ function SuperStrength()
         return
     end
 
-    if InputDown("lmb") then 
+    if TWInputDown("lmb") then 
         -- LAUNCH!
         if ss_object.obj ~= nil then 
             local dir = GetForwardDirection()
@@ -482,7 +482,7 @@ function SuperStrength()
 
     local scrollPos = InputValue("mousewheel")
     if scrollPos ~= 0 then 
-        if InputDown("shift") then 
+        if TWInputDown("shift") then 
             scrollPos = scrollPos * 5
         end
         ss_object.dist = ss_object.dist + scrollPos

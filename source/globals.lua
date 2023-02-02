@@ -6,7 +6,7 @@ cfgstr = "savegame.mod.tearware_"
 fixed_update_rate = 1/60
 origin_to_eye_distance = 1.7
 gameVersion = GetVersion()
-registryEntryPoints = { "options", "game", "savegame", "level" }
+registryEntryPoints = { "options", "game", "savegame", "level", "promo", "mods" }
 colorSuffix = {"_red", "_green", "_blue", "_alpha", "_rainbow"}
 
 -- {"Name that InputLastPressedKey() Outputs", "Default Value", "Capitalized Value"}
@@ -48,6 +48,7 @@ ghettoKeyMap = {
     {"9", "9", "("},
     {"0", "0", ")"}
 }
+
 -- other keyboard layouts? what's that
 -- some keys might have different names in teardown engine? Couldn't get [{:;"'\|`~}] to work
 -- {"Name that InputPressed Accepts", "Default Value", "Capitalized Value"}
@@ -105,3 +106,9 @@ registrySelectedKey.value = ""
 inputStringBackspaceTimer = 0
 
 insaneObjectCache = {}
+
+editingRegistrySearchString = false
+registryVisibleCache = {}
+registrySearchString = ""
+modifiedregistrySearchString = false
+lockInputs = false

@@ -101,10 +101,7 @@ function DrawMenu()
                 Checkbox(fPostProcess)
                 ColorSelector(fPostProcess)
                 
-                -- very secret
-                if InputDown("shift") and UiIsMouseInRect(125, 25) then 
-                    Checkbox(fSpinnyTool)
-                end
+                Checkbox(fSpinnyTool)
 
             elseif GetInt(cfgstr .. "activetab") == 1 then 
                 -- movement
@@ -154,7 +151,8 @@ function DrawMenu()
                 Checkbox(fDisableRobots)
                 Checkbox(fDisablePhysics)
                 Checkbox(fForceUpdatePhysics)
-            
+
+
             elseif GetInt(cfgstr .. "activetab") == 3 then 
                 -- tools
 

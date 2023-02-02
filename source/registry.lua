@@ -31,9 +31,13 @@ function CreateRegistry()
     for i=1, #registryEntryPoints do
         ListChildren(registryEntryPoints[i])
     end
+
+    registryVisibleCache = registryCache
+    registrySearchString = ""
 end
 
 function DisplayOrEditKey(thisObject, id, offsetAfterInt)
+    UiTranslate(0, 25)
     UiPush()
         if registrySelectedKey.key == thisObject.id then
             UiColor(0.3, 0.7, 0.3, 0.4)
@@ -58,6 +62,7 @@ function DisplayOrEditKey(thisObject, id, offsetAfterInt)
                 else
                     registrySelectedKey.key = "nil"
                 end
+                editingRegistrySearchString = false
             end
         end
     UiPop()
@@ -91,6 +96,35 @@ function DisplayOrEditKey(thisObject, id, offsetAfterInt)
     UiPop()
 end
 
+function UpdateSearchVisibility()
+    if editingRegistrySearchString then
+        registrySearchString, modifiedregistrySearchString = ModifyString(registrySearchString)
+    end
+
+    if #registryCache == 0 then
+        return
+    end
+
+    if not modifiedregistrySearchString then
+        return
+    end
+
+    registryVisibleCache = {}
+
+    for i=1, #registryCache do
+        local this = registryCache[i]
+
+        if #registrySearchString == 0 then
+            registryVisibleCache[#registryVisibleCache + 1] = this
+            -- dots "." are used as placeholders for any character
+            -- so you can search for "something" with a search query like s...th..g
+        elseif string.find(this.name, registrySearchString) ~= nil then
+            registryVisibleCache[#registryVisibleCache + 1] = this
+        end
+    end
+end
+
+
 -- called on each draw
 function DrawRegistry()
     CreateRegistry()
@@ -103,16 +137,22 @@ function DrawRegistry()
     elseif InputDown("home") then 
         registryScrollPos = 0
         registrySelectedKey.key = "nil"
+        editingRegistrySearchString = false
     elseif InputDown("end") then 
         registryScrollPos = #registryCache - VisibleEntries
         registrySelectedKey.key = "nil"
+        editingRegistrySearchString = false
+    elseif InputDown("return") then
+        editingRegistrySearchString = false
     end
+
+    UpdateSearchVisibility()
     
     local name = InputLastPressedKey()
 
     if name ~= "" and name ~= nil then lastRegistryInput = name end
 
-    registryScrollPos = Clamp(registryScrollPos - (InputValue("mousewheel")*scrollspeed), 1, #registryCache - VisibleEntries)
+    registryScrollPos = Clamp(registryScrollPos - (InputValue("mousewheel")*scrollspeed), 1, #registryVisibleCache - VisibleEntries)
 
     UiMakeInteractive()
 
@@ -129,14 +169,26 @@ function DrawRegistry()
         UiTextOutline(0, 0, 0, 0.7, 0.07)
 
         UiPush()
-            local displayText = fProjectName .. " found " .. #registryCache .. " keys. Game version: " .. gameVersion .. " Last Input: " .. lastRegistryInput 
+            local displayText = fProjectName .. " found " .. #registryCache .. " keys. Game version: " .. gameVersion
             UiText(displayText)
+            
             UiPush()
                 local displayOffsetX, displayOffsetY = UiGetTextSize(displayText)
+                displayText =  "Last Input: " .. lastRegistryInput 
                 UiTranslate(displayOffsetX, -displayOffsetY + 28)
+                UiText(displayText)
+            UiPop()
+
+            UiPush()
+                UiTranslate(displayOffsetX + 240, -displayOffsetY + 28)
                 if InputPressed("f5") or UiTextButton("Refresh") then
                     registryCache = {}
                     CreateRegistry()
+                end
+                UiTranslate(120, 0)
+                if UiTextButton("Search: " .. registrySearchString) then 
+                    editingRegistrySearchString = true
+                    registrySelectedKey.key = "nil"
                 end
             UiPop()
 
@@ -144,9 +196,10 @@ function DrawRegistry()
                 local offsetAfterInt, h = UiGetTextSize(registryCache[#registryCache].id .. "n")
 
                 for i=math.floor(registryScrollPos), registryScrollPos + VisibleEntries do
-                    local thisObject = registryCache[i]
-                    UiTranslate(0, 25)
-                    DisplayOrEditKey(thisObject, i, offsetAfterInt)
+                    local thisObject = registryVisibleCache[i]
+                    if thisObject then
+                        DisplayOrEditKey(thisObject, i, offsetAfterInt)
+                    end
                 end
             UiPop()
 
@@ -173,9 +226,9 @@ function DrawRegistry()
             end
             
             UiPush()
-                local scrollPercent = registryScrollPos / #registryCache 
+                local scrollPercent = registryScrollPos / #registryVisibleCache
                 local scrollOffset = scrollPercent * UiHeight()
-                local scrollSizePercent = VisibleEntries / #registryCache 
+                local scrollSizePercent = VisibleEntries / #registryVisibleCache
                 local scrollSize = scrollSizePercent * UiHeight()
                 
                 UiColor(0.9, 0.9, 0.9, 1)
@@ -194,7 +247,7 @@ function DrawRegistry()
                             UiTranslate(0, -scrollOffset)
                             local x, y = UiGetMousePos()
 
-                            registryScrollPos = Clamp( (y*#registryCache / UiHeight()) - VisibleEntries/2, 1, #registryCache - VisibleEntries)
+                            registryScrollPos = Clamp( (y*#registryVisibleCache / UiHeight()) - VisibleEntries/2, 1, #registryVisibleCache - VisibleEntries)
                             --DebugPrint(y .. " " .. registryScrollPos)
                         UiPop()
                     end
@@ -207,7 +260,7 @@ function DrawRegistry()
                         local delta = (y - registryScrollingBaseOffset)
 
                         if math.abs(delta) > 1 then 
-                            registryScrollPos = Clamp(registryScrollPos + delta, 1, #registryCache - VisibleEntries)
+                            registryScrollPos = Clamp(registryScrollPos + delta, 1, #registryVisibleCache - VisibleEntries)
                         end
                     else
                         isScrollingRegistry = false 

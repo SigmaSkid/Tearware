@@ -7,6 +7,8 @@
 function TransformYawByInput(y)
     y=y or 1
 
+    if lockInputs then return y end
+
     local Forward = InputDown("up") 
     local Back = InputDown("down")
     local Left = InputDown("left")
@@ -43,6 +45,7 @@ end
 -- returns whether any input is pressed[bool]
 -- ex. if IsDirectionalInputDown then
 function IsDirectionalInputDown() 
+    if lockInputs then return false end
     return InputDown("up") or InputDown("down") or InputDown("left") or InputDown("right")
 end
 
@@ -165,11 +168,12 @@ function InputCapitalization(input)
 end
 
 -- accepts a [string]
--- returns a modified [string]
+-- returns a modified [string] and a [bool] if the [string] was modified
 -- todo:
 -- add a cursor to it, so you don't need to rewrite strings
 function ModifyString(base)
     local input = InputLastPressedKey()
+    local old_state = base
     -- not a single char
     if #input > 1 then
         if input == "space" then
@@ -197,11 +201,11 @@ function ModifyString(base)
             end
         end
     end
-    return base
+    return base, not (old_state == base)
 end
 
 -- accepts Min[vec3] Max[vec3]
--- optionally accepts R, G, B, A
+-- optionally accepts R[float], G[float], B[float], A[float]
 function DebugDrawCube(Min, Max, r, g, b, a)
     r=r or 1
     g=g or 1
@@ -226,7 +230,7 @@ function DebugDrawCube(Min, Max, r, g, b, a)
 end
 
 -- accepts Min[vec3] Max[vec3]
--- optionally accepts R, G, B, A
+-- optionally accepts R[float], G[float], B[float], A[float]
 function DebugDrawCylinder(Min, Max, r, g, b, a)
     r=r or 1
     g=g or 1
@@ -248,4 +252,14 @@ function DebugDrawCylinder(Min, Max, r, g, b, a)
         DebugLine(Vec(x1, Max[2], z1), Vec(x2, Max[2], z2), r, g, b, a)
         currentAngle = currentAngle + angleIncrement
     end
+end
+
+function TWInputDown(input)
+    if lockInputs then return false end
+    return InputDown(input)
+end
+
+function TWInputPressed(input)
+    if lockInputs then return false end
+    return InputPressed(input)
 end

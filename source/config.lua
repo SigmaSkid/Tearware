@@ -128,6 +128,8 @@ end
 -- has to be done this way, because InputPressed
 -- is for some reason unreliable in update function
 function UpdateAllFeatureStates()
+    if lockInputs then return end
+
     for i = 1, #featurelist do 
         UpdateFeatureState(featurelist[i])
     end
@@ -210,10 +212,4 @@ function ResetConfig()
             return UiGetTextSize(left[1]) > UiGetTextSize(right[1])
         end)
     UiPop()
-end
-
--- dll main, but more gay
-function init()
-    overrideConfigValues = false
-    ResetConfig()
 end

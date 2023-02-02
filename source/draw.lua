@@ -218,10 +218,14 @@ function UiDraw(dt)
     if openMenu == nil then
         filthyglobal_editingkeybind = " "
         active_sub_menu = nil
+        editingRegistrySearchString = false
         registryCache = {}
         registrySelectedKey.key = "nil"
+        lockInputs = false
         return
     end
+    lockInputs = true
+
     UiPush()
         UiMakeInteractive()
         SetBool("game.disablepause", true)
