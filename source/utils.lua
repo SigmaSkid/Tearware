@@ -105,6 +105,13 @@ function VecDist(vecA, vecB)
     return math.sqrt(delta[1]^2 + delta[2]^2 + delta[3]^2)
 end
 
+-- accepts body[handle]
+-- returns size[float]
+function GetBodySize(body)
+    local min, max = GetBodyBounds(body)
+    return VecDist(min, max)
+end
+
 -- accepts a [float]
 -- returns closest [int]
 function MathRound(value)

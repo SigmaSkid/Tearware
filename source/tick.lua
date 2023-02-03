@@ -207,10 +207,8 @@ function Jesus()
     
     if TWInputDown("jump") then 
         velocity[2] = 5
-    elseif depth > 0.1 then 
-        velocity[2] = 6
     else
-        velocity[2] = depth*20
+        velocity[2] = Clamp(depth*20, 0, 6)
     end
 
     SetPlayerVelocity(velocity)
