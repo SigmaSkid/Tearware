@@ -475,6 +475,7 @@ function SuperStrength()
 
             SetBodyVelocity(ss_object.obj, velocity)
             ss_object.obj = nil
+            SetString("game.player.tool", ss_last_tool)
         end
         return
     end
