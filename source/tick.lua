@@ -451,9 +451,6 @@ function SuperStrength()
         end
     end
 
-    SetString("game.player.tool", "tearware_prop")
-    SetInt("game.tool.tearware_prop.ammo", 9999)
-
     if not IsHandleValid(ss_object.obj) then 
         ss_object.obj = nil
         return
@@ -463,6 +460,9 @@ function SuperStrength()
         ss_object.obj = nil
         return
     end
+
+    SetString("game.player.tool", "tearware_prop")
+    SetInt("game.tool.tearware_prop.ammo", 9999)
 
     if TWInputDown("lmb") then 
         -- LAUNCH!
