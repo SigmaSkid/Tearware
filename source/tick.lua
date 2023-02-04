@@ -463,6 +463,7 @@ function SuperStrength()
 
     SetString("game.player.tool", "tearware_prop")
     SetInt("game.tool.tearware_prop.ammo", 9999)
+    SetBool("game.player.grabbing", true)
 
     if TWInputDown("lmb") then 
         -- LAUNCH!
