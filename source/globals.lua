@@ -49,14 +49,20 @@ ghettoKeyMap = {
     {"0", "0", ")"}
 }
 
--- other keyboard layouts? what's that
--- some keys might have different names in teardown engine? Couldn't get [{:;"'\|`~}] to work
+-- other keyboard layouts? what's that 
 -- {"Name that InputPressed Accepts", "Default Value", "Capitalized Value"}
 keysNotInLastPressedKey = {
     {",", ",", "<"},
     {".", ".", ">"},
     {"-", "-", "_"},
     {"+", "=", "+"}
+    -- figure these out, or if they even exist.
+    --{"???", "`", "~"}
+    --{"???", ";", ":"}
+    --{"???", "/", "?"}
+    --{"???", "[", "{"}
+    --{"???", "]", "}"}
+    --{"???", "\", "|"}
 }
 
 -- temp values (reset to default on restart/level load/quick load)

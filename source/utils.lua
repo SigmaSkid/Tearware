@@ -178,8 +178,12 @@ end
 -- returns a modified [string] and a [bool] if the [string] was modified
 -- todo:
 -- add a cursor to it, so you don't need to rewrite strings
+-- issues:
+-- Numpad makes InputLastPressedKey() output letters.
+-- 0=A, 1=B, 2=C ... 9=I,/=O, *=J, -=M, +=K, ,=N
 function ModifyString(base)
     local input = InputLastPressedKey()
+
     local old_state = base
     -- not a single char
     if #input > 1 then
