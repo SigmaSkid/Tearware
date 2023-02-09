@@ -222,6 +222,7 @@ function UiDraw(dt)
         registryCache = {}
         registrySelectedKey.key = "nil"
         lockInputs = false
+        inputStringCursorPos = nil
         return
     end
     lockInputs = true

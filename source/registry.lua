@@ -63,6 +63,7 @@ function DisplayOrEditKey(thisObject, id, offsetAfterInt)
                     registrySelectedKey.key = "nil"
                 end
                 editingRegistrySearchString = false
+                inputStringCursorPos = nil
             end
         end
     UiPop()
@@ -81,8 +82,10 @@ function DisplayOrEditKey(thisObject, id, offsetAfterInt)
 
         UiTranslate(UiMiddle()*1.5, 0)
         if registrySelectedKey.key == thisObject.id then
-            registrySelectedKey.value = ModifyString(registrySelectedKey.value)
+            registrySelectedKey.value, __, inputStringCursorPos = ModifyString(registrySelectedKey.value, inputStringCursorPos)
             UiText(registrySelectedKey.value)
+            DrawInputStringCursor(registrySelectedKey.value, inputStringCursorPos)
+        
             if InputDown("return") and thisObject.writeAccess then
                 SetString(thisObject.name, registrySelectedKey.value)
                 thisObject.value = registrySelectedKey.value
@@ -98,7 +101,7 @@ end
 
 function UpdateSearchVisibility()
     if editingRegistrySearchString then
-        registrySearchString, modifiedregistrySearchString = ModifyString(registrySearchString)
+        registrySearchString, modifiedregistrySearchString, inputStringCursorPos = ModifyString(registrySearchString, inputStringCursorPos)
     end
 
     if #registryCache == 0 then
@@ -138,12 +141,15 @@ function DrawRegistry()
         registryScrollPos = 0
         registrySelectedKey.key = "nil"
         editingRegistrySearchString = false
+        inputStringCursorPos = nil
     elseif InputDown("end") then 
         registryScrollPos = #registryCache - VisibleEntries
         registrySelectedKey.key = "nil"
         editingRegistrySearchString = false
+        inputStringCursorPos = nil
     elseif InputDown("return") then
         editingRegistrySearchString = false
+        inputStringCursorPos = nil
     end
 
     UpdateSearchVisibility()
@@ -189,6 +195,13 @@ function DrawRegistry()
                 if UiTextButton("Search: " .. registrySearchString) then 
                     editingRegistrySearchString = true
                     registrySelectedKey.key = "nil"
+                end
+                if editingRegistrySearchString then 
+                    UiPush()
+                        local searchx, __ = UiGetTextSize("Search: ")
+                        UiTranslate(searchx-2, 0)
+                        DrawInputStringCursor(registrySearchString, inputStringCursorPos)
+                    UiPop()
                 end
             UiPop()
 

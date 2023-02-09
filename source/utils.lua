@@ -174,24 +174,53 @@ function InputCapitalization(input)
     return input
 end
 
--- accepts a [string]
--- returns a modified [string] and a [bool] if the [string] was modified
+-- accepts a [string] and cursor[int]
+-- returns a modified [string], a [bool] if the [string] was modified, and updated cursor[int]
+-- does NOT draw anything use DrawInputStringCursor for drawing the cursor and uitext for the string.
 -- todo:
--- add a cursor to it, so you don't need to rewrite strings
+-- add ctrl interaction to the cursor, so it can skip words. 
 -- issues:
 -- Numpad makes InputLastPressedKey() output letters.
 -- 0=A, 1=B, 2=C ... 9=I,/=O, *=J, -=M, +=K, ,=N
-function ModifyString(base)
-    local input = InputLastPressedKey()
+function ModifyString(base, cursorPos)
+
+    if cursorPos == nil then 
+        cursorPos = #base + 1
+        inputStringCursorSwitchTimer = 0
+        inputStringDrawCursor = false
+    elseif inputStringCursorTimer <= GetTime() then
+        if InputDown("leftarrow") then 
+            cursorPos = Clamp(cursorPos - 1, 1, #base+1)
+            inputStringCursorTimer = GetTime() + 0.1
+            inputStringCursorSwitchTimer = 0
+            inputStringDrawCursor = false
+        elseif InputDown("rightarrow")then 
+            cursorPos = Clamp(cursorPos + 1, 1, #base+1)
+            inputStringCursorTimer = GetTime() + 0.1
+            inputStringCursorSwitchTimer = 0
+            inputStringDrawCursor = false
+        end
+    end
 
     local old_state = base
+
+    -- split base based on cursorPos
+    local stringEnd = string.sub(base, cursorPos)
+
+    -- only parts of base before the cursor
+    local base = string.sub(base, 1, cursorPos - 1)
+
+    local input = InputLastPressedKey()
+
     -- not a single char
     if #input > 1 then
         if input == "space" then
             base = base .. " "
+            cursorPos = Clamp(cursorPos + 1, 1, #old_state+2)
         end
     elseif input ~= nil and input ~= "" then
         base = base .. InputCapitalization(input)
+        cursorPos = Clamp(cursorPos + 1, 1, #old_state+2)
     else
         for i=1, #keysNotInLastPressedKey do
             if InputPressed(keysNotInLastPressedKey[i][1]) then
@@ -200,6 +229,7 @@ function ModifyString(base)
                 else
                     base = base .. keysNotInLastPressedKey[i][2]
                 end
+                cursorPos = Clamp(cursorPos + 1, 1, #old_state+2)
             end
         end
 
@@ -208,11 +238,58 @@ function ModifyString(base)
                 if inputStringBackspaceTimer <= GetTime() then
                     base = base:sub(1, -2)
                     inputStringBackspaceTimer = GetTime() + 0.1
+                    cursorPos = Clamp(cursorPos - 1, 1, #old_state+2)
                 end
             end
         end
     end
-    return base, not (old_state == base)
+
+    -- restore the part of the string after the cursor
+    base = base .. stringEnd
+    
+    local modified = not (old_state == base)
+    
+    -- if we changed the string, ask the cursor to redraw
+    if modified then 
+        inputStringCursorSwitchTimer = 0
+        inputStringDrawCursor = false
+    end
+
+    return base, modified, cursorPos
+end
+
+-- accepts a [string] and cursor[int]
+-- draws a Rect at the cursor pos,
+-- doesn't do anything if cursor is invalid [nil]
+function DrawInputStringCursor(base, cursorPos)
+    if cursorPos == nil then return end
+
+    -- make it pop in and out like in all funny text editors.
+    if inputStringCursorSwitchTimer <= GetTime() then
+        inputStringCursorSwitchTimer = GetTime() + 0.5
+        inputStringDrawCursor = not inputStringDrawCursor
+    end
+
+    if not inputStringDrawCursor then return end
+
+    UiPush()
+        local base = string.sub(base, 1, cursorPos - 1)
+        
+        -- add a dot at the end so that spaces aren't skipped
+        -- when calculating string size
+        base = base .. "dot"
+
+        local basex, basey = UiGetTextSize(base)
+        
+        -- now get the dot size
+        local dotx, doty = UiGetTextSize("dot") 
+        
+        local translatedOffset = basex - dotx + 3
+
+        UiTranslate(translatedOffset, 0)
+        
+        UiRect(2, basey)
+    UiPop()
 end
 
 -- accepts Min[vec3] Max[vec3]

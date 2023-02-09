@@ -111,6 +111,12 @@ registrySelectedKey.value = ""
 
 inputStringBackspaceTimer = 0
 
+-- nil = override to string size / end of string
+inputStringCursorPos = nil
+inputStringCursorTimer = 0
+inputStringCursorSwitchTimer = 0
+inputStringDrawCursor = true
+
 insaneObjectCache = {}
 
 editingRegistrySearchString = false
