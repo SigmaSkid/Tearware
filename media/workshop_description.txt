@@ -63,6 +63,12 @@ Click on the color square and use the following options:
 [*] Backspace: Reset to default
 [/list]
 
-[h2] Customizable Settings[/h2]
+[h2]Customizable Settings[/h2]
 Fine-tune your experience with customizable settings. 
 Simply click on the square next to a feature to access its settings.
+
+[h2]Check Out The Github Repository[/h2]
+[url=https://github.com/SigmaSkid/Tearware]Github[/url]
+It often gets updated sooner for testing.
+Feel free to fix any issues you find,
+or to just report them.
