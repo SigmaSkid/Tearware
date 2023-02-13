@@ -136,7 +136,7 @@ function ValueableEsp()
     if not AdvGetBool(fValuableEsp) then 
         return 
     end
-    local color = GetColor(fValuableEsp)
+    local color = GetColor(fValuableEsp, GetTime())
 
     local v = FindBodies("valuable", true)
     for i=1,#v do
@@ -168,7 +168,7 @@ function ToolEsp()
         return 
     end
 
-    local color = GetColor(fToolEsp)
+    local color = GetColor(fToolEsp, GetTime())
 
     local interactables = FindBodies("interact", true)
     for i=1,#interactables do

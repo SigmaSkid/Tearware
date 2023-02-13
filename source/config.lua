@@ -75,6 +75,9 @@ function SetSubBool(var, sub, value)
 end
 
 function GetColor(var, seed)
+    -- nil check, just in case
+    seed=seed or GetTime()
+
     local color = {}
     color.rainbow = GetBool(cfgstr .. var[2] .. colorSuffix[5])
     if color.rainbow then 
