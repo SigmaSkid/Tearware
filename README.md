@@ -79,6 +79,6 @@ git clone https://github.com/SigmaSkid/Tearware
 ```
 
 ## Building a release candidate.
-### Linux
-Navigate to the github repository and run the pack.sh script.  
+Navigate to the github repository and run the pack script.
+Use the .sh file if you're doing it on linux or the .bat file for windows.
 It creates a release folder containing the packaged code.
