@@ -31,7 +31,6 @@ fInfiniteAmmo = {"Infinite Ammo", "infiniteammo"}
 fSuperStrength = {"Super Grab", "superstrength" }
 fGodmode = {"Godmode", "godmode"}
 fRubberband = {"Rubberband", "rubberband"}
-fTeleport = {"Teleport", "teleport"}
 
 -- world
 fBulletTime = {"Bullet Time", "timer"}
@@ -50,6 +49,7 @@ fStructureRestorer = {"Structure Restorer", "structurerestorer"}
 fExplosionBrush = {"Explosion Brush", "explosionbrush"}
   fExplosionBrushSize = {"Size", "size"}
 fFireBrush = {"Fire Brush", "firebrush"}
+fTeleport = {"Teleport", "teleport"}
 
 -- shared sub settings
 fSubSpeed = {"Base Speed", "amount"}
