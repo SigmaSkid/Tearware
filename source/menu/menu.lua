@@ -1,11 +1,10 @@
 -- tearware on top
 
-function RGBBlur()
+function RGBBlur(rgb)
     -- funny rgb blur background
     UiPush()
         UiAlign("center middle")
 
-        local rgb = seedToRGB(GetTime())
         UiColor(rgb.R, rgb.G, rgb.B, 0.0420)
         
         UiTranslate(UiCenter(), UiMiddle())
@@ -16,7 +15,8 @@ function RGBBlur()
 end
 
 function DrawMenu() 
-    RGBBlur()
+    local rgb = seedToRGB(GetTime())
+    RGBBlur(rgb)
 
     UiPush()
         UiFont("bold.ttf", 25)
@@ -201,7 +201,9 @@ function DrawMenu()
                 if Button(fRegistryTool) then
                     openMenu = "registry"
                 end
-
+                if Button(fEditorTool) then
+                    openMenu = "editor"
+                end
             end
 
         UiPop()

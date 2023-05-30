@@ -4,6 +4,7 @@
 #include "menu/menu.lua" -- DrawMenu
 #include "menu/registry.lua" -- DrawRegistry
 #include "features/visuals/visuals.lua" -- DrawVisuals
+#include "editor/editor.lua" -- DrawEditor
 
 function UiDraw(dt)
     if openMenu == nil then
@@ -32,6 +33,8 @@ function UiDraw(dt)
             DrawRegistry()
         elseif openMenu == "reset" then
             DrawResetConfigConfirmation(dt)
+        elseif openMenu == "editor" then
+            DrawEditor()
         end
     UiPop()
 end
