@@ -44,7 +44,7 @@ Access the menu by pressing Insert in-game or through the pause menu.
 - Unfair Valuables
 - Structure Restorer
 
-### Tools
+### Tools:
 - Teleport
 - Explosion Brush
 - Fire Brush
