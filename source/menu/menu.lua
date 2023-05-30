@@ -178,8 +178,16 @@ function DrawMenu()
                 Checkbox(fStructureRestorer)
 
             elseif GetInt(cfgstr .. "activetab") == 4 then 
-                -- debug
                 if Button(fMenuResetConfig) then 
+                    -- restart it's position, to prevent accidental clicks
+                    resetDvd = {} 
+                    resetDvd.width = 175 
+                    resetDvd.height = 25
+                    resetDvd.x = 0
+                    resetDvd.y = 0
+                    resetDvd.speedx = 100
+                    resetDvd.speedy = 100
+
                     openMenu = "reset"
                 end
 
