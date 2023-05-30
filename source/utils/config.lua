@@ -1,6 +1,6 @@
 -- tearware on top
 
-#include "source/local.lua"
+#include "local.lua"
 
 function DefineBool(var, default) 
     featurelist[#featurelist+1] = var

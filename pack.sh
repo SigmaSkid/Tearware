@@ -19,11 +19,12 @@ cp preview.jpg release/preview.jpg
 echo "Creating source directory."
 mkdir release/source
 
+# UNTESTED GPT3 OUTPUT BTW!
 echo "Copying project files."
-cp source/* release/source/
+cp -R source/* release/source/
 
 echo "Removing comments, unnecessary spaces, and newlines from .lua files."
-for file in release/source/*.lua; do
+find release/source -type f -name "*.lua" | while IFS= read -r file; do
     echo "$file"
     sed -i 's/^[ \t]*//' "$file" # remove spaces at the start of lines
     sed -n '/^\s*--/p' "$file" | awk '{print $0}' # echo comments
@@ -31,11 +32,12 @@ for file in release/source/*.lua; do
     sed -i '/^$/d' "$file" # remove empty lines
     echo ""
 done
+# END OF UNTESTED AI STUFF
 
 echo "Updating local.lua"
 
 # Location of local.lua file
-file="release/source/local.lua"
+file="release/source/utils/local.lua"
 
 # Get the current date
 date=$(date)

@@ -18,7 +18,7 @@ fRainbowFog = {"Colored Fog", "rainbowfog"}
 fPostProcess = {"Post Processing", "postprocessing"}
 fSpinnyTool = {"Spinny Tool", "spinnytool"}
 
--- movement
+-- player
 fSpeed = {"Speed", "speedhack"}
 fSpider = {"Spider", "spider"}
 fFly = {"Fly", "fly"}
@@ -27,29 +27,29 @@ fFloorStrafe = {"Floor Strafe", "floorstrafe"}
 fJetpack = {"Jetpack", "jetpack"}
 fJesus = {"Jesus", "jesus"}
 fQuickstop = {"Quickstop", "quickstop"}
-
--- misc
 fInfiniteAmmo = {"Infinite Ammo", "infiniteammo"}
 fSuperStrength = {"Super Grab", "superstrength" }
 fGodmode = {"Godmode", "godmode"}
+fRubberband = {"Rubberband", "rubberband"}
+fTeleport = {"Teleport", "teleport"}
+
+-- world
 fBulletTime = {"Bullet Time", "timer"}
-  fBulletTimeScale = {"Scale", "scale"}
-  fBulletTimePatch = {"Patch", "patch"}
+fBulletTimeScale = {"Scale", "scale"}
+fBulletTimePatch = {"Patch", "patch"}
 fSkipObjective = {"Skip Objective", "skipobjective"}
 fDisableAlarm = {"Disable Alarm", "disablealarm"}
 fDisableRobots = {"Disable Robots", "disablerobots"}
 fDisablePhysics = {"Disable Physics", "disablephysics"}
 fForceUpdatePhysics = {"Force Update Physics", "forceupdatephysics"}
-
--- tools
-fRubberband = {"Rubberband", "rubberband"}
 fTeleportValuables = {"Teleport Valuables", "autocollect"}
 fUnfairValuables = {"Unfair Valuables", "inflation"}
-fTeleport = {"Teleport", "teleport"}
+fStructureRestorer = {"Structure Restorer", "structurerestorer"}
+
+-- tools
 fExplosionBrush = {"Explosion Brush", "explosionbrush"}
   fExplosionBrushSize = {"Size", "size"}
 fFireBrush = {"Fire Brush", "firebrush"}
-fStructureRestorer = {"Structure Restorer", "structurerestorer"}
 
 -- shared sub settings
 fSubSpeed = {"Base Speed", "amount"}

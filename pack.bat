@@ -20,22 +20,21 @@ echo Creating source directory.
 mkdir release\source
 
 echo Copying project files.
-copy source\* release\source\
+xcopy /E /Y "source" "release\source\"
 
 echo Removing comments, unnecessary spaces, and newlines from .lua files.
-for %%f in (release\source\*.lua) do (
+for /R "release\source" %%f in (*.lua) do (
     echo %%f
-    powershell -Command "(Get-Content %%f) | ForEach-Object { $_.TrimStart() } | Set-Content -Path %%f" 
-    powershell -Command "Get-Content %%f | Select-String '^\s*--' | ForEach-Object { $_.Line }" 
-    powershell -Command "(Get-Content %%f) | ForEach-Object { $_ -replace '^\s*--.*$', '' } | Set-Content -Path %%f" 
-    powershell -Command "(Get-Content %%f) | Where-Object { $_ -ne '' } | Set-Content -Path %%f" 
+    powershell -Command "(Get-Content '%%f') | ForEach-Object { $_.TrimStart() } | Set-Content -Path '%%f'" 
+    powershell -Command "Get-Content '%%f' | Select-String '^\s*--' | ForEach-Object { $_.Line }" 
+    powershell -Command "(Get-Content '%%f') | ForEach-Object { $_ -replace '^\s*--.*$', '' } | Set-Content -Path '%%f'" 
+    powershell -Command "(Get-Content '%%f') | Where-Object { $_ -ne '' } | Set-Content -Path '%%f'" 
     echo.
 )
-
 echo Updating local.lua
 
 REM Location of local.lua file
-set file=release\source\local.lua
+set file=release\source\utils\local.lua
 
 REM Get the current date
 set date=%date%
