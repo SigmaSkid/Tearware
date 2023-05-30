@@ -1,6 +1,6 @@
 -- tearware on top
 
-function DrawMenu() 
+function RGBBlur()
     -- funny rgb blur background
     UiPush()
         UiAlign("center middle")
@@ -13,6 +13,10 @@ function DrawMenu()
         
         UiBlur(0.3)
     UiPop()
+end
+
+function DrawMenu() 
+    RGBBlur()
 
     UiPush()
         UiFont("bold.ttf", 25)
@@ -36,6 +40,7 @@ function DrawMenu()
             UiTranslate(0, -UiMiddle() - 2)
             UiRect(UiWidth(), 2)
         UiPop()
+        
         -- navigtor
         UiPush()
             UiAlign("center top")
@@ -585,20 +590,4 @@ function SubSettingCheckbox(var, sub)
 
     UiPop()
     UiText("", true)
-end
-
-function DrawResetConfigConfirmation(dt)
-    UiPush()
-        UiTranslate(resetDvd.x, resetDvd.y)
-        resetDvd = animateDvd(resetDvd, dt)
-        UiPush()
-            UiFont("bold.ttf", 25)
-            if Button("CONFIRM RESET") then 
-                overrideConfigValues = true
-                ResetConfig() 
-                overrideConfigValues = false
-                openMenu = nil
-            end
-        UiPop()
-    UiPop()
 end

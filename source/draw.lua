@@ -1,6 +1,7 @@
 -- tearware on top
 
-#include "menu/menu.lua" -- DrawResetConfigConfirmation and DrawMenu
+#include "menu/resetconfirm.lua" -- DrawResetConfigConfirmation
+#include "menu/menu.lua" -- DrawMenu
 #include "menu/registry.lua" -- DrawRegistry
 #include "features/visuals/visuals.lua" -- DrawVisuals
 
