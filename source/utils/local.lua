@@ -28,12 +28,12 @@ fJetpack = {"Jetpack", "jetpack"}
 fJesus = {"Jesus", "jesus"}
 fQuickstop = {"Quickstop", "quickstop"}
 fInfiniteAmmo = {"Infinite Ammo", "infiniteammo"}
-fSuperStrength = {"Super Grab", "superstrength" }
+fSuperStrength = {"Super Strength", "superstrength" }
 fGodmode = {"Godmode", "godmode"}
 fRubberband = {"Rubberband", "rubberband"}
 
 -- world
-fBulletTime = {"Bullet Time", "timer"}
+fBulletTime = {"Slowmotion", "timer"}
 fBulletTimeScale = {"Scale", "scale"}
 fBulletTimePatch = {"Patch", "patch"}
 fSkipObjective = {"Skip Objective", "skipobjective"}
