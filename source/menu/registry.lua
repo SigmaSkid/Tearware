@@ -51,7 +51,7 @@ function DisplayOrEditKey(thisObject, id, offsetAfterInt)
         UiRect(UiWidth(), 26)
 
         if UiIsMouseInRect(UiWidth()-10, 26) then
-            if InputPressed("lmb") then
+            if InputPressed("rmb") then
                 if thisObject.writeAccess then
                     if registrySelectedKey.key == thisObject.id then
                         registrySelectedKey.key = "nil"
