@@ -62,3 +62,6 @@ fMenuFinishLevel = "Finish Level"
 fMenuActivateRobots = "Activate Robots"
 fRegistryTool = "Explore Registry"
 fEditorTool = "Editor"
+
+-- combobox stuff
+fMenuStyleComboString = {"Legacy", "Dropdown", "Modern"}

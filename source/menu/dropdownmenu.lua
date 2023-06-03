@@ -2,60 +2,113 @@
 -- some of this should be a part of the config system!
 playerDropdown = {}
 playerDropdown.name = "Player"
+playerDropdown.func = "MenuDrawPlayer"
+playerDropdown.queue = 1
 playerDropdown.position = {}
 playerDropdown.position.x = 200
 playerDropdown.position.y = 200
+playerDropdown.size = {}
+playerDropdown.size.x = 200
+playerDropdown.size.y = 200
 playerDropdown.dropdown = false
 
 worldDropdown = {}
 worldDropdown.name = "World"
+worldDropdown.func = "MenuDrawWorld"
+worldDropdown.queue = 2
 worldDropdown.position = {}
 worldDropdown.position.x = 400
 worldDropdown.position.y = 200
+worldDropdown.size = {}
+worldDropdown.size.x = 200
+worldDropdown.size.y = 200
 worldDropdown.dropdown = false
 
 visualsDropdown = {}
 visualsDropdown.name = "Visuals"
+visualsDropdown.func = "MenuDrawVisuals"
+visualsDropdown.queue = 3
 visualsDropdown.position = {}
 visualsDropdown.position.x = 600
 visualsDropdown.position.y = 200
+visualsDropdown.size = {}
+visualsDropdown.size.x = 200
+visualsDropdown.size.y = 200
 visualsDropdown.dropdown = false
 
 toolsDropdown = {}
 toolsDropdown.name = "Tools"
+toolsDropdown.func = "MenuDrawTools"
+toolsDropdown.queue = 4
 toolsDropdown.position = {}
 toolsDropdown.position.x = 800
 toolsDropdown.position.y = 200
+toolsDropdown.size = {}
+toolsDropdown.size.x = 200
+toolsDropdown.size.y = 200
 toolsDropdown.dropdown = false
 
 miscDropdown = {}
 miscDropdown.name = "Misc"
+miscDropdown.func = "MenuDrawMisc"
+miscDropdown.queue = 5
 miscDropdown.position = {}
 miscDropdown.position.x = 1000
 miscDropdown.position.y = 200
+miscDropdown.size = {}
+miscDropdown.size.x = 200
+miscDropdown.size.y = 200
 miscDropdown.dropdown = false
-
 
 tileWeAreChangingPosOf = 'none'
 offsetsOffset = {}
 offsetsOffset.x = 0
 offsetsOffset.y = 0
 
+local drawOrder = {
+    playerDropdown,
+    worldDropdown,
+    visualsDropdown,
+    toolsDropdown,
+    miscDropdown
+}
+
+shouldUpdateOrder = false
+
+
+-- TODO:
+-- Make it so you can't interact with obscured objects!
+--
+--
+--
+
+function UpdateDrawOrder()
+    if not shouldUpdateOrder then return end
+
+    local newDrawOrder = {}
+    for _, entry in ipairs(drawOrder) do
+        newDrawOrder[entry.queue] = entry
+    end
+    drawOrder = newDrawOrder
+end
+
 function DrawDropdownMenu()
     if not InputDown('lmb') then 
         tileWeAreChangingPosOf = 'none'
     end
 
-    -- todo: sort function execute order, based on when the tile was moved.
-    -- last moved tab = foreground, last moved tab = background
-    
-    -- todo: find a way to prevent interacting with objects that are occluded
+    shouldUpdateOrder = false
 
-    MenuDrawPlayer()
-    MenuDrawWorld()
-    MenuDrawVisuals()
-    MenuDrawTools()
-    MenuDrawMisc()
+    -- Iterate over the table and call each function
+    -- do it in the opposite direction, cuz first element is on top, last on bottom
+    for i = #drawOrder, 1, -1 do
+        local entry = drawOrder[i]
+        _G[entry.func]()
+        --DebugWatch(entry.name, entry.queue)
+    end
+
+    -- just update the array.
+    UpdateDrawOrder()
 end
 
 -- player, world, visuals, tools, misc
@@ -73,6 +126,17 @@ function DrawHeader(item)
                 tileWeAreChangingPosOf = item.name
                 offsetsOffset.x = x
                 offsetsOffset.y = y
+
+                -- move this window to the top.
+                if item.queue ~= 1 then 
+                    shouldUpdateOrder = true
+                    local oldpos = item.queue 
+                    item.queue = 1
+                    
+                    for i=1, oldpos-1 do
+                        drawOrder[i].queue = drawOrder[i].queue + 1
+                    end
+                end
             end
             
             if InputDown('lmb') and tileWeAreChangingPosOf == item.name then 
