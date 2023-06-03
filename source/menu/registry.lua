@@ -264,10 +264,14 @@ function DrawRegistry()
                             --DebugPrint(y .. " " .. registryScrollPos)
                         UiPop()
                     end
+                elseif InputPressed("mmb") then 
+                    isScrollingRegistry = true 
+                    local x, y = UiGetMousePos()
+                    registryScrollingBaseOffset = 0
                 end
 
                 if isScrollingRegistry then 
-                    if InputDown("lmb") then 
+                    if InputDown("lmb") or InputDown("mmb") then 
                         local x, y = UiGetMousePos()
 
                         local delta = (y - registryScrollingBaseOffset)
