@@ -56,6 +56,7 @@ fSubSpeed = {"Base Speed", "amount"}
 fSubBoost = {"Boost Speed", "boost"}
 
 -- menu items 
+fMenuStyle = {"Menu Style", "menustyle"}
 fMenuResetConfig = "Reset Config"
 fMenuFinishLevel = "Finish Level"
 fMenuActivateRobots = "Activate Robots"

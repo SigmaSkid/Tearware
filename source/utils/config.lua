@@ -15,6 +15,20 @@ function DefineBool(var, default)
     SetString(cfgstr .. var[2] .. "_key", "null")
 end
 
+function DefineInt(var, default) 
+    if HasKey(cfgstr .. var[2]) then
+        if not overrideConfigValues then 
+            return
+        end
+    end
+
+    SetInt(cfgstr .. var[2], default)
+end
+
+function GetCfgInt(var)
+    return GetInt(cfgstr .. var[2])
+end
+
 function DefineColor(var, default) 
     for i = 1, #colorSuffix-1 do
         if (not HasKey(cfgstr .. var[2] .. colorSuffix[i])) or overrideConfigValues then
@@ -205,6 +219,11 @@ function ResetConfig()
     DefineBool(fFireBrush, false)
     DefineBool(fStructureRestorer, false)
     
+    -- menu stuff
+    DefineInt(fMenuStyle, 0)
+
+
+
     -- debug & config
     
 

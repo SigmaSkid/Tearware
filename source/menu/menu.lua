@@ -20,11 +20,12 @@ function DrawMenu()
     local rgb = seedToRGB(GetTime())
     RGBBlur(rgb)
 
-    -- switch(menu_style)
-    -- case legacy:
-        DrawLegacyMenu(rgb)
-    -- case modern: 
+    local menuStyle = GetCfgInt(fMenuStyle) 
+    if menuStyle == 1 then
+        DrawDropdownMenu(rgb)
+    elseif menuStyle == 2 then
         -- DrawModernMenu(rgb)
-    -- case draggable dropdowns:
-        -- DrawDropdownMenu(rgb)
+    else
+        DrawLegacyMenu(rgb)
+    end
 end

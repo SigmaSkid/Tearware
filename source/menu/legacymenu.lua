@@ -192,9 +192,9 @@ function DrawLegacyMenu(rgb)
                 if Button(fRegistryTool) then
                     openMenu = "registry"
                 end
-                if Button(fEditorTool) then
-                    openMenu = "editor"
-                end
+                --if Button(fEditorTool) then
+                --    openMenu = "editor"
+                --end
             end
 
         UiPop()
