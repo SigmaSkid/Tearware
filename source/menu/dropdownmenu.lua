@@ -101,8 +101,12 @@ function GetInteractable()
 
                 UiColor(1, 0, 0, 0.7)
                 if UiIsMouseInRect(object.size.x, object.size.y) then 
-                    output = object.queue 
                     UiColor(0, 1, 0, 0.7)
+                    if InputPressed('lmb') then 
+                        moveObjectToForeground(object)
+                    end
+
+                    output = object.queue 
                 end
 
                 UiRect(object.size.x, object.size.y)
@@ -112,6 +116,18 @@ function GetInteractable()
     end
 
     return output
+end
+
+function moveObjectToForeground(object)
+    if object.queue ~= 1 then 
+        shouldUpdateOrder = true
+        local oldpos = object.queue 
+        object.queue = 1
+        
+        for i=1, oldpos-1 do
+            drawOrder[i].queue = drawOrder[i].queue + 1
+        end
+    end
 end
 
 function InteractRect(x, z, canInteract)
@@ -132,7 +148,11 @@ function DrawDropdownMenu()
     shouldUpdateOrder = false
 
     -- get which object we can interact with.
+    -- also move relevant object to foreground
     local interactTarget = GetInteractable()
+
+    -- just update the array.
+    UpdateDrawOrder()
 
     -- Iterate over the table and call each function
     -- do it in the opposite direction, cuz first element is on top, last on bottom
@@ -143,9 +163,6 @@ function DrawDropdownMenu()
 
         --DebugWatch(entry.name, entry.queue)
     end
-
-    -- just update the array.
-    UpdateDrawOrder()
 end
 
 -- player, world, visuals, tools, misc
@@ -154,7 +171,6 @@ function DrawHeader(item, canInteract)
         UiTranslate(item.position.x, item.position.y)
 
         UiPush()
-                
             local x, y = UiGetMousePos()
 
             if InteractRect(150, 50, canInteract)
@@ -162,17 +178,6 @@ function DrawHeader(item, canInteract)
                 tileWeAreChangingPosOf = item.name
                 offsetsOffset.x = x
                 offsetsOffset.y = y
-
-                -- move this window to the top.
-                if item.queue ~= 1 then 
-                    shouldUpdateOrder = true
-                    local oldpos = item.queue 
-                    item.queue = 1
-                    
-                    for i=1, oldpos-1 do
-                        drawOrder[i].queue = drawOrder[i].queue + 1
-                    end
-                end
             end
             
             if InputDown('lmb') and tileWeAreChangingPosOf == item.name then 
