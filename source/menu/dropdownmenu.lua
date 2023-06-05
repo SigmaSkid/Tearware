@@ -8,7 +8,7 @@ playerDropdown.position = {}
 playerDropdown.position.x = 200
 playerDropdown.position.y = 200
 playerDropdown.size = {}
-playerDropdown.size.x = 200
+playerDropdown.size.x = 150
 playerDropdown.size.y = 200
 playerDropdown.dropdown = false
 
@@ -20,7 +20,7 @@ worldDropdown.position = {}
 worldDropdown.position.x = 400
 worldDropdown.position.y = 200
 worldDropdown.size = {}
-worldDropdown.size.x = 200
+worldDropdown.size.x = 150
 worldDropdown.size.y = 200
 worldDropdown.dropdown = false
 
@@ -32,7 +32,7 @@ visualsDropdown.position = {}
 visualsDropdown.position.x = 600
 visualsDropdown.position.y = 200
 visualsDropdown.size = {}
-visualsDropdown.size.x = 200
+visualsDropdown.size.x = 150
 visualsDropdown.size.y = 200
 visualsDropdown.dropdown = false
 
@@ -44,7 +44,7 @@ toolsDropdown.position = {}
 toolsDropdown.position.x = 800
 toolsDropdown.position.y = 200
 toolsDropdown.size = {}
-toolsDropdown.size.x = 200
+toolsDropdown.size.x = 150
 toolsDropdown.size.y = 200
 toolsDropdown.dropdown = false
 
@@ -56,7 +56,7 @@ miscDropdown.position = {}
 miscDropdown.position.x = 1000
 miscDropdown.position.y = 200
 miscDropdown.size = {}
-miscDropdown.size.x = 200
+miscDropdown.size.x = 150
 miscDropdown.size.y = 200
 miscDropdown.dropdown = false
 
@@ -75,11 +75,10 @@ local drawOrder = {
 
 shouldUpdateOrder = false
 
-
 -- TODO:
--- Make it so you can't interact with obscured objects!
---
---
+-- find vertical size of each window
+-- start moving some values into the cfg system (position, dropdown)
+-- 
 --
 
 function UpdateDrawOrder()
@@ -92,6 +91,39 @@ function UpdateDrawOrder()
     drawOrder = newDrawOrder
 end
 
+function GetInteractable()
+    local output = nil
+    for i = 1, #drawOrder do
+        if output == nil then
+            local object = drawOrder[i] 
+            UiPush()
+                UiTranslate(object.position.x, object.position.y)
+
+                UiColor(1, 0, 0, 0.7)
+                if UiIsMouseInRect(object.size.x, object.size.y) then 
+                    output = object.queue 
+                    UiColor(0, 1, 0, 0.7)
+                end
+
+                UiRect(object.size.x, object.size.y)
+
+            UiPop()
+        end
+    end
+
+    return output
+end
+
+function InteractRect(x, z, canInteract)
+    if canInteract and 
+    InputPressed("lmb") and
+    UiIsMouseInRect(x, z) then 
+        return true 
+    end
+
+    return false
+end
+
 function DrawDropdownMenu()
     if not InputDown('lmb') then 
         tileWeAreChangingPosOf = 'none'
@@ -99,11 +131,16 @@ function DrawDropdownMenu()
 
     shouldUpdateOrder = false
 
+    -- get which object we can interact with.
+    local interactTarget = GetInteractable()
+
     -- Iterate over the table and call each function
     -- do it in the opposite direction, cuz first element is on top, last on bottom
     for i = #drawOrder, 1, -1 do
         local entry = drawOrder[i]
-        _G[entry.func]()
+        
+        _G[entry.func](interactTarget == entry.queue)
+
         --DebugWatch(entry.name, entry.queue)
     end
 
@@ -112,16 +149,15 @@ function DrawDropdownMenu()
 end
 
 -- player, world, visuals, tools, misc
-function DrawHeader(item)
+function DrawHeader(item, canInteract)
     UiPush()
         UiTranslate(item.position.x, item.position.y)
-        UiWindow(150, 50)
 
         UiPush()
                 
             local x, y = UiGetMousePos()
 
-            if UiIsMouseInRect(150, 50) and InputPressed("lmb") 
+            if InteractRect(150, 50, canInteract)
             and tileWeAreChangingPosOf ~= item.name then
                 tileWeAreChangingPosOf = item.name
                 offsetsOffset.x = x
@@ -198,7 +234,7 @@ function DrawHeader(item)
             UiTextOutline(0, 0, 0, 0.7, 0.1)
             UiAlign("center middle")
             
-            if UiIsMouseInRect(20, 20) and InputPressed('lmb') then 
+            if InteractRect(20, 20, canInteract) then 
                 item.dropdown = not item.dropdown
             end
 
@@ -219,7 +255,7 @@ function DrawHeader(item)
 end
 
 -- speedhack etc.
-function DrawFeature(var)
+function DrawFeature(var, canInteract)
     UiPush()
         -- draw background of it
         UiPush()
@@ -256,13 +292,13 @@ function ComboBox()
     -- well, doing this will be 'fun'
 end
 
-function MenuDrawPlayer()
+function MenuDrawPlayer(canInteract)
     UiPush()
-        if DrawHeader(playerDropdown) then 
+        if DrawHeader(playerDropdown, canInteract) then 
 
         local offset = 0
 
-        if DrawFeature(var) then 
+        if DrawFeature(var, canInteract) then 
             -- somehow draw the background and then update the offset
             -- should probably just hardcode it
             -- draw hotkey
@@ -278,52 +314,52 @@ function MenuDrawPlayer()
     UiPop()
 end
 
-function MenuDrawWorld() 
+function MenuDrawWorld(canInteract) 
     UiPush()
-        if DrawHeader(worldDropdown) then 
+        if DrawHeader(worldDropdown, canInteract) then 
 
         local offset = 0
 
-        if DrawFeature(var) then 
+        if DrawFeature(var, canInteract) then 
         end
         UiPop()
         end
     UiPop()
 end
 
-function MenuDrawVisuals() 
+function MenuDrawVisuals(canInteract) 
     UiPush()
-        if DrawHeader(visualsDropdown) then 
+        if DrawHeader(visualsDropdown, canInteract) then 
 
         local offset = 0
 
-        if DrawFeature(var) then 
+        if DrawFeature(var, canInteract) then 
         end
         UiPop()
         end
     UiPop()
 end
 
-function MenuDrawTools() 
+function MenuDrawTools(canInteract) 
     UiPush()
-        if DrawHeader(toolsDropdown) then 
+        if DrawHeader(toolsDropdown, canInteract) then 
 
         local offset = 0
 
-        if DrawFeature(var) then 
+        if DrawFeature(var, canInteract) then 
         end
         UiPop()
         end
     UiPop()
 end
 
-function MenuDrawMisc() 
+function MenuDrawMisc(canInteract) 
     UiPush()
-        if DrawHeader(miscDropdown) then 
+        if DrawHeader(miscDropdown, canInteract) then 
 
         local offset = 0
 
-        if DrawFeature(var) then 
+        if DrawFeature(var, canInteract) then 
         end
         UiPop()
         end
