@@ -67,7 +67,6 @@ keysNotInLastPressedKey = {
 
 -- temp values (reset to default on restart/level load/quick load)
 openMenu = nil
-menuStyle = "legacy"
 featurelist = {}
 filthyglobal_editingkeybind = " "
 skipped_objective = false
