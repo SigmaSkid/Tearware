@@ -1,6 +1,11 @@
 -- tearware on top
 
-function ListChildren(var)
+local registry = {}
+
+
+
+
+registry.ListChildren = function(var)
 
     local Children = ListKeys(var)
     for i=1, #Children do
@@ -16,27 +21,27 @@ function ListChildren(var)
         object.id = #registryCache+1
         object.name = me 
         object.value = d
-        object.writeAccess = DirtyWriteAccessCheck(me)
+        object.writeAccess = utils.DirtyWriteAccessCheck(me)
 
         registryCache[#registryCache+1] = object
-        ListChildren(me)
+        registry.ListChildren(me)
     end
 end
 
-function CreateRegistry()
+registry.CreateRegistry = function()
     if #registryCache > 1 then 
         return
     end
 
     for i=1, #registryEntryPoints do
-        ListChildren(registryEntryPoints[i])
+        registry.ListChildren(registryEntryPoints[i])
     end
 
     registryVisibleCache = registryCache
     registrySearchString = ""
 end
 
-function DisplayOrEditKey(thisObject, id, offsetAfterInt)
+registry.DisplayOrEditKey = function(thisObject, id, offsetAfterInt)
     UiTranslate(0, 25)
     UiPush()
         if registrySelectedKey.key == thisObject.id then
@@ -82,9 +87,9 @@ function DisplayOrEditKey(thisObject, id, offsetAfterInt)
 
         UiTranslate(UiMiddle()*1.5, 0)
         if registrySelectedKey.key == thisObject.id then
-            registrySelectedKey.value, __, inputStringCursorPos = ModifyString(registrySelectedKey.value, inputStringCursorPos)
+            registrySelectedKey.value, __, inputStringCursorPos = utils.ModifyString(registrySelectedKey.value, inputStringCursorPos)
             UiText(registrySelectedKey.value)
-            DrawInputStringCursor(registrySelectedKey.value, inputStringCursorPos)
+            utils.DrawInputStringCursor(registrySelectedKey.value, inputStringCursorPos)
         
             if InputDown("return") and thisObject.writeAccess then
                 SetString(thisObject.name, registrySelectedKey.value)
@@ -99,9 +104,9 @@ function DisplayOrEditKey(thisObject, id, offsetAfterInt)
     UiPop()
 end
 
-function UpdateSearchVisibility()
+registry.UpdateSearchVisibility = function()
     if editingRegistrySearchString then
-        registrySearchString, modifiedregistrySearchString, inputStringCursorPos = ModifyString(registrySearchString, inputStringCursorPos)
+        registrySearchString, modifiedregistrySearchString, inputStringCursorPos = utils.ModifyString(registrySearchString, inputStringCursorPos)
     end
 
     if #registryCache == 0 then
@@ -129,8 +134,8 @@ end
 
 
 -- called on each draw
-function DrawRegistry()
-    CreateRegistry()
+registry.DrawRegistry = function()
+    registry.CreateRegistry()
 
     local VisibleEntries = 41
     local scrollspeed = 1 
@@ -152,13 +157,13 @@ function DrawRegistry()
         inputStringCursorPos = nil
     end
 
-    UpdateSearchVisibility()
+    registry.UpdateSearchVisibility()
     
     local name = InputLastPressedKey()
 
     if name ~= "" and name ~= nil then lastRegistryInput = name end
 
-    registryScrollPos = Clamp(registryScrollPos - (InputValue("mousewheel")*scrollspeed), 1, #registryVisibleCache - VisibleEntries)
+    registryScrollPos = utils.Clamp(registryScrollPos - (InputValue("mousewheel")*scrollspeed), 1, #registryVisibleCache - VisibleEntries)
 
     UiMakeInteractive()
 
@@ -189,7 +194,7 @@ function DrawRegistry()
                 UiTranslate(displayOffsetX + 240, -displayOffsetY + 28)
                 if InputPressed("f5") or UiTextButton("Refresh") then
                     registryCache = {}
-                    CreateRegistry()
+                    registry.CreateRegistry()
                 end
                 UiTranslate(120, 0)
                 if UiTextButton("Search: " .. registrySearchString) then 
@@ -200,7 +205,7 @@ function DrawRegistry()
                     UiPush()
                         local searchx, __ = UiGetTextSize("Search: ")
                         UiTranslate(searchx-2, 0)
-                        DrawInputStringCursor(registrySearchString, inputStringCursorPos)
+                        utils.DrawInputStringCursor(registrySearchString, inputStringCursorPos)
                     UiPop()
                 end
             UiPop()
@@ -211,7 +216,7 @@ function DrawRegistry()
                 for i=math.floor(registryScrollPos), registryScrollPos + VisibleEntries do
                     local thisObject = registryVisibleCache[i]
                     if thisObject then
-                        DisplayOrEditKey(thisObject, i, offsetAfterInt)
+                        registry.DisplayOrEditKey(thisObject, i, offsetAfterInt)
                     end
                 end
             UiPop()
@@ -260,7 +265,7 @@ function DrawRegistry()
                             UiTranslate(0, -scrollOffset)
                             local x, y = UiGetMousePos()
 
-                            registryScrollPos = Clamp( (y*#registryVisibleCache / UiHeight()) - VisibleEntries/2, 1, #registryVisibleCache - VisibleEntries)
+                            registryScrollPos = utils.Clamp( (y*#registryVisibleCache / UiHeight()) - VisibleEntries/2, 1, #registryVisibleCache - VisibleEntries)
                             --DebugPrint(y .. " " .. registryScrollPos)
                         UiPop()
                     end
@@ -277,7 +282,7 @@ function DrawRegistry()
                         local delta = (y - registryScrollingBaseOffset)
 
                         if math.abs(delta) > 1 then 
-                            registryScrollPos = Clamp(registryScrollPos + delta, 1, #registryVisibleCache - VisibleEntries)
+                            registryScrollPos = utils.Clamp(registryScrollPos + delta, 1, #registryVisibleCache - VisibleEntries)
                         end
                     else
                         isScrollingRegistry = false 

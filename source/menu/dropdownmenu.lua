@@ -81,7 +81,10 @@ shouldUpdateOrder = false
 -- 
 --
 
-function UpdateDrawOrder()
+-- haha local
+local dropdownMenu = {}
+
+dropdownMenu.UpdateDrawOrder = function()
     if not shouldUpdateOrder then return end
 
     local newDrawOrder = {}
@@ -91,7 +94,7 @@ function UpdateDrawOrder()
     drawOrder = newDrawOrder
 end
 
-function GetInteractable()
+dropdownMenu.GetInteractable = function()
     local output = nil
     for i = 1, #drawOrder do
         if output == nil then
@@ -103,7 +106,7 @@ function GetInteractable()
                 if UiIsMouseInRect(object.size.x, object.size.y) then 
                     UiColor(0, 1, 0, 0.7)
                     if InputPressed('lmb') then 
-                        moveObjectToForeground(object)
+                        dropdownMenu.moveObjectToForeground(object)
                     end
 
                     output = object.queue 
@@ -118,7 +121,7 @@ function GetInteractable()
     return output
 end
 
-function moveObjectToForeground(object)
+dropdownMenu.moveObjectToForeground = function(object)
     if object.queue ~= 1 then 
         shouldUpdateOrder = true
         local oldpos = object.queue 
@@ -130,7 +133,7 @@ function moveObjectToForeground(object)
     end
 end
 
-function InteractRect(x, z, canInteract)
+dropdownMenu.InteractRect = function(x, z, canInteract)
     if canInteract and 
     InputPressed("lmb") and
     UiIsMouseInRect(x, z) then 
@@ -140,7 +143,7 @@ function InteractRect(x, z, canInteract)
     return false
 end
 
-function DrawDropdownMenu()
+dropdownMenu.DrawDropdownMenu = function()
     if not InputDown('lmb') then 
         tileWeAreChangingPosOf = 'none'
     end
@@ -149,10 +152,10 @@ function DrawDropdownMenu()
 
     -- get which object we can interact with.
     -- also move relevant object to foreground
-    local interactTarget = GetInteractable()
+    local interactTarget = dropdownMenu.GetInteractable()
 
     -- just update the array.
-    UpdateDrawOrder()
+    dropdownMenu.UpdateDrawOrder()
 
     -- Iterate over the table and call each function
     -- do it in the opposite direction, cuz first element is on top, last on bottom
@@ -166,7 +169,7 @@ function DrawDropdownMenu()
 end
 
 -- player, world, visuals, tools, misc
-function DrawHeader(item, canInteract)
+dropdownMenu.DrawHeader = function(item, canInteract)
     UiPush()
         UiTranslate(item.position.x, item.position.y)
 
@@ -260,7 +263,7 @@ function DrawHeader(item, canInteract)
 end
 
 -- speedhack etc.
-function DrawFeature(var, canInteract)
+dropdownMenu.DrawFeature = function(var, canInteract)
     UiPush()
         -- draw background of it
         UiPush()
@@ -293,17 +296,23 @@ function DrawFeature(var, canInteract)
     return --dropdown state--
 end
 
-function ComboBox()
+dropdownMenu.FeatureToggle = function()
+
+
+
+end
+
+dropdownMenu.ComboBox = function()
     -- well, doing this will be 'fun'
 end
 
-function MenuDrawPlayer(canInteract)
+dropdownMenu.MenuDrawPlayer = function(canInteract)
     UiPush()
-        if DrawHeader(playerDropdown, canInteract) then 
+        if dropdownMenu.DrawHeader(playerDropdown, canInteract) then 
 
         local offset = 0
 
-        if DrawFeature(var, canInteract) then 
+        if dropdownMenu.DrawFeature(var, canInteract) then 
             -- somehow draw the background and then update the offset
             -- should probably just hardcode it
             -- draw hotkey
@@ -319,52 +328,52 @@ function MenuDrawPlayer(canInteract)
     UiPop()
 end
 
-function MenuDrawWorld(canInteract) 
+dropdownMenu.MenuDrawWorld = function(canInteract) 
     UiPush()
-        if DrawHeader(worldDropdown, canInteract) then 
+        if dropdownMenu.DrawHeader(worldDropdown, canInteract) then 
 
         local offset = 0
 
-        if DrawFeature(var, canInteract) then 
+        if dropdownMenu.DrawFeature(var, canInteract) then 
         end
         UiPop()
         end
     UiPop()
 end
 
-function MenuDrawVisuals(canInteract) 
+dropdownMenu.MenuDrawVisuals = function(canInteract) 
     UiPush()
-        if DrawHeader(visualsDropdown, canInteract) then 
+        if dropdownMenu.DrawHeader(visualsDropdown, canInteract) then 
 
         local offset = 0
 
-        if DrawFeature(var, canInteract) then 
+        if dropdownMenu.DrawFeature(var, canInteract) then 
         end
         UiPop()
         end
     UiPop()
 end
 
-function MenuDrawTools(canInteract) 
+dropdownMenu.MenuDrawTools = function(canInteract) 
     UiPush()
-        if DrawHeader(toolsDropdown, canInteract) then 
+        if dropdownMenu.DrawHeader(toolsDropdown, canInteract) then 
 
         local offset = 0
 
-        if DrawFeature(var, canInteract) then 
+        if dropdownMenu.DrawFeature(var, canInteract) then 
         end
         UiPop()
         end
     UiPop()
 end
 
-function MenuDrawMisc(canInteract) 
+dropdownMenu.MenuDrawMisc = function(canInteract) 
     UiPush()
-        if DrawHeader(miscDropdown, canInteract) then 
+        if dropdownMenu.DrawHeader(miscDropdown, canInteract) then 
 
         local offset = 0
 
-        if DrawFeature(var, canInteract) then 
+        if dropdownMenu.DrawFeature(var, canInteract) then 
         end
         UiPop()
         end

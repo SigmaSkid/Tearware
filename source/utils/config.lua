@@ -2,7 +2,11 @@
 
 #include "local.lua"
 
-function DefineBool(var, default) 
+
+-- haha local keyword funny
+local config = {}
+
+config.DefineBool = function(var, default) 
     featurelist[#featurelist+1] = var
 
     if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then
@@ -15,7 +19,7 @@ function DefineBool(var, default)
     SetString(cfgstr .. var[2] .. "_key", "null")
 end
 
-function DefineInt(var, default) 
+config.DefineInt = function(var, default) 
     if HasKey(cfgstr .. var[2]) then
         if not overrideConfigValues then 
             return
@@ -25,11 +29,11 @@ function DefineInt(var, default)
     SetInt(cfgstr .. var[2], default)
 end
 
-function GetCfgInt(var)
+config.GetCfgInt = function(var)
     return GetInt(cfgstr .. var[2])
 end
 
-function DefineColor(var, default) 
+config.DefineColor = function(var, default) 
     for i = 1, #colorSuffix-1 do
         if (not HasKey(cfgstr .. var[2] .. colorSuffix[i])) or overrideConfigValues then
             SetFloat(cfgstr .. var[2] .. colorSuffix[i], default[i])
@@ -43,7 +47,7 @@ function DefineColor(var, default)
     SetBool(cfgstr .. var[2] .. colorSuffix[#colorSuffix] .. "_default" , default[#colorSuffix])
 end
 
-function ResetColorToDefault(var)
+config.ResetColorToDefault = function(var)
     local base = var[2]
     for i = 1, #colorSuffix-1 do
         local default_val = GetFloat(cfgstr .. base .. colorSuffix[i] .. "_default")
@@ -54,7 +58,7 @@ function ResetColorToDefault(var)
     SetBool(cfgstr .. base .. colorSuffix[#colorSuffix], default_rainbow)
 end
 
-function DefineSubFloat(var, sub, default) 
+config.DefineSubFloat = function(var, sub, default) 
     if HasKey(cfgstr .. var[2] .. sub[2]) then 
         if not overrideConfigValues then 
             return
@@ -63,15 +67,15 @@ function DefineSubFloat(var, sub, default)
     SetFloat(cfgstr .. var[2] .. sub[2], default)
 end
 
-function GetSubFloat(var, sub)
+config.GetSubFloat = function(var, sub)
     return GetFloat(cfgstr .. var[2] .. sub[2])
 end
 
-function SetSubFloat(var, sub, value)
+config.SetSubFloat = function(var, sub, value)
     return SetFloat(cfgstr .. var[2] .. sub[2], value)
 end
 
-function DefineSubBool(var, sub, default) 
+config.DefineSubBool = function(var, sub, default) 
     if HasKey(cfgstr .. var[2] .. sub[2]) then 
         if not overrideConfigValues then 
             return
@@ -80,15 +84,15 @@ function DefineSubBool(var, sub, default)
     SetBool(cfgstr .. var[2] .. sub[2], default)
 end
 
-function GetSubBool(var, sub)
+config.GetSubBool = function(var, sub)
     return GetBool(cfgstr .. var[2] .. sub[2])
 end
 
-function SetSubBool(var, sub, value)
+config.SetSubBool = function(var, sub, value)
     return SetBool(cfgstr .. var[2] .. sub[2], value)
 end
 
-function GetColor(var, seed)
+config.GetColor = function(var, seed)
     -- nil check, just in case
     seed=seed or GetTime()
 
@@ -108,11 +112,11 @@ function GetColor(var, seed)
     return color
 end
 
-function FlipBool(var)
+config.FlipBool = function(var)
     SetBool(var, not GetBool(var))
 end
 
-function SetColor(var, color)
+config.SetColor = function(var, color)
     SetBool(cfgstr .. var[2] .. colorSuffix[5], color.rainbow)
     SetFloat(cfgstr .. var[2] .. colorSuffix[4], color.alpha)
     if color.rainbow then 
@@ -123,11 +127,11 @@ function SetColor(var, color)
     SetFloat(cfgstr .. var[2] .. colorSuffix[3], color.blue)
 end
 
-function AdvGetBool(var)
+config.AdvGetBool = function(var)
     return GetBool(cfgstr .. var[2])
 end
 
-function UpdateFeatureState(var)
+config.UpdateFeatureState = function(var)
     if not HasKey(cfgstr .. var[2] .. "_key") then 
         return GetBool(cfgstr .. var[2])
     end
@@ -144,7 +148,7 @@ end
 
 -- has to be done this way, because InputPressed
 -- is for some reason unreliable in update function
-function UpdateAllFeatureStates()
+config.UpdateAllFeatureStates = function()
     if lockInputs then return end
 
     for i = 1, #featurelist do 
@@ -153,7 +157,7 @@ function UpdateAllFeatureStates()
 end
 
 
-function ResetConfig()
+config.ResetConfig = function()
     featurelist = {}
 
     -- visuals
