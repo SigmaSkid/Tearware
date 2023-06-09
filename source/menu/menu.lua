@@ -2,7 +2,6 @@
 #include "dropdownmenu.lua"
 --#include "modernmenu.lua"
 
-
 menu.RGBBlur = function(rgb)
     -- funny rgb blur background
     UiPush()
@@ -20,9 +19,9 @@ end
 menu.DrawMenu = function()
     local rgb = utils.seedToRGB(GetTime())
     menu.RGBBlur(rgb)
+    
+    local menuStyle = config.GetInt(fMenuStyle)
 
-    local menuStyle = config.GetCfgInt(fMenuStyle)
-    menuStyle = 0
     if menuStyle == 1 then
         dropdownMenu.DrawDropdownMenu(rgb)
     elseif menuStyle == 2 then

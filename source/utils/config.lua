@@ -25,8 +25,12 @@ config.DefineInt = function(var, default)
     SetInt(cfgstr .. var[2], default)
 end
 
-config.GetCfgInt = function(var)
+config.GetInt = function(var)
     return GetInt(cfgstr .. var[2])
+end
+
+config.SetInt = function(var, val) 
+    SetInt(cfgstr .. var[2], val)
 end
 
 config.DefineColor = function(var, default) 

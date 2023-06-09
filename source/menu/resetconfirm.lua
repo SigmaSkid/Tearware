@@ -4,7 +4,7 @@ menu.DrawResetConfigConfirmation = function(dt)
         resetDvd = utils.animateDvd(resetDvd, dt)
         UiPush()
             UiFont("bold.ttf", 25)
-            if Button("CONFIRM RESET") then 
+            if legacyMenu.Button("CONFIRM RESET") then 
                 overrideConfigValues = true
                 config.ResetConfig() 
                 overrideConfigValues = false

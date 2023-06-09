@@ -194,6 +194,11 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                 if legacyMenu.Button(fRegistryTool) then
                     openMenu = "registry"
                 end
+
+                if legacyMenu.Button("dropdown menu") then
+                    config.SetInt(fMenuStyle, 1)
+                end
+
                 --if Button(fEditorTool) then
                 --    openMenu = "editor"
                 --end

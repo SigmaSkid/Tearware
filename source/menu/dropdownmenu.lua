@@ -65,6 +65,9 @@ offsetsOffset = {}
 offsetsOffset.x = 0
 offsetsOffset.y = 0
 
+resizeOffset = 0
+
+
 local drawOrder = {
     playerDropdown,
     worldDropdown,
@@ -111,7 +114,7 @@ dropdownMenu.GetInteractable = function()
                     output = object.queue 
                 end
 
-                UiRect(object.size.x, object.size.y)
+                --UiRect(object.size.x, object.size.y)
 
             UiPop()
         end
@@ -142,6 +145,7 @@ dropdownMenu.InteractRect = function(x, z, canInteract)
     return false
 end
 
+-- main
 dropdownMenu.DrawDropdownMenu = function()
     if not InputDown('lmb') then 
         tileWeAreChangingPosOf = 'none'
@@ -160,11 +164,16 @@ dropdownMenu.DrawDropdownMenu = function()
     -- do it in the opposite direction, cuz first element is on top, last on bottom
     for i = #drawOrder, 1, -1 do
         local entry = drawOrder[i]
-
+        resizeOffset = 0
         dropdownMenu[entry.func](interactTarget == entry.queue)
-
+        dropdownMenu.UpdateSize(entry)
         --DebugWatch(entry.name, entry.queue)
     end
+end
+
+dropdownMenu.UpdateSize = function(entry)
+    entry.size.x = 150
+    entry.size.y = resizeOffset
 end
 
 -- player, world, visuals, tools, misc
@@ -255,9 +264,10 @@ dropdownMenu.DrawHeader = function(item, canInteract)
     if not item.dropdown then 
         UiPop()
     else
-        UiTranslate(0, 49)
+        UiTranslate(0, 50)
     end
 
+    resizeOffset = resizeOffset + 50
     return item.dropdown
 end
 
@@ -295,34 +305,84 @@ dropdownMenu.DrawFeature = function(var, canInteract)
     return --dropdown state--
 end
 
-dropdownMenu.FeatureToggle = function()
-
-
-
-end
-
 dropdownMenu.ComboBox = function()
     -- well, doing this will be 'fun'
 end
+
+dropdownMenu.BaseButton = function(name, canInteract)
+    local output = false
+    UiPush()
+        UiPush()
+            UiTranslate(150/2, 50/2)
+            UiAlign("center middle")
+
+            UiColor(0.18, 0.18, 0.18, 0.3)
+            UiRect(156, 50)
+
+            UiColor(0.05, 0.05, 0.05, 0.9)
+            UiRect(150, 50)
+
+            UiColor(0.18, 0.18, 0.18, 0.9)
+            UiRect(146, 48)
+
+            if dropdownMenu.InteractRect(150, 50, canInteract) then 
+                output = true
+            end
+        UiPop()
+    
+        UiPush()
+            UiTranslate(10, 10)
+            UiColor(1,1,1,1)
+            UiFont("regular.ttf", 35)
+            UiTextShadow(0, 0, 0, 0.7, 1.5)
+            UiTextOutline(0, 0, 0, 0.7, 0.1)
+            UiAlign("left bottom")
+
+            local w, h = UiGetTextSize(name)
+            UiTranslate(0, h)
+
+            UiText(name)
+        UiPop()
+    UiPop()
+    UiTranslate(0, 50)
+    resizeOffset = resizeOffset + 50
+    return output
+end
+
+dropdownMenu.DrawBottomGradient = function()
+    UiPush()
+        UiTranslate(150/2, 2)
+        UiAlign("center middle")
+
+        UiColor(0.18, 0.18, 0.18, 0.3)
+        UiRect(156, 4)
+
+        UiTranslate(0, -2)
+        UiColor(0.18, 0.18, 0.18, 0.9)
+        UiRect(150, 1)
+    UiPop()
+    
+    UiPop()
+end
+
+
 
 dropdownMenu.MenuDrawPlayer = function(canInteract)
     UiPush()
         if dropdownMenu.DrawHeader(playerDropdown, canInteract) then 
 
-        local offset = 0
-
-        if dropdownMenu.DrawFeature(var, canInteract) then 
+        -- if dropdownMenu.DrawFeature(var, canInteract) then 
             -- somehow draw the background and then update the offset
             -- should probably just hardcode it
             -- draw hotkey
             -- draw slider if applicable
             -- draw combo box if applicable
-        end
+        -- end
         
         -- UiTranslate(0, offset)
         -- repeat DrawFeature for all player features
         
-        UiPop()
+        dropdownMenu.DrawBottomGradient()
         end
     UiPop()
 end
@@ -331,11 +391,9 @@ dropdownMenu.MenuDrawWorld = function(canInteract)
     UiPush()
         if dropdownMenu.DrawHeader(worldDropdown, canInteract) then 
 
-        local offset = 0
 
-        if dropdownMenu.DrawFeature(var, canInteract) then 
-        end
-        UiPop()
+
+        dropdownMenu.DrawBottomGradient()
         end
     UiPop()
 end
@@ -344,11 +402,7 @@ dropdownMenu.MenuDrawVisuals = function(canInteract)
     UiPush()
         if dropdownMenu.DrawHeader(visualsDropdown, canInteract) then 
 
-        local offset = 0
-
-        if dropdownMenu.DrawFeature(var, canInteract) then 
-        end
-        UiPop()
+        dropdownMenu.DrawBottomGradient()
         end
     UiPop()
 end
@@ -357,11 +411,7 @@ dropdownMenu.MenuDrawTools = function(canInteract)
     UiPush()
         if dropdownMenu.DrawHeader(toolsDropdown, canInteract) then 
 
-        local offset = 0
-
-        if dropdownMenu.DrawFeature(var, canInteract) then 
-        end
-        UiPop()
+        dropdownMenu.DrawBottomGradient()
         end
     UiPop()
 end
@@ -370,11 +420,32 @@ dropdownMenu.MenuDrawMisc = function(canInteract)
     UiPush()
         if dropdownMenu.DrawHeader(miscDropdown, canInteract) then 
 
-        local offset = 0
-
-        if dropdownMenu.DrawFeature(var, canInteract) then 
+        if dropdownMenu.BaseButton("Finish", canInteract) then
+            SetString("level.state", "win") 
         end
-        UiPop()
+
+        if dropdownMenu.BaseButton("Reset", canInteract) then 
+            -- restart it's position, to prevent accidental clicks
+            resetDvd = {} 
+            resetDvd.width = 175 
+            resetDvd.height = 25
+            resetDvd.x = 0
+            resetDvd.y = 0
+            resetDvd.speedx = 100
+            resetDvd.speedy = 100
+
+            openMenu = "reset"
+        end
+
+        if dropdownMenu.BaseButton("Registry", canInteract) then
+            openMenu = "registry"
+        end
+
+        if dropdownMenu.BaseButton("Legacy", canInteract) then
+            config.SetInt(fMenuStyle, 0)
+        end 
+
+        dropdownMenu.DrawBottomGradient()
         end
     UiPop()
 end
