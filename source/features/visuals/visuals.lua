@@ -3,15 +3,15 @@
 #include "esp.lua"
 #include "glow.lua"
 
-function DrawVisuals()
-    if not AdvGetBool(fVisuals) then 
+visuals.DrawVisuals = function()
+    if not config.AdvGetBool(fVisuals) then 
         return 
     end
 
     UiPush()
-        Watermark()
-        FeatureList()
-        DrawEsp()
-        DrawGlow()
+        visuals.Watermark()
+        visuals.FeatureList()
+        visuals.DrawEsp()
+        visuals.DrawGlow()
     UiPop()
 end

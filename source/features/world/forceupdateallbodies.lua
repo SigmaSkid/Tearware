@@ -1,5 +1,5 @@
-function ForceUpdateAllBodies()
-    if not AdvGetBool(fForceUpdatePhysics) then
+world.ForceUpdateAllBodies = function()
+    if not config.AdvGetBool(fForceUpdatePhysics) then
         return 
     end
 

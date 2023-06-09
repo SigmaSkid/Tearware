@@ -1,5 +1,5 @@
-function Jesus()
-	if not AdvGetBool(fJesus) then
+player.Jesus = function()
+	if not config.AdvGetBool(fJesus) then
         return
     end
     local transform = GetPlayerTransform()
@@ -11,10 +11,10 @@ function Jesus()
 
     local velocity = GetPlayerVelocity()
     
-    if TWInputDown("jump") then 
+    if utils.TWInputDown("jump") then 
         velocity[2] = 5
     else
-        velocity[2] = Clamp(depth*20, 0, 6)
+        velocity[2] = utils.Clamp(depth*20, 0, 6)
     end
 
     SetPlayerVelocity(velocity)

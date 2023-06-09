@@ -1,9 +1,6 @@
 -- tearware on top
 
-local registry = {}
-
-
-
+registry = {}
 
 registry.ListChildren = function(var)
 

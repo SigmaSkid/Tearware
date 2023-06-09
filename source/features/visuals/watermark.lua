@@ -1,10 +1,10 @@
-function Watermark()
-    if not AdvGetBool(fWatermark) then 
+visuals.Watermark = function()
+    if not config.AdvGetBool(fWatermark) then 
         return 
     end
 
     UiPush()
-        local color = GetColor(fWatermark, GetTime())
+        local color = config.GetColor(fWatermark, GetTime())
         UiColor(color.red, color.green, color.blue, color.alpha)
         UiAlign("left top")
         UiFont("bold.ttf", 25)

@@ -1,9 +1,9 @@
-function Quickstop() 
-    if not AdvGetBool(fQuickstop) then 
+player.Quickstop = function() 
+    if not config.AdvGetBool(fQuickstop) then 
         return 
     end
 
-    if IsDirectionalInputDown() then
+    if utils.IsDirectionalInputDown() then
         return 
     end
 

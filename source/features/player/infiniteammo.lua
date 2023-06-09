@@ -1,5 +1,5 @@
-function InfiniteAmmo() 
-    if not AdvGetBool(fInfiniteAmmo) then 
+player.InfiniteAmmo = function() 
+    if not config.AdvGetBool(fInfiniteAmmo) then 
         return 
     end
 

@@ -1,10 +1,9 @@
-
-function Jetpack(dts) 
-    if not AdvGetBool(fJetpack) then 
+player.Jetpack = function(dts) 
+    if not config.AdvGetBool(fJetpack) then 
         return 
     end
 
-    if TWInputDown("jump") then 
+    if utils.TWInputDown("jump") then 
         local velocity = GetPlayerVelocity()
 
         velocity[2] = velocity[2] + (0.5 * dts)

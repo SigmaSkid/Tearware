@@ -1,2 +1,4 @@
-function DrawEditor()
+editor = {}
+
+editor.DrawEditor = function()
 end

@@ -1,5 +1,5 @@
-function Godmode() 
-    if not AdvGetBool(fGodmode) then
+player.Godmode = function() 
+    if not config.AdvGetBool(fGodmode) then
         return 
     end
 

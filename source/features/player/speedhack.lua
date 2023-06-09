@@ -1,17 +1,17 @@
-function Speedhack()
-    if not AdvGetBool(fSpeed) then 
+player.Speedhack = function()
+    if not config.AdvGetBool(fSpeed) then 
         return 
     end
 
-    if not IsDirectionalInputDown() then
+    if not utils.IsDirectionalInputDown() then
         return 
     end 
 
     local velocity = GetPlayerVelocity()
 
-    local TargetVel = GetSubFloat(fSpeed, fSubSpeed)
-    if TWInputDown("shift") then 
-        TargetVel = GetSubFloat(fSpeed, fSubBoost)
+    local TargetVel = config.GetSubFloat(fSpeed, fSubSpeed)
+    if utils.TWInputDown("shift") then 
+        TargetVel = config.GetSubFloat(fSpeed, fSubBoost)
     end
 
     -- scary math below, run.
@@ -20,7 +20,7 @@ function Speedhack()
     local rot = GetCameraTransform().rot
     -- convert to cool angles
     local x, backupy, z = GetQuatEuler(rot)
-    local y = TransformYawByInput(backupy)
+    local y = utils.TransformYawByInput(backupy)
 
     -- euler to vector
     local rady = math.rad(y)

@@ -81,8 +81,7 @@ shouldUpdateOrder = false
 -- 
 --
 
--- haha local
-local dropdownMenu = {}
+dropdownMenu = {}
 
 dropdownMenu.UpdateDrawOrder = function()
     if not shouldUpdateOrder then return end
@@ -161,8 +160,8 @@ dropdownMenu.DrawDropdownMenu = function()
     -- do it in the opposite direction, cuz first element is on top, last on bottom
     for i = #drawOrder, 1, -1 do
         local entry = drawOrder[i]
-        
-        _G[entry.func](interactTarget == entry.queue)
+
+        dropdownMenu[entry.func](interactTarget == entry.queue)
 
         --DebugWatch(entry.name, entry.queue)
     end
@@ -176,7 +175,7 @@ dropdownMenu.DrawHeader = function(item, canInteract)
         UiPush()
             local x, y = UiGetMousePos()
 
-            if InteractRect(150, 50, canInteract)
+            if dropdownMenu.InteractRect(150, 50, canInteract)
             and tileWeAreChangingPosOf ~= item.name then
                 tileWeAreChangingPosOf = item.name
                 offsetsOffset.x = x
@@ -185,8 +184,8 @@ dropdownMenu.DrawHeader = function(item, canInteract)
             
             if InputDown('lmb') and tileWeAreChangingPosOf == item.name then 
                 -- hardcoded for 1080p cuz the game forces scaling from/to that anyway
-                item.position.x = Clamp(item.position.x + x - offsetsOffset.x, 0, 1920-150)
-                item.position.y = Clamp(item.position.y + y - offsetsOffset.y, 0, 1080-50)
+                item.position.x = utils.Clamp(item.position.x + x - offsetsOffset.x, 0, 1920-150)
+                item.position.y = utils.Clamp(item.position.y + y - offsetsOffset.y, 0, 1080-50)
             end
 
         UiPop()
@@ -242,7 +241,7 @@ dropdownMenu.DrawHeader = function(item, canInteract)
             UiTextOutline(0, 0, 0, 0.7, 0.1)
             UiAlign("center middle")
             
-            if InteractRect(20, 20, canInteract) then 
+            if dropdownMenu.InteractRect(20, 20, canInteract) then 
                 item.dropdown = not item.dropdown
             end
 

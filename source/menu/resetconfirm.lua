@@ -1,4 +1,4 @@
-function DrawResetConfigConfirmation(dt)
+menu.DrawResetConfigConfirmation = function(dt)
     UiPush()
         UiTranslate(resetDvd.x, resetDvd.y)
         resetDvd = utils.animateDvd(resetDvd, dt)

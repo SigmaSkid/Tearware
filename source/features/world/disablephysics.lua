@@ -1,5 +1,5 @@
-function DisablePhysics()
-    if not AdvGetBool(fDisablePhysics) then
+world.DisablePhysics = function()
+    if not config.AdvGetBool(fDisablePhysics) then
         return 
     end
 

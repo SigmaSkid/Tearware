@@ -1,35 +1,35 @@
 
-function WeaponGlow() 
-    if not AdvGetBool(fWeaponGlow) then 
+visuals.WeaponGlow = function() 
+    if not config.AdvGetBool(fWeaponGlow) then 
         return 
     end
 
     local toolBody = GetToolBody()
     if toolBody~=0 then
-        local color = GetColor(fWeaponGlow, GetTime())
+        local color = config.GetColor(fWeaponGlow, GetTime())
         DrawBodyOutline(toolBody, color.red, color.green, color.blue, color.alpha)
     end
 end
 
-function ActiveGlow() 
-    if not AdvGetBool(fActiveGlow) then 
+visuals.ActiveGlow = function() 
+    if not config.AdvGetBool(fActiveGlow) then 
         return 
     end
     local bodies = FindBodies(nil,true)
-    local color = GetColor(fActiveGlow, GetTime())
+    local color = config.GetColor(fActiveGlow, GetTime())
 
 	for i=1,#bodies do
 		local body = bodies[i]
 		if IsBodyActive(body) then
             if i % 10 == 0 then 
-                color = GetColor(fActiveGlow, GetTime() + i)
+                color = config.GetColor(fActiveGlow, GetTime() + i)
             end 
             DrawBodyOutline(body, color.red, color.green, color.blue, color.alpha)
         end
     end
 end
 
-function DrawGlow()
-    WeaponGlow()
-    ActiveGlow()
+visuals.DrawGlow = function()
+    visuals.WeaponGlow()
+    visuals.ActiveGlow()
 end

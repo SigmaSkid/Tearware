@@ -1,10 +1,10 @@
-function ExplosionBrush() 
-    if not AdvGetBool(fExplosionBrush) then 
+tools.ExplosionBrush = function() 
+    if not config.AdvGetBool(fExplosionBrush) then 
         return 
     end
     
-    local Size = GetSubFloat(fExplosionBrush, fExplosionBrushSize)
-    local TargetPos = GetPosWeAreLookingAt()
+    local Size = config.GetSubFloat(fExplosionBrush, fExplosionBrushSize)
+    local TargetPos = utils.GetPosWeAreLookingAt()
     if TargetPos ~= nil then 
         Explosion(TargetPos, Size)
     end

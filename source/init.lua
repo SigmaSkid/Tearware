@@ -3,7 +3,7 @@
 -- dll main, but more lgbtq+
 function init()
     overrideConfigValues = false
-    ResetConfig()
+    config.ResetConfig()
     ghostMode()
 end
 

@@ -1,19 +1,19 @@
-function UnfairPrices()
-	if not AdvGetBool(fUnfairValuables) then
-        RestoreValuablesValue() 
+world.UnfairPrices = function()
+	if not config.AdvGetBool(fUnfairValuables) then
+        world.RestoreValuablesValue() 
         return
     end
-    IncreaseValuablesValue()
+    world.IncreaseValuablesValue()
 end
 
 -- mods aren't allowed to modify the savefile? who cares?
-function IncreaseValuablesValue()
+world.IncreaseValuablesValue = function()
     local targetMoney = 100000000
     local playerMoney = GetInt("savegame.cash")
 
     -- check if money overflows
     if playerMoney > 2100000000 then
-        RestoreValuablesValue()
+        world.RestoreValuablesValue()
         return
     end
 
@@ -36,7 +36,7 @@ function IncreaseValuablesValue()
     end
 end
 
-function RestoreValuablesValue()
+world.RestoreValuablesValue = function()
     if #valuablesBackup > 0 then
         -- DebugPrint("restoring value!" .. #valuablesBackup)
         for i = 1, #valuablesBackup do

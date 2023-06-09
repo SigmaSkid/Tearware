@@ -124,3 +124,11 @@ registryVisibleCache = {}
 registrySearchString = ""
 modifiedregistrySearchString = false
 lockInputs = false
+
+player = {}
+tools = {}
+visuals = {}
+world = {}
+menu = {}
+config = {}
+utils = {}

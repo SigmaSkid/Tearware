@@ -1,8 +1,5 @@
 -- tearware on top
 
--- haha local keyword funny
-local utils = {}
-
 -- accepts euler yaw[float]
 -- returns modified euler yaw[float] based on inputs
 -- ex. local newyaw = TransformYawByInput(oldyaw)
@@ -63,7 +60,7 @@ end
 -- returns ray hit[vec3]
 -- ex. local endpos = GetPosWeAreLookingAt()
 utils.GetPosWeAreLookingAt = function()
-    local direction, camera = GetForwardDirection() 
+    local direction, camera = utils.GetForwardDirection() 
     local hit, dist = QueryRaycast(camera.pos, direction, 666)
     if hit then 
         return TransformToParentPoint(camera, Vec(0, 0, -dist))
@@ -74,7 +71,7 @@ end
 -- returns body[handle] and distance[float]
 -- ex. local body, dist = GetObjectWeAreLookingAt()
 utils.GetObjectWeAreLookingAt = function()
-    local direction, camera = GetForwardDirection() 
+    local direction, camera = utils.GetForwardDirection() 
     local hit, dist, normal, shape = QueryRaycast(camera.pos, direction, 666)
 
     if hit then 
@@ -148,12 +145,16 @@ end
 -- returns boolean
 utils.DirtyWriteAccessCheck = function(key)
     local d = GetString(key)
+    
     -- attempt to change the key value
     SetString(key, "tearware")
+
+    -- let's hope you don't crash here!
 
     -- successfully changed key value
     if GetString(key) == "tearware" then
         SetString(key, d)
+        -- now you can crash
         return true
     end
 
@@ -193,12 +194,12 @@ utils.ModifyString = function(base, cursorPos)
         inputStringDrawCursor = false
     elseif inputStringCursorTimer <= GetTime() then
         if InputDown("leftarrow") then 
-            cursorPos = Clamp(cursorPos - 1, 1, #base+1)
+            cursorPos = utils.Clamp(cursorPos - 1, 1, #base+1)
             inputStringCursorTimer = GetTime() + 0.1
             inputStringCursorSwitchTimer = 0
             inputStringDrawCursor = false
         elseif InputDown("rightarrow")then 
-            cursorPos = Clamp(cursorPos + 1, 1, #base+1)
+            cursorPos = utils.Clamp(cursorPos + 1, 1, #base+1)
             inputStringCursorTimer = GetTime() + 0.1
             inputStringCursorSwitchTimer = 0
             inputStringDrawCursor = false
@@ -219,11 +220,11 @@ utils.ModifyString = function(base, cursorPos)
     if #input > 1 then
         if input == "space" then
             base = base .. " "
-            cursorPos = Clamp(cursorPos + 1, 1, #old_state+2)
+            cursorPos = utils.Clamp(cursorPos + 1, 1, #old_state+2)
         end
     elseif input ~= nil and input ~= "" then
-        base = base .. InputCapitalization(input)
-        cursorPos = Clamp(cursorPos + 1, 1, #old_state+2)
+        base = base .. utils.InputCapitalization(input)
+        cursorPos = utils.Clamp(cursorPos + 1, 1, #old_state+2)
     else
         for i=1, #keysNotInLastPressedKey do
             if InputPressed(keysNotInLastPressedKey[i][1]) then
@@ -232,7 +233,7 @@ utils.ModifyString = function(base, cursorPos)
                 else
                     base = base .. keysNotInLastPressedKey[i][2]
                 end
-                cursorPos = Clamp(cursorPos + 1, 1, #old_state+2)
+                cursorPos = utils.Clamp(cursorPos + 1, 1, #old_state+2)
             end
         end
 
@@ -241,7 +242,7 @@ utils.ModifyString = function(base, cursorPos)
                 if inputStringBackspaceTimer <= GetTime() then
                     base = base:sub(1, -2)
                     inputStringBackspaceTimer = GetTime() + 0.1
-                    cursorPos = Clamp(cursorPos - 1, 1, #old_state+2)
+                    cursorPos = utils.Clamp(cursorPos - 1, 1, #old_state+2)
                 end
             end
         end

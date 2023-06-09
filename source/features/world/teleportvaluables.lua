@@ -1,5 +1,5 @@
 
-function CacheValuables()
+world.CacheValuables = function()
     if #cachedValuablesPositions == 0 then
         local v = FindBodies("valuable", true)
         for i = 1, #v do
@@ -14,7 +14,7 @@ function CacheValuables()
     end
 end
 
-function RestoreValuablesPosition()
+world.RestoreValuablesPosition = function()
     if #cachedValuablesPositions > 0 then
         for i = 1, #cachedValuablesPositions do
             local v = cachedValuablesPositions[i]
@@ -28,13 +28,13 @@ function RestoreValuablesPosition()
     end
 end
 
-function CollectValuables() 
-    if not AdvGetBool(fTeleportValuables) then
-        RestoreValuablesPosition() 
+world.CollectValuables = function() 
+    if not config.AdvGetBool(fTeleportValuables) then
+        world.RestoreValuablesPosition() 
         return
     end
 
-    CacheValuables()
+    world.CacheValuables()
 
     local camera = GetCameraTransform()
     local v = FindBodies("valuable", true)

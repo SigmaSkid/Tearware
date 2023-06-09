@@ -6,7 +6,7 @@
 #include "features/visuals/visuals.lua" -- DrawVisuals
 #include "editor/editor.lua" -- DrawEditor
 
-function UiDraw(dt)
+menu.UiDraw = function(dt)
     if openMenu == nil then
         filthyglobal_editingkeybind = " "
         active_sub_menu = nil
@@ -28,19 +28,19 @@ function UiDraw(dt)
         end
 
         if openMenu == "tearware" then
-            DrawMenu()
+            menu.DrawMenu()
         elseif openMenu == "registry" then
-            DrawRegistry()
+            registry.DrawRegistry()
         elseif openMenu == "reset" then
-            DrawResetConfigConfirmation(dt)
+            menu.DrawResetConfigConfirmation(dt)
         elseif openMenu == "editor" then
-            DrawEditor()
+            editor.DrawEditor()
         end
     UiPop()
 end
 
 -- called on each draw, dt isn't documented :D
 function draw(dt)
-    DrawVisuals()
-    UiDraw(dt)
+    visuals.DrawVisuals()
+    menu.UiDraw(dt)
 end

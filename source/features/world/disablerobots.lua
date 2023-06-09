@@ -1,5 +1,5 @@
-function DisableRobots()
-    if not AdvGetBool(fDisableRobots) then
+world.DisableRobots = function()
+    if not config.AdvGetBool(fDisableRobots) then
         return
     end
 

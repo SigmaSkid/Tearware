@@ -1,5 +1,5 @@
-function DisableAlarm()
-	if not AdvGetBool(fDisableAlarm) then
+world.DisableAlarm = function()
+	if not config.AdvGetBool(fDisableAlarm) then
         return
     end
 

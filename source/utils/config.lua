@@ -2,10 +2,6 @@
 
 #include "local.lua"
 
-
--- haha local keyword funny
-local config = {}
-
 config.DefineBool = function(var, default) 
     featurelist[#featurelist+1] = var
 
@@ -152,7 +148,7 @@ config.UpdateAllFeatureStates = function()
     if lockInputs then return end
 
     for i = 1, #featurelist do 
-        UpdateFeatureState(featurelist[i])
+        config.UpdateFeatureState(featurelist[i])
     end
 end
 
@@ -161,75 +157,70 @@ config.ResetConfig = function()
     featurelist = {}
 
     -- visuals
-    DefineBool(fVisuals, true)
-    DefineBool(fWatermark, true)
-      DefineColor(fWatermark, {1, 1, 1, 1, true} )
-    DefineBool(fFeatureList, false)
-      DefineColor(fFeatureList, {1, 1, 1, 1, true} )
-    DefineBool(fObjectiveEsp, false)
-      DefineColor(fObjectiveEsp, {0.7, 0.3, 0.3, 0.7, false} )
-    DefineBool(fOptionalEsp, false)
-      DefineColor(fOptionalEsp, {0.3, 0.3, 0.7, 0.7, false} )
-    DefineBool(fValuableEsp, false)
-      DefineColor(fValuableEsp, {0.3, 0.7, 0.3, 0.7, false} )
-    DefineBool(fToolEsp, false)
-      DefineColor(fToolEsp, {0.7, 0.7, 0.3, 0.7, false} )
-    DefineBool(fWeaponGlow, false)
-      DefineColor(fWeaponGlow, {1, 1, 1, 1, true} )
-    DefineBool(fActiveGlow, false)
-      DefineColor(fActiveGlow, {1, 1, 1, 1, true} )
-    DefineBool(fRainbowFog, false)
-      DefineColor(fRainbowFog, {1, 1, 1, 1, true} )
-    DefineBool(fPostProcess, false)
-      DefineColor(fPostProcess, {0.5, 0.5, 0.5, 0.5, false} )
-    DefineBool(fSpinnyTool, false)
-    
+    config.DefineBool(fVisuals, true)
+    config.DefineBool(fWatermark, true)
+        config.DefineColor(fWatermark, {1, 1, 1, 1, true} )
+    config.DefineBool(fFeatureList, false)
+        config.DefineColor(fFeatureList, {1, 1, 1, 1, true} )
+    config.DefineBool(fObjectiveEsp, false)
+        config.DefineColor(fObjectiveEsp, {0.7, 0.3, 0.3, 0.7, false} )
+    config.DefineBool(fOptionalEsp, false)
+        config.DefineColor(fOptionalEsp, {0.3, 0.3, 0.7, 0.7, false} )
+    config.DefineBool(fValuableEsp, false)
+        config.DefineColor(fValuableEsp, {0.3, 0.7, 0.3, 0.7, false} )
+    config.DefineBool(fToolEsp, false)
+        config.DefineColor(fToolEsp, {0.7, 0.7, 0.3, 0.7, false} )
+    config.DefineBool(fWeaponGlow, false)
+        config.DefineColor(fWeaponGlow, {1, 1, 1, 1, true} )
+    config.DefineBool(fActiveGlow, false)
+        config.DefineColor(fActiveGlow, {1, 1, 1, 1, true} )
+    config.DefineBool(fRainbowFog, false)
+        config.DefineColor(fRainbowFog, {1, 1, 1, 1, true} )
+    config.DefineBool(fPostProcess, false)
+        config.DefineColor(fPostProcess, {0.5, 0.5, 0.5, 0.5, false} )
+    config.DefineBool(fSpinnyTool, false)
+
     -- movement
-    DefineBool(fSpeed, false)
-      DefineSubFloat(fSpeed, fSubSpeed, 14)
-      DefineSubFloat(fSpeed, fSubBoost, 28)
-    DefineBool(fSpider, false)
-    DefineBool(fFly, false)
-      DefineSubFloat(fFly, fSubSpeed, 20)
-      DefineSubFloat(fFly, fSubBoost, 40)
-    DefineBool(fNoclip, false)
-      DefineSubFloat(fNoclip, fSubSpeed, 1)
-      DefineSubFloat(fNoclip, fSubBoost, 9)
-    DefineBool(fFloorStrafe, false)
-    DefineBool(fJetpack, false)
-    DefineBool(fJesus, false)
-    DefineBool(fQuickstop, false)
-    
+    config.DefineBool(fSpeed, false)
+        config.DefineSubFloat(fSpeed, fSubSpeed, 14)
+        config.DefineSubFloat(fSpeed, fSubBoost, 28)
+    config.DefineBool(fSpider, false)
+    config.DefineBool(fFly, false)
+        config.DefineSubFloat(fFly, fSubSpeed, 20)
+        config.DefineSubFloat(fFly, fSubBoost, 40)
+    config.DefineBool(fNoclip, false)
+        config.DefineSubFloat(fNoclip, fSubSpeed, 1)
+        config.DefineSubFloat(fNoclip, fSubBoost, 9)
+    config.DefineBool(fFloorStrafe, false)
+    config.DefineBool(fJetpack, false)
+    config.DefineBool(fJesus, false)
+    config.DefineBool(fQuickstop, false)
+
     -- misc
-    DefineBool(fInfiniteAmmo, false)
-    DefineBool(fSuperStrength, false)
-    DefineBool(fGodmode, false)
-    DefineBool(fBulletTime, false)
-      DefineSubFloat(fBulletTime, fBulletTimeScale, 10)
-      DefineSubBool(fBulletTime, fBulletTimePatch, true)
-    DefineBool(fSkipObjective, false)
-    DefineBool(fDisableAlarm, false)
-    DefineBool(fDisablePhysics, false)
-    DefineBool(fForceUpdatePhysics, false)
+    config.DefineBool(fInfiniteAmmo, false)
+    config.DefineBool(fSuperStrength, false)
+    config.DefineBool(fGodmode, false)
+    config.DefineBool(fBulletTime, false)
+        config.DefineSubFloat(fBulletTime, fBulletTimeScale, 10)
+        config.DefineSubBool(fBulletTime, fBulletTimePatch, true)
+    config.DefineBool(fSkipObjective, false)
+    config.DefineBool(fDisableAlarm, false)
+    config.DefineBool(fDisablePhysics, false)
+    config.DefineBool(fForceUpdatePhysics, false)
 
     -- tools
-    DefineBool(fRubberband, false)
-      DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
-    DefineBool(fTeleportValuables, false)
-    DefineBool(fUnfairValuables, false)
-    DefineBool(fTeleport, false)
-    DefineBool(fExplosionBrush, false)
-      DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
-    DefineBool(fFireBrush, false)
-    DefineBool(fStructureRestorer, false)
-    
+    config.DefineBool(fRubberband, false)
+        config.DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
+    config.DefineBool(fTeleportValuables, false)
+    config.DefineBool(fUnfairValuables, false)
+    config.DefineBool(fTeleport, false)
+    config.DefineBool(fExplosionBrush, false)
+        config.DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
+    config.DefineBool(fFireBrush, false)
+    config.DefineBool(fStructureRestorer, false)
+
     -- menu stuff
-    DefineInt(fMenuStyle, 0)
-
-
-
-    -- debug & config
-    
+    config.DefineInt(fMenuStyle, 0)
 
     -- sort for feature list.
     UiPush()

@@ -41,21 +41,21 @@ function tick(dt)
     end
 
     -- input system stuff
-    UpdateAllFeatureStates() -- utils/config.lua
+    config.UpdateAllFeatureStates() -- utils/config.lua
 
     -- delta time scaled, .5 = 120fps, 1 = 60fps, 2 = 30fps
     local dts = dt / fixed_update_rate
 
     -- universal features
     -- world 
-    Timer()
-    ForceUpdateAllBodies()
-    DisablePhysics()
+    world.Timer()
+    world.ForceUpdateAllBodies()
+    world.DisablePhysics()
     --
 
     -- visuals
-    ColoredFog()
-    PostProcessing()
+    visuals.ColoredFog()
+    visuals.PostProcessing()
     --
 
     if GetPlayerVehicle() ~= 0 then
@@ -64,27 +64,27 @@ function tick(dt)
     end
 
     -- player
-    Spider() 
-    Speedhack()
-    Jesus()
-    Floorstrafe()
-    Jetpack(dts)
-    Fly()
-    NoClip(dts)
-    Quickstop()
+    player.Spider() 
+    player.Speedhack()
+    player.Jesus()
+    player.Floorstrafe()
+    player.Jetpack(dts)
+    player.Fly()
+    player.NoClip(dts)
+    player.Quickstop()
     -- 
 
     -- tools
-    Teleport()
-    ExplosionBrush()
-    FireBrush()
+    tools.Teleport()
+    tools.ExplosionBrush()
+    tools.FireBrush()
     -- 
 
     -- player
-    SuperStrength()
+    player.SuperStrength()
     -- 
 
     -- visuals
-    SpinningTool()
+    visuals.SpinningTool()
     --
 end

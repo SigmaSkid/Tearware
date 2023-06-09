@@ -1,6 +1,6 @@
 -- tearware on top
 
-local legacyMenu = {}
+legacyMenu = {}
 
 legacyMenu.DrawLegacyMenu = function(rgb) 
     UiPush()
@@ -38,13 +38,13 @@ legacyMenu.DrawLegacyMenu = function(rgb)
             UiPush()
                 UiTranslate(0, 14)
                 legacyMenu.NavButton("A", 0)
-                NavSep(0)
+                legacyMenu.NavSep(0)
                 legacyMenu.NavButton("B", 1)
-                NavSep(1)
+                legacyMenu.NavSep(1)
                 legacyMenu.NavButton("C", 2)
-                NavSep(2)
+                legacyMenu.NavSep(2)
                 legacyMenu.NavButton("D", 3)
-                NavSep(3)
+                legacyMenu.NavSep(3)
                 legacyMenu.NavButton("E", 4)
             UiPop()
         UiPop()

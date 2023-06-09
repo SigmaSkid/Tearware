@@ -17,17 +17,17 @@
 -- Called once every fixed tick, 60tps (dt is a constant)
 function update(dt)
     -- player
-    InfiniteAmmo()
-    Rubberband()
-    Godmode()
+    player.InfiniteAmmo()
+    player.Rubberband()
+    player.Godmode()
     --
 
     -- world
-    UnfairPrices()
-    DisableRobots()
-    CollectValuables()
-    DisableAlarm()
-    SkipObjective()
-    StructureRestorer()
+    world.UnfairPrices()
+    world.DisableRobots()
+    world.CollectValuables()
+    world.DisableAlarm()
+    world.SkipObjective()
+    world.StructureRestorer()
     --
 end

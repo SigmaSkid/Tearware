@@ -1,5 +1,5 @@
-function SpinningTool()
-    if not AdvGetBool(fSpinnyTool) then 
+visuals.SpinningTool = function()
+    if not config.AdvGetBool(fSpinnyTool) then 
         return
     end
     
@@ -9,7 +9,7 @@ function SpinningTool()
     end
 
     -- color to spin! science!
-    local rgb = seedToRGB(GetTime())
+    local rgb = utils.seedToRGB(GetTime())
 
     local rot = QuatEuler(rgb.R * 360, rgb.G* 360, rgb.B* 360)
     local offset = Transform( Vec(0, 0, -2), rot)
