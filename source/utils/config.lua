@@ -229,7 +229,7 @@ config.ResetConfig = function()
     UiPush()
         UiFont("bold.ttf", 12)
         table.sort(featurelist, function (left, right)
-            return UiGetTextSize(left[1]) > UiGetTextSize(right[1])
+            return UiGetTextSize(left.legacyName) > UiGetTextSize(right.legacyName)
         end)
     UiPop()
 end

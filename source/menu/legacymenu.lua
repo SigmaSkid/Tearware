@@ -565,7 +565,7 @@ legacyMenu.SubSettingCheckbox = function(var, sub)
     UiTranslate(-10, -20)
     UiAlign("left top")
     
-    local namew, nameh = UiGetTextSize(sub[1])
+    local namew, nameh = UiGetTextSize(sub.legacyName)
     
     local highlight = 0.6
 
@@ -577,14 +577,14 @@ legacyMenu.SubSettingCheckbox = function(var, sub)
     UiTextOutline(0, 0, 0, 1, 0.1)
 
     -- highlight the checkbox, if this is the keybind we're editing
-    if GetBool(cfgstr .. var.configString .. sub[2]) then 
+    if GetBool(cfgstr .. var.configString .. sub.configString) then 
         UiColor(highlight, 1.0, highlight, 1)
     else 
         UiColor(1.0, highlight, highlight, 1)
     end
 
     if UiTextButton(sub[1]) then
-        config.FlipBool(cfgstr .. var.configString .. sub[2])
+        config.FlipBool(cfgstr .. var.configString .. sub.configString)
     end
 
     UiPop()

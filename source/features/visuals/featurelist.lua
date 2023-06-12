@@ -24,7 +24,8 @@ visuals.FeatureList = function()
                 local color = config.GetColor(fFeatureList, GetTime() + visibleFeatures)
                 UiColor(color.red, color.green, color.blue, color.alpha)
 
-                UiText(featurelist[i][1], true)
+                -- should I add featurelistname? or use the name of currently active menu?
+                UiText(featurelist[i].legacyName, true)
             end
         end
 

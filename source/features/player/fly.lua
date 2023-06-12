@@ -1,4 +1,4 @@
-player.Fly = function()
+player.Fly = function(dt)
     if not config.AdvGetBool(fFly) then 
         return 
     end
@@ -37,7 +37,9 @@ player.Fly = function()
     end
     
     -- counteract gravity, gravity is evil
-    local ohno = 0.1666
+    -- this breaks at higher fps.
+    local ohno = 864 * dt * dt
+    
     if utils.TWInputDown("jump") then 
         ohno = TargetVel
     end 

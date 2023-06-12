@@ -26,7 +26,7 @@
 #include "features/tools/firebrush.lua"
 #include "features/tools/teleport.lua"
 
--- called once per frame (dt is a dynamic float value between 0 and .0(3), 60fps = 0.1(6) )
+-- called once per frame (dt is a dynamic float value between 0 and .0(3), 60fps = 0.01(6) )
 function tick(dt) 
     if PauseMenuButton(fProjectName) then
 		openMenu = "tearware"
@@ -44,6 +44,7 @@ function tick(dt)
     config.UpdateAllFeatureStates() -- utils/config.lua
 
     -- delta time scaled, .5 = 120fps, 1 = 60fps, 2 = 30fps
+    -- seems not to be fully accurate. 20fps gave me a dts of 2
     local dts = dt / fixed_update_rate
 
     -- universal features
@@ -69,7 +70,7 @@ function tick(dt)
     player.Jesus()
     player.Floorstrafe()
     player.Jetpack(dts)
-    player.Fly()
+    player.Fly(dt)
     player.NoClip(dts)
     player.Quickstop()
     -- 
