@@ -67,7 +67,6 @@ offsetsOffset.y = 0
 
 resizeOffset = 0
 
-
 local drawOrder = {
     playerDropdown,
     worldDropdown,
@@ -114,7 +113,7 @@ dropdownMenu.GetInteractable = function()
                     output = object.queue 
                 end
 
-                --UiRect(object.size.x, object.size.y)
+                --UiRect(object.size.x + 50, object.size.y)
 
             UiPop()
         end
@@ -274,35 +273,78 @@ end
 -- speedhack etc.
 dropdownMenu.DrawFeature = function(var, canInteract)
     UiPush()
-        -- draw background of it
+        -- background
         UiPush()
-            UiTranslate(150/2, 50/2)
+            UiTranslate(150/2, 40/2)
             UiAlign("center middle")
 
             UiColor(0.18, 0.18, 0.18, 0.3)
-            UiRect(156, 50)
-            
+            UiRect(156, 40)
+
+            UiColor(0.05, 0.05, 0.05, 0.9)
+            UiRect(150, 40)
+
             UiColor(0.18, 0.18, 0.18, 0.9)
-            UiRect(150, 50)
+            UiRect(146, 38)
         UiPop()
 
+        -- text
         UiPush()
-            -- uicolor (feature_state ? vibrant green : muddy red )
-            -- font
-            -- align
-            -- uitext (var name)
-            -- if clicked -> toggle feature
+            UiTranslate(10, 5)
+            UiFont("regular.ttf", 28)
+            UiTextShadow(0, 0, 0, 0.7, 1.5)
+            UiTextOutline(0, 0, 0, 0.7, 0.1)
+            UiAlign("left bottom")
+
+            local w, h = UiGetTextSize(var[1])
+            UiTranslate(0, h)
+
+            local feature_state = config.AdvGetBool(var)
+            if feature_state then 
+                UiColor(1,1,1,1)            
+            else
+                UiColor(0.5,0.5,0.5,1)    
+            end
+
+            UiText(var[1])
+        UiPop()
+  
+        -- interaction
+        UiPush()
+            UiColor(1,1,1,1)    
+            if dropdownMenu.InteractRect(100, 40, canInteract) then 
+                config.FlipBool(cfgstr .. var[2])
+            end
+            --UiRect(100, 40)
         UiPop()
 
-        -- UiTranslate to align to the right 
-
+        -- V
         UiPush()
-            -- arrow on the right side, for revealing the dropdown
-            -- could use registry for this by using feature_name.dropdown_state or something
+            UiTranslate(130, 50/2)
+            UiTranslate(0, -5)
+            UiColor(1,1,1,1)
+            UiFont("regular.ttf", 22)
+            UiTextShadow(0, 0, 0, 0.7, 1.5)
+            UiTextOutline(0, 0, 0, 0.7, 0.1)
+            UiAlign("center middle")
+            
+            if dropdownMenu.InteractRect(20, 20, canInteract) then 
+                config.FlipBool(cfgstr .. var[2] .. "_dropdown")
+            end
+            --UiRect(20,20)
+            local dropdown_state = GetBool(cfgstr .. var[2] .. "_dropdown")
+
+            if dropdown_state then 
+                UiRotate(180)
+            end
+
+            UiText("v")
         UiPop()
     UiPop()
 
-    return --dropdown state--
+    UiTranslate(0, 40)
+    resizeOffset = resizeOffset + 40
+    return dropdown_state
 end
 
 dropdownMenu.ComboBox = function()
@@ -313,27 +355,27 @@ dropdownMenu.BaseButton = function(name, canInteract)
     local output = false
     UiPush()
         UiPush()
-            UiTranslate(150/2, 50/2)
+            UiTranslate(150/2, 40/2)
             UiAlign("center middle")
 
             UiColor(0.18, 0.18, 0.18, 0.3)
-            UiRect(156, 50)
+            UiRect(156, 40)
 
             UiColor(0.05, 0.05, 0.05, 0.9)
-            UiRect(150, 50)
+            UiRect(150, 40)
 
             UiColor(0.18, 0.18, 0.18, 0.9)
-            UiRect(146, 48)
+            UiRect(146, 38)
 
-            if dropdownMenu.InteractRect(150, 50, canInteract) then 
+            if dropdownMenu.InteractRect(150, 40, canInteract) then 
                 output = true
             end
         UiPop()
     
         UiPush()
-            UiTranslate(10, 10)
+            UiTranslate(10, 5)
             UiColor(1,1,1,1)
-            UiFont("regular.ttf", 35)
+            UiFont("regular.ttf", 28)
             UiTextShadow(0, 0, 0, 0.7, 1.5)
             UiTextOutline(0, 0, 0, 0.7, 0.1)
             UiAlign("left bottom")
@@ -344,8 +386,8 @@ dropdownMenu.BaseButton = function(name, canInteract)
             UiText(name)
         UiPop()
     UiPop()
-    UiTranslate(0, 50)
-    resizeOffset = resizeOffset + 50
+    UiTranslate(0, 40)
+    resizeOffset = resizeOffset + 40
     return output
 end
 
@@ -370,6 +412,10 @@ end
 dropdownMenu.MenuDrawPlayer = function(canInteract)
     UiPush()
         if dropdownMenu.DrawHeader(playerDropdown, canInteract) then 
+
+            if dropdownMenu.DrawFeature(fSpeed, canInteract) then 
+            end
+
 
         -- if dropdownMenu.DrawFeature(var, canInteract) then 
             -- somehow draw the background and then update the offset
