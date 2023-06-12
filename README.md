@@ -31,7 +31,6 @@ Access the menu by pressing Insert in-game or through the pause menu.
 - Infinite Ammo
 - Super Strength
 - Godmode
-- Rubberband
 
 ### World:
 - Slowmotion
@@ -42,9 +41,10 @@ Access the menu by pressing Insert in-game or through the pause menu.
 - Force Update Physics
 - Teleport Valuables
 - Unfair Valuables
-- Structure Restorer
 
 ### Tools:
+- Structure Restorer
+- Rubberband
 - Teleport
 - Explosion Brush
 - Fire Brush
