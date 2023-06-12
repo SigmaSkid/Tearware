@@ -161,7 +161,6 @@ config.ResetConfig = function()
     featurelist = {}
 
     -- visuals
-    config.DefineBool(fVisuals, true)
     config.DefineBool(fWatermark, true)
         config.DefineColor(fWatermark, {1, 1, 1, 1, true} )
     config.DefineBool(fFeatureList, false)

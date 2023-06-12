@@ -113,7 +113,7 @@ dropdownMenu.GetInteractable = function()
                     output = object.queue 
                 end
 
-                --UiRect(object.size.x + 50, object.size.y)
+                UiRect(object.size.x + 50, object.size.y)
 
             UiPop()
         end
@@ -271,9 +271,7 @@ dropdownMenu.DrawHeader = function(item, canInteract)
 end
 
 -- speedhack etc.
--- todo: find a way to scale font & wrap text for features
--- with names that are wayyyy too long.
-dropdownMenu.DrawFeature = function(var, canInteract)
+dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
     UiPush()
         -- background
         UiPush()
@@ -291,15 +289,27 @@ dropdownMenu.DrawFeature = function(var, canInteract)
         UiPop()
 
         -- text
+        -- todo: find a way to scale font & wrap text for features
+        -- with names that are wayyyy too long.
         UiPush()
             UiTranslate(10, 5)
-            UiFont("regular.ttf", 28)
+            local fontsize = 28
+            UiFont("regular.ttf", fontsize)
             UiTextShadow(0, 0, 0, 0.7, 1.5)
             UiTextOutline(0, 0, 0, 0.7, 0.1)
             UiAlign("left bottom")
 
             local w, h = UiGetTextSize(var[1])
             UiTranslate(0, h)
+            -- haha, precompiled values? NO! Waste compute reasources! Heck yeah!
+            while (w > 100) do 
+                fontsize = fontsize - 2
+                UiFont("regular.ttf", fontsize)
+
+                -- if local then infinite loop, funny lua things
+                w, h = UiGetTextSize(var[1])
+            end
+
 
             local feature_state = config.AdvGetBool(var)
             if feature_state then 
@@ -321,27 +331,30 @@ dropdownMenu.DrawFeature = function(var, canInteract)
         UiPop()
 
         -- V
-        UiPush()
-            UiTranslate(130, 50/2)
-            UiTranslate(0, -5)
-            UiColor(1,1,1,1)
-            UiFont("regular.ttf", 22)
-            UiTextShadow(0, 0, 0, 0.7, 1.5)
-            UiTextOutline(0, 0, 0, 0.7, 0.1)
-            UiAlign("center middle")
-            
-            if dropdownMenu.InteractRect(20, 20, canInteract) then 
-                config.FlipBool(cfgstr .. var[2] .. "_dropdown")
-            end
-            --UiRect(20,20)
-            local dropdown_state = GetBool(cfgstr .. var[2] .. "_dropdown")
+        if noSubSettings ~= true then 
+            UiPush()
+                UiTranslate(130, 50/2)
+                UiTranslate(0, -5)
+                UiColor(1,1,1,1)
+                UiFont("regular.ttf", 22)
+                UiTextShadow(0, 0, 0, 0.7, 1.5)
+                UiTextOutline(0, 0, 0, 0.7, 0.1)
+                UiAlign("center middle")
+                
+                if dropdownMenu.InteractRect(20, 20, canInteract) then 
+                    config.FlipBool(cfgstr .. var[2] .. "_dropdown")
+                end
+                --UiRect(20,20)
+                local dropdown_state = GetBool(cfgstr .. var[2] .. "_dropdown")
 
-            if dropdown_state then 
-                UiRotate(180)
-            end
+                if dropdown_state then 
+                    UiRotate(180)
+                end
 
-            UiText("v")
-        UiPop()
+                UiText("v")
+            UiPop()
+        end 
+
     UiPop()
 
     UiTranslate(0, 40)
@@ -409,27 +422,46 @@ dropdownMenu.DrawBottomGradient = function()
     UiPop()
 end
 
+dropdownMenu.MenuDrawVisuals = function(canInteract) 
+    UiPush()
+        if dropdownMenu.DrawHeader(visualsDropdown, canInteract) then 
 
+            if dropdownMenu.DrawFeature(fWatermark, canInteract) then end
+            if dropdownMenu.DrawFeature(fFeatureList, canInteract) then end
+            if dropdownMenu.DrawFeature(fObjectiveEsp, canInteract) then end
+            if dropdownMenu.DrawFeature(fOptionalEsp, canInteract) then end
+            if dropdownMenu.DrawFeature(fValuableEsp, canInteract) then end
+            if dropdownMenu.DrawFeature(fToolEsp, canInteract) then end
+            if dropdownMenu.DrawFeature(fWeaponGlow, canInteract) then end
+            if dropdownMenu.DrawFeature(fActiveGlow, canInteract) then end
+            if dropdownMenu.DrawFeature(fRainbowFog, canInteract) then end
+            if dropdownMenu.DrawFeature(fPostProcess, canInteract) then end
+            if dropdownMenu.DrawFeature(fSpinnyTool, canInteract) then end
+
+        dropdownMenu.DrawBottomGradient()
+        end
+    UiPop()
+end
 
 dropdownMenu.MenuDrawPlayer = function(canInteract)
     UiPush()
         if dropdownMenu.DrawHeader(playerDropdown, canInteract) then 
 
-            if dropdownMenu.DrawFeature(fSpeed, canInteract) then 
-            end
-
-
-        -- if dropdownMenu.DrawFeature(var, canInteract) then 
-            -- somehow draw the background and then update the offset
-            -- should probably just hardcode it
+            if dropdownMenu.DrawFeature(fSpeed, canInteract) then
             -- draw hotkey
             -- draw slider if applicable
-            -- draw combo box if applicable
-        -- end
-        
-        -- UiTranslate(0, offset)
-        -- repeat DrawFeature for all player features
-        
+            -- draw combo box if applicable 
+            end
+            if dropdownMenu.DrawFeature(fFly, canInteract) then end
+            if dropdownMenu.DrawFeature(fNoclip, canInteract) then end
+            if dropdownMenu.DrawFeature(fFloorStrafe, canInteract) then end
+            if dropdownMenu.DrawFeature(fJetpack, canInteract) then end
+            if dropdownMenu.DrawFeature(fJesus, canInteract) then end
+            if dropdownMenu.DrawFeature(fQuickstop, canInteract) then end
+            if dropdownMenu.DrawFeature(fInfiniteAmmo, canInteract) then end
+            if dropdownMenu.DrawFeature(fSuperStrength, canInteract) then end
+            if dropdownMenu.DrawFeature(fGodmode, canInteract) then end
+
         dropdownMenu.DrawBottomGradient()
         end
     UiPop()
@@ -439,16 +471,14 @@ dropdownMenu.MenuDrawWorld = function(canInteract)
     UiPush()
         if dropdownMenu.DrawHeader(worldDropdown, canInteract) then 
 
-
-
-        dropdownMenu.DrawBottomGradient()
-        end
-    UiPop()
-end
-
-dropdownMenu.MenuDrawVisuals = function(canInteract) 
-    UiPush()
-        if dropdownMenu.DrawHeader(visualsDropdown, canInteract) then 
+            if dropdownMenu.DrawFeature(fBulletTime, canInteract) then end
+            if dropdownMenu.DrawFeature(fSkipObjective, canInteract) then end
+            if dropdownMenu.DrawFeature(fDisableAlarm, canInteract) then end
+            if dropdownMenu.DrawFeature(fDisableRobots, canInteract) then end
+            if dropdownMenu.DrawFeature(fDisablePhysics, canInteract) then end
+            if dropdownMenu.DrawFeature(fForceUpdatePhysics, canInteract) then end
+            if dropdownMenu.DrawFeature(fTeleportValuables, canInteract) then end
+            if dropdownMenu.DrawFeature(fUnfairValuables, canInteract) then end
 
         dropdownMenu.DrawBottomGradient()
         end
@@ -458,6 +488,12 @@ end
 dropdownMenu.MenuDrawTools = function(canInteract) 
     UiPush()
         if dropdownMenu.DrawHeader(toolsDropdown, canInteract) then 
+
+            if dropdownMenu.DrawFeature(fStructureRestorer, canInteract) then end
+            if dropdownMenu.DrawFeature(fRubberband, canInteract) then end
+            if dropdownMenu.DrawFeature(fTeleport, canInteract) then end
+            if dropdownMenu.DrawFeature(fExplosionBrush, canInteract) then end
+            if dropdownMenu.DrawFeature(fFireBrush, canInteract) then end
 
         dropdownMenu.DrawBottomGradient()
         end

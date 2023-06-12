@@ -58,8 +58,6 @@ legacyMenu.DrawLegacyMenu = function(rgb)
             if GetInt(cfgstr .. "activetab") == 0 then 
                 -- visuals
 
-                legacyMenu.Checkbox(fVisuals)
-
                 legacyMenu.Checkbox(fWatermark)
                 legacyMenu.ColorSelector(fWatermark)
 

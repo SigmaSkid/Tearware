@@ -4,10 +4,6 @@
 #include "glow.lua"
 
 visuals.DrawVisuals = function()
-    if not config.AdvGetBool(fVisuals) then 
-        return 
-    end
-
     UiPush()
         visuals.Watermark()
         visuals.FeatureList()

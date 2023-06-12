@@ -3,9 +3,15 @@
 -- obviously change it before uploading to workshop.
 fProjectName = "Tearware Github Preview"
 
--- fFeature = {"menu name", "config string", "explanation"}
+-- fFeature = {"legacy menu name", "config string", "dropdown menu", "new menu", "explanation"}
+-- legacy name        = var[1]
+-- dropdown menu name = var[3]
+-- new menu           = var[4]
+-- config string      = var[2]
+-- description        = var[5]
+-- this needs to be changed. fuck
+
 -- visuals
-fVisuals = {"Visuals", "visuals"}
 fWatermark = {"Watermark", "watermark"}
 fFeatureList = {"Feature List", "featurelist", "Lists enabled features"}
 fObjectiveEsp = {"Objective ESP", "objectiveesp", "Highlights mandatory objectives"}
