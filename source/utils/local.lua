@@ -30,7 +30,6 @@ fQuickstop = {"Quickstop", "quickstop", "Stops your velocity when there is no in
 fInfiniteAmmo = {"Infinite Ammo", "infiniteammo", "Disables ammo limit"}
 fSuperStrength = {"Super Strength", "superstrength", "Allows you to grab all dynamic objects"}
 fGodmode = {"Godmode", "godmode", "Prevents health loss"}
-fRubberband = {"Rubberband", "rubberband", "Teleports you to your previous position"}
 
 -- world
 fBulletTime = {"Slowmotion", "timer"}
@@ -43,9 +42,10 @@ fDisablePhysics = {"Disable Physics", "disablephysics", "Disables dynamic object
 fForceUpdatePhysics = {"Force Update Physics", "forceupdatephysics", "Updates all dynamic objects"}
 fTeleportValuables = {"Teleport Valuables", "autocollect", "Teleports all valuables to you"}
 fUnfairValuables = {"Unfair Valuables", "inflation", "Increases value of all valuables"}
-fStructureRestorer = {"Structure Restorer", "structurerestorer"}
 
 -- tools
+fStructureRestorer = {"Structure Restorer", "structurerestorer"}
+fRubberband = {"Rubberband", "rubberband", "Teleports you to your previous position"}
 fExplosionBrush = {"Explosion Brush", "explosionbrush"}
   fExplosionBrushSize = {"Size", "size"}
 fFireBrush = {"Fire Brush", "firebrush"}

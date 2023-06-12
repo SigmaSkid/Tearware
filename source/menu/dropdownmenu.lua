@@ -271,6 +271,8 @@ dropdownMenu.DrawHeader = function(item, canInteract)
 end
 
 -- speedhack etc.
+-- todo: find a way to scale font & wrap text for features
+-- with names that are wayyyy too long.
 dropdownMenu.DrawFeature = function(var, canInteract)
     UiPush()
         -- background
