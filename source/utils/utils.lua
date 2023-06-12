@@ -114,7 +114,7 @@ end
 
 -- accepts a [float]
 -- returns closest [int]
-utils.MathRound = function(value)
+utils.Round = function(value)
     return math.floor(value+0.5)
 end
 

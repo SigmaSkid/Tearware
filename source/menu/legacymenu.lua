@@ -211,10 +211,10 @@ legacyMenu.Checkbox = function(var)
     UiPush()
     UiAlign("left top")
     
-    local currentkey = GetString(cfgstr .. var[2] .. "_key")
+    local currentkey = GetString(cfgstr .. var.configString .. "_key")
     local kw, kh = UiGetTextSize(" - " .. currentkey)
 
-    local namew, nameh = UiGetTextSize(var[1])
+    local namew, nameh = UiGetTextSize(var.legacyName)
     
     local highlight = 0.6
 
@@ -224,7 +224,7 @@ legacyMenu.Checkbox = function(var)
 
         -- right click -> edit this bind
         if InputPressed("rmb") then 
-            filthyglobal_editingkeybind = var[2]
+            filthyglobal_editingkeybind = var.configString
         end
     end
 
@@ -232,29 +232,29 @@ legacyMenu.Checkbox = function(var)
     UiTextOutline(0, 0, 0, 1, 0.1)
 
     -- highlight the checkbox, if this is the keybind we're editing
-    if filthyglobal_editingkeybind == var[2] then
+    if filthyglobal_editingkeybind == var.configString then
         UiColor(1.0, 1.0, highlight, 1)    
-    elseif GetBool(cfgstr .. var[2]) then 
+    elseif GetBool(cfgstr .. var.configString) then 
         UiColor(highlight, 1.0, highlight, 1)
     else 
         UiColor(1.0, highlight, highlight, 1)
     end
 
-    if UiTextButton(var[1]) then
-        config.FlipBool(cfgstr .. var[2])
+    if UiTextButton(var.legacyName) then
+        config.FlipBool(cfgstr .. var.configString)
     end
 
     -- check if this is the checkbox of the keybind we're editing
-    if filthyglobal_editingkeybind == var[2] then
+    if filthyglobal_editingkeybind == var.configString then
         local lastKey = InputLastPressedKey()
         -- if a button was pressed
         if lastKey ~= "" then 
             if lastKey == "return" or lastKey == "esc" or lastKey == "insert" then 
                 -- remove keybind
-                SetString(cfgstr .. var[2] .. "_key", "null") 
+                SetString(cfgstr .. var.configString .. "_key", "null") 
                 currentkey = ""  
             else
-                SetString(cfgstr .. var[2] .. "_key", lastKey)
+                SetString(cfgstr .. var.configString .. "_key", lastKey)
                 currentkey = lastKey
             end
             -- we're no longer editing a keybind.
@@ -376,7 +376,7 @@ legacyMenu.ColorSelector = function(var, alpha)
 
     local color = config.GetColor(var, GetTime())
 
-    if active_sub_menu == var[2] then 
+    if active_sub_menu == var.configString then 
         local length = 160 
         if not alpha then 
             length = length - 30
@@ -435,7 +435,7 @@ legacyMenu.ColorSelector = function(var, alpha)
 
         UiPop() 
         
-        SetColor(var, color)
+        config.SetColor(var, color)
     end
 
     UiPush()
@@ -454,13 +454,13 @@ legacyMenu.ColorSelector = function(var, alpha)
 
         if UiIsMouseInRect(colorSquareSize, colorSquareSize) then
             if InputPressed("lmb") then 
-                active_sub_menu = var[2]
+                active_sub_menu = var.configString
             elseif InputPressed("rmb") then 
                 funnyColorCopyCache = color
             elseif InputPressed("mmb") then 
-                SetColor(var, funnyColorCopyCache)
+                config.SetColor(var, funnyColorCopyCache)
             elseif InputPressed("backspace") then 
-                ResetColorToDefault(var)
+                config.ResetColorToDefault(var)
             end
         end
     UiPop()
@@ -497,8 +497,9 @@ legacyMenu.optionsSlider = function(val, mi, ma, width)
         val = utils.Clamp(val, mi, ma)
 
 		UiTranslate(width + 30, 0)
-		UiText(MathRound(val*10)/10)
+		UiText(utils.Round(val*10)/10)
 	UiPop()
+    
 	return val
 end
 
@@ -529,12 +530,12 @@ legacyMenu.FunnySubmenuBegin = function(var, w, h)
 
         if UiIsMouseInRect(colorSquareSize, colorSquareSize) then
             if InputPressed("lmb") then 
-                active_sub_menu = var[2]
+                active_sub_menu = var.configString
                 literallyJustEnabled = true
             end
         end
     UiPop()
-    local enabled = active_sub_menu == var[2]
+    local enabled = active_sub_menu == var.configString
 
     if enabled then 
         UiPush()
@@ -576,14 +577,14 @@ legacyMenu.SubSettingCheckbox = function(var, sub)
     UiTextOutline(0, 0, 0, 1, 0.1)
 
     -- highlight the checkbox, if this is the keybind we're editing
-    if GetBool(cfgstr .. var[2] .. sub[2]) then 
+    if GetBool(cfgstr .. var.configString .. sub[2]) then 
         UiColor(highlight, 1.0, highlight, 1)
     else 
         UiColor(1.0, highlight, highlight, 1)
     end
 
     if UiTextButton(sub[1]) then
-        config.FlipBool(cfgstr .. var[2] .. sub[2])
+        config.FlipBool(cfgstr .. var.configString .. sub[2])
     end
 
     UiPop()

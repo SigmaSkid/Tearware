@@ -11,5 +11,5 @@ tools.Teleport = function()
         SetPlayerTransform(t, true)
     end
         
-    SetBool(cfgstr .. fTeleport[2], false)
+    SetBool(cfgstr .. fTeleport.configString, false)
 end

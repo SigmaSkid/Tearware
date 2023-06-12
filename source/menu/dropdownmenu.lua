@@ -271,6 +271,7 @@ dropdownMenu.DrawHeader = function(item, canInteract)
 end
 
 -- speedhack etc.
+-- drawfeature needs to include keybind btw @Sigma
 dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
     UiPush()
         -- background
@@ -299,7 +300,7 @@ dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
             UiTextOutline(0, 0, 0, 0.7, 0.1)
             UiAlign("left bottom")
 
-            local w, h = UiGetTextSize(var[1])
+            local w, h = UiGetTextSize(var.dropdownName)
             UiTranslate(0, h)
             -- haha, precompiled values? NO! Waste compute reasources! Heck yeah!
             while (w > 100) do 
@@ -307,7 +308,7 @@ dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
                 UiFont("regular.ttf", fontsize)
 
                 -- if local then infinite loop, funny lua things
-                w, h = UiGetTextSize(var[1])
+                w, h = UiGetTextSize(var.dropdownName)
             end
 
 
@@ -318,14 +319,14 @@ dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
                 UiColor(0.5,0.5,0.5,1)    
             end
 
-            UiText(var[1])
+            UiText(var.dropdownName)
         UiPop()
   
         -- interaction
         UiPush()
             UiColor(1,1,1,1)    
             if dropdownMenu.InteractRect(100, 40, canInteract) then 
-                config.FlipBool(cfgstr .. var[2])
+                config.FlipBool(cfgstr .. var.configString)
             end
             --UiRect(100, 40)
         UiPop()
@@ -342,10 +343,10 @@ dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
                 UiAlign("center middle")
                 
                 if dropdownMenu.InteractRect(20, 20, canInteract) then 
-                    config.FlipBool(cfgstr .. var[2] .. "_dropdown")
+                    config.FlipBool(cfgstr .. var.configString .. "_dropdown")
                 end
                 --UiRect(20,20)
-                local dropdown_state = GetBool(cfgstr .. var[2] .. "_dropdown")
+                local dropdown_state = GetBool(cfgstr .. var.configString .. "_dropdown")
 
                 if dropdown_state then 
                     UiRotate(180)
@@ -359,6 +360,16 @@ dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
 
     UiTranslate(0, 40)
     resizeOffset = resizeOffset + 40
+    -- 
+
+    -- keybind
+    if dropdown_state then 
+        -- text "KEYBIND" 
+        -- small box on the right 
+            -- text var.configString .. _key
+        -- resizeOffset = resizeOffset + Y
+    end
+    --
     return dropdown_state
 end
 
@@ -428,8 +439,11 @@ dropdownMenu.MenuDrawVisuals = function(canInteract)
 
             if dropdownMenu.DrawFeature(fWatermark, canInteract) then end
             if dropdownMenu.DrawFeature(fFeatureList, canInteract) then end
-            if dropdownMenu.DrawFeature(fObjectiveEsp, canInteract) then end
-            if dropdownMenu.DrawFeature(fOptionalEsp, canInteract) then end
+            if dropdownMenu.DrawFeature(fObjectiveEsp, canInteract) then 
+                -- optional esp checkbox
+            
+            end
+            
             if dropdownMenu.DrawFeature(fValuableEsp, canInteract) then end
             if dropdownMenu.DrawFeature(fToolEsp, canInteract) then end
             if dropdownMenu.DrawFeature(fWeaponGlow, canInteract) then end

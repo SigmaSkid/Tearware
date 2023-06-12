@@ -5,50 +5,50 @@
 config.DefineBool = function(var, default) 
     featurelist[#featurelist+1] = var
 
-    if HasKey(cfgstr .. var[2]) and HasKey(cfgstr .. var[2] .. "_key") then
+    if HasKey(cfgstr .. var.configString) and HasKey(cfgstr .. var.configString .. "_key") then
         if not overrideConfigValues then 
             return
         end
     end
 
-    SetBool(cfgstr .. var[2], default)
-    SetString(cfgstr .. var[2] .. "_key", "null")
+    SetBool(cfgstr .. var.configString, default)
+    SetString(cfgstr .. var.configString .. "_key", "null")
 end
 
 config.DefineInt = function(var, default) 
-    if HasKey(cfgstr .. var[2]) then
+    if HasKey(cfgstr .. var.configString) then
         if not overrideConfigValues then 
             return
         end
     end
 
-    SetInt(cfgstr .. var[2], default)
+    SetInt(cfgstr .. var.configString, default)
 end
 
 config.GetInt = function(var)
-    return GetInt(cfgstr .. var[2])
+    return GetInt(cfgstr .. var.configString)
 end
 
 config.SetInt = function(var, val) 
-    SetInt(cfgstr .. var[2], val)
+    SetInt(cfgstr .. var.configString, val)
 end
 
 config.DefineColor = function(var, default) 
     for i = 1, #colorSuffix-1 do
-        if (not HasKey(cfgstr .. var[2] .. colorSuffix[i])) or overrideConfigValues then
-            SetFloat(cfgstr .. var[2] .. colorSuffix[i], default[i])
+        if (not HasKey(cfgstr .. var.configString .. colorSuffix[i])) or overrideConfigValues then
+            SetFloat(cfgstr .. var.configString .. colorSuffix[i], default[i])
         end    
-        SetFloat(cfgstr .. var[2] .. colorSuffix[i] .. "_default" , default[i])
+        SetFloat(cfgstr .. var.configString .. colorSuffix[i] .. "_default" , default[i])
     end
 
-    if (not HasKey(cfgstr .. var[2] .. colorSuffix[#colorSuffix])) or overrideConfigValues then
-        SetBool(cfgstr .. var[2] .. colorSuffix[#colorSuffix], default[#colorSuffix])
+    if (not HasKey(cfgstr .. var.configString .. colorSuffix[#colorSuffix])) or overrideConfigValues then
+        SetBool(cfgstr .. var.configString .. colorSuffix[#colorSuffix], default[#colorSuffix])
     end
-    SetBool(cfgstr .. var[2] .. colorSuffix[#colorSuffix] .. "_default" , default[#colorSuffix])
+    SetBool(cfgstr .. var.configString .. colorSuffix[#colorSuffix] .. "_default" , default[#colorSuffix])
 end
 
 config.ResetColorToDefault = function(var)
-    local base = var[2]
+    local base = var.configString
     for i = 1, #colorSuffix-1 do
         local default_val = GetFloat(cfgstr .. base .. colorSuffix[i] .. "_default")
         SetFloat(cfgstr .. base .. colorSuffix[i], default_val)
@@ -59,37 +59,37 @@ config.ResetColorToDefault = function(var)
 end
 
 config.DefineSubFloat = function(var, sub, default) 
-    if HasKey(cfgstr .. var[2] .. sub[2]) then 
+    if HasKey(cfgstr .. var.configString .. sub.configString) then 
         if not overrideConfigValues then 
             return
         end
     end
-    SetFloat(cfgstr .. var[2] .. sub[2], default)
+    SetFloat(cfgstr .. var.configString .. sub.configString, default)
 end
 
 config.GetSubFloat = function(var, sub)
-    return GetFloat(cfgstr .. var[2] .. sub[2])
+    return GetFloat(cfgstr .. var.configString .. sub.configString)
 end
 
 config.SetSubFloat = function(var, sub, value)
-    return SetFloat(cfgstr .. var[2] .. sub[2], value)
+    return SetFloat(cfgstr .. var.configString .. sub.configString, value)
 end
 
 config.DefineSubBool = function(var, sub, default) 
-    if HasKey(cfgstr .. var[2] .. sub[2]) then 
+    if HasKey(cfgstr .. var.configString .. sub.configString) then 
         if not overrideConfigValues then 
             return
         end
     end
-    SetBool(cfgstr .. var[2] .. sub[2], default)
+    SetBool(cfgstr .. var.configString .. sub.configString, default)
 end
 
 config.GetSubBool = function(var, sub)
-    return GetBool(cfgstr .. var[2] .. sub[2])
+    return GetBool(cfgstr .. var.configString .. sub.configString)
 end
 
 config.SetSubBool = function(var, sub, value)
-    return SetBool(cfgstr .. var[2] .. sub[2], value)
+    return SetBool(cfgstr .. var.configString .. sub.configString, value)
 end
 
 config.GetColor = function(var, seed)
@@ -97,17 +97,17 @@ config.GetColor = function(var, seed)
     seed=seed or GetTime()
 
     local color = {}
-    color.rainbow = GetBool(cfgstr .. var[2] .. colorSuffix[5])
+    color.rainbow = GetBool(cfgstr .. var.configString .. colorSuffix[5])
     if color.rainbow then 
         color.red = math.sin(seed + 0) * 0.5 + 0.5;
         color.green = math.sin(seed + 2) * 0.5 + 0.5;
         color.blue = math.sin(seed + 4) * 0.5 + 0.5;
     else
-        color.red = GetFloat(cfgstr .. var[2] .. colorSuffix[1])
-        color.green = GetFloat(cfgstr .. var[2] .. colorSuffix[2])
-        color.blue = GetFloat(cfgstr .. var[2] .. colorSuffix[3])
+        color.red = GetFloat(cfgstr .. var.configString .. colorSuffix[1])
+        color.green = GetFloat(cfgstr .. var.configString .. colorSuffix[2])
+        color.blue = GetFloat(cfgstr .. var.configString .. colorSuffix[3])
     end
-    color.alpha = GetFloat(cfgstr .. var[2] .. colorSuffix[4])
+    color.alpha = GetFloat(cfgstr .. var.configString .. colorSuffix[4])
 
     return color
 end
@@ -117,32 +117,32 @@ config.FlipBool = function(var)
 end
 
 config.SetColor = function(var, color)
-    SetBool(cfgstr .. var[2] .. colorSuffix[5], color.rainbow)
-    SetFloat(cfgstr .. var[2] .. colorSuffix[4], color.alpha)
+    SetBool(cfgstr .. var.configString .. colorSuffix[5], color.rainbow)
+    SetFloat(cfgstr .. var.configString .. colorSuffix[4], color.alpha)
     if color.rainbow then 
         return 
     end
-    SetFloat(cfgstr .. var[2] .. colorSuffix[1], color.red)
-    SetFloat(cfgstr .. var[2] .. colorSuffix[2], color.green)
-    SetFloat(cfgstr .. var[2] .. colorSuffix[3], color.blue)
+    SetFloat(cfgstr .. var.configString .. colorSuffix[1], color.red)
+    SetFloat(cfgstr .. var.configString .. colorSuffix[2], color.green)
+    SetFloat(cfgstr .. var.configString .. colorSuffix[3], color.blue)
 end
 
 config.AdvGetBool = function(var)
-    return GetBool(cfgstr .. var[2])
+    return GetBool(cfgstr .. var.configString)
 end
 
 config.UpdateFeatureState = function(var)
-    if not HasKey(cfgstr .. var[2] .. "_key") then 
-        return GetBool(cfgstr .. var[2])
+    if not HasKey(cfgstr .. var.configString .. "_key") then 
+        return GetBool(cfgstr .. var.configString)
     end
 
-    local key = GetString(cfgstr .. var[2] .. "_key")
+    local key = GetString(cfgstr .. var.configString .. "_key")
     if key == "null" or key == "" or key == nil then 
-        return GetBool(cfgstr .. var[2])
+        return GetBool(cfgstr .. var.configString)
     end
 
     if InputPressed(key) then 
-        SetBool(cfgstr .. var[2], not GetBool(cfgstr .. var[2]))
+        SetBool(cfgstr .. var.configString, not GetBool(cfgstr .. var.configString))
     end
 end
 
