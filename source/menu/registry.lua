@@ -1,4 +1,14 @@
 -- tearware on top
+-- TODO:
+-- fix text formatting/overlap when a key or value is long or contains \n
+-- -right click opens a popup menu
+-- popup menu:
+--  ~ key (copy, paste, delete)
+--  ~ value (copy, paste, delete)
+--      -- should they have the same or separate copy/paste buffer? no clue, prolly separate.
+--  ~ insert (menu of special characters that can't be inputted normally |\?/~` etc.)
+--  ~ new - create a new key and assign value
+--
 
 registry = {}
 
