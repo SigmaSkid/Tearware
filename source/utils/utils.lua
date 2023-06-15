@@ -355,3 +355,16 @@ utils.TWInputPressed = function(input)
     if lockInputs then return false end
     return InputPressed(input)
 end
+
+utils.GetLastInputBetter = function()
+
+    local realInput = InputLastPressedKey()
+    if realInput == nil then 
+        for i=1, #keysNotInLastPressedKey do
+            if InputPressed(keysNotInLastPressedKey[i][1]) then
+                realInput = keysNotInLastPressedKey[i][1]
+            end
+        end
+    end
+    return realInput
+end

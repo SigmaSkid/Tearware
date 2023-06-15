@@ -168,6 +168,9 @@ dropdownMenu.DrawDropdownMenu = function()
         dropdownMenu.UpdateSize(entry)
         --DebugWatch(entry.name, entry.queue)
     end
+
+    -- update keybind input
+    dropdownMenu.KeybindUIUpdateInput()
 end
 
 dropdownMenu.UpdateSize = function(entry)
@@ -270,6 +273,102 @@ dropdownMenu.DrawHeader = function(item, canInteract)
     return item.dropdown
 end
 
+-- updates the registry/config key responsible for the input.
+dropdownMenu.KeybindUIUpdateInput = function()
+    -- todo, make this filthy global a value in dropdownMenu table
+    if filthyglobal_editingkeybind ~= " " and filthyglobal_editingkeybind ~= nil then 
+        local lastKey = utils.GetLastInputBetter() -- allows for like 4 keys more, lol very cool
+        if lastKey ~= nil and lastKey ~= "" then 
+            if lastKey == "return" or lastKey == "esc" or lastKey == "insert" then 
+                -- remove keybind
+                SetString(cfgstr .. filthyglobal_editingkeybind .. "_key", "null") 
+                currentkey = ""  
+            else
+                SetString(cfgstr .. filthyglobal_editingkeybind .. "_key", lastKey)
+                currentkey = lastKey
+            end
+            -- we're no longer editing a keybind.
+            filthyglobal_editingkeybind = " " 
+        end
+    end
+end
+
+
+-- 
+dropdownMenu.DrawKeybindUI = function(var, canInteract)
+    local currentkey = GetString(cfgstr .. var.configString .. "_key")
+    local kw, kh = UiGetTextSize(" - " .. currentkey)
+
+    UiPush()
+        -- background
+        UiPush()
+            UiTranslate(150/2, 28/2)
+            UiAlign("center middle")
+
+            UiColor(0.18, 0.18, 0.18, 0.3)
+            UiRect(156, 28)
+
+            UiColor(0.05, 0.05, 0.05, 0.9)
+            UiRect(150, 28)
+
+            UiColor(0.28, 0.28, 0.28, 0.9)
+            UiRect(146, 26)
+        UiPop()
+    
+        -- select from a list, how feature should behave
+        -- ENABLED | TOGGLE | HOLD | OFF HOLD | DISABLED
+        UiPush()
+            UiTranslate(10, 5)
+            UiColor(1,1,1,1)
+            UiFont("regular.ttf", 28)
+            UiTextShadow(0, 0, 0, 0.7, 1.5)
+            UiTextOutline(0, 0, 0, 0.7, 0.1)
+            UiAlign("left bottom")
+
+            --local w, h = UiGetTextSize(name)
+            --UiTranslate(0, h)
+
+            --UiText(name)
+        UiPop()
+        
+        -- Key background + interactivity.
+        UiPush()
+            UiTranslate(150-24, 28/2)
+            UiAlign("center middle")
+
+            -- UiColor(1,1,1,1)
+            -- UiRect(40, 24)
+
+            UiColor(0.2, 0.2, 0.2, 0.3)
+            UiRect(40, 24)
+
+            -- todo: 
+            -- different color depending on whether there is a keybind set to the feature.
+            if filthyglobal_editingkeybind == var.configString then 
+                UiColor(0.35, 0.65, 0.35, 0.9)
+            else 
+                UiColor(0.35, 0.35, 0.35, 0.9)
+            end
+
+            UiRect(38, 22)
+
+            if dropdownMenu.InteractRect(40, 24, canInteract) then 
+                filthyglobal_editingkeybind = var.configString
+            end
+        UiPop()
+
+        -- Display key icon thing.
+        -- convert stuff like backspace, escape, etc. to 1 symbol or icon
+        UiPush()
+
+        UiPop()
+
+    UiPop()
+
+    UiTranslate(0, 28)
+    resizeOffset = resizeOffset + 28
+end
+
 -- speedhack etc.
 -- drawfeature needs to include keybind btw @Sigma
 dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
@@ -332,6 +431,7 @@ dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
         UiPop()
 
         -- V
+        local dropdown_state = false
         if noSubSettings ~= true then 
             UiPush()
                 UiTranslate(130, 50/2)
@@ -346,7 +446,7 @@ dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
                     config.FlipBool(cfgstr .. var.configString .. "_dropdown")
                 end
                 --UiRect(20,20)
-                local dropdown_state = GetBool(cfgstr .. var.configString .. "_dropdown")
+                dropdown_state = GetBool(cfgstr .. var.configString .. "_dropdown")
 
                 if dropdown_state then 
                     UiRotate(180)
@@ -364,10 +464,7 @@ dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
 
     -- keybind
     if dropdown_state then 
-        -- text "KEYBIND" 
-        -- small box on the right 
-            -- text var.configString .. _key
-        -- resizeOffset = resizeOffset + Y
+        dropdownMenu.DrawKeybindUI(var, canInteract)
     end
     --
     return dropdown_state
