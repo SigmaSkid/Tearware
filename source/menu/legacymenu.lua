@@ -105,7 +105,7 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                 legacyMenu.Checkbox(fFly)
                 if legacyMenu.FunnySubmenuBegin(fFly, 120, 80) then 
                     legacyMenu.SubSettingSlider(fFly, fSubSpeed, 10, 30)
-                    legacyMenu.SubSettingSlider(fFly, fSubBoost, 20, 40)
+                    legacyMenu.SubSettingSlider(fFly, fSubBoost, 10, 40)
                     UiPop()
                 end
 

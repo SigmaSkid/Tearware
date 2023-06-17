@@ -55,7 +55,7 @@ fSubSpeed = { legacyName = "Base Speed", dropdownName = "", configString = "amou
 fSubBoost = { legacyName = "Boost Speed", dropdownName = "", configString = "boost"}
 
 -- menu items 
-fMenuStyle = { legacyName = "Menu Style", configString = "menustyle", options = {"Legacy", "Dropdown", "Modern"} }
+fMenuStyle = { legacyName = "Menu Style", dropdownName = "UIStyle", configString = "menustyle", options = {"Legacy", "Dropdown", "Modern"} }
 fMenuResetConfig = "Reset Config"
 fMenuFinishLevel = "Finish Level"
 fMenuActivateRobots = "Activate Robots"

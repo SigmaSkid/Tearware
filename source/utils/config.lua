@@ -183,7 +183,7 @@ config.ResetConfig = function()
         config.DefineColor(fPostProcess, {0.5, 0.5, 0.5, 0.5, false} )
     config.DefineBool(fSpinnyTool, false)
 
-    -- movement
+    -- player
     config.DefineBool(fSpeed, false)
         config.DefineSubFloat(fSpeed, fSubSpeed, 14)
         config.DefineSubFloat(fSpeed, fSubBoost, 28)
@@ -199,11 +199,12 @@ config.ResetConfig = function()
     config.DefineBool(fJetpack, false)
     config.DefineBool(fJesus, false)
     config.DefineBool(fQuickstop, false)
-
-    -- misc
     config.DefineBool(fInfiniteAmmo, false)
     config.DefineBool(fSuperStrength, false)
     config.DefineBool(fGodmode, false)
+
+    -- world
+    config.DefineBool(fDisableRobots, false)
     config.DefineBool(fBulletTime, false)
         config.DefineSubFloat(fBulletTime, fBulletTimeScale, 10)
         config.DefineSubBool(fBulletTime, fBulletTimePatch, true)
@@ -211,17 +212,17 @@ config.ResetConfig = function()
     config.DefineBool(fDisableAlarm, false)
     config.DefineBool(fDisablePhysics, false)
     config.DefineBool(fForceUpdatePhysics, false)
-
-    -- tools
-    config.DefineBool(fRubberband, false)
-        config.DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
     config.DefineBool(fTeleportValuables, false)
     config.DefineBool(fUnfairValuables, false)
+
+    -- tools
+    config.DefineBool(fStructureRestorer, false)
+    config.DefineBool(fRubberband, false)
+        config.DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
     config.DefineBool(fTeleport, false)
     config.DefineBool(fExplosionBrush, false)
         config.DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
     config.DefineBool(fFireBrush, false)
-    config.DefineBool(fStructureRestorer, false)
 
     -- menu stuff
     config.DefineInt(fMenuStyle, 0)

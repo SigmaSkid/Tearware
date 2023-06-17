@@ -316,19 +316,24 @@ dropdownMenu.DrawKeybindUI = function(var, canInteract)
         UiPop()
     
         -- select from a list, how feature should behave
-        -- ENABLED | TOGGLE | HOLD | OFF HOLD | DISABLED
+        -- ALWAYS | TOGGLE | HOLD | OFF HOLD | NEVER
+        -- why would you want to have something be ENABLED but NEVER done? Idfk, maybe you do
+        -- if there was no keybind and added a keybind change to toggle
+        -- (has to implement this into keybind system first)
         UiPush()
-            UiTranslate(10, 5)
+            UiTranslate(10, 4)
             UiColor(1,1,1,1)
-            UiFont("regular.ttf", 28)
+            UiFont("regular.ttf", 22)
             UiTextShadow(0, 0, 0, 0.7, 1.5)
             UiTextOutline(0, 0, 0, 0.7, 0.1)
             UiAlign("left bottom")
 
-            --local w, h = UiGetTextSize(name)
-            --UiTranslate(0, h)
+            local name = "TOGGLE"
 
-            --UiText(name)
+            local w, h = UiGetTextSize(name)
+            UiTranslate(0, h)
+
+            UiText(name)
         UiPop()
         
         -- Key background + interactivity.
@@ -358,9 +363,16 @@ dropdownMenu.DrawKeybindUI = function(var, canInteract)
         UiPop()
 
         -- Display key icon thing.
-        -- convert stuff like backspace, escape, etc. to 1 symbol or icon
         UiPush()
+            UiTranslate(150-24, 28/2)
+            UiAlign("center middle")
+            UiFont("regular.ttf", 22)
+            UiTextShadow(0, 0, 0, 0.7, 1.5)
+            UiTextOutline(0, 0, 0, 0.7, 0.1)
 
+            local key = GetString(cfgstr .. var.configString .. "_key")
+
+            UiText(utils.ShortenKeyString(key))
         UiPop()
 
     UiPop()
@@ -474,6 +486,69 @@ dropdownMenu.ComboBox = function()
     -- well, doing this will be 'fun'
 end
 
+dropdownMenu.ColorSelect = function(var, canInteract)
+    UiPush()
+        -- background
+        UiPush()
+            UiTranslate(150/2, 28/2)
+            UiAlign("center middle")
+
+            UiColor(0.18, 0.18, 0.18, 0.3)
+            UiRect(156, 28)
+
+            UiColor(0.05, 0.05, 0.05, 1)
+            UiRect(150, 28)
+        UiPop()
+
+        UiPush()
+            UiTranslate(150/2, 28/2)
+            UiAlign("center middle")
+
+            local color = config.GetColor(var, GetTime())
+
+            UiColor(color.red, color.green, color.blue, color.alpha)
+            UiRect(146, 26)
+
+            if dropdownMenu.InteractRect(146, 26, canInteract) then 
+                -- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            end
+        UiPop()
+    UiPop()
+
+
+    UiTranslate(0, 28)
+    resizeOffset = resizeOffset + 28
+end
+
+-- list select sub, taking sub button space
+dropdownMenu.ListSubSelect = function(var, canInteract)
+    -- luckily nothing uses it yet :)
+end
+
+-- normal list select, taking full button space
+dropdownMenu.ListSelect = function(var, canInteract)
+    UiPush()
+        -- background
+        UiPush()
+            UiTranslate(150/2, 40/2)
+            UiAlign("center middle")
+
+            UiColor(0.18, 0.18, 0.18, 0.3)
+            UiRect(156, 40)
+
+            UiColor(0.05, 0.05, 0.05, 0.9)
+            UiRect(150, 40)
+
+            UiColor(0.18, 0.18, 0.18, 0.9)
+            UiRect(146, 38)
+        UiPop()
+
+    UiPop()
+    
+    UiTranslate(0, 40)
+    resizeOffset = resizeOffset + 40
+end
+
 dropdownMenu.BaseButton = function(name, canInteract)
     local output = false
     UiPush()
@@ -534,20 +609,40 @@ dropdownMenu.MenuDrawVisuals = function(canInteract)
     UiPush()
         if dropdownMenu.DrawHeader(visualsDropdown, canInteract) then 
 
-            if dropdownMenu.DrawFeature(fWatermark, canInteract) then end
-            if dropdownMenu.DrawFeature(fFeatureList, canInteract) then end
-            if dropdownMenu.DrawFeature(fObjectiveEsp, canInteract) then 
-                -- optional esp checkbox
-            
+            if dropdownMenu.DrawFeature(fWatermark, canInteract) then 
+                dropdownMenu.ColorSelect(fWatermark, canInteract)
             end
-            
-            if dropdownMenu.DrawFeature(fValuableEsp, canInteract) then end
-            if dropdownMenu.DrawFeature(fToolEsp, canInteract) then end
-            if dropdownMenu.DrawFeature(fWeaponGlow, canInteract) then end
-            if dropdownMenu.DrawFeature(fActiveGlow, canInteract) then end
-            if dropdownMenu.DrawFeature(fRainbowFog, canInteract) then end
-            if dropdownMenu.DrawFeature(fPostProcess, canInteract) then end
-            if dropdownMenu.DrawFeature(fSpinnyTool, canInteract) then end
+
+            if dropdownMenu.DrawFeature(fFeatureList, canInteract) then 
+                dropdownMenu.ColorSelect(fFeatureList, canInteract)
+            end
+            if dropdownMenu.DrawFeature(fObjectiveEsp, canInteract) then 
+                dropdownMenu.ColorSelect(fObjectiveEsp, canInteract)
+
+                -- optional esp checkbox
+                dropdownMenu.ColorSelect(fOptionalEsp, canInteract)
+            end
+            if dropdownMenu.DrawFeature(fValuableEsp, canInteract) then 
+                dropdownMenu.ColorSelect(fValuableEsp, canInteract)
+            end
+            if dropdownMenu.DrawFeature(fToolEsp, canInteract) then 
+                dropdownMenu.ColorSelect(fToolEsp, canInteract)
+            end
+            if dropdownMenu.DrawFeature(fWeaponGlow, canInteract) then 
+                dropdownMenu.ColorSelect(fWeaponGlow, canInteract)
+            end
+            if dropdownMenu.DrawFeature(fActiveGlow, canInteract) then 
+                dropdownMenu.ColorSelect(fActiveGlow, canInteract)
+            end
+            if dropdownMenu.DrawFeature(fRainbowFog, canInteract) then 
+                dropdownMenu.ColorSelect(fRainbowFog, canInteract)
+            end
+            if dropdownMenu.DrawFeature(fPostProcess, canInteract) then 
+                dropdownMenu.ColorSelect(fPostProcess, canInteract)
+            end
+            if dropdownMenu.DrawFeature(fSpinnyTool, canInteract) then 
+                dropdownMenu.ColorSelect(fSpinnyTool, canInteract)
+            end
 
         dropdownMenu.DrawBottomGradient()
         end
@@ -559,13 +654,21 @@ dropdownMenu.MenuDrawPlayer = function(canInteract)
         if dropdownMenu.DrawHeader(playerDropdown, canInteract) then 
 
             if dropdownMenu.DrawFeature(fSpeed, canInteract) then
-            -- draw hotkey
-            -- draw slider if applicable
-            -- draw combo box if applicable 
+                -- slider fSubSpeed 10 30
+                -- slider fSubBoost 10 40
             end
-            if dropdownMenu.DrawFeature(fSpider, canInteract) then end
-            if dropdownMenu.DrawFeature(fFly, canInteract) then end
-            if dropdownMenu.DrawFeature(fNoclip, canInteract) then end
+            
+            if dropdownMenu.DrawFeature(fSpider, canInteract) then 
+            end
+            
+            if dropdownMenu.DrawFeature(fFly, canInteract) then 
+                -- slider fSubSpeed 10 30
+                -- slider fSubBoost 10 40
+            end
+            if dropdownMenu.DrawFeature(fNoclip, canInteract) then 
+                -- slider fSubSpeed 1 5
+                -- slider fSubBoost 1 20
+            end
             if dropdownMenu.DrawFeature(fFloorStrafe, canInteract) then end
             if dropdownMenu.DrawFeature(fAutoBunnyhop, canInteract) then end
             if dropdownMenu.DrawFeature(fJetpack, canInteract) then end
@@ -584,7 +687,10 @@ dropdownMenu.MenuDrawWorld = function(canInteract)
     UiPush()
         if dropdownMenu.DrawHeader(worldDropdown, canInteract) then 
 
-            if dropdownMenu.DrawFeature(fBulletTime, canInteract) then end
+            if dropdownMenu.DrawFeature(fBulletTime, canInteract) then 
+                -- slider fBulletTimeScale 10 100
+                -- checkbox fBulletTimePatch
+            end
             if dropdownMenu.DrawFeature(fSkipObjective, canInteract) then end
             if dropdownMenu.DrawFeature(fDisableAlarm, canInteract) then end
             if dropdownMenu.DrawFeature(fDisableRobots, canInteract) then end
@@ -605,7 +711,9 @@ dropdownMenu.MenuDrawTools = function(canInteract)
             if dropdownMenu.DrawFeature(fStructureRestorer, canInteract) then end
             if dropdownMenu.DrawFeature(fRubberband, canInteract) then end
             if dropdownMenu.DrawFeature(fTeleport, canInteract) then end
-            if dropdownMenu.DrawFeature(fExplosionBrush, canInteract) then end
+            if dropdownMenu.DrawFeature(fExplosionBrush, canInteract) then
+                -- fExplosionBrushSize 0.5 4
+            end
             if dropdownMenu.DrawFeature(fFireBrush, canInteract) then end
 
         dropdownMenu.DrawBottomGradient()
@@ -638,6 +746,7 @@ dropdownMenu.MenuDrawMisc = function(canInteract)
             openMenu = "registry"
         end
 
+        -- select from list
         if dropdownMenu.BaseButton("Legacy", canInteract) then
             config.SetInt(fMenuStyle, 0)
         end 

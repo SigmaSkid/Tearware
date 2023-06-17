@@ -359,7 +359,7 @@ end
 utils.GetLastInputBetter = function()
 
     local realInput = InputLastPressedKey()
-    if realInput == nil then 
+    if realInput == nil or realInput == "" then 
         for i=1, #keysNotInLastPressedKey do
             if InputPressed(keysNotInLastPressedKey[i][1]) then
                 realInput = keysNotInLastPressedKey[i][1]
@@ -367,4 +367,14 @@ utils.GetLastInputBetter = function()
         end
     end
     return realInput
+end
+
+utils.ShortenKeyString = function(string)
+    if #string > 2 then 
+        if keyShort[string] then 
+            return keyShort[string]
+        end 
+        -- DebugPrint(keyShort[string])
+    end
+    return string 
 end

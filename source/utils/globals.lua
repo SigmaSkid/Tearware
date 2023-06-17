@@ -65,6 +65,23 @@ keysNotInLastPressedKey = {
     --{"???", "\", "|"}
 }
 
+-- some keys are too long to be displayed in some places.
+-- used by utils.ShortenKeyString
+keyShort = {}
+keyShort["pgdown"] = "pgd"
+keyShort["pgup"] = "pgu"
+
+keyShort["leftarrow"] = "<-"
+keyShort["rightarrow"] = "->"
+keyShort["uparrow"] = "/\\"
+keyShort["downarrow"] = "\\/"
+
+keyShort["home"] = "hom" -- hom.
+keyShort["shift"] = "sh"
+keyShort["delete"] = "del"
+keyShort["backspace"] = "bsp"
+keyShort["space"] = "spc"
+
 -- temp values (reset to default on restart/level load/quick load)
 openMenu = nil
 featurelist = {}
