@@ -563,9 +563,11 @@ dropdownMenu.MenuDrawPlayer = function(canInteract)
             -- draw slider if applicable
             -- draw combo box if applicable 
             end
+            if dropdownMenu.DrawFeature(fSpider, canInteract) then end
             if dropdownMenu.DrawFeature(fFly, canInteract) then end
             if dropdownMenu.DrawFeature(fNoclip, canInteract) then end
             if dropdownMenu.DrawFeature(fFloorStrafe, canInteract) then end
+            if dropdownMenu.DrawFeature(fAutoBunnyhop, canInteract) then end
             if dropdownMenu.DrawFeature(fJetpack, canInteract) then end
             if dropdownMenu.DrawFeature(fJesus, canInteract) then end
             if dropdownMenu.DrawFeature(fQuickstop, canInteract) then end

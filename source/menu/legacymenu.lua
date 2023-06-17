@@ -117,6 +117,7 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                 end
 
                 legacyMenu.Checkbox(fFloorStrafe)
+                legacyMenu.Checkbox(fAutoBunnyhop)
                 legacyMenu.Checkbox(fJetpack)
                 legacyMenu.Checkbox(fJesus)
                 legacyMenu.Checkbox(fQuickstop)

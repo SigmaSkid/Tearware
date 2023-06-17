@@ -5,6 +5,7 @@
 #include "features/player/speedhack.lua"
 #include "features/player/jesus.lua"
 #include "features/player/floorstrafe.lua"
+#include "features/player/autobunnyhop.lua"
 #include "features/player/jetpack.lua"
 #include "features/player/fly.lua"
 #include "features/player/noclip.lua"
@@ -69,6 +70,7 @@ function tick(dt)
     player.Speedhack()
     player.Jesus()
     player.Floorstrafe()
+    player.AutoBunnyhop()
     player.Jetpack(dts)
     player.Fly(dt)
     player.NoClip(dts)
