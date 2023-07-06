@@ -5,15 +5,19 @@ Access the menu by pressing Insert in-game or through the pause menu.
 [h2]Features[/h2]
 [h3]Visuals[/h3]
 [list]
+[*] Feature List
 [*] Objective ESP
+[*] Optional ESP
 [*] Valuable ESP
 [*] Tool ESP
 [*] Weapon Glow
 [*] Active Glow
 [*] Colored Fog
 [*] Post Processing
+[*] Spinny Tool
 [/list]
-[h3]Movement[/h3]
+
+[h3]Player[/h3]
 [list]
 [*] Speed
 [*] Spider
@@ -23,49 +27,36 @@ Access the menu by pressing Insert in-game or through the pause menu.
 [*] Jetpack
 [*] Jesus
 [*] Quickstop
-[/list]
-[h3]Miscellaneous[/h3]
-[list]
 [*] Infinite Ammo
-[*] Super Grab
+[*] Super Strength
 [*] Godmode
-[*] Bullet Time
+[/list]
+
+[h3]World[/h3]
+[list]
+[*] Slowmotion
 [*] Skip Objective
 [*] Disable Alarm
 [*] Disable Robots
 [*] Disable Physics
 [*] Force Update Physics
-[*] Registry Explorer
-[/list]
-[h3]Tools[/h3]
-[list]
-[*] Rubberband
 [*] Teleport Valuables
 [*] Unfair Valuables
+[/list]
+
+[h3]Tools[/h3]
+[list]
+[*] Structure Restorer
+[*] Rubberband
 [*] Teleport
 [*] Explosion Brush
 [*] Fire Brush
-[*] Structure Restorer
 [/list]
 
-[h2]Binds[/h2]
-Easily customize your experience with bindable features. 
-Simply right-click on a feature and press the key you want to use. 
-Press Enter to remove a bind.
-
-[h2]Customizable Colors[/h2]
-Personalize your game with custom colors. 
-Click on the color square and use the following options:
+[h3]Misc[/h3]
 [list]
-[*] Left mouse button: Open color menu
-[*] Middle mouse button: Paste color from cache
-[*] Right mouse button: Copy color to cache
-[*] Backspace: Reset to default
+[*] Registry Explorer
 [/list]
-
-[h2]Customizable Settings[/h2]
-Fine-tune your experience with customizable settings. 
-Simply click on the square next to a feature to access its settings.
 
 [h2]Check Out The Github Repository[/h2]
 [url=https://github.com/SigmaSkid/Tearware]Github[/url]

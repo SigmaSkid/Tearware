@@ -51,7 +51,6 @@ Access the menu by pressing Insert in-game or through the pause menu.
 
 ### Miscellaneous:
 - Registry Explorer
-- Editor Mode
 
 ## Installation. 
 ### Steam Workshop (recommended)
