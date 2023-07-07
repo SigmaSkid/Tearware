@@ -382,7 +382,6 @@ dropdownMenu.DrawKeybindUI = function(var, canInteract)
 end
 
 -- speedhack etc.
--- drawfeature needs to include keybind btw @Sigma
 dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
     UiPush()
         -- background
