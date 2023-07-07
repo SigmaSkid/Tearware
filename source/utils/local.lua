@@ -22,7 +22,6 @@ fSpider = { legacyName = "Spider", dropdownName = "Spider", configString = "spid
 fFly = { legacyName = "Fly", dropdownName = "Fly", configString = "fly", description = "Allows you to fly"}
 fNoclip = { legacyName = "Noclip", dropdownName = "Noclip", configString = "noclip", description = "Allows you to noclip"}
 fFloorStrafe = { legacyName = "Floor Strafe", dropdownName = "FloorStrafe", configString = "floorstrafe", description = "Disables ground friction"}
-fAutoBunnyhop = { legacyName = "Bunnyhop", dropdownName = "Bunnyhop", configString = "bunnyhop", description = "Jumps for u"}
 fJetpack = { legacyName = "Jetpack", dropdownName = "Jetpack", configString = "jetpack"}
 fJesus = { legacyName = "Jesus", dropdownName = "Jesus", configString = "jesus", description = "Let's you turn water into wine"}
 fQuickstop = { legacyName = "Quickstop", dropdownName = "Quickstop", configString = "quickstop", description = "Stops your velocity when there is no input"}

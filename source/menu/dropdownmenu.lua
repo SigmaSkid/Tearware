@@ -670,7 +670,6 @@ dropdownMenu.MenuDrawPlayer = function(canInteract)
                 -- slider fSubBoost 1 20
             end
             if dropdownMenu.DrawFeature(fFloorStrafe, canInteract) then end
-            if dropdownMenu.DrawFeature(fAutoBunnyhop, canInteract) then end
             if dropdownMenu.DrawFeature(fJetpack, canInteract) then end
             if dropdownMenu.DrawFeature(fJesus, canInteract) then end
             if dropdownMenu.DrawFeature(fQuickstop, canInteract) then end

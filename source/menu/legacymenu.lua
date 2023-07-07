@@ -92,7 +92,7 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                 legacyMenu.Checkbox(fSpinnyTool)
 
             elseif GetInt(cfgstr .. "activetab") == 1 then 
-                -- movement
+                -- player
 
                 legacyMenu.Checkbox(fSpeed)
                 if legacyMenu.FunnySubmenuBegin(fSpeed, 120, 80) then 
@@ -117,13 +117,12 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                 end
 
                 legacyMenu.Checkbox(fFloorStrafe)
-                legacyMenu.Checkbox(fAutoBunnyhop)
                 legacyMenu.Checkbox(fJetpack)
                 legacyMenu.Checkbox(fJesus)
                 legacyMenu.Checkbox(fQuickstop)
 
             elseif GetInt(cfgstr .. "activetab") == 2 then 
-                -- misc
+                -- world
 
                 legacyMenu.Checkbox(fInfiniteAmmo)
                 legacyMenu.Checkbox(fSuperStrength)
