@@ -68,6 +68,5 @@ git clone https://github.com/SigmaSkid/Tearware
 or use github desktop.
 
 ## Building a release candidate.
-Navigate to the github repository and run the pack script.
-Use the .sh file if you're doing it on linux or the .bat file for windows.
+Navigate to the github repository and run the pack python script.
 It creates a release folder containing the packaged code.

@@ -6,9 +6,9 @@ fProjectName = "Tearware Github Preview"
 -- visuals
 fWatermark = { legacyName = "Watermark", dropdownName = "Watermark", newMenuName = "Watermark", configString = "watermark"}
 fFeatureList = { legacyName = "Feature List", dropdownName = "FeatureList", newMenuName = "Feature List", configString = "featurelist", description = "Lists enabled features" }
-fObjectiveEsp = { legacyName = "Objective ESP", dropdownName = "Objective", configString = "objectiveesp", description = "Highlights mandatory objectives"}
-fOptionalEsp = { legacyName = "Optional ESP", dropdownName = "Optional", configString = "optionalesp", description = "Highlights optional objectives"}
-fValuableEsp = { legacyName = "Valuable ESP", dropdownName = "Valuable", configString = "valueesp", description = "Highlights valuables"}
+fObjectiveEsp = { legacyName = "Objective ESP", dropdownName = "Objectives", configString = "objectiveesp", description = "Highlights mandatory objectives"}
+fOptionalEsp = { legacyName = "Optional ESP", dropdownName = "Optionals", configString = "optionalesp", description = "Highlights optional objectives"}
+fValuableEsp = { legacyName = "Valuable ESP", dropdownName = "Valuables", configString = "valueesp", description = "Highlights valuables"}
 fToolEsp = { legacyName = "Tool ESP", dropdownName = "Tools", configString = "toolesp", description = "Highlights tools"}
 fActiveGlow = { legacyName = "Active Glow", dropdownName = "ActiveGlow", configString = "activeglow", description = "Highlights active bodies"}
 fRainbowFog = { legacyName = "Colored Fog", dropdownName = "ColorFog", configString = "rainbowfog", description = "Changes the color of fog"}

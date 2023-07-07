@@ -1,4 +1,4 @@
 name = Tearware
-author = LilWeaboo
-description = cheat for teardown
+author = Weaboo
+description = cheat menu
 tags = Gameplay

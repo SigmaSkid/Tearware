@@ -413,12 +413,11 @@ dropdownMenu.DrawFeature = function(var, canInteract, noSubSettings)
 
             local w, h = UiGetTextSize(var.dropdownName)
             UiTranslate(0, h)
-            -- haha, precompiled values? NO! Waste compute reasources! Heck yeah!
+            -- haha, precompiled values? NO! Waste compute reasources! Heck yeah! Enterprise grade code! Less go
             while (w > 100) do 
-                fontsize = fontsize - 2
+                fontsize = fontsize - 4
                 UiFont("regular.ttf", fontsize)
 
-                -- if local then infinite loop, funny lua things
                 w, h = UiGetTextSize(var.dropdownName)
             end
 
