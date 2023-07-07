@@ -39,13 +39,13 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                 UiTranslate(0, 14)
                 legacyMenu.NavButtonImg("source/img/visuals-icon.png", 0)
                 legacyMenu.NavSep(0)
-                legacyMenu.NavButton("B", 1)
+                legacyMenu.NavButtonImg("source/img/player-icon.png", 1)
                 legacyMenu.NavSep(1)
-                legacyMenu.NavButton("C", 2)
+                legacyMenu.NavButtonImg("source/img/world-icon.png", 2)
                 legacyMenu.NavSep(2)
-                legacyMenu.NavButton("D", 3)
+                legacyMenu.NavButtonImg("source/img/tools-icon.png", 3)
                 legacyMenu.NavSep(3)
-                legacyMenu.NavButton("E", 4)
+                legacyMenu.NavButtonImg("source/img/misc-icon.png", 4)
             UiPop()
         UiPop()
 
@@ -120,13 +120,13 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                 legacyMenu.Checkbox(fJetpack)
                 legacyMenu.Checkbox(fJesus)
                 legacyMenu.Checkbox(fQuickstop)
+                legacyMenu.Checkbox(fInfiniteAmmo)
+                legacyMenu.Checkbox(fSuperStrength)
+                legacyMenu.Checkbox(fGodmode)
 
             elseif GetInt(cfgstr .. "activetab") == 2 then 
                 -- world
 
-                legacyMenu.Checkbox(fInfiniteAmmo)
-                legacyMenu.Checkbox(fSuperStrength)
-                legacyMenu.Checkbox(fGodmode)
                 legacyMenu.Checkbox(fBulletTime)
                 if legacyMenu.FunnySubmenuBegin(fBulletTime, 120, 80) then 
                     legacyMenu.SubSettingSlider(fBulletTime, fBulletTimeScale, 10, 100)
@@ -139,6 +139,8 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                 legacyMenu.Checkbox(fDisableRobots)
                 legacyMenu.Checkbox(fDisablePhysics)
                 legacyMenu.Checkbox(fForceUpdatePhysics)
+                legacyMenu.Checkbox(fTeleportValuables)
+                legacyMenu.Checkbox(fUnfairValuables)
 
 
             elseif GetInt(cfgstr .. "activetab") == 3 then 
@@ -147,8 +149,6 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                 legacyMenu.Checkbox(fRubberband)
                 legacyMenu.ColorSelector(fRubberband, false)
 
-                legacyMenu.Checkbox(fTeleportValuables)
-                legacyMenu.Checkbox(fUnfairValuables)
                 legacyMenu.Checkbox(fTeleport)
 
                 legacyMenu.Checkbox(fExplosionBrush)
@@ -193,7 +193,7 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                     openMenu = "registry"
                 end
 
-                if legacyMenu.Button("dropdown menu") then
+                if legacyMenu.Button("Dropdown Menu") then
                     config.SetInt(fMenuStyle, 1)
                 end
             end
@@ -335,26 +335,6 @@ legacyMenu.SimpleCheckbox = function(name, value)
     -- make rects not overlap
     UiTranslate(0, 3)
     return false
-end
-
-legacyMenu.NavButton = function(name, tabid)
-    UiPush()
-        UiTranslate(50 + (tabid * 100), -20)
-        UiFont("bold.ttf", 120)
-        UiTextOutline(0, 0, 0, 1, 0.1)
-
-        if tabid == GetInt(cfgstr .. "activetab") then 
-            UiColor(0.8, 0.8, 0.8, 1)
-            UiTextShadow(0.7, 0.7, 0.7, 0.5, 1.0)
-        else
-            UiColor(0.5, 0.5, 0.5, 1)
-            UiTextShadow(0, 0, 0, 0.5, 1.0)
-        end
-
-        if UiTextButton(name) then
-            SetInt(cfgstr .. "activetab", tabid)
-        end
-    UiPop()
 end
 
 legacyMenu.NavButtonImg = function(image, tabid)
