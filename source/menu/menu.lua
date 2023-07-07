@@ -1,6 +1,5 @@
 #include "legacymenu.lua"
 #include "dropdownmenu.lua"
---#include "modernmenu.lua"
 
 menu.RGBBlur = function(rgb)
     -- funny rgb blur background
@@ -24,8 +23,6 @@ menu.DrawMenu = function()
 
     if menuStyle == 1 then
         dropdownMenu.DrawDropdownMenu(rgb)
-    elseif menuStyle == 2 then
-        -- DrawModernMenu(rgb)
     else
        legacyMenu.DrawLegacyMenu(rgb)
     end

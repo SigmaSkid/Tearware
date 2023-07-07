@@ -4,6 +4,9 @@ menu.DrawResetConfigConfirmation = function(dt)
         resetDvd = utils.animateDvd(resetDvd, dt)
         UiPush()
             UiFont("bold.ttf", 25)
+            -- todo: use a different method than a text button,
+            -- text buttons are unreliable while moving, 
+            -- so resetting sometimes takes a few clicks.
             if legacyMenu.Button("CONFIRM RESET") then 
                 config.ResetAllModData()
                 openMenu = nil

@@ -37,7 +37,7 @@ legacyMenu.DrawLegacyMenu = function(rgb)
 
             UiPush()
                 UiTranslate(0, 14)
-                legacyMenu.NavButton("A", 0)
+                legacyMenu.NavButtonImg("source/img/visuals-icon.png", 0)
                 legacyMenu.NavSep(0)
                 legacyMenu.NavButton("B", 1)
                 legacyMenu.NavSep(1)
@@ -197,10 +197,6 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                 if legacyMenu.Button("dropdown menu") then
                     config.SetInt(fMenuStyle, 1)
                 end
-
-                --if Button(fEditorTool) then
-                --    openMenu = "editor"
-                --end
             end
 
         UiPop()
@@ -359,6 +355,45 @@ legacyMenu.NavButton = function(name, tabid)
         if UiTextButton(name) then
             SetInt(cfgstr .. "activetab", tabid)
         end
+    UiPop()
+end
+
+legacyMenu.NavButtonImg = function(image, tabid)
+    UiPush()
+        UiTranslate(50 + (tabid * 100), -20)
+        
+        local in_rect = UiIsMouseInRect(95,95)
+        local pressed = InputPressed("lmb")
+
+        -- color stuff
+        if tabid == GetInt(cfgstr .. "activetab") then 
+            if in_rect then 
+                -- enabled, hover
+                UiColor(1, 1, 1, 1)
+            else
+
+            -- enabled, no hover
+            UiColor(0.8, 0.8, 0.8, 1)
+            end
+
+        elseif in_rect then 
+            -- disabled, hover
+            UiColor(0.4, 0.4, 0.4, 1)
+        else 
+            -- disabled, no hover
+            UiColor(0.3, 0.3, 0.3, 1)
+        end
+        --
+
+        -- button logic 
+        if in_rect and pressed then 
+            SetInt(cfgstr .. "activetab", tabid)
+            UiColor(0,0,0,1)
+        end
+        --
+
+        -- affected by uicolor
+        UiImage(image)
     UiPop()
 end
 
