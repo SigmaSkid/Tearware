@@ -6,9 +6,7 @@ config.DefineBool = function(var, default)
     featurelist[#featurelist+1] = var
 
     if HasKey(cfgstr .. var.configString) and HasKey(cfgstr .. var.configString .. "_key") then
-        if not overrideConfigValues then 
-            return
-        end
+        return
     end
 
     SetBool(cfgstr .. var.configString, default)
@@ -17,9 +15,7 @@ end
 
 config.DefineInt = function(var, default) 
     if HasKey(cfgstr .. var.configString) then
-        if not overrideConfigValues then 
-            return
-        end
+        return
     end
 
     SetInt(cfgstr .. var.configString, default)
@@ -35,13 +31,13 @@ end
 
 config.DefineColor = function(var, default) 
     for i = 1, #colorSuffix-1 do
-        if (not HasKey(cfgstr .. var.configString .. colorSuffix[i])) or overrideConfigValues then
+        if (not HasKey(cfgstr .. var.configString .. colorSuffix[i])) then
             SetFloat(cfgstr .. var.configString .. colorSuffix[i], default[i])
         end    
         SetFloat(cfgstr .. var.configString .. colorSuffix[i] .. "_default" , default[i])
     end
 
-    if (not HasKey(cfgstr .. var.configString .. colorSuffix[#colorSuffix])) or overrideConfigValues then
+    if (not HasKey(cfgstr .. var.configString .. colorSuffix[#colorSuffix])) then
         SetBool(cfgstr .. var.configString .. colorSuffix[#colorSuffix], default[#colorSuffix])
     end
     SetBool(cfgstr .. var.configString .. colorSuffix[#colorSuffix] .. "_default" , default[#colorSuffix])
@@ -60,9 +56,7 @@ end
 
 config.DefineSubFloat = function(var, sub, default) 
     if HasKey(cfgstr .. var.configString .. sub.configString) then 
-        if not overrideConfigValues then 
-            return
-        end
+        return
     end
     SetFloat(cfgstr .. var.configString .. sub.configString, default)
 end
@@ -77,9 +71,7 @@ end
 
 config.DefineSubBool = function(var, sub, default) 
     if HasKey(cfgstr .. var.configString .. sub.configString) then 
-        if not overrideConfigValues then 
-            return
-        end
+        return
     end
     SetBool(cfgstr .. var.configString .. sub.configString, default)
 end
@@ -157,7 +149,7 @@ config.UpdateAllFeatureStates = function()
 end
 
 
-config.ResetConfig = function()
+config.GenerateConfig = function()
     featurelist = {}
 
     -- visuals
@@ -234,4 +226,10 @@ config.ResetConfig = function()
             return UiGetTextSize(left.legacyName) > UiGetTextSize(right.legacyName)
         end)
     UiPop()
+end
+
+
+config.ResetAllModData = function()
+    ClearKey("savegame.mod")
+    config.GenerateConfig()
 end

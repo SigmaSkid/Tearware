@@ -584,7 +584,7 @@ legacyMenu.SubSettingCheckbox = function(var, sub)
         UiColor(1.0, highlight, highlight, 1)
     end
 
-    if UiTextButton(sub[1]) then
+    if UiTextButton(sub.legacyName) then
         config.FlipBool(cfgstr .. var.configString .. sub.configString)
     end
 

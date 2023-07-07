@@ -4,7 +4,6 @@
 #include "menu/menu.lua" -- DrawMenu
 #include "menu/registry.lua" -- DrawRegistry
 #include "features/visuals/visuals.lua" -- DrawVisuals
-#include "editor/editor.lua" -- DrawEditor
 
 menu.UiDraw = function(dt)
     if openMenu == nil then
@@ -33,8 +32,6 @@ menu.UiDraw = function(dt)
             registry.DrawRegistry()
         elseif openMenu == "reset" then
             menu.DrawResetConfigConfirmation(dt)
-        elseif openMenu == "editor" then
-            editor.DrawEditor()
         end
     UiPop()
 end

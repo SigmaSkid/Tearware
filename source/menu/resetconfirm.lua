@@ -5,9 +5,7 @@ menu.DrawResetConfigConfirmation = function(dt)
         UiPush()
             UiFont("bold.ttf", 25)
             if legacyMenu.Button("CONFIRM RESET") then 
-                overrideConfigValues = true
-                config.ResetConfig() 
-                overrideConfigValues = false
+                config.ResetAllModData()
                 openMenu = nil
             end
         UiPop()

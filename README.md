@@ -56,10 +56,11 @@ Access the menu by pressing Insert in-game or through the pause menu.
 ### Steam Workshop (recommended)
 Subscribe to the mod on [Steam Workshop Page](https://steamcommunity.com/sharedfiles/filedetails/?id=2798126764)
 ### Github Release Builds
-Go to releases and unzip the latest build in your local mods folder.
+Go to releases and unzip the latest build in your local mods folder.  
+~/documents/teardown/mods/
 
 ## Using the github preview build.
-Clone the repository into your local mods folder.
+Clone the repository into your local mods folder.  
 Console in ~/documents/teardown/mods/
 ```
 git clone https://github.com/SigmaSkid/Tearware
