@@ -21,9 +21,9 @@ menu.DrawMenu = function()
     
     local menuStyle = config.GetInt(fMenuStyle)
 
-    --if menuStyle == 1 then
-    --    dropdownMenu.DrawDropdownMenu(rgb)
-    --else
+    if menuStyle == 1 then
+        dropdownMenu.DrawDropdownMenu(rgb)
+    else
        legacyMenu.DrawLegacyMenu(rgb)
-    --end
+    end
 end

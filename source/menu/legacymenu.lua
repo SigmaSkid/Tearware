@@ -193,9 +193,9 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                     openMenu = "registry"
                 end
 
-                --if legacyMenu.Button("Dropdown Menu") then
-                --    config.SetInt(fMenuStyle, 1)
-                --end
+                if legacyMenu.Button("Dropdown Menu") then
+                    config.SetInt(fMenuStyle, 1)
+                end
             end
 
         UiPop()
