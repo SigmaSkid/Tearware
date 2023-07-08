@@ -391,68 +391,113 @@ legacyMenu.ColorSelector = function(var, alpha)
 
     local color = config.GetColor(var, GetTime())
 
+    -- sub menu
     if active_sub_menu == var.configString then 
-        local length = 160 
-        if not alpha then 
-            length = length - 30
-        end
-
-        UiPush()
-            UiTranslate(UiWidth() - 5, -20)
-            if InputPressed("lmb") then 
-                if not UiIsMouseInRect(120, length) then
-                    active_sub_menu = nil
-                end
+        if active_sub_menu_mode == "default" then 
+            local length = 160 
+            if not alpha then 
+                length = length - 30
             end
 
             UiPush()
-                UiColor(0.23, 0.23, 0.23, 1)
-                UiRect(120, length)
-
-                UiTranslate(2, 2)
-
-                UiColor(0.53, 0.53, 0.53, 0.6)
-                UiRect(116, length-4)
-
-                UiTranslate(10, length - 35)
-
-                if color.rainbow then 
-                    UiColor(0.6, 1.0, 0.6, 1)
-                else 
-                    UiColor(1.0, 0.6, 0.6, 1)
+                UiTranslate(UiWidth() - 5, -20)
+                if InputPressed("lmb") then 
+                    if not UiIsMouseInRect(120, length) then
+                        active_sub_menu = nil
+                    end
                 end
 
-                if legacyMenu.SimpleCheckbox("rainbow", color.rainbow) then 
-                    color.rainbow = not color.rainbow
-                end
-            UiPop()
+                UiPush()
+                    UiColor(0.23, 0.23, 0.23, 1)
+                    UiRect(120, length)
+
+                    UiTranslate(2, 2)
+
+                    UiColor(0.53, 0.53, 0.53, 0.6)
+                    UiRect(116, length-4)
+
+                    UiTranslate(10, length - 35)
+
+                    if color.rainbow then 
+                        UiColor(0.6, 1.0, 0.6, 1)
+                    else 
+                        UiColor(1.0, 0.6, 0.6, 1)
+                    end
+
+                    if legacyMenu.SimpleCheckbox("rainbow", color.rainbow) then 
+                        color.rainbow = not color.rainbow
+                    end
+                UiPop()
+
+                UiPush()
+
+                    UiTranslate(20, 30)
+                    UiColor(1, 0.5, 0.5)
+                    color.red = legacyMenu.optionsSlider(color.red * 100, 0, 100, 40) / 100
+
+                    UiTranslate(0, 30)
+                    UiColor(0.5, 1, 0.5)
+                    color.green = legacyMenu.optionsSlider(color.green * 100, 0, 100, 40) / 100
+
+                    UiTranslate(0, 30)
+                    UiColor(0.5, 0.5, 1)
+                    color.blue = legacyMenu.optionsSlider(color.blue * 100, 0, 100, 40) / 100
+                    
+                    if alpha then 
+                        UiTranslate(0, 30)
+                        UiColor(0.7, 0.7, 0.7)
+                        color.alpha = legacyMenu.optionsSlider(color.alpha * 100, 0, 100, 40) / 100
+                    end
+                UiPop()
+
+            UiPop() 
+            
+            config.SetColor(var, color)
+        elseif active_sub_menu_mode == "alt" then 
+            local length = 90
+            local width = 80
 
             UiPush()
-
-                UiTranslate(20, 30)
-                UiColor(1, 0.5, 0.5)
-                color.red = legacyMenu.optionsSlider(color.red * 100, 0, 100, 40) / 100
-
-                UiTranslate(0, 30)
-                UiColor(0.5, 1, 0.5)
-                color.green = legacyMenu.optionsSlider(color.green * 100, 0, 100, 40) / 100
-
-                UiTranslate(0, 30)
-                UiColor(0.5, 0.5, 1)
-                color.blue = legacyMenu.optionsSlider(color.blue * 100, 0, 100, 40) / 100
-                
-                if alpha then 
-                    UiTranslate(0, 30)
-                    UiColor(0.7, 0.7, 0.7)
-                    color.alpha = legacyMenu.optionsSlider(color.alpha * 100, 0, 100, 40) / 100
+                UiTranslate(UiWidth() - 5, -20)
+                if InputPressed("lmb") then 
+                    if not UiIsMouseInRect(width, length) then
+                        active_sub_menu = nil
+                    end
                 end
-            UiPop()
 
-        UiPop() 
-        
-        config.SetColor(var, color)
+                UiPush()
+                    UiColor(0.23, 0.23, 0.23, 1)
+                    UiRect(width, length)
+
+                    UiTranslate(2, 2)
+
+                    UiColor(0.53, 0.53, 0.53, 0.6)
+                    UiRect(width-4, length-4)
+
+                    UiTranslate(10, length - 35)
+                UiPop()
+
+
+                UiPush()
+                UiTranslate(10, 5)
+                if legacyMenu.Button("Copy") then 
+                    funnyColorCopyCache = color
+                end
+
+                if legacyMenu.Button("Paste") then 
+                    config.SetColor(var, funnyColorCopyCache)
+                end
+
+                if legacyMenu.Button("Reset") then 
+                    config.ResetColorToDefault(var)
+                end
+                UiPop()
+
+            UiPop() 
+        end
     end
 
+    -- funny button
     UiPush()
         UiAlign("left top")
         UiTranslate(UiWidth() - 35, -20)
@@ -470,12 +515,28 @@ legacyMenu.ColorSelector = function(var, alpha)
         if UiIsMouseInRect(colorSquareSize, colorSquareSize) then
             if InputPressed("lmb") then 
                 active_sub_menu = var.configString
+                active_sub_menu_mode = "default"
+
             elseif InputPressed("rmb") then 
-                funnyColorCopyCache = color
-            elseif InputPressed("mmb") then 
-                config.SetColor(var, funnyColorCopyCache)
+                active_sub_menu = var.configString
+                active_sub_menu_mode = "alt"
+
             elseif InputPressed("backspace") then 
                 config.ResetColorToDefault(var)
+            end
+
+            if InputDown("ctrl") then 
+                if InputPressed("c") then 
+                    funnyColorCopyCache = color
+                end
+
+                if InputPressed("v") then 
+                    config.SetColor(var, funnyColorCopyCache)
+                end
+                
+                if InputPressed("r") then 
+                    config.ResetColorToDefault(var)
+                end
             end
         end
     UiPop()

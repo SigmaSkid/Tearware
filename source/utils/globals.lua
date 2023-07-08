@@ -92,6 +92,7 @@ cached_fog_color = {}
 cached_post_process = {}
 cachedValuablesPositions = {}
 active_sub_menu = nil
+active_sub_menu_mode = "default"
 overrideConfigValues = false
 activeBodyCache = {}
 noclipbackuppos = {}
