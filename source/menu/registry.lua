@@ -10,7 +10,15 @@
 --  ~ new - create a new key and assign value
 --
 
+
 registry = {}
+registryPopUp = {}
+registryPopUp.targetObject = nil
+registryPopUp.location = {}
+registryPopUp.location.x = nil
+registryPopUp.location.y = nil
+registryPopUp.copyCache = nil
+registryPopUp.buttons = 2
 
 registry.ListChildren = function(var)
 
@@ -62,20 +70,27 @@ registry.DisplayOrEditKey = function(thisObject, id, offsetAfterInt)
         end
         UiRect(UiWidth(), 26)
 
-        if UiIsMouseInRect(UiWidth()-10, 26) then
-            if InputPressed("rmb") then
-                if thisObject.writeAccess then
-                    if registrySelectedKey.key == thisObject.id then
-                        registrySelectedKey.key = "nil"
+        if registryPopUp.targetObject == nil then 
+            if UiIsMouseInRect(UiWidth()-10, 26) then
+                if InputPressed("lmb") then
+                    if thisObject.writeAccess then
+                        if registrySelectedKey.key == thisObject.id then
+                            registrySelectedKey.key = "nil"
+                        else
+                            registrySelectedKey.key = thisObject.id
+                            registrySelectedKey.value = thisObject.value
+                        end
                     else
-                        registrySelectedKey.key = thisObject.id
-                        registrySelectedKey.value = thisObject.value
+                        registrySelectedKey.key = "nil"
                     end
-                else
+                    editingRegistrySearchString = false
+                    inputStringCursorPos = nil
+                end
+
+                if InputPressed("rmb") then 
+                    registryPopUp.targetObject = thisObject
                     registrySelectedKey.key = "nil"
                 end
-                editingRegistrySearchString = false
-                inputStringCursorPos = nil
             end
         end
     UiPop()
@@ -137,8 +152,163 @@ registry.UpdateSearchVisibility = function()
             registryVisibleCache[#registryVisibleCache + 1] = this
         end
     end
-end
+end 
 
+registry.DrawPopUp = function()
+
+    local pressedR = InputPressed("rmb")
+    local pressedL = InputPressed("lmb")
+
+    if registryPopUp.targetObject == nil then 
+        registryPopUp.location.x = nil
+        registryPopUp.location.y = nil
+    end
+
+    local justAppeared = registryPopUp.location.x == nil or registryPopUp.location.y == nil
+
+    UiPush()
+        local x, y = UiGetMousePos()
+        UiTranslate(0, 25)
+        local in_rect = UiIsMouseInRect(1915,1055)
+
+        -- just log location of the right click to get a nice popup location.
+        if justAppeared and in_rect and pressedR then 
+            registryPopUp.location.x = x
+            registryPopUp.location.y = y
+        end
+    UiPop()
+
+    if registryPopUp.targetObject ~= nil then   
+        UiPush()
+            UiTranslate(registryPopUp.location.x, registryPopUp.location.y)
+
+            local popupW = 75
+            local popupH = 25 * registryPopUp.buttons
+
+            if registryPopUp.location.x + popupW >= 1914 then 
+                local offset = 1914 - (registryPopUp.location.x + popupW)
+                UiTranslate(offset, 0)
+            end
+
+            if registryPopUp.location.y + popupH >= 1080 then 
+                local offset = 1080 - (registryPopUp.location.y + popupH)
+                UiTranslate(0, offset)
+            end
+
+            local in_rect = UiIsMouseInRect(popupW, popupH)
+
+            -- if clicked outside of the popup, close it.
+            if not justAppeared and not in_rect and (pressedL or pressedR) then 
+                registryPopUp.targetObject = nil
+                UiPop()
+                return
+            end
+
+            registryPopUp.buttons = 0
+
+            -- draw background
+            UiPush()
+                UiColor(0.3,0.3,0.3,1)
+                UiTranslate(-1, -1)
+                UiRect(popupW + 2, popupH + 2)
+
+                UiColor(0.5,0.5,0.5,1)
+                UiTranslate(1, 1)
+                UiRect(popupW, popupH)
+
+            UiPop()
+
+
+            UiPush()
+                if UiIsMouseInRect(popupW, 24) then 
+                    if pressedL then 
+                        registryPopUp.copyCache =  registryPopUp.targetObject.value
+                        UiColor(0.3, 0.3, 0.3, 0.7)
+                    else 
+                        UiColor(0.7, 0.7, 0.7, 0.8)
+                    end
+                else
+                    UiColor(0.6, 0.6, 0.6, 0.9)
+                end
+                UiRect(popupW, 24)
+                UiText("copy")
+                registryPopUp.buttons = registryPopUp.buttons + 1
+            UiPop()
+
+
+            if registryPopUp.targetObject.writeAccess then 
+
+                if registryPopUp.copyCache ~= nil then 
+                    UiTranslate(0, 24)
+                    UiColor(0,0,0,1)
+                    UiRect(popupW, 1)
+                    UiTranslate(0, 1)
+
+                    UiPush()
+                        if UiIsMouseInRect(popupW, 24) then 
+                            if pressedL then 
+                                SetString(registryPopUp.targetObject.name, registryPopUp.copyCache)
+                                registryPopUp.targetObject.value = registryPopUp.copyCache
+                                UiColor(0.3, 0.3, 0.3, 0.7)
+                            else 
+                                UiColor(0.7, 0.7, 0.7, 0.8)
+                            end
+                        else
+                            UiColor(0.6, 0.6, 0.6, 0.9)
+                        end
+
+                        UiRect(popupW, 24)
+                        UiText("paste")
+                        registryPopUp.buttons = registryPopUp.buttons + 1
+                    UiPop()
+                end
+
+                UiTranslate(0, 24)
+                UiColor(0,0,0,1)
+                UiRect(popupW, 1)
+                UiTranslate(0, 1)
+
+                UiPush()
+                    if UiIsMouseInRect(popupW, 24) then 
+                        if pressedL then 
+                            ClearKey(registryPopUp.targetObject.name)
+                            registryCache = {}
+                            registryVisibleCache = {}
+                            registryPopUp.targetObject = nil
+                            
+                            UiColor(0.3, 0.3, 0.3, 0.7)
+                        else 
+                            UiColor(0.7, 0.7, 0.7, 0.8)
+                        end
+                    else
+                        UiColor(0.6, 0.6, 0.6, 0.9)
+                    end
+                    UiRect(popupW, 24)
+                    UiText("delete")
+                    registryPopUp.buttons = registryPopUp.buttons + 1
+                UiPop()
+
+                -- UiTranslate(0, 24)
+                -- UiColor(0,0,0,1)
+                -- UiRect(popupW, 1)
+                -- UiTranslate(0, 1)
+
+                --UiPush()
+                --    if UiIsMouseInRect(popupW, 25) and pressedL then 
+                --        -- open menu = stirng editor
+                --        -- stringeditor.editedstring = targetobject.value
+                --    end
+                --    UiColor(0, 0, 1, 0.6)
+                --    UiRect(popupW, 25)
+                --    UiText("open") -- open in the funny text editor that's still not existent.
+                --    registryPopUp.buttons = registryPopUp.buttons + 1
+                --UiPop()
+
+            end
+        UiPop()
+    end
+    
+end
 
 -- called on each draw
 registry.DrawRegistry = function()
@@ -197,11 +367,11 @@ registry.DrawRegistry = function()
                 UiText(displayText)
             UiPop()
 
+            -- handle search
             UiPush()
                 UiTranslate(displayOffsetX + 240, -displayOffsetY + 28)
                 if InputPressed("f5") or UiTextButton("Refresh") then
                     registryCache = {}
-                    registry.CreateRegistry()
                 end
                 UiTranslate(120, 0)
                 if UiTextButton("Search: " .. registrySearchString) then 
@@ -217,6 +387,7 @@ registry.DrawRegistry = function()
                 end
             UiPop()
 
+            -- draw all the visible keys
             UiPush()
                 local offsetAfterInt, h = UiGetTextSize(registryCache[#registryCache].id .. "n")
 
@@ -228,6 +399,7 @@ registry.DrawRegistry = function()
                 end
             UiPop()
 
+            -- draw the seperators
             UiPush()
                 UiColor(0.7, 0.7, 0.7, 0.7)
                 UiTranslate(offsetAfterInt - 5, 25)
@@ -235,6 +407,9 @@ registry.DrawRegistry = function()
                 UiTranslate(UiMiddle()*1.5, 0)
                 UiRect(1, UiHeight())
             UiPop()
+
+            -- draw the popup
+            registry.DrawPopUp()
         UiPop()
 
         -- scroll bar yey
@@ -242,6 +417,8 @@ registry.DrawRegistry = function()
             UiTranslate(UiWidth()-5, 0)
             UiColor(0.6, 0.6, 0.6, 1)
             UiRect(5, UiHeight())
+            UiColor(0.1, 0.1, 0.1, 1)
+            UiRect(1, UiHeight())
 
             local clickedOnBar = false
             if UiIsMouseInRect(5, UiHeight()) then
@@ -253,10 +430,14 @@ registry.DrawRegistry = function()
             UiPush()
                 local scrollPercent = registryScrollPos / #registryVisibleCache
                 local scrollOffset = scrollPercent * UiHeight()
+
                 local scrollSizePercent = VisibleEntries / #registryVisibleCache
                 local scrollSize = scrollSizePercent * UiHeight()
                 
+                --DebugWatch(scrollOffset, #registryVisibleCache)
+
                 UiColor(0.9, 0.9, 0.9, 1)
+                
                 UiTranslate(0, scrollOffset)
                 UiRect(5, scrollSize)
 
@@ -279,14 +460,14 @@ registry.DrawRegistry = function()
                 elseif InputPressed("mmb") then 
                     isScrollingRegistry = true 
                     local x, y = UiGetMousePos()
-                    registryScrollingBaseOffset = 0
+                    registryScrollingBaseOffset = scrollSize/2
                 end
 
                 if isScrollingRegistry then 
                     if InputDown("lmb") or InputDown("mmb") then 
                         local x, y = UiGetMousePos()
 
-                        local delta = (y - registryScrollingBaseOffset)
+                        local delta = (y - registryScrollingBaseOffset)/2
 
                         if math.abs(delta) > 1 then 
                             registryScrollPos = utils.Clamp(registryScrollPos + delta, 1, #registryVisibleCache - VisibleEntries)
