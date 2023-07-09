@@ -10,8 +10,6 @@
 --  ~ new - create a new key and assign value
 --
 
-
-registry = {}
 registryPopUp = {}
 registryPopUp.targetObject = nil
 registryPopUp.location = {}
@@ -20,7 +18,7 @@ registryPopUp.location.y = nil
 registryPopUp.copyCache = nil
 registryPopUp.buttons = 2
 
-registry.ListChildren = function(var)
+registry_ListChildren = function(var)
 
     local Children = ListKeys(var)
     for i=1, #Children do
@@ -36,27 +34,27 @@ registry.ListChildren = function(var)
         object.id = #registryCache+1
         object.name = me 
         object.value = d
-        object.writeAccess = utils.DirtyWriteAccessCheck(me)
+        object.writeAccess = utils_DirtyWriteAccessCheck(me)
 
         registryCache[#registryCache+1] = object
-        registry.ListChildren(me)
+        registry_ListChildren(me)
     end
 end
 
-registry.CreateRegistry = function()
+registry_CreateRegistry = function()
     if #registryCache > 1 then 
         return
     end
 
     for i=1, #registryEntryPoints do
-        registry.ListChildren(registryEntryPoints[i])
+        registry_ListChildren(registryEntryPoints[i])
     end
 
     registryVisibleCache = registryCache
     registrySearchString = ""
 end
 
-registry.DisplayOrEditKey = function(thisObject, id, offsetAfterInt)
+registry_DisplayOrEditKey = function(thisObject, id, offsetAfterInt)
     UiTranslate(0, 25)
     UiPush()
         if registrySelectedKey.key == thisObject.id then
@@ -109,9 +107,9 @@ registry.DisplayOrEditKey = function(thisObject, id, offsetAfterInt)
 
         UiTranslate(UiMiddle()*1.5, 0)
         if registrySelectedKey.key == thisObject.id then
-            registrySelectedKey.value, __, inputStringCursorPos = utils.ModifyString(registrySelectedKey.value, inputStringCursorPos)
+            registrySelectedKey.value, __, inputStringCursorPos = utils_ModifyString(registrySelectedKey.value, inputStringCursorPos)
             UiText(registrySelectedKey.value)
-            utils.DrawInputStringCursor(registrySelectedKey.value, inputStringCursorPos)
+            utils_DrawInputStringCursor(registrySelectedKey.value, inputStringCursorPos)
         
             if InputDown("return") and thisObject.writeAccess then
                 SetString(thisObject.name, registrySelectedKey.value)
@@ -126,9 +124,9 @@ registry.DisplayOrEditKey = function(thisObject, id, offsetAfterInt)
     UiPop()
 end
 
-registry.UpdateSearchVisibility = function()
+registry_UpdateSearchVisibility = function()
     if editingRegistrySearchString then
-        registrySearchString, modifiedregistrySearchString, inputStringCursorPos = utils.ModifyString(registrySearchString, inputStringCursorPos)
+        registrySearchString, modifiedregistrySearchString, inputStringCursorPos = utils_ModifyString(registrySearchString, inputStringCursorPos)
     end
 
     if #registryCache == 0 then
@@ -154,7 +152,7 @@ registry.UpdateSearchVisibility = function()
     end
 end 
 
-registry.DrawPopUp = function()
+registry_DrawPopUp = function()
 
     local pressedR = InputPressed("rmb")
     local pressedL = InputPressed("lmb")
@@ -311,8 +309,8 @@ registry.DrawPopUp = function()
 end
 
 -- called on each draw
-registry.DrawRegistry = function()
-    registry.CreateRegistry()
+registry_DrawRegistry = function()
+    registry_CreateRegistry()
 
     local VisibleEntries = 41
     local scrollspeed = 1 
@@ -334,13 +332,13 @@ registry.DrawRegistry = function()
         inputStringCursorPos = nil
     end
 
-    registry.UpdateSearchVisibility()
+    registry_UpdateSearchVisibility()
     
     local name = InputLastPressedKey()
 
     if name ~= "" and name ~= nil then lastRegistryInput = name end
 
-    registryScrollPos = utils.Clamp(registryScrollPos - (InputValue("mousewheel")*scrollspeed), 1, #registryVisibleCache - VisibleEntries)
+    registryScrollPos = utils_Clamp(registryScrollPos - (InputValue("mousewheel")*scrollspeed), 1, #registryVisibleCache - VisibleEntries)
 
     UiMakeInteractive()
 
@@ -382,7 +380,7 @@ registry.DrawRegistry = function()
                     UiPush()
                         local searchx, __ = UiGetTextSize("Search: ")
                         UiTranslate(searchx-2, 0)
-                        utils.DrawInputStringCursor(registrySearchString, inputStringCursorPos)
+                        utils_DrawInputStringCursor(registrySearchString, inputStringCursorPos)
                     UiPop()
                 end
             UiPop()
@@ -394,7 +392,7 @@ registry.DrawRegistry = function()
                 for i=math.floor(registryScrollPos), registryScrollPos + VisibleEntries do
                     local thisObject = registryVisibleCache[i]
                     if thisObject then
-                        registry.DisplayOrEditKey(thisObject, i, offsetAfterInt)
+                        registry_DisplayOrEditKey(thisObject, i, offsetAfterInt)
                     end
                 end
             UiPop()
@@ -409,7 +407,7 @@ registry.DrawRegistry = function()
             UiPop()
 
             -- draw the popup
-            registry.DrawPopUp()
+            registry_DrawPopUp()
         UiPop()
 
         -- scroll bar yey
@@ -453,7 +451,7 @@ registry.DrawRegistry = function()
                             UiTranslate(0, -scrollOffset)
                             local x, y = UiGetMousePos()
 
-                            registryScrollPos = utils.Clamp( (y*#registryVisibleCache / UiHeight()) - VisibleEntries/2, 1, #registryVisibleCache - VisibleEntries)
+                            registryScrollPos = utils_Clamp( (y*#registryVisibleCache / UiHeight()) - VisibleEntries/2, 1, #registryVisibleCache - VisibleEntries)
                             --DebugPrint(y .. " " .. registryScrollPos)
                         UiPop()
                     end
@@ -470,7 +468,7 @@ registry.DrawRegistry = function()
                         local delta = (y - registryScrollingBaseOffset)/2
 
                         if math.abs(delta) > 1 then 
-                            registryScrollPos = utils.Clamp(registryScrollPos + delta, 1, #registryVisibleCache - VisibleEntries)
+                            registryScrollPos = utils_Clamp(registryScrollPos + delta, 1, #registryVisibleCache - VisibleEntries)
                         end
                     else
                         isScrollingRegistry = false 

@@ -1,5 +1,5 @@
-player.Spider = function() 
-    if not config.AdvGetBool(fSpider) then 
+player_Spider = function() 
+    if not config_AdvGetBool(fSpider) then 
         return 
     end
 
@@ -8,7 +8,7 @@ player.Spider = function()
 
     local hit = QueryRaycast(pos, Vec(0, 1, 0), 0.1, 0.7)
 
-    if not hit or not utils.TWInputDown("jump") then 
+    if not hit or not utils_TWInputDown("jump") then 
         return 
     end
 
@@ -16,10 +16,10 @@ player.Spider = function()
 
 
     vel[2] = 4
-    if utils.TWInputDown("shift") then 
+    if utils_TWInputDown("shift") then 
         vel[2] = vel[2] + 3
     end
-    if utils.TWInputDown("ctrl") then 
+    if utils_TWInputDown("ctrl") then 
         vel[2] = vel[2] - 3
     end
 

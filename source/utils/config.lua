@@ -2,7 +2,7 @@
 
 #include "local.lua"
 
-config.DefineBool = function(var, default) 
+config_DefineBool = function(var, default) 
     featurelist[#featurelist+1] = var
 
     if HasKey(cfgstr .. var.configString) and HasKey(cfgstr .. var.configString .. "_key") then
@@ -13,7 +13,7 @@ config.DefineBool = function(var, default)
     SetString(cfgstr .. var.configString .. "_key", "null")
 end
 
-config.DefineInt = function(var, default) 
+config_DefineInt = function(var, default) 
     if HasKey(cfgstr .. var.configString) then
         return
     end
@@ -21,15 +21,15 @@ config.DefineInt = function(var, default)
     SetInt(cfgstr .. var.configString, default)
 end
 
-config.GetInt = function(var)
+config_GetInt = function(var)
     return GetInt(cfgstr .. var.configString)
 end
 
-config.SetInt = function(var, val) 
+config_SetInt = function(var, val) 
     SetInt(cfgstr .. var.configString, val)
 end
 
-config.DefineColor = function(var, default) 
+config_DefineColor = function(var, default) 
     for i = 1, #colorSuffix-1 do
         if (not HasKey(cfgstr .. var.configString .. colorSuffix[i])) then
             SetFloat(cfgstr .. var.configString .. colorSuffix[i], default[i])
@@ -43,7 +43,7 @@ config.DefineColor = function(var, default)
     SetBool(cfgstr .. var.configString .. colorSuffix[#colorSuffix] .. "_default" , default[#colorSuffix])
 end
 
-config.ResetColorToDefault = function(var)
+config_ResetColorToDefault = function(var)
     local base = var.configString
     for i = 1, #colorSuffix-1 do
         local default_val = GetFloat(cfgstr .. base .. colorSuffix[i] .. "_default")
@@ -54,37 +54,37 @@ config.ResetColorToDefault = function(var)
     SetBool(cfgstr .. base .. colorSuffix[#colorSuffix], default_rainbow)
 end
 
-config.DefineSubFloat = function(var, sub, default) 
+config_DefineSubFloat = function(var, sub, default) 
     if HasKey(cfgstr .. var.configString .. sub.configString) then 
         return
     end
     SetFloat(cfgstr .. var.configString .. sub.configString, default)
 end
 
-config.GetSubFloat = function(var, sub)
+config_GetSubFloat = function(var, sub)
     return GetFloat(cfgstr .. var.configString .. sub.configString)
 end
 
-config.SetSubFloat = function(var, sub, value)
+config_SetSubFloat = function(var, sub, value)
     return SetFloat(cfgstr .. var.configString .. sub.configString, value)
 end
 
-config.DefineSubBool = function(var, sub, default) 
+config_DefineSubBool = function(var, sub, default) 
     if HasKey(cfgstr .. var.configString .. sub.configString) then 
         return
     end
     SetBool(cfgstr .. var.configString .. sub.configString, default)
 end
 
-config.GetSubBool = function(var, sub)
+config_GetSubBool = function(var, sub)
     return GetBool(cfgstr .. var.configString .. sub.configString)
 end
 
-config.SetSubBool = function(var, sub, value)
+config_SetSubBool = function(var, sub, value)
     return SetBool(cfgstr .. var.configString .. sub.configString, value)
 end
 
-config.GetColor = function(var, seed)
+config_GetColor = function(var, seed)
     -- nil check, just in case
     seed=seed or GetTime()
 
@@ -104,11 +104,11 @@ config.GetColor = function(var, seed)
     return color
 end
 
-config.FlipBool = function(var)
+config_FlipBool = function(var)
     SetBool(var, not GetBool(var))
 end
 
-config.SetColor = function(var, color)
+config_SetColor = function(var, color)
     SetBool(cfgstr .. var.configString .. colorSuffix[5], color.rainbow)
     SetFloat(cfgstr .. var.configString .. colorSuffix[4], color.alpha)
     if color.rainbow then 
@@ -119,11 +119,11 @@ config.SetColor = function(var, color)
     SetFloat(cfgstr .. var.configString .. colorSuffix[3], color.blue)
 end
 
-config.AdvGetBool = function(var)
+config_AdvGetBool = function(var)
     return GetBool(cfgstr .. var.configString)
 end
 
-config.UpdateFeatureState = function(var)
+config_UpdateFeatureState = function(var)
     if not HasKey(cfgstr .. var.configString .. "_key") then 
         return GetBool(cfgstr .. var.configString)
     end
@@ -140,83 +140,83 @@ end
 
 -- has to be done this way, because InputPressed
 -- is for some reason unreliable in update function
-config.UpdateAllFeatureStates = function()
+config_UpdateAllFeatureStates = function()
     if lockInputs then return end
 
     for i = 1, #featurelist do 
-        config.UpdateFeatureState(featurelist[i])
+        config_UpdateFeatureState(featurelist[i])
     end
 end
 
 
-config.GenerateConfig = function()
+config_GenerateConfig = function()
     featurelist = {}
 
     -- visuals
-    config.DefineBool(fWatermark, true)
-        config.DefineColor(fWatermark, {1, 1, 1, 1, true} )
-    config.DefineBool(fFeatureList, false)
-        config.DefineColor(fFeatureList, {1, 1, 1, 1, true} )
-    config.DefineBool(fObjectiveEsp, false)
-        config.DefineColor(fObjectiveEsp, {0.7, 0.3, 0.3, 0.7, false} )
-    config.DefineBool(fOptionalEsp, false)
-        config.DefineColor(fOptionalEsp, {0.3, 0.3, 0.7, 0.7, false} )
-    config.DefineBool(fValuableEsp, false)
-        config.DefineColor(fValuableEsp, {0.3, 0.7, 0.3, 0.7, false} )
-    config.DefineBool(fToolEsp, false)
-        config.DefineColor(fToolEsp, {0.7, 0.7, 0.3, 0.7, false} )
-    config.DefineBool(fWeaponGlow, false)
-        config.DefineColor(fWeaponGlow, {1, 1, 1, 1, true} )
-    config.DefineBool(fActiveGlow, false)
-        config.DefineColor(fActiveGlow, {1, 1, 1, 1, true} )
-    config.DefineBool(fRainbowFog, false)
-        config.DefineColor(fRainbowFog, {1, 1, 1, 1, true} )
-    config.DefineBool(fPostProcess, false)
-        config.DefineColor(fPostProcess, {0.5, 0.5, 0.5, 0.5, false} )
-    config.DefineBool(fSpinnyTool, false)
+    config_DefineBool(fWatermark, true)
+        config_DefineColor(fWatermark, {1, 1, 1, 1, true} )
+    config_DefineBool(fFeatureList, false)
+        config_DefineColor(fFeatureList, {1, 1, 1, 1, true} )
+    config_DefineBool(fObjectiveEsp, false)
+        config_DefineColor(fObjectiveEsp, {0.7, 0.3, 0.3, 0.7, false} )
+    config_DefineBool(fOptionalEsp, false)
+        config_DefineColor(fOptionalEsp, {0.3, 0.3, 0.7, 0.7, false} )
+    config_DefineBool(fValuableEsp, false)
+        config_DefineColor(fValuableEsp, {0.3, 0.7, 0.3, 0.7, false} )
+    config_DefineBool(fToolEsp, false)
+        config_DefineColor(fToolEsp, {0.7, 0.7, 0.3, 0.7, false} )
+    config_DefineBool(fWeaponGlow, false)
+        config_DefineColor(fWeaponGlow, {1, 1, 1, 1, true} )
+    config_DefineBool(fActiveGlow, false)
+        config_DefineColor(fActiveGlow, {1, 1, 1, 1, true} )
+    config_DefineBool(fRainbowFog, false)
+        config_DefineColor(fRainbowFog, {1, 1, 1, 1, true} )
+    config_DefineBool(fPostProcess, false)
+        config_DefineColor(fPostProcess, {0.5, 0.5, 0.5, 0.5, false} )
+    config_DefineBool(fSpinnyTool, false)
 
     -- player
-    config.DefineBool(fSpeed, false)
-        config.DefineSubFloat(fSpeed, fSubSpeed, 14)
-        config.DefineSubFloat(fSpeed, fSubBoost, 28)
-    config.DefineBool(fSpider, false)
-    config.DefineBool(fFly, false)
-        config.DefineSubFloat(fFly, fSubSpeed, 20)
-        config.DefineSubFloat(fFly, fSubBoost, 40)
-    config.DefineBool(fNoclip, false)
-        config.DefineSubFloat(fNoclip, fSubSpeed, 1)
-        config.DefineSubFloat(fNoclip, fSubBoost, 9)
-    config.DefineBool(fFloorStrafe, false)
-    config.DefineBool(fJetpack, false)
-    config.DefineBool(fJesus, false)
-    config.DefineBool(fQuickstop, false)
-    config.DefineBool(fInfiniteAmmo, false)
-    config.DefineBool(fSuperStrength, false)
-    config.DefineBool(fGodmode, false)
+    config_DefineBool(fSpeed, false)
+        config_DefineSubFloat(fSpeed, fSubSpeed, 14)
+        config_DefineSubFloat(fSpeed, fSubBoost, 28)
+    config_DefineBool(fSpider, false)
+    config_DefineBool(fFly, false)
+        config_DefineSubFloat(fFly, fSubSpeed, 20)
+        config_DefineSubFloat(fFly, fSubBoost, 40)
+    config_DefineBool(fNoclip, false)
+        config_DefineSubFloat(fNoclip, fSubSpeed, 1)
+        config_DefineSubFloat(fNoclip, fSubBoost, 9)
+    config_DefineBool(fFloorStrafe, false)
+    config_DefineBool(fJetpack, false)
+    config_DefineBool(fJesus, false)
+    config_DefineBool(fQuickstop, false)
+    config_DefineBool(fInfiniteAmmo, false)
+    config_DefineBool(fSuperStrength, false)
+    config_DefineBool(fGodmode, false)
 
     -- world
-    config.DefineBool(fDisableRobots, false)
-    config.DefineBool(fBulletTime, false)
-        config.DefineSubFloat(fBulletTime, fBulletTimeScale, 10)
-        config.DefineSubBool(fBulletTime, fBulletTimePatch, true)
-    config.DefineBool(fSkipObjective, false)
-    config.DefineBool(fDisableAlarm, false)
-    config.DefineBool(fDisablePhysics, false)
-    config.DefineBool(fForceUpdatePhysics, false)
-    config.DefineBool(fTeleportValuables, false)
-    config.DefineBool(fUnfairValuables, false)
+    config_DefineBool(fDisableRobots, false)
+    config_DefineBool(fBulletTime, false)
+        config_DefineSubFloat(fBulletTime, fBulletTimeScale, 10)
+        config_DefineSubBool(fBulletTime, fBulletTimePatch, true)
+    config_DefineBool(fSkipObjective, false)
+    config_DefineBool(fDisableAlarm, false)
+    config_DefineBool(fDisablePhysics, false)
+    config_DefineBool(fForceUpdatePhysics, false)
+    config_DefineBool(fTeleportValuables, false)
+    config_DefineBool(fUnfairValuables, false)
 
     -- tools
-    config.DefineBool(fStructureRestorer, false)
-    config.DefineBool(fRubberband, false)
-        config.DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
-    config.DefineBool(fTeleport, false)
-    config.DefineBool(fExplosionBrush, false)
-        config.DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
-    config.DefineBool(fFireBrush, false)
+    config_DefineBool(fStructureRestorer, false)
+    config_DefineBool(fRubberband, false)
+        config_DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
+    config_DefineBool(fTeleport, false)
+    config_DefineBool(fExplosionBrush, false)
+        config_DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
+    config_DefineBool(fFireBrush, false)
 
     -- menu stuff
-    config.DefineInt(fMenuStyle, 0)
+    config_DefineInt(fMenuStyle, 0)
 
     -- sort for feature list.
     UiPush()
@@ -228,7 +228,7 @@ config.GenerateConfig = function()
 end
 
 
-config.ResetAllModData = function()
+config_ResetAllModData = function()
     ClearKey("savegame.mod")
-    config.GenerateConfig()
+    config_GenerateConfig()
 end

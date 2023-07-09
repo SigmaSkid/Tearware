@@ -1,9 +1,9 @@
-tools.Teleport = function() 
-    if not config.AdvGetBool(fTeleport) then 
+tools_Teleport = function() 
+    if not config_AdvGetBool(fTeleport) then 
         return 
     end
 
-    local TargetPos = utils.GetPosWeAreLookingAt()
+    local TargetPos = utils_GetPosWeAreLookingAt()
 
     if TargetPos ~= nil then 
         local t = Transform(TargetPos, GetCameraTransform().rot)

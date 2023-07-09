@@ -2,7 +2,6 @@
 
 -- player
 #include "features/player/infiniteammo.lua"
-#include "features/player/rubberband.lua"
 #include "features/player/godmode.lua"
 
 -- world
@@ -11,23 +10,28 @@
 #include "features/world/teleportvaluables.lua"
 #include "features/world/disablealarm.lua"
 #include "features/world/skipobjective.lua"
-#include "features/world/structurerestorer.lua"
 
+-- tools
+#include "features/tools/rubberband.lua"
+#include "features/tools/structurerestorer.lua"
 
 -- Called once every fixed tick, 60tps (dt is a constant)
 function update(dt)
     -- player
-    player.InfiniteAmmo()
-    player.Rubberband()
-    player.Godmode()
+    player_InfiniteAmmo()
+    player_Godmode()
     --
 
     -- world
-    world.UnfairPrices()
-    world.DisableRobots()
-    world.CollectValuables()
-    world.DisableAlarm()
-    world.SkipObjective()
-    world.StructureRestorer()
+    world_UnfairPrices()
+    world_DisableRobots()
+    world_CollectValuables()
+    world_DisableAlarm()
+    world_SkipObjective()
+    --
+
+    -- tools
+    tools_Rubberband()
+    tools_StructureRestorer()
     --
 end

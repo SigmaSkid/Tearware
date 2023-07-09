@@ -2,7 +2,7 @@
 
 -- dll main, but more lgbtq+
 function init()
-    config.GenerateConfig()
+    config_GenerateConfig()
     ghostMode()
 end
 

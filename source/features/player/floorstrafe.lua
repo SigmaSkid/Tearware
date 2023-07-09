@@ -1,6 +1,6 @@
 
-player.Floorstrafe = function() 
-    if not config.AdvGetBool(fFloorStrafe) then 
+player_Floorstrafe = function() 
+    if not config_AdvGetBool(fFloorStrafe) then 
         return 
     end
 

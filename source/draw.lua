@@ -4,8 +4,10 @@
 #include "menu/menu.lua" -- DrawMenu
 #include "menu/registry.lua" -- DrawRegistry
 #include "features/visuals/visuals.lua" -- DrawVisuals
+#include "features/player/godmode.lua" -- Disable damage overlay
 
-menu.UiDraw = function(dt)
+
+menu_UiDraw = function(dt)
     if openMenu == nil then
         filthyglobal_editingkeybind = " "
         active_sub_menu = nil
@@ -27,17 +29,21 @@ menu.UiDraw = function(dt)
         end
 
         if openMenu == "tearware" then
-            menu.DrawMenu()
+            menu_DrawMenu()
         elseif openMenu == "registry" then
-            registry.DrawRegistry()
+            registry_DrawRegistry()
         elseif openMenu == "reset" then
-            menu.DrawResetConfigConfirmation(dt)
+            menu_DrawResetConfigConfirmation(dt)
         end
     UiPop()
 end
 
 -- called on each draw, dt isn't documented :D
 function draw(dt)
-    visuals.DrawVisuals()
-    menu.UiDraw(dt)
+    visuals_DrawVisuals()
+    menu_UiDraw(dt)
+
+    -- player
+    player_visuals_Godmode()
+    --
 end

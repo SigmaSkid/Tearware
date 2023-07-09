@@ -1,8 +1,6 @@
 -- tearware on top
 
-legacyMenu = {}
-
-legacyMenu.DrawLegacyMenu = function(rgb) 
+legacyMenu_DrawLegacyMenu = function(rgb) 
     UiPush()
         UiFont("bold.ttf", 25)
         
@@ -37,15 +35,15 @@ legacyMenu.DrawLegacyMenu = function(rgb)
 
             UiPush()
                 UiTranslate(0, 14)
-                legacyMenu.NavButtonImg("source/img/visuals-icon.png", 0)
-                legacyMenu.NavSep(0)
-                legacyMenu.NavButtonImg("source/img/player-icon.png", 1)
-                legacyMenu.NavSep(1)
-                legacyMenu.NavButtonImg("source/img/world-icon.png", 2)
-                legacyMenu.NavSep(2)
-                legacyMenu.NavButtonImg("source/img/tools-icon.png", 3)
-                legacyMenu.NavSep(3)
-                legacyMenu.NavButtonImg("source/img/misc-icon.png", 4)
+                legacyMenu_NavButtonImg("source/img/visuals-icon.png", 0)
+                legacyMenu_NavSep(0)
+                legacyMenu_NavButtonImg("source/img/player-icon.png", 1)
+                legacyMenu_NavSep(1)
+                legacyMenu_NavButtonImg("source/img/world-icon.png", 2)
+                legacyMenu_NavSep(2)
+                legacyMenu_NavButtonImg("source/img/tools-icon.png", 3)
+                legacyMenu_NavSep(3)
+                legacyMenu_NavButtonImg("source/img/misc-icon.png", 4)
             UiPop()
         UiPop()
 
@@ -58,110 +56,110 @@ legacyMenu.DrawLegacyMenu = function(rgb)
             if GetInt(cfgstr .. "activetab") == 0 then 
                 -- visuals
 
-                legacyMenu.Checkbox(fWatermark)
-                legacyMenu.ColorSelector(fWatermark)
+                legacyMenu_Checkbox(fWatermark)
+                legacyMenu_ColorSelector(fWatermark)
 
-                legacyMenu.Checkbox(fFeatureList)
-                legacyMenu.ColorSelector(fFeatureList)
+                legacyMenu_Checkbox(fFeatureList)
+                legacyMenu_ColorSelector(fFeatureList)
 
-                legacyMenu.Checkbox(fObjectiveEsp)
-                legacyMenu.ColorSelector(fObjectiveEsp)
-                if config.AdvGetBool(fObjectiveEsp) then 
-                    legacyMenu.Checkbox(fOptionalEsp)
-                    legacyMenu.ColorSelector(fOptionalEsp)
+                legacyMenu_Checkbox(fObjectiveEsp)
+                legacyMenu_ColorSelector(fObjectiveEsp)
+                if config_AdvGetBool(fObjectiveEsp) then 
+                    legacyMenu_Checkbox(fOptionalEsp)
+                    legacyMenu_ColorSelector(fOptionalEsp)
                 end
 
-                legacyMenu.Checkbox(fValuableEsp)
-                legacyMenu.ColorSelector(fValuableEsp)
+                legacyMenu_Checkbox(fValuableEsp)
+                legacyMenu_ColorSelector(fValuableEsp)
 
-                legacyMenu.Checkbox(fToolEsp)
-                legacyMenu.ColorSelector(fToolEsp)
+                legacyMenu_Checkbox(fToolEsp)
+                legacyMenu_ColorSelector(fToolEsp)
 
-                legacyMenu.Checkbox(fWeaponGlow)
-                legacyMenu.ColorSelector(fWeaponGlow)
+                legacyMenu_Checkbox(fWeaponGlow)
+                legacyMenu_ColorSelector(fWeaponGlow)
 
-                legacyMenu.Checkbox(fActiveGlow)
-                legacyMenu.ColorSelector(fActiveGlow)
+                legacyMenu_Checkbox(fActiveGlow)
+                legacyMenu_ColorSelector(fActiveGlow)
 
-                legacyMenu.Checkbox(fRainbowFog)
-                legacyMenu.ColorSelector(fRainbowFog, false)
+                legacyMenu_Checkbox(fRainbowFog)
+                legacyMenu_ColorSelector(fRainbowFog, false)
                 
-                legacyMenu.Checkbox(fPostProcess)
-                legacyMenu.ColorSelector(fPostProcess)
+                legacyMenu_Checkbox(fPostProcess)
+                legacyMenu_ColorSelector(fPostProcess)
                 
-                legacyMenu.Checkbox(fSpinnyTool)
+                legacyMenu_Checkbox(fSpinnyTool)
 
             elseif GetInt(cfgstr .. "activetab") == 1 then 
                 -- player
 
-                legacyMenu.Checkbox(fSpeed)
-                if legacyMenu.FunnySubmenuBegin(fSpeed, 120, 80) then 
-                    legacyMenu.SubSettingSlider(fSpeed, fSubSpeed, 10, 30)
-                    legacyMenu.SubSettingSlider(fSpeed, fSubBoost, 10, 40)
+                legacyMenu_Checkbox(fSpeed)
+                if legacyMenu_FunnySubmenuBegin(fSpeed, 120, 80) then 
+                    legacyMenu_SubSettingSlider(fSpeed, fSubSpeed, 10, 30)
+                    legacyMenu_SubSettingSlider(fSpeed, fSubBoost, 10, 40)
                     UiPop()
                 end
 
-                legacyMenu.Checkbox(fSpider)
-                legacyMenu.Checkbox(fFly)
-                if legacyMenu.FunnySubmenuBegin(fFly, 120, 80) then 
-                    legacyMenu.SubSettingSlider(fFly, fSubSpeed, 10, 30)
-                    legacyMenu.SubSettingSlider(fFly, fSubBoost, 10, 40)
+                legacyMenu_Checkbox(fSpider)
+                legacyMenu_Checkbox(fFly)
+                if legacyMenu_FunnySubmenuBegin(fFly, 120, 80) then 
+                    legacyMenu_SubSettingSlider(fFly, fSubSpeed, 10, 30)
+                    legacyMenu_SubSettingSlider(fFly, fSubBoost, 10, 40)
                     UiPop()
                 end
 
-                legacyMenu.Checkbox(fNoclip)
-                if legacyMenu.FunnySubmenuBegin(fNoclip, 120, 80) then 
-                    legacyMenu.SubSettingSlider(fNoclip, fSubSpeed, 1, 5)
-                    legacyMenu.SubSettingSlider(fNoclip, fSubBoost, 1, 20)
+                legacyMenu_Checkbox(fNoclip)
+                if legacyMenu_FunnySubmenuBegin(fNoclip, 120, 80) then 
+                    legacyMenu_SubSettingSlider(fNoclip, fSubSpeed, 1, 5)
+                    legacyMenu_SubSettingSlider(fNoclip, fSubBoost, 1, 20)
                     UiPop()
                 end
 
-                legacyMenu.Checkbox(fFloorStrafe)
-                legacyMenu.Checkbox(fJetpack)
-                legacyMenu.Checkbox(fJesus)
-                legacyMenu.Checkbox(fQuickstop)
-                legacyMenu.Checkbox(fInfiniteAmmo)
-                legacyMenu.Checkbox(fSuperStrength)
-                legacyMenu.Checkbox(fGodmode)
+                legacyMenu_Checkbox(fFloorStrafe)
+                legacyMenu_Checkbox(fJetpack)
+                legacyMenu_Checkbox(fJesus)
+                legacyMenu_Checkbox(fQuickstop)
+                legacyMenu_Checkbox(fInfiniteAmmo)
+                legacyMenu_Checkbox(fSuperStrength)
+                legacyMenu_Checkbox(fGodmode)
 
             elseif GetInt(cfgstr .. "activetab") == 2 then 
                 -- world
 
-                legacyMenu.Checkbox(fBulletTime)
-                if legacyMenu.FunnySubmenuBegin(fBulletTime, 120, 80) then 
-                    legacyMenu.SubSettingSlider(fBulletTime, fBulletTimeScale, 10, 100)
-                    legacyMenu.SubSettingCheckbox(fBulletTime, fBulletTimePatch)
+                legacyMenu_Checkbox(fBulletTime)
+                if legacyMenu_FunnySubmenuBegin(fBulletTime, 120, 80) then 
+                    legacyMenu_SubSettingSlider(fBulletTime, fBulletTimeScale, 10, 100)
+                    legacyMenu_SubSettingCheckbox(fBulletTime, fBulletTimePatch)
                     UiPop()
                 end
 
-                legacyMenu.Checkbox(fSkipObjective)
-                legacyMenu.Checkbox(fDisableAlarm)
-                legacyMenu.Checkbox(fDisableRobots)
-                legacyMenu.Checkbox(fDisablePhysics)
-                legacyMenu.Checkbox(fForceUpdatePhysics)
-                legacyMenu.Checkbox(fTeleportValuables)
-                legacyMenu.Checkbox(fUnfairValuables)
+                legacyMenu_Checkbox(fSkipObjective)
+                legacyMenu_Checkbox(fDisableAlarm)
+                legacyMenu_Checkbox(fDisableRobots)
+                legacyMenu_Checkbox(fDisablePhysics)
+                legacyMenu_Checkbox(fForceUpdatePhysics)
+                legacyMenu_Checkbox(fTeleportValuables)
+                legacyMenu_Checkbox(fUnfairValuables)
 
 
             elseif GetInt(cfgstr .. "activetab") == 3 then 
                 -- tools
 
-                legacyMenu.Checkbox(fRubberband)
-                legacyMenu.ColorSelector(fRubberband, false)
+                legacyMenu_Checkbox(fRubberband)
+                legacyMenu_ColorSelector(fRubberband, false)
 
-                legacyMenu.Checkbox(fTeleport)
+                legacyMenu_Checkbox(fTeleport)
 
-                legacyMenu.Checkbox(fExplosionBrush)
-                if legacyMenu.FunnySubmenuBegin(fExplosionBrush, 120, 50) then 
-                    legacyMenu.SubSettingSlider(fExplosionBrush, fExplosionBrushSize, 0.5, 4)
+                legacyMenu_Checkbox(fExplosionBrush)
+                if legacyMenu_FunnySubmenuBegin(fExplosionBrush, 120, 50) then 
+                    legacyMenu_SubSettingSlider(fExplosionBrush, fExplosionBrushSize, 0.5, 4)
                     UiPop()
                 end
 
-                legacyMenu.Checkbox(fFireBrush)
-                legacyMenu.Checkbox(fStructureRestorer)
+                legacyMenu_Checkbox(fFireBrush)
+                legacyMenu_Checkbox(fStructureRestorer)
 
             elseif GetInt(cfgstr .. "activetab") == 4 then 
-                if legacyMenu.Button(fMenuResetConfig) then 
+                if legacyMenu_Button(fMenuResetConfig) then 
                     -- restart it's position, to prevent accidental clicks
                     resetDvd = {} 
                     resetDvd.width = 175 
@@ -174,11 +172,11 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                     openMenu = "reset"
                 end
 
-                if legacyMenu.Button(fMenuFinishLevel) then
+                if legacyMenu_Button(fMenuFinishLevel) then
                     SetString("level.state", "win") 
                 end
 
-                if legacyMenu.Button(fMenuActivateRobots) then
+                if legacyMenu_Button(fMenuActivateRobots) then
                     local robots = FindBodies("body", true)
 
                     for i = 1, #robots do
@@ -189,12 +187,12 @@ legacyMenu.DrawLegacyMenu = function(rgb)
                     end
                 end
 
-                if legacyMenu.Button(fRegistryTool) then
+                if legacyMenu_Button(fRegistryTool) then
                     openMenu = "registry"
                 end
 
-                --if legacyMenu.Button("Dropdown Menu") then
-                --    config.SetInt(fMenuStyle, 1)
+                --if legacyMenu_Button("Dropdown Menu") then
+                --    config_SetInt(fMenuStyle, 1)
                 --end
             end
 
@@ -203,7 +201,7 @@ legacyMenu.DrawLegacyMenu = function(rgb)
     UiPop() 
 end
 
-legacyMenu.Checkbox = function(var)
+legacyMenu_Checkbox = function(var)
     UiPush()
     UiAlign("left top")
     
@@ -237,7 +235,7 @@ legacyMenu.Checkbox = function(var)
     end
 
     if UiTextButton(var.legacyName) then
-        config.FlipBool(cfgstr .. var.configString)
+        config_FlipBool(cfgstr .. var.configString)
     end
 
     -- check if this is the checkbox of the keybind we're editing
@@ -271,7 +269,7 @@ legacyMenu.Checkbox = function(var)
     UiTranslate(0, 3)
 end
 
-legacyMenu.Button = function(name)
+legacyMenu_Button = function(name)
     UiPush()
     UiAlign("left top")
 
@@ -301,7 +299,7 @@ legacyMenu.Button = function(name)
     return false
 end
 
-legacyMenu.SimpleCheckbox = function(name, value) 
+legacyMenu_SimpleCheckbox = function(name, value) 
     UiPush()
     UiAlign("left top")
 
@@ -337,7 +335,7 @@ legacyMenu.SimpleCheckbox = function(name, value)
     return false
 end
 
-legacyMenu.NavButtonImg = function(image, tabid)
+legacyMenu_NavButtonImg = function(image, tabid)
     UiPush()
         UiTranslate(50 + (tabid * 100), -20)
         
@@ -376,7 +374,7 @@ legacyMenu.NavButtonImg = function(image, tabid)
     UiPop()
 end
 
-legacyMenu.NavSep = function(tabid)
+legacyMenu_NavSep = function(tabid)
     UiPush()
         UiTranslate(100 + (tabid * 100), -14)
         UiColor(0.23, 0.23, 0.23, 1)
@@ -384,12 +382,12 @@ legacyMenu.NavSep = function(tabid)
     UiPop()
 end
 
-legacyMenu.ColorSelector = function(var, alpha)
+legacyMenu_ColorSelector = function(var, alpha)
     if alpha == nil then 
         alpha = true
     end
 
-    local color = config.GetColor(var, GetTime())
+    local color = config_GetColor(var, GetTime())
 
     -- sub menu
     if active_sub_menu == var.configString then 
@@ -424,7 +422,7 @@ legacyMenu.ColorSelector = function(var, alpha)
                         UiColor(1.0, 0.6, 0.6, 1)
                     end
 
-                    if legacyMenu.SimpleCheckbox("rainbow", color.rainbow) then 
+                    if legacyMenu_SimpleCheckbox("rainbow", color.rainbow) then 
                         color.rainbow = not color.rainbow
                     end
                 UiPop()
@@ -433,26 +431,26 @@ legacyMenu.ColorSelector = function(var, alpha)
 
                     UiTranslate(20, 30)
                     UiColor(1, 0.5, 0.5)
-                    color.red = legacyMenu.optionsSlider(color.red * 100, 0, 100, 40) / 100
+                    color.red = legacyMenu_optionsSlider(color.red * 100, 0, 100, 40) / 100
 
                     UiTranslate(0, 30)
                     UiColor(0.5, 1, 0.5)
-                    color.green = legacyMenu.optionsSlider(color.green * 100, 0, 100, 40) / 100
+                    color.green = legacyMenu_optionsSlider(color.green * 100, 0, 100, 40) / 100
 
                     UiTranslate(0, 30)
                     UiColor(0.5, 0.5, 1)
-                    color.blue = legacyMenu.optionsSlider(color.blue * 100, 0, 100, 40) / 100
+                    color.blue = legacyMenu_optionsSlider(color.blue * 100, 0, 100, 40) / 100
                     
                     if alpha then 
                         UiTranslate(0, 30)
                         UiColor(0.7, 0.7, 0.7)
-                        color.alpha = legacyMenu.optionsSlider(color.alpha * 100, 0, 100, 40) / 100
+                        color.alpha = legacyMenu_optionsSlider(color.alpha * 100, 0, 100, 40) / 100
                     end
                 UiPop()
 
             UiPop() 
             
-            config.SetColor(var, color)
+            config_SetColor(var, color)
         elseif active_sub_menu_mode == "alt" then 
             local length = 90
             local width = 80
@@ -480,16 +478,16 @@ legacyMenu.ColorSelector = function(var, alpha)
 
                 UiPush()
                 UiTranslate(10, 5)
-                if legacyMenu.Button("Copy") then 
+                if legacyMenu_Button("Copy") then 
                     funnyColorCopyCache = color
                 end
 
-                if legacyMenu.Button("Paste") then 
-                    config.SetColor(var, funnyColorCopyCache)
+                if legacyMenu_Button("Paste") then 
+                    config_SetColor(var, funnyColorCopyCache)
                 end
 
-                if legacyMenu.Button("Reset") then 
-                    config.ResetColorToDefault(var)
+                if legacyMenu_Button("Reset") then 
+                    config_ResetColorToDefault(var)
                 end
                 UiPop()
 
@@ -522,7 +520,7 @@ legacyMenu.ColorSelector = function(var, alpha)
                 active_sub_menu_mode = "alt"
 
             elseif InputPressed("backspace") then 
-                config.ResetColorToDefault(var)
+                config_ResetColorToDefault(var)
             end
 
             if InputDown("ctrl") then 
@@ -531,18 +529,18 @@ legacyMenu.ColorSelector = function(var, alpha)
                 end
 
                 if InputPressed("v") then 
-                    config.SetColor(var, funnyColorCopyCache)
+                    config_SetColor(var, funnyColorCopyCache)
                 end
                 
                 if InputPressed("r") then 
-                    config.ResetColorToDefault(var)
+                    config_ResetColorToDefault(var)
                 end
             end
         end
     UiPop()
 end
 
-legacyMenu.optionsSlider = function(val, mi, ma, width)
+legacyMenu_optionsSlider = function(val, mi, ma, width)
 	UiPush()
         UiPush()
             UiTranslate(-10, -18)
@@ -554,7 +552,7 @@ legacyMenu.optionsSlider = function(val, mi, ma, width)
                     else
                         val = val + scrollPos/10
                     end
-                    val = utils.Clamp(val, mi, ma)
+                    val = utils_Clamp(val, mi, ma)
                 end
             end
             -- UiRect(width + 60, 20)
@@ -570,26 +568,26 @@ legacyMenu.optionsSlider = function(val, mi, ma, width)
 		UiAlign("center middle")
 		val = UiSlider("ui/common/dot.png", "x", val*width, 0, width) / width
 		val = val*(ma-mi)+mi
-        val = utils.Clamp(val, mi, ma)
+        val = utils_Clamp(val, mi, ma)
 
 		UiTranslate(width + 30, 0)
-		UiText(utils.Round(val*10)/10)
+		UiText(utils_Round(val*10)/10)
 	UiPop()
     
 	return val
 end
 
-legacyMenu.SubSettingSlider = function(var, sub, min, max) 
+legacyMenu_SubSettingSlider = function(var, sub, min, max) 
     UiPush()
         UiColor(1,1,1,1)
-        local value = config.GetSubFloat(var, sub)
-        value = legacyMenu.optionsSlider(value, min, max, 40)
-        config.SetSubFloat(var, sub, value)
+        local value = config_GetSubFloat(var, sub)
+        value = legacyMenu_optionsSlider(value, min, max, 40)
+        config_SetSubFloat(var, sub, value)
     UiPop()
     UiTranslate(0, 30)
 end
 
-legacyMenu.FunnySubmenuBegin = function(var, w, h)
+legacyMenu_FunnySubmenuBegin = function(var, w, h)
     local literallyJustEnabled = false
     UiPush()
         UiAlign("left top")
@@ -636,7 +634,7 @@ legacyMenu.FunnySubmenuBegin = function(var, w, h)
     return enabled
 end
 
-legacyMenu.SubSettingCheckbox = function(var, sub)
+legacyMenu_SubSettingCheckbox = function(var, sub)
     UiPush()
     UiTranslate(-10, -20)
     UiAlign("left top")
@@ -660,7 +658,7 @@ legacyMenu.SubSettingCheckbox = function(var, sub)
     end
 
     if UiTextButton(sub.legacyName) then
-        config.FlipBool(cfgstr .. var.configString .. sub.configString)
+        config_FlipBool(cfgstr .. var.configString .. sub.configString)
     end
 
     UiPop()

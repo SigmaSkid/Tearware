@@ -1,5 +1,5 @@
-world.SkipObjective = function()
-    if not config.AdvGetBool(fSkipObjective) then
+world_SkipObjective = function()
+    if not config_AdvGetBool(fSkipObjective) then
         return
     end
 

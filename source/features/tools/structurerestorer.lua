@@ -1,7 +1,7 @@
 
 -- the game.. might have problems trying to clear this up after us..
 -- don't restart with anything in this cache lol
-world.RecordAllObjectsState = function()
+tools_RecordAllObjectsState = function()
     local allBodies = {}
 
     local bodies = FindBodies(nil,true)
@@ -18,7 +18,7 @@ world.RecordAllObjectsState = function()
     insaneObjectCache[#insaneObjectCache+1] = allBodies
 end
 
-world.RewindAllObjectsState = function()
+tools_RewindAllObjectsState = function()
     if #insaneObjectCache == 0 then 
         return 
     end
@@ -38,10 +38,10 @@ world.RewindAllObjectsState = function()
     insaneObjectCache[#insaneObjectCache] = nil
 end
 
-world.StructureRestorer = function()
-    if not config.AdvGetBool(fStructureRestorer) then
-        world.RewindAllObjectsState()
+tools_StructureRestorer = function()
+    if not config_AdvGetBool(fStructureRestorer) then
+        tools_RewindAllObjectsState()
         return
     end
-    world.RecordAllObjectsState()
+    tools_RecordAllObjectsState()
 end

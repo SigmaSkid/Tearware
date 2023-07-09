@@ -1,17 +1,17 @@
-player.Fly = function(dt)
-    if not config.AdvGetBool(fFly) then 
+player_Fly = function(dt)
+    if not config_AdvGetBool(fFly) then 
         return 
     end
 
     SetPlayerVelocity(Vec(0, 0, 0))
 
-    local TargetVel = config.GetSubFloat(fFly, fSubSpeed)
-    if utils.TWInputDown("shift") then 
-        TargetVel = config.GetSubFloat(fFly, fSubBoost)
+    local TargetVel = config_GetSubFloat(fFly, fSubSpeed)
+    if utils_TWInputDown("shift") then 
+        TargetVel = config_GetSubFloat(fFly, fSubBoost)
     end
 
     local velocity = Vec(0,0,0)
-    if utils.IsDirectionalInputDown() then
+    if utils_IsDirectionalInputDown() then
         velocity = GetPlayerVelocity()
 
         -- scary math below, run.
@@ -20,7 +20,7 @@ player.Fly = function(dt)
         local rot = GetCameraTransform().rot
         -- convert to cool angles
         local x, backupy, z = GetQuatEuler(rot)
-        local y = utils.TransformYawByInput(backupy)
+        local y = utils_TransformYawByInput(backupy)
 
         -- euler to vector
         local rady = math.rad(y)
@@ -40,11 +40,11 @@ player.Fly = function(dt)
     -- this breaks at higher fps.
     local ohno = 864 * dt * dt
     
-    if utils.TWInputDown("jump") then 
+    if utils_TWInputDown("jump") then 
         ohno = TargetVel
     end 
     
-    if utils.TWInputDown("crouch") then 
+    if utils_TWInputDown("crouch") then 
         ohno = ohno - TargetVel
     end
 

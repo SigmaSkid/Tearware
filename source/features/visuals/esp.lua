@@ -1,17 +1,17 @@
-visuals.ObjectiveEsp = function() 
-    if not config.AdvGetBool(fObjectiveEsp) then 
+visuals_ObjectiveEsp = function() 
+    if not config_AdvGetBool(fObjectiveEsp) then 
         return 
     end
 
-    local drawOptional = config.AdvGetBool(fOptionalEsp)
-    local objectiveColor = config.GetColor(fObjectiveEsp, GetTime())
-    local optionalColor = config.GetColor(fOptionalEsp, GetTime())
+    local drawOptional = config_AdvGetBool(fOptionalEsp)
+    local objectiveColor = config_GetColor(fObjectiveEsp, GetTime())
+    local optionalColor = config_GetColor(fOptionalEsp, GetTime())
 
     local targets = FindBodies("target", true)
 	for i=1,#targets do
         local body = targets[i]
 		if GetTagValue(body, "target") ~= "cleared" and GetTagValue(body, "target") ~= "disabled" then
-			local targetpos = utils.GetBodyCenter(body)
+			local targetpos = utils_GetBodyCenter(body)
             local optional = HasTag(body, "optional")
             local x, y, dist = UiWorldToPixel(targetpos)
             if dist > 1 then
@@ -48,18 +48,18 @@ visuals.ObjectiveEsp = function()
 	end
 end
 
-visuals.ValueableEsp = function() 
-    if not config.AdvGetBool(fValuableEsp) then 
+visuals_ValueableEsp = function() 
+    if not config_AdvGetBool(fValuableEsp) then 
         return 
     end
-    local color = config.GetColor(fValuableEsp, GetTime())
+    local color = config_GetColor(fValuableEsp, GetTime())
 
     local v = FindBodies("valuable", true)
     for i=1,#v do
         local body = v[i]
         if not IsBodyBroken(body) then 
             local value = GetTagValue(body, "value")
-            local targetpos = utils.GetBodyCenter(body)
+            local targetpos = utils_GetBodyCenter(body)
             local x, y, dist = UiWorldToPixel(targetpos)
             if dist > 1 then 
                  UiPush()
@@ -79,12 +79,12 @@ visuals.ValueableEsp = function()
     end
 end
 
-visuals.ToolEsp = function() 
-    if not config.AdvGetBool(fToolEsp) then 
+visuals_ToolEsp = function() 
+    if not config_AdvGetBool(fToolEsp) then 
         return 
     end
 
-    local color = config.GetColor(fToolEsp, GetTime())
+    local color = config_GetColor(fToolEsp, GetTime())
 
     local interactables = FindBodies("interact", true)
     for i=1,#interactables do
@@ -93,7 +93,7 @@ visuals.ToolEsp = function()
             local interactType = GetTagValue(body, "interact")
             local isTool = interactType == "Pick up" 
             
-            local targetpos = utils.GetBodyCenter(body)
+            local targetpos = utils_GetBodyCenter(body)
             local x, y, dist = UiWorldToPixel(targetpos)
             if isTool then 
                 if dist > 2 then 
@@ -114,8 +114,8 @@ visuals.ToolEsp = function()
     end
 end
 
-visuals.DrawEsp = function()
-    visuals.ValueableEsp()
-    visuals.ObjectiveEsp()
-    visuals.ToolEsp()
+visuals_DrawEsp = function()
+    visuals_ValueableEsp()
+    visuals_ObjectiveEsp()
+    visuals_ToolEsp()
 end

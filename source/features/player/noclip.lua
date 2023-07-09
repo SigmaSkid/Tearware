@@ -1,5 +1,5 @@
-player.NoClip = function(dts)
-    if not config.AdvGetBool(fNoclip) then
+player_NoClip = function(dts)
+    if not config_AdvGetBool(fNoclip) then
         noclipbackuppos = {}
         return 
     end
@@ -15,18 +15,18 @@ player.NoClip = function(dts)
 
     trans.pos = noclipbackuppos
 
-    local speed = config.GetSubFloat(fNoclip, fSubSpeed)/10
-    if utils.TWInputDown("shift") then 
-        speed = config.GetSubFloat(fNoclip, fSubBoost)/10
+    local speed = config_GetSubFloat(fNoclip, fSubSpeed)/10
+    if utils_TWInputDown("shift") then 
+        speed = config_GetSubFloat(fNoclip, fSubBoost)/10
     end
 
     -- scale by update rate
     speed = speed * dts
 
-    if utils.IsDirectionalInputDown() then
+    if utils_IsDirectionalInputDown() then
 
         local x, y, z = GetQuatEuler(trans.rot) 
-        local dir = utils.TransformYawByInput(y)
+        local dir = utils_TransformYawByInput(y)
 
         trans.rot = QuatEuler(x, dir, z)
 
@@ -40,11 +40,11 @@ player.NoClip = function(dts)
         trans.pos[3] = trans.pos[3] + direction[3]
     end 
     
-    if utils.TWInputDown("jump") then
+    if utils_TWInputDown("jump") then
         trans.pos[2] = trans.pos[2] + speed
     end 
 
-    if utils.TWInputDown("crouch") then
+    if utils_TWInputDown("crouch") then
         trans.pos[2] = trans.pos[2] - speed
     end 
 

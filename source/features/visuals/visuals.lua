@@ -3,11 +3,11 @@
 #include "esp.lua"
 #include "glow.lua"
 
-visuals.DrawVisuals = function()
+visuals_DrawVisuals = function()
     UiPush()
-        visuals.Watermark()
-        visuals.FeatureList()
-        visuals.DrawEsp()
-        visuals.DrawGlow()
+        visuals_Watermark()
+        visuals_FeatureList()
+        visuals_DrawEsp()
+        visuals_DrawGlow()
     UiPop()
 end

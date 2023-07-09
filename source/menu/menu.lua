@@ -1,7 +1,7 @@
 #include "legacymenu.lua"
 #include "dropdownmenu.lua"
 
-menu.RGBBlur = function(rgb)
+menu_RGBBlur = function(rgb)
     -- funny rgb blur background
     UiPush()
         UiAlign("center middle")
@@ -15,15 +15,15 @@ menu.RGBBlur = function(rgb)
     UiPop()
 end
 
-menu.DrawMenu = function()
-    local rgb = utils.seedToRGB(GetTime())
-    menu.RGBBlur(rgb)
+menu_DrawMenu = function()
+    local rgb = utils_seedToRGB(GetTime())
+    menu_RGBBlur(rgb)
     
-    local menuStyle = config.GetInt(fMenuStyle)
+    --local menuStyle = config_GetInt(fMenuStyle)
 
     --if menuStyle == 1 then
-    --    dropdownMenu.DrawDropdownMenu(rgb)
+    --    dropdownMenu_DrawDropdownMenu(rgb)
     --else
-       legacyMenu.DrawLegacyMenu(rgb)
+        legacyMenu_DrawLegacyMenu(rgb)
     --end
 end

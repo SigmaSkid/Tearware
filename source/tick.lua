@@ -41,7 +41,7 @@ function tick(dt)
     end
 
     -- input system stuff
-    config.UpdateAllFeatureStates() -- utils/config.lua
+    config_UpdateAllFeatureStates() -- utils/config.lua
 
     -- delta time scaled, .5 = 120fps, 1 = 60fps, 2 = 30fps
     -- seems not to be fully accurate. 20fps gave me a dts of 2
@@ -49,14 +49,14 @@ function tick(dt)
 
     -- universal features
     -- world 
-    world.Timer()
-    world.ForceUpdateAllBodies()
-    world.DisablePhysics()
+    world_Timer()
+    world_ForceUpdateAllBodies()
+    world_DisablePhysics()
     --
 
     -- visuals
-    visuals.ColoredFog()
-    visuals.PostProcessing()
+    visuals_ColoredFog()
+    visuals_PostProcessing()
     --
 
     if GetPlayerVehicle() ~= 0 then
@@ -65,27 +65,27 @@ function tick(dt)
     end
 
     -- player
-    player.Spider() 
-    player.Speedhack()
-    player.Jesus()
-    player.Floorstrafe()
-    player.Jetpack(dts)
-    player.Fly(dt)
-    player.NoClip(dts)
-    player.Quickstop()
+    player_Spider() 
+    player_Speedhack()
+    player_Jesus()
+    player_Floorstrafe()
+    player_Jetpack(dts)
+    player_Fly(dt)
+    player_NoClip(dts)
+    player_Quickstop()
     -- 
 
     -- tools
-    tools.Teleport()
-    tools.ExplosionBrush()
-    tools.FireBrush()
+    tools_Teleport()
+    tools_ExplosionBrush()
+    tools_FireBrush()
     -- 
 
     -- player
-    player.SuperStrength()
+    player_SuperStrength()
     -- 
 
     -- visuals
-    visuals.SpinningTool()
+    visuals_SpinningTool()
     --
 end
