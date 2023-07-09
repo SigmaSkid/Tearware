@@ -66,7 +66,7 @@ keysNotInLastPressedKey = {
 }
 
 -- some keys are too long to be displayed in some places.
--- used by utils.ShortenKeyString
+-- used by utils_ShortenKeyString
 keyShort = {}
 keyShort["pgdown"] = "pgd"
 keyShort["pgup"] = "pgu"
@@ -142,11 +142,3 @@ registryVisibleCache = {}
 registrySearchString = ""
 modifiedregistrySearchString = false
 lockInputs = false
-
-player = {}
-tools = {}
-visuals = {}
-world = {}
-menu = {}
-config = {}
-utils = {}

@@ -1,14 +1,14 @@
 -- todo:
 -- account for where we grabbed the object (instead of using body center)
-player.SuperStrength = function()
-    if not config.AdvGetBool(fSuperStrength) then 
+player_SuperStrength = function()
+    if not config_AdvGetBool(fSuperStrength) then 
         return 
     end
 
     -- engine grab, haha, no
     ReleasePlayerGrab()
 
-    if not utils.TWInputDown("rmb") then 
+    if not utils_TWInputDown("rmb") then 
         ss_object.obj = nil
         if ss_last_tool ~= nil then 
             SetString("game.player.tool", ss_last_tool)
@@ -17,8 +17,8 @@ player.SuperStrength = function()
         return
     end
 
-    if utils.TWInputPressed("rmb") then 
-        local object, dist = utils.GetObjectWeAreLookingAt()
+    if utils_TWInputPressed("rmb") then 
+        local object, dist = utils_GetObjectWeAreLookingAt()
         ss_last_tool = GetString("game.player.tool")
 
         if ss_object.obj == nil then 
@@ -43,12 +43,12 @@ player.SuperStrength = function()
 
     SetString("game.player.tool", "tearware_prop")
     SetInt("game.tool.tearware_prop.ammo", 9999)
-    SetBool("game.player.grabbing", true)
+    SetBool("game.player_grabbing", true)
 
-    if utils.TWInputDown("lmb") then 
+    if utils_TWInputDown("lmb") then 
         -- LAUNCH!
         if ss_object.obj ~= nil then 
-            local dir = utils.GetForwardDirection()
+            local dir = utils_GetForwardDirection()
             local velocity = GetBodyVelocity(ss_object.obj)
             
             velocity = VecAdd(velocity, VecScale(dir, 50))
@@ -62,7 +62,7 @@ player.SuperStrength = function()
 
     local scrollPos = InputValue("mousewheel")
     if scrollPos ~= 0 then 
-        if utils.TWInputDown("shift") then 
+        if utils_TWInputDown("shift") then 
             scrollPos = scrollPos * 5
         end
         ss_object.dist = ss_object.dist + scrollPos
@@ -70,7 +70,7 @@ player.SuperStrength = function()
 
     DrawBodyOutline(ss_object.obj, 1, 1, 1, 1)
 
-    local direction, camera = utils.GetForwardDirection()
+    local direction, camera = utils_GetForwardDirection()
     local targetLocation = VecAdd(camera.pos, VecScale(direction, ss_object.dist))
     
     -- local objTransform = GetBodyTransform(ss_object.obj)
@@ -78,7 +78,7 @@ player.SuperStrength = function()
     -- SetBodyTransform(ss_object.obj, objTransform)
     -- SetBodyActive(ss_object.obj, false)
 
-    local vel = VecSub(targetLocation, utils.GetBodyCenter(ss_object.obj))
+    local vel = VecSub(targetLocation, utils_GetBodyCenter(ss_object.obj))
     vel = VecScale(vel, VecLength(vel))
     SetBodyVelocity(ss_object.obj, vel)
 

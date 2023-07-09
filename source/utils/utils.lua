@@ -4,7 +4,7 @@
 -- returns modified euler yaw[float] based on inputs
 -- ex. local newyaw = TransformYawByInput(oldyaw)
 -- context ex. changing direction of velocity
-utils.TransformYawByInput = function(y)
+utils_TransformYawByInput = function(y)
     y=y or 1
 
     if lockInputs then return y end
@@ -44,14 +44,14 @@ end
 
 -- returns whether any input is pressed[bool]
 -- ex. if IsDirectionalInputDown then
-utils.IsDirectionalInputDown = function() 
+utils_IsDirectionalInputDown = function() 
     if lockInputs then return false end
     return InputDown("up") or InputDown("down") or InputDown("left") or InputDown("right")
 end
 
 -- returns direction[vec3] and camera[table]
 -- ex. local direction, camera = GetForwardDirection()
-utils.GetForwardDirection = function()
+utils_GetForwardDirection = function()
 	local camera = GetCameraTransform()
 	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 1))
     return VecNormalize(VecSub(camera.pos, parentpoint)), camera
@@ -59,8 +59,8 @@ end
 
 -- returns ray hit[vec3]
 -- ex. local endpos = GetPosWeAreLookingAt()
-utils.GetPosWeAreLookingAt = function()
-    local direction, camera = utils.GetForwardDirection() 
+utils_GetPosWeAreLookingAt = function()
+    local direction, camera = utils_GetForwardDirection() 
     local hit, dist = QueryRaycast(camera.pos, direction, 666)
     if hit then 
         return TransformToParentPoint(camera, Vec(0, 0, -dist))
@@ -70,8 +70,8 @@ end
 
 -- returns body[handle] and distance[float]
 -- ex. local body, dist = GetObjectWeAreLookingAt()
-utils.GetObjectWeAreLookingAt = function()
-    local direction, camera = utils.GetForwardDirection() 
+utils_GetObjectWeAreLookingAt = function()
+    local direction, camera = utils_GetForwardDirection() 
     local hit, dist, normal, shape = QueryRaycast(camera.pos, direction, 666)
 
     if hit then 
@@ -83,7 +83,7 @@ end
 -- accepts offset[float], ex. GetTime()
 -- returns rgb[table] with R G B [float] values
 -- ex. local rainbow = seedToRGB(GetTime())
-utils.seedToRGB = function(y)
+utils_seedToRGB = function(y)
     local rgb = {}
     rgb.R = math.sin(y + 0) * 0.5 + 0.5
     rgb.G = math.sin(y + 2) * 0.5 + 0.5
@@ -93,34 +93,34 @@ end
 
 -- accepts body[handle]
 -- returns center of body[vec3]
-utils.GetBodyCenter = function(body)
+utils_GetBodyCenter = function(body)
     local min, max = GetBodyBounds(body)
     return VecLerp(min, max, 0.5)
 end
 
 -- accepts pointA[vec3] pointB[vec3]
 -- returns a [float]
-utils.VecDist = function(vecA, vecB)
+utils_VecDist = function(vecA, vecB)
     local delta = VecSub(vecA, vecB)
     return math.sqrt(delta[1]^2 + delta[2]^2 + delta[3]^2)
 end
 
 -- accepts body[handle]
 -- returns size[float]
-utils.GetBodySize = function(body)
+utils_GetBodySize = function(body)
     local min, max = GetBodyBounds(body)
     return VecDist(min, max)
 end
 
 -- accepts a [float]
 -- returns closest [int]
-utils.Round = function(value)
+utils_Round = function(value)
     return math.floor(value+0.5)
 end
 
 -- accepts 3 values, either [float] or [int]
 -- returns a [float] or [int]
-utils.Clamp = function(a, x, y) 
+utils_Clamp = function(a, x, y) 
     if a < x then a = x end 
     if a > y then a = y end 
     return a
@@ -128,7 +128,7 @@ end
 
 -- accepts a dvd[table] and delta time[float]
 -- returns updated frame of dvd[table]
-utils.animateDvd = function(dvd, dt)
+utils_animateDvd = function(dvd, dt)
     dvd.x = dvd.x + dvd.speedx * dt
     dvd.y = dvd.y + dvd.speedy * dt
     
@@ -143,7 +143,7 @@ end
 
 -- accepts registry key[string]
 -- returns boolean
-utils.DirtyWriteAccessCheck = function(key)
+utils_DirtyWriteAccessCheck = function(key)
     local d = GetString(key)
     
     -- attempt to change the key value
@@ -165,7 +165,7 @@ end
 -- accepts an input[char]
 -- can pass input[string] as unmodified [string], after wasting cpu cycles
 -- returns modified [char]
-utils.InputCapitalization = function(input)
+utils_InputCapitalization = function(input)
     for i=1, #ghettoKeyMap do
         if input == ghettoKeyMap[i][1] then
             if InputDown("shift") then
@@ -186,7 +186,7 @@ end
 -- issues:
 -- Numpad makes InputLastPressedKey() output letters.
 -- 0=A, 1=B, 2=C ... 9=I,/=O, *=J, -=M, +=K, ,=N
-utils.ModifyString = function(base, cursorPos)
+utils_ModifyString = function(base, cursorPos)
 
     if cursorPos == nil then 
         cursorPos = #base + 1
@@ -194,12 +194,12 @@ utils.ModifyString = function(base, cursorPos)
         inputStringDrawCursor = false
     elseif inputStringCursorTimer <= GetTime() then
         if InputDown("leftarrow") then 
-            cursorPos = utils.Clamp(cursorPos - 1, 1, #base+1)
+            cursorPos = utils_Clamp(cursorPos - 1, 1, #base+1)
             inputStringCursorTimer = GetTime() + 0.1
             inputStringCursorSwitchTimer = 0
             inputStringDrawCursor = false
         elseif InputDown("rightarrow")then 
-            cursorPos = utils.Clamp(cursorPos + 1, 1, #base+1)
+            cursorPos = utils_Clamp(cursorPos + 1, 1, #base+1)
             inputStringCursorTimer = GetTime() + 0.1
             inputStringCursorSwitchTimer = 0
             inputStringDrawCursor = false
@@ -220,11 +220,11 @@ utils.ModifyString = function(base, cursorPos)
     if #input > 1 then
         if input == "space" then
             base = base .. " "
-            cursorPos = utils.Clamp(cursorPos + 1, 1, #old_state+2)
+            cursorPos = utils_Clamp(cursorPos + 1, 1, #old_state+2)
         end
     elseif input ~= nil and input ~= "" then
-        base = base .. utils.InputCapitalization(input)
-        cursorPos = utils.Clamp(cursorPos + 1, 1, #old_state+2)
+        base = base .. utils_InputCapitalization(input)
+        cursorPos = utils_Clamp(cursorPos + 1, 1, #old_state+2)
     else
         for i=1, #keysNotInLastPressedKey do
             if InputPressed(keysNotInLastPressedKey[i][1]) then
@@ -233,7 +233,7 @@ utils.ModifyString = function(base, cursorPos)
                 else
                     base = base .. keysNotInLastPressedKey[i][2]
                 end
-                cursorPos = utils.Clamp(cursorPos + 1, 1, #old_state+2)
+                cursorPos = utils_Clamp(cursorPos + 1, 1, #old_state+2)
             end
         end
 
@@ -242,7 +242,7 @@ utils.ModifyString = function(base, cursorPos)
                 if inputStringBackspaceTimer <= GetTime() then
                     base = base:sub(1, -2)
                     inputStringBackspaceTimer = GetTime() + 0.1
-                    cursorPos = utils.Clamp(cursorPos - 1, 1, #old_state+2)
+                    cursorPos = utils_Clamp(cursorPos - 1, 1, #old_state+2)
                 end
             end
         end
@@ -265,7 +265,7 @@ end
 -- accepts a [string] and cursor[int]
 -- draws a Rect at the cursor pos,
 -- doesn't do anything if cursor is invalid [nil]
-utils.DrawInputStringCursor = function(base, cursorPos)
+utils_DrawInputStringCursor = function(base, cursorPos)
     if cursorPos == nil then return end
 
     -- make it pop in and out like in all funny text editors.
@@ -298,7 +298,7 @@ end
 
 -- accepts Min[vec3] Max[vec3]
 -- optionally accepts R[float], G[float], B[float], A[float]
-utils.DebugDrawCube = function(Min, Max, r, g, b, a)
+utils_DebugDrawCube = function(Min, Max, r, g, b, a)
     r=r or 1
     g=g or 1
     b=b or 1
@@ -323,7 +323,7 @@ end
 
 -- accepts Min[vec3] Max[vec3]
 -- optionally accepts R[float], G[float], B[float], A[float]
-utils.DebugDrawCylinder = function(Min, Max, r, g, b, a)
+utils_DebugDrawCylinder = function(Min, Max, r, g, b, a)
     r=r or 1
     g=g or 1
     b=b or 1
@@ -346,17 +346,17 @@ utils.DebugDrawCylinder = function(Min, Max, r, g, b, a)
     end
 end
 
-utils.TWInputDown = function(input)
+utils_TWInputDown = function(input)
     if lockInputs then return false end
     return InputDown(input)
 end
 
-utils.TWInputPressed = function(input)
+utils_TWInputPressed = function(input)
     if lockInputs then return false end
     return InputPressed(input)
 end
 
-utils.GetLastInputBetter = function()
+utils_GetLastInputBetter = function()
 
     local realInput = InputLastPressedKey()
     if realInput == nil or realInput == "" then 
@@ -369,7 +369,7 @@ utils.GetLastInputBetter = function()
     return realInput
 end
 
-utils.ShortenKeyString = function(string)
+utils_ShortenKeyString = function(string)
     if #string > 2 then 
         if keyShort[string] then 
             return keyShort[string]

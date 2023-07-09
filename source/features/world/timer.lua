@@ -1,15 +1,15 @@
-world.Timer = function()
-    if not config.AdvGetBool(fBulletTime) then 
+world_Timer = function()
+    if not config_AdvGetBool(fBulletTime) then 
         if #activeBodyCache > 0 then
 			activeBodyCache = {}
 		end
         return 
     end
 
-    local scale = config.GetSubFloat(fBulletTime, fBulletTimeScale)/100
+    local scale = config_GetSubFloat(fBulletTime, fBulletTimeScale)/100
     SetTimeScale(scale)
 
-    local patch = config.GetSubBool(fBulletTime, fBulletTimePatch)
+    local patch = config_GetSubBool(fBulletTime, fBulletTimePatch)
     if not patch then 
         return 
     end

@@ -1,6 +1,6 @@
-player.Rubberband = function() 
+tools_Rubberband = function() 
     
-    if not config.AdvGetBool(fRubberband) then
+    if not config_AdvGetBool(fRubberband) then
         rubberband_pos = nil
 
         if rubberband_transform == nil then
@@ -17,7 +17,7 @@ player.Rubberband = function()
         rubberband_pos = GetPlayerPos()
     end
 
-    local color = config.GetColor(fRubberband, GetTime())
+    local color = config_GetColor(fRubberband, GetTime())
 
     ParticleReset()
     ParticleType("plain")
