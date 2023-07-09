@@ -4,6 +4,8 @@
 #include "menu/menu.lua" -- DrawMenu
 #include "menu/registry.lua" -- DrawRegistry
 #include "features/visuals/visuals.lua" -- DrawVisuals
+#include "features/player/godmode.lua" -- Disable damage overlay
+
 
 menu_UiDraw = function(dt)
     if openMenu == nil then
@@ -40,4 +42,8 @@ end
 function draw(dt)
     visuals_DrawVisuals()
     menu_UiDraw(dt)
+
+    -- player
+    player_visuals_Godmode()
+    --
 end
