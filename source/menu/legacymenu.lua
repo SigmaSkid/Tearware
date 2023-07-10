@@ -58,15 +58,17 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fWatermark)
                 legacyMenu_ColorSelector(fWatermark)
-                if legacyMenu_FunnySubmenuBegin(fWatermark, 80, 50, 1) then 
+                if legacyMenu_FunnySubmenuBegin(fWatermark, 120, 80, 1) then 
                     legacyMenu_SubSettingCycleList(fWatermark, fAlignmentLR, left_right_string_array)
+                    legacyMenu_SubSettingSliderInt(fWatermark, fFontSize, 10, 30)
                     UiPop()
                 end
 
                 legacyMenu_Checkbox(fFeatureList)
                 legacyMenu_ColorSelector(fFeatureList)
-                if legacyMenu_FunnySubmenuBegin(fFeatureList, 80, 50, 1) then 
+                if legacyMenu_FunnySubmenuBegin(fFeatureList, 120, 80, 1) then 
                     legacyMenu_SubSettingCycleList(fFeatureList, fAlignmentLR, left_right_string_array)
+                    legacyMenu_SubSettingSliderInt(fFeatureList, fFontSize, 10, 30)
                     UiPop()
                 end
 
@@ -585,12 +587,60 @@ legacyMenu_optionsSlider = function(val, mi, ma, width)
 	return val
 end
 
+legacyMenu_optionsSliderInt = function(val, mi, ma, width)
+	UiPush()
+        UiPush()
+            UiTranslate(-10, -18)
+            if UiIsMouseInRect(width + 60, 20) then
+                local scrollPos = InputValue("mousewheel")
+                if scrollPos ~= 0 then
+                    if InputDown("shift") then 
+                        val = val + scrollPos*10
+                    else
+                        val = val + scrollPos
+                    end
+                    val = utils_Clamp(val, mi, ma)
+                end
+            end
+            -- UiRect(width + 60, 20)
+        UiPop()
+
+        UiTranslate(0, -8)
+
+        UiTextShadow(0, 0, 0, 0.5, 1.5)
+        UiTextOutline(0, 0, 0, 1, 0.1)
+		val = (val-mi) / (ma-mi)
+		
+		UiRect(width, 3)
+		UiAlign("center middle")
+		val = UiSlider("ui/common/dot.png", "x", val*width, 0, width) / width
+		val = val*(ma-mi)+mi
+        val = utils_Clamp(val, mi, ma)
+        val = utils_Round(val)
+
+		UiTranslate(width + 30, 0)
+		UiText(val)
+	UiPop()
+    
+	return val
+end
+
 legacyMenu_SubSettingSlider = function(var, sub, min, max) 
     UiPush()
         UiColor(1,1,1,1)
         local value = config_GetSubFloat(var, sub)
         value = legacyMenu_optionsSlider(value, min, max, 40)
         config_SetSubFloat(var, sub, value)
+    UiPop()
+    UiTranslate(0, 30)
+end
+
+legacyMenu_SubSettingSliderInt = function(var, sub, min, max) 
+    UiPush()
+        UiColor(1,1,1,1)
+        local value = config_GetSubInt(var, sub)
+        value = legacyMenu_optionsSliderInt(value, min, max, 40)
+        config_SetSubInt(var, sub, value)
     UiPop()
     UiTranslate(0, 30)
 end

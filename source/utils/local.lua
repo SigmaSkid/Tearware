@@ -51,9 +51,10 @@ fFireBrush = { legacyName = "Fire Brush", dropdownName = "FireBrush", configStri
 fTeleport = { legacyName = "Teleport", dropdownName = "Teleport", configString = "teleport"}
 
 -- shared sub settings
-fSubSpeed = { legacyName = "Base Speed", dropdownName = "", configString = "amount"}
-fSubBoost = { legacyName = "Boost Speed", dropdownName = "", configString = "boost"}
+fSubSpeed = { legacyName = "Speed", dropdownName = "", configString = "amount"}
+fSubBoost = { legacyName = "Boost", dropdownName = "", configString = "boost"}
 fAlignmentLR = {legacyName = "Alignment", dropdownName = "", configString = "alignmentlr"}
+fFontSize = {legacyName = "Font", dropdownName = "", configString = "fontsize"}
 
 -- menu items 
 fMenuStyle = { legacyName = "Menu Style", dropdownName = "UIStyle", configString = "menustyle", options = {"Legacy", "Dropdown", "Modern"} }

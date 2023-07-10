@@ -5,7 +5,16 @@ visuals_FeatureList = function()
 
     local visibleFeatures = 0.05
     local alignment = config_GetSubInt(fFeatureList, fAlignmentLR)
+    local font_size = config_GetSubInt(fFeatureList, fFontSize)
     local watermark_above = config_AdvGetBool(fWatermark) and config_GetSubInt(fWatermark, fAlignmentLR) == alignment
+    local watermark_font_size = config_GetSubInt(fWatermark, fFontSize)
+
+    local features_available_space = 1080
+    if watermark_above then 
+        features_available_space = features_available_space - watermark_font_size
+    end
+
+    local max_features_to_display = features_available_space / font_size
 
     UiPush()
         if alignment == 0 then 
@@ -16,17 +25,18 @@ visuals_FeatureList = function()
         end
 
         if watermark_above then
-            UiTranslate(0, 25)
+            UiTranslate(0, watermark_font_size)
         end
 
         local color = config_GetColor(fFeatureList, GetTime())
 
-        UiFont("bold.ttf", 12)
+        UiFont("bold.ttf", font_size)
         UiTextShadow(0, 0, 0, color.alpha * 0.2, 1.5)
         UiTextOutline(0, 0, 0, color.alpha * 0.7, 0.07)
 
         for i=1, #featurelist do
-            if config_AdvGetBool(featurelist[i]) then
+            if config_AdvGetBool(featurelist[i]) and max_features_to_display > 0 then
+                max_features_to_display = max_features_to_display - 1
                 visibleFeatures = visibleFeatures + 0.05
                 local color = config_GetColor(fFeatureList, GetTime() + visibleFeatures)
                 UiColor(color.red, color.green, color.blue, color.alpha)
