@@ -6,6 +6,7 @@ fProjectName = "Tearware Github Preview"
 -- visuals
 fWatermark = { legacyName = "Watermark", dropdownName = "Watermark", newMenuName = "Watermark", configString = "watermark"}
 fFeatureList = { legacyName = "Feature List", dropdownName = "FeatureList", newMenuName = "Feature List", configString = "featurelist", description = "Lists enabled features" }
+
 fObjectiveEsp = { legacyName = "Objective ESP", dropdownName = "Objectives", configString = "objectiveesp", description = "Highlights mandatory objectives"}
 fOptionalEsp = { legacyName = "Optional ESP", dropdownName = "Optionals", configString = "optionalesp", description = "Highlights optional objectives"}
 fValuableEsp = { legacyName = "Valuable ESP", dropdownName = "Valuables", configString = "valueesp", description = "Highlights valuables"}
@@ -52,6 +53,7 @@ fTeleport = { legacyName = "Teleport", dropdownName = "Teleport", configString =
 -- shared sub settings
 fSubSpeed = { legacyName = "Base Speed", dropdownName = "", configString = "amount"}
 fSubBoost = { legacyName = "Boost Speed", dropdownName = "", configString = "boost"}
+fAlignmentLR = {legacyName = "Alignment", dropdownName = "", configString = "alignmentlr"}
 
 -- menu items 
 fMenuStyle = { legacyName = "Menu Style", dropdownName = "UIStyle", configString = "menustyle", options = {"Legacy", "Dropdown", "Modern"} }

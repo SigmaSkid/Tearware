@@ -142,3 +142,6 @@ registryVisibleCache = {}
 registrySearchString = ""
 modifiedregistrySearchString = false
 lockInputs = false
+
+-- used for legacyMenu_SubSettingCycleList w/ alignment subsetting
+left_right_string_array = {"left", "right"}

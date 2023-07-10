@@ -4,11 +4,17 @@ visuals_FeatureList = function()
     end
 
     local visibleFeatures = 0.05
+    local alignment = config_GetSubInt(fFeatureList, fAlignmentLR)
+    local watermark_above = config_AdvGetBool(fWatermark) and config_GetSubInt(fWatermark, fAlignmentLR) == alignment
 
     UiPush()
-        UiAlign("top left")
+        if alignment == 0 then 
+            visuals_FeatureListLeft()
+        else 
+            visuals_FeatureListRight()
+        end
 
-        if config_AdvGetBool(fWatermark) then 
+        if watermark_above then
             UiTranslate(0, 25)
         end
 
@@ -24,10 +30,18 @@ visuals_FeatureList = function()
                 local color = config_GetColor(fFeatureList, GetTime() + visibleFeatures)
                 UiColor(color.red, color.green, color.blue, color.alpha)
 
-                -- should I add featurelistname? or use the name of currently active menu?
                 UiText(featurelist[i].legacyName, true)
             end
         end
 
     UiPop()
+end
+
+visuals_FeatureListLeft = function()
+    UiAlign("top left")
+end
+
+visuals_FeatureListRight = function()
+    UiAlign("top right")
+    UiTranslate(1920, 0)
 end
