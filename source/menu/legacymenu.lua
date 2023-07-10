@@ -162,6 +162,10 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 legacyMenu_ColorSelector(fRubberband, false)
 
                 legacyMenu_Checkbox(fTeleport)
+                if legacyMenu_FunnySubmenuBegin(fTeleport, 120, 50) then 
+                    legacyMenu_SubSettingCycleList(fTeleport, fMethod, method_instant_smooth)
+                    UiPop()
+                end
 
                 legacyMenu_Checkbox(fExplosionBrush)
                 if legacyMenu_FunnySubmenuBegin(fExplosionBrush, 120, 50) then 

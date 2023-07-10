@@ -16,6 +16,7 @@
 #include "features/tools/structurerestorer.lua"
 
 -- Called once every fixed tick, 60tps (dt is a constant)
+-- THIS IS THE REAL TICKRATE! DON"T BELIEVE THE LIES OF THE TICK FUNCTION!!!!!!!
 function update(dt)
     -- player
     player_InfiniteAmmo()

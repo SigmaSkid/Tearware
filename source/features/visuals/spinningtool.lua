@@ -1,11 +1,11 @@
-spinny_tool_current_rot = {0,0,0}
-spinny_tool_target_rot = {0,0,0}
+local spinny_tool_current_rot = {0,0,0}
+local spinny_tool_target_rot = {0,0,0}
 
-spinny_tool_current_pos = {0,0,0}
-spinny_tool_target_pos = {0,0,0}
+local spinny_tool_current_pos = {0,0,0}
+local spinny_tool_target_pos = {0,0,0}
 
-spinny_tool_started_transition_rot = 0
-spinny_tool_started_transition_pos = 0
+local spinny_tool_started_transition_rot = 0
+local spinny_tool_started_transition_pos = 0
 
 visuals_SpinningTool = function()
     if not config_AdvGetBool(fSpinnyTool) then 

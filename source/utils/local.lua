@@ -53,6 +53,8 @@ fTeleport = { legacyName = "Teleport", dropdownName = "Teleport", configString =
 -- shared sub settings
 fSubSpeed = { legacyName = "Speed", dropdownName = "", configString = "amount"}
 fSubBoost = { legacyName = "Boost", dropdownName = "", configString = "boost"}
+fMethod = { legacyName = "Method", dropdownName = "", configString = "method"}
+
 fAlignmentLR = {legacyName = "Alignment", dropdownName = "", configString = "alignmentlr"}
 fFontSize = {legacyName = "Font Size", dropdownName = "", configString = "fontsize"}
 
@@ -63,3 +65,7 @@ fMenuFinishLevel = "Finish Level"
 fMenuActivateRobots = "Activate Robots"
 fRegistryTool = "Explore Registry"
 fEditorTool = "Editor"
+
+-- used for legacyMenu_SubSettingCycleList w/ alignment subsetting
+left_right_string_array = {"left", "right"}
+method_instant_smooth = {"instant", "smooth"}

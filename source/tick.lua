@@ -27,6 +27,9 @@
 #include "features/tools/teleport.lua"
 
 -- called once per frame (dt is a dynamic float value between 0 and .0(3), 60fps = 0.01(6) )
+-- you know, cuz TICKRATE isn't fixed. It's the UPDATERATE that's fixed.
+-- Imagine having a static TICKRATE LIKE ANY SOURCE GAME. NO IT"S FIXED UPDATE RATE WITH DYNAMIC TICKS
+-- DARN INDIE DEVS I SWEAR
 function tick(dt) 
     if PauseMenuButton(fProjectName) then
 		openMenu = "tearware"
