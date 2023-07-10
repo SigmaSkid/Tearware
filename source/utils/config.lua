@@ -195,6 +195,7 @@ config_GenerateConfig = function()
     config_DefineBool(fPostProcess, false)
         config_DefineColor(fPostProcess, {0.5, 0.5, 0.5, 0.5, false} )
     config_DefineBool(fSpinnyTool, false)
+        config_DefineSubFloat(fSpinnyTool, fSubSpeed, 1)
 
     -- player
     config_DefineBool(fSpeed, false)

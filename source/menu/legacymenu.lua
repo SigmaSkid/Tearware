@@ -98,12 +98,16 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 legacyMenu_ColorSelector(fPostProcess)
                 
                 legacyMenu_Checkbox(fSpinnyTool)
+                if legacyMenu_FunnySubmenuBegin(fSpinnyTool, 120, 50) then 
+                    legacyMenu_SubSettingSlider(fSpinnyTool, fSubSpeed, 0.1, 10)
+                    UiPop()
+                end
 
             elseif GetInt(cfgstr .. "activetab") == 1 then 
                 -- player
 
                 legacyMenu_Checkbox(fSpeed)
-                if legacyMenu_FunnySubmenuBegin(fSpeed, 120, 80) then 
+                if legacyMenu_FunnySubmenuBegin(fSpeed, 120, 100) then 
                     legacyMenu_SubSettingSlider(fSpeed, fSubSpeed, 10, 30)
                     legacyMenu_SubSettingSlider(fSpeed, fSubBoost, 10, 40)
                     UiPop()
@@ -111,14 +115,14 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fSpider)
                 legacyMenu_Checkbox(fFly)
-                if legacyMenu_FunnySubmenuBegin(fFly, 120, 80) then 
+                if legacyMenu_FunnySubmenuBegin(fFly, 120, 100) then 
                     legacyMenu_SubSettingSlider(fFly, fSubSpeed, 10, 30)
                     legacyMenu_SubSettingSlider(fFly, fSubBoost, 10, 40)
                     UiPop()
                 end
 
                 legacyMenu_Checkbox(fNoclip)
-                if legacyMenu_FunnySubmenuBegin(fNoclip, 120, 80) then 
+                if legacyMenu_FunnySubmenuBegin(fNoclip, 120, 100) then 
                     legacyMenu_SubSettingSlider(fNoclip, fSubSpeed, 1, 5)
                     legacyMenu_SubSettingSlider(fNoclip, fSubBoost, 1, 20)
                     UiPop()
@@ -627,22 +631,46 @@ end
 
 legacyMenu_SubSettingSlider = function(var, sub, min, max) 
     UiPush()
+        local name = sub.legacyName
+
+        UiPush()    
+            UiFont("bold.ttf", 12)
+            UiTextShadow(0, 0, 0, 0.5, 1.5)
+            UiTextOutline(0, 0, 0, 1, 0.1)
+            UiColor(0.9,0.9,0.9, 1)
+            UiText(name)
+        UiPop()
+
+        UiTranslate(10, 35)
+
         UiColor(1,1,1,1)
         local value = config_GetSubFloat(var, sub)
         value = legacyMenu_optionsSlider(value, min, max, 40)
         config_SetSubFloat(var, sub, value)
     UiPop()
-    UiTranslate(0, 30)
+    UiTranslate(0, 40)
 end
 
 legacyMenu_SubSettingSliderInt = function(var, sub, min, max) 
     UiPush()
+        local name = sub.legacyName
+
+        UiPush()    
+            UiFont("bold.ttf", 12)
+            UiTextShadow(0, 0, 0, 0.5, 1.5)
+            UiTextOutline(0, 0, 0, 1, 0.1)
+            UiColor(0.9,0.9,0.9, 1)
+            UiText(name)
+        UiPop()
+
+        UiTranslate(10, 35)
+
         UiColor(1,1,1,1)
         local value = config_GetSubInt(var, sub)
         value = legacyMenu_optionsSliderInt(value, min, max, 40)
         config_SetSubInt(var, sub, value)
     UiPop()
-    UiTranslate(0, 30)
+    UiTranslate(0, 40)
 end
 
 legacyMenu_FunnySubmenuBegin = function(var, w, h, offset)
@@ -692,7 +720,7 @@ legacyMenu_FunnySubmenuBegin = function(var, w, h, offset)
 
             UiColor(0.53, 0.53, 0.53, 0.6)
             UiRect(w -4, h-4)
-            UiTranslate(20, 30)
+            UiTranslate(5, 5)
 
     end
     return enabled
@@ -700,7 +728,6 @@ end
 
 legacyMenu_SubSettingCheckbox = function(var, sub)
     UiPush()
-    UiTranslate(-10, -20)
     UiAlign("left top")
     
     local namew, nameh = UiGetTextSize(sub.legacyName)
@@ -739,7 +766,6 @@ legacyMenu_SubSettingCycleList = function(var, sub, list)
     local namew, nameh = UiGetTextSize(string)
 
     UiPush()
-    UiTranslate(-10, -20)
     UiAlign("left top")
 
     local highlight = 0.8
