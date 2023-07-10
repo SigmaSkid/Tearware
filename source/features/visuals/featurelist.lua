@@ -9,9 +9,10 @@ visuals_FeatureList = function()
 
     UiPush()
         if alignment == 0 then 
-            visuals_FeatureListLeft()
+            UiAlign("top left")
         else 
-            visuals_FeatureListRight()
+            UiAlign("top right")
+            UiTranslate(1920, 0)
         end
 
         if watermark_above then
@@ -35,13 +36,4 @@ visuals_FeatureList = function()
         end
 
     UiPop()
-end
-
-visuals_FeatureListLeft = function()
-    UiAlign("top left")
-end
-
-visuals_FeatureListRight = function()
-    UiAlign("top right")
-    UiTranslate(1920, 0)
 end
