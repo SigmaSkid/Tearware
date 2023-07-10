@@ -1,37 +1,99 @@
 -- tearware on top
 
 -- player
-#include "features/player/infiniteammo.lua"
-#include "features/player/godmode.lua"
+#include "features/player/spider.lua"
+#include "features/player/speedhack.lua"
+#include "features/player/jesus.lua"
+#include "features/player/floorstrafe.lua"
+#include "features/player/jetpack.lua"
+#include "features/player/fly.lua"
+#include "features/player/noclip.lua"
+#include "features/player/quickstop.lua"
+#include "features/player/superstrength.lua"
 
 -- world
-#include "features/world/destroyeconomy.lua"
-#include "features/world/disablerobots.lua"
-#include "features/world/teleportvaluables.lua"
-#include "features/world/disablealarm.lua"
-#include "features/world/skipobjective.lua"
+#include "features/world/timer.lua"
+#include "features/world/forceupdateallbodies.lua"
+#include "features/world/disablephysics.lua"
+
+-- visuals
+#include "features/visuals/coloredfog.lua"
+#include "features/visuals/postprocessing.lua"
+#include "features/visuals/spinningtool.lua"
 
 -- tools
-#include "features/tools/rubberband.lua"
-#include "features/tools/structurerestorer.lua"
+#include "features/tools/explosionbrush.lua"
+#include "features/tools/firebrush.lua"
+#include "features/tools/teleport.lua"
 
--- Called once every fixed tick, 60tps (dt is a constant)
-function update(dt)
+-- called once per frame (dt is a dynamic float value between 0 and .0(3), 60fps = 0.01(6) )
+onGameDynamicUpdate = function(dt) 
+    if PauseMenuButton(fProjectName) then
+		openMenu = "tearware"
+    end
+
+    if InputPressed("insert") then
+        if openMenu ~= nil then 
+            openMenu = nil 
+        else 
+            openMenu = "tearware"
+        end
+    end
+
+    -- input system stuff
+    config_UpdateAllFeatureStates() -- utils/config.lua
+
+    -- delta time scaled, .5 = 120fps, 1 = 60fps, 2 = 30fps
+    -- seems not to be fully accurate. 20fps gave me a dts of 2
+    local dts = dt / fixed_update_rate
+
+    -- universal features
+    -- world 
+    world_Timer()
+    world_ForceUpdateAllBodies()
+    world_DisablePhysics()
+    --
+
+    -- visuals
+    visuals_ColoredFog()
+    visuals_PostProcessing()
+    --
+
+    if GetPlayerVehicle() ~= 0 then
+        -- in vehicle
+        return
+    end
+
     -- player
-    player_InfiniteAmmo()
-    player_Godmode()
-    --
-
-    -- world
-    world_UnfairPrices()
-    world_DisableRobots()
-    world_CollectValuables()
-    world_DisableAlarm()
-    world_SkipObjective()
-    --
+    player_Spider() 
+    player_Speedhack()
+    player_Jesus()
+    player_Floorstrafe()
+    player_Jetpack(dts)
+    player_Fly(dt)
+    player_NoClip(dts)
+    player_Quickstop()
+    -- 
 
     -- tools
-    tools_Rubberband()
-    tools_StructureRestorer()
+    tools_Teleport()
+    tools_ExplosionBrush()
+    tools_FireBrush()
+    -- 
+
+    -- player
+    player_SuperStrength()
+    -- 
+
+    -- visuals
+    visuals_SpinningTool()
     --
+end
+
+
+-- i don't care what the devs of this game think.
+-- tickrate is fixed. updaterate is not. not the other way around.
+-- context: tick in teardown is called per frame. while update is called at 60tps
+function tick(dt) 
+    onGameDynamicUpdate(dt)
 end

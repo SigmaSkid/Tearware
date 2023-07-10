@@ -109,7 +109,7 @@ end
 -- returns size[float]
 utils_GetBodySize = function(body)
     local min, max = GetBodyBounds(body)
-    return VecDist(min, max)
+    return utils_VecDist(min, max)
 end
 
 -- accepts a [float]
@@ -296,6 +296,15 @@ utils_DrawInputStringCursor = function(base, cursorPos)
     UiPop()
 end
 
+-- outputs an array[1~3] of floats in range of -1 to 1
+utils_RandomVector = function()
+    local x = math.random()*2 - 1 -- Random value between -1 and 1
+    local y = math.random()*2 - 1 -- Random value between -1 and 1
+    local z = math.random()*2 - 1 -- Random value between -1 and 1
+
+    return {x, y, z}
+end
+
 -- accepts Min[vec3] Max[vec3]
 -- optionally accepts R[float], G[float], B[float], A[float]
 utils_DebugDrawCube = function(Min, Max, r, g, b, a)
@@ -329,7 +338,7 @@ utils_DebugDrawCylinder = function(Min, Max, r, g, b, a)
     b=b or 1
     a=a or 1
     local center = VecLerp(Min, Max, 0.5)
-    local radius = VecDist( {Min[1], 0, Min[3] }, { Max[1], 0, Max[3]}) / 2
+    local radius = utils_VecDist( {Min[1], 0, Min[3] }, { Max[1], 0, Max[3]}) / 2
     local height = Max[2] - Min[2]
     local numSegments = 16
     local angleIncrement = (2 * math.pi) / numSegments

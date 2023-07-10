@@ -54,6 +54,8 @@ config_ResetColorToDefault = function(var)
     SetBool(cfgstr .. base .. colorSuffix[#colorSuffix], default_rainbow)
 end
 
+-- this could probably be done for all types with 1 funny dynamic function by passing the SetFloat, SetInt etc. to it instead.
+-- but whatever, 70 functions > 1 function
 config_DefineSubFloat = function(var, sub, default) 
     if HasKey(cfgstr .. var.configString .. sub.configString) then 
         return
@@ -67,6 +69,21 @@ end
 
 config_SetSubFloat = function(var, sub, value)
     return SetFloat(cfgstr .. var.configString .. sub.configString, value)
+end
+
+config_DefineSubInt = function(var, sub, default) 
+    if HasKey(cfgstr .. var.configString .. sub.configString) then 
+        return
+    end
+    SetInt(cfgstr .. var.configString .. sub.configString, default)
+end
+
+config_GetSubInt = function(var, sub)
+    return GetInt(cfgstr .. var.configString .. sub.configString)
+end
+
+config_SetSubInt = function(var, sub, val)
+    return SetInt(cfgstr .. var.configString .. sub.configString, val)
 end
 
 config_DefineSubBool = function(var, sub, default) 
@@ -155,8 +172,12 @@ config_GenerateConfig = function()
     -- visuals
     config_DefineBool(fWatermark, true)
         config_DefineColor(fWatermark, {1, 1, 1, 1, true} )
+        config_DefineSubInt(fWatermark, fAlignmentLR, 0)
+        config_DefineSubInt(fWatermark, fFontSize, 25)
     config_DefineBool(fFeatureList, false)
         config_DefineColor(fFeatureList, {1, 1, 1, 1, true} )
+        config_DefineSubInt(fFeatureList, fAlignmentLR, 0)
+        config_DefineSubInt(fFeatureList, fFontSize, 12)
     config_DefineBool(fObjectiveEsp, false)
         config_DefineColor(fObjectiveEsp, {0.7, 0.3, 0.3, 0.7, false} )
     config_DefineBool(fOptionalEsp, false)
@@ -174,6 +195,7 @@ config_GenerateConfig = function()
     config_DefineBool(fPostProcess, false)
         config_DefineColor(fPostProcess, {0.5, 0.5, 0.5, 0.5, false} )
     config_DefineBool(fSpinnyTool, false)
+        config_DefineSubFloat(fSpinnyTool, fSubSpeed, 1)
 
     -- player
     config_DefineBool(fSpeed, false)
@@ -211,6 +233,7 @@ config_GenerateConfig = function()
     config_DefineBool(fRubberband, false)
         config_DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
     config_DefineBool(fTeleport, false)
+        config_DefineSubInt(fTeleport, fMethod, 0)
     config_DefineBool(fExplosionBrush, false)
         config_DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
     config_DefineBool(fFireBrush, false)

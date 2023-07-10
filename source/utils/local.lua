@@ -6,6 +6,7 @@ fProjectName = "Tearware Github Preview"
 -- visuals
 fWatermark = { legacyName = "Watermark", dropdownName = "Watermark", newMenuName = "Watermark", configString = "watermark"}
 fFeatureList = { legacyName = "Feature List", dropdownName = "FeatureList", newMenuName = "Feature List", configString = "featurelist", description = "Lists enabled features" }
+
 fObjectiveEsp = { legacyName = "Objective ESP", dropdownName = "Objectives", configString = "objectiveesp", description = "Highlights mandatory objectives"}
 fOptionalEsp = { legacyName = "Optional ESP", dropdownName = "Optionals", configString = "optionalesp", description = "Highlights optional objectives"}
 fValuableEsp = { legacyName = "Valuable ESP", dropdownName = "Valuables", configString = "valueesp", description = "Highlights valuables"}
@@ -50,8 +51,12 @@ fFireBrush = { legacyName = "Fire Brush", dropdownName = "FireBrush", configStri
 fTeleport = { legacyName = "Teleport", dropdownName = "Teleport", configString = "teleport"}
 
 -- shared sub settings
-fSubSpeed = { legacyName = "Base Speed", dropdownName = "", configString = "amount"}
-fSubBoost = { legacyName = "Boost Speed", dropdownName = "", configString = "boost"}
+fSubSpeed = { legacyName = "Speed", dropdownName = "", configString = "amount"}
+fSubBoost = { legacyName = "Boost", dropdownName = "", configString = "boost"}
+fMethod = { legacyName = "Method", dropdownName = "", configString = "method"}
+
+fAlignmentLR = {legacyName = "Alignment", dropdownName = "", configString = "alignmentlr"}
+fFontSize = {legacyName = "Font Size", dropdownName = "", configString = "fontsize"}
 
 -- menu items 
 fMenuStyle = { legacyName = "Menu Style", dropdownName = "UIStyle", configString = "menustyle", options = {"Legacy", "Dropdown", "Modern"} }
@@ -60,3 +65,7 @@ fMenuFinishLevel = "Finish Level"
 fMenuActivateRobots = "Activate Robots"
 fRegistryTool = "Explore Registry"
 fEditorTool = "Editor"
+
+-- used for legacyMenu_SubSettingCycleList w/ alignment subsetting
+left_right_string_array = {"left", "right"}
+method_instant_smooth = {"instant", "smooth"}
