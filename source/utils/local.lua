@@ -32,8 +32,6 @@ fGodmode = { legacyName = "Godmode", configString = "godmode", description = "Pr
 
 -- world
 fBulletTime = { legacyName = "Slowmotion", configString = "timer"}
-  fBulletTimeScale = {legacyName = "Scale", configString = "scale"}
-  fBulletTimePatch = {legacyName = "Patch", configString = "patch"}
 fSkipObjective = { legacyName = "Skip Objective", configString = "skipobjective", description = "Marks all objectives as completed"}
 fDisableAlarm = { legacyName = "Disable Alarm", configString = "disablealarm", description = "Disables alarm"}
 fDisableRobots = { legacyName = "Disable Robots", configString = "disablerobots", description = "Disables robots"}
@@ -46,17 +44,20 @@ fUnfairValuables = { legacyName = "Unfair Valuables", configString = "inflation"
 fStructureRestorer = { legacyName = "Structure Restorer", configString = "structurerestorer"}
 fRubberband = { legacyName = "Rubberband", configString = "rubberband", description = "Teleports you to your previous position"}
 fExplosionBrush = { legacyName = "Explosion Brush", configString = "explosionbrush"}
-  fExplosionBrushSize = {legacyName = "Size", configString ="size"}
 fFireBrush = { legacyName = "Fire Brush", configString = "firebrush"}
 fTeleport = { legacyName = "Teleport", configString = "teleport"}
 
 -- shared sub settings
 fSubSpeed = { legacyName = "Speed", configString = "amount"}
 fSubBoost = { legacyName = "Boost", configString = "boost"}
+fSubScale = {legacyName = "Scale", configString = "scale"}
+fSubPatch = {legacyName = "Patch", configString = "patch"}
+fSubSize = {legacyName = "Size", configString ="size"}
 fMethod = { legacyName = "Method", configString = "method"}
 fSubDelay = { legacyName = "Delay", configString = "delay"}
-fFont = { legacyName = "Font", configString = "font"}
 
+-- font stuff
+fFont = { legacyName = "Font", configString = "font"}
 fAlignmentLR = {legacyName = "Alignment", configString = "alignmentlr"}
 fFontSize = {legacyName = "Font Size", configString = "fontsize"}
 
@@ -70,6 +71,7 @@ fEditorTool = "Editor"
 -- used for legacyMenu_SubSettingCycleList
 left_right_string_array = {"left", "right"}
 method_instant_smooth = {"instant", "smooth"}
+method_pause_stop = {"pause", "stop"}
 
 fontnames = {
   "Roboto Regular",
@@ -77,3 +79,4 @@ fontnames = {
   "Orbitron Regular",
   "Orbitron SemiBold"
 }
+

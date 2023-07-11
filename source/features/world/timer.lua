@@ -6,10 +6,10 @@ world_Timer = function()
         return 
     end
 
-    local scale = config_GetSubFloat(fBulletTime, fBulletTimeScale)/100
+    local scale = config_GetSubFloat(fBulletTime, fSubScale)/100
     SetTimeScale(scale)
 
-    local patch = config_GetSubBool(fBulletTime, fBulletTimePatch)
+    local patch = config_GetSubBool(fBulletTime, fSubPatch)
     if not patch then 
         return 
     end

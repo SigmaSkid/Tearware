@@ -68,8 +68,10 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 legacyMenu_Checkbox(fFeatureList)
                 legacyMenu_ColorSelector(fFeatureList)
                 if legacyMenu_FunnySubmenuBegin(fFeatureList, 200, 120, 1) then 
-                    if legacyMenu_SubSettingCycleList(fFeatureList, fAlignmentLR, left_right_string_array)
-                    or legacyMenu_SubSettingCycleList(fFeatureList, fFont, fontnames) then 
+                    if legacyMenu_SubSettingCycleList(fFeatureList, fAlignmentLR, left_right_string_array) then 
+                        config_sortFeatureList()
+                    end
+                    if legacyMenu_SubSettingCycleList(fFeatureList, fFont, fontnames) then 
                         config_sortFeatureList()
                     end
 
@@ -146,8 +148,8 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fBulletTime)
                 if legacyMenu_FunnySubmenuBegin(fBulletTime, 120, 80) then 
-                    legacyMenu_SubSettingSlider(fBulletTime, fBulletTimeScale, 10, 100)
-                    legacyMenu_SubSettingCheckbox(fBulletTime, fBulletTimePatch)
+                    legacyMenu_SubSettingSlider(fBulletTime, fSubScale, 10, 100)
+                    legacyMenu_SubSettingCheckbox(fBulletTime, fSubPatch)
                     UiPop()
                 end
 
@@ -174,7 +176,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fExplosionBrush)
                 if legacyMenu_FunnySubmenuBegin(fExplosionBrush, 120, 50) then 
-                    legacyMenu_SubSettingSlider(fExplosionBrush, fExplosionBrushSize, 0.5, 4)
+                    legacyMenu_SubSettingSlider(fExplosionBrush, fSubSize, 0.5, 4)
                     UiPop()
                 end
 

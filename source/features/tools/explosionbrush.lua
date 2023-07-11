@@ -3,7 +3,7 @@ tools_ExplosionBrush = function()
         return 
     end
     
-    local Size = config_GetSubFloat(fExplosionBrush, fExplosionBrushSize)
+    local Size = config_GetSubFloat(fExplosionBrush, fSubSize)
     local TargetPos = utils_GetPosWeAreLookingAt()
     if TargetPos ~= nil then 
         Explosion(TargetPos, Size)
