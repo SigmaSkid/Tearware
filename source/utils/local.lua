@@ -54,6 +54,7 @@ fTeleport = { legacyName = "Teleport", configString = "teleport"}
 fSubSpeed = { legacyName = "Speed", configString = "amount"}
 fSubBoost = { legacyName = "Boost", configString = "boost"}
 fMethod = { legacyName = "Method", configString = "method"}
+fSubDelay = { legacyName = "Delay", configString = "delay"}
 fFont = { legacyName = "Font", configString = "font"}
 
 fAlignmentLR = {legacyName = "Alignment", configString = "alignmentlr"}

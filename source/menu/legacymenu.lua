@@ -168,7 +168,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fTeleport)
                 if legacyMenu_FunnySubmenuBegin(fTeleport, 120, 50) then 
-                    legacyMenu_SubSettingCycleList(fTeleport, fMethod, method_instant_smooth)
+                    legacyMenu_SubSettingSlider(fTeleport, fSubDelay, 0, 1000)
                     UiPop()
                 end
 

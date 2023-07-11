@@ -105,6 +105,12 @@ utils_VecDist = function(vecA, vecB)
     return math.sqrt(delta[1]^2 + delta[2]^2 + delta[3]^2)
 end
 
+-- accepts [vec3] [vec3]
+-- returns a [bool]
+utils_VecCompare = function(vecA, vecB)
+    return vecA[1] == vecB[1] and vecA[2] == vecB[2] and vecA[3] == vecB[3]
+end
+
 -- accepts body[handle]
 -- returns size[float]
 utils_GetBodySize = function(body)
