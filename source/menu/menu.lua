@@ -1,5 +1,4 @@
 #include "legacymenu.lua"
-#include "dropdownmenu.lua"
 
 menu_RGBBlur = function(rgb)
     -- funny rgb blur background
@@ -18,12 +17,6 @@ end
 menu_DrawMenu = function()
     local rgb = utils_seedToRGB(GetTime())
     menu_RGBBlur(rgb)
-    
-    --local menuStyle = config_GetInt(fMenuStyle)
 
-    --if menuStyle == 1 then
-    --    dropdownMenu_DrawDropdownMenu(rgb)
-    --else
-        legacyMenu_DrawLegacyMenu(rgb)
-    --end
+    legacyMenu_DrawLegacyMenu(rgb)
 end

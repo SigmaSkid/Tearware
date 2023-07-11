@@ -174,10 +174,12 @@ config_GenerateConfig = function()
         config_DefineColor(fWatermark, {1, 1, 1, 1, true} )
         config_DefineSubInt(fWatermark, fAlignmentLR, 0)
         config_DefineSubInt(fWatermark, fFontSize, 25)
+        config_DefineSubInt(fWatermark, fFont, 1)
     config_DefineBool(fFeatureList, false)
         config_DefineColor(fFeatureList, {1, 1, 1, 1, true} )
         config_DefineSubInt(fFeatureList, fAlignmentLR, 0)
         config_DefineSubInt(fFeatureList, fFontSize, 12)
+        config_DefineSubInt(fFeatureList, fFont, 1)
     config_DefineBool(fObjectiveEsp, false)
         config_DefineColor(fObjectiveEsp, {0.7, 0.3, 0.3, 0.7, false} )
     config_DefineBool(fOptionalEsp, false)
@@ -238,12 +240,18 @@ config_GenerateConfig = function()
         config_DefineSubFloat(fExplosionBrush, fExplosionBrushSize, 1)
     config_DefineBool(fFireBrush, false)
 
-    -- menu stuff
-    config_DefineInt(fMenuStyle, 0)
 
+    config_sortFeatureList()
+end
+
+config_sortFeatureList = function() 
     -- sort for feature list.
     UiPush()
-        UiFont("bold.ttf", 12)
+
+        local font_size = config_GetSubInt(fFeatureList, fFontSize)
+        local font_id = config_GetSubInt(fFeatureList, fFont) + 1
+
+        UiFont(fonts_array[font_id], font_size)
         table.sort(featurelist, function (left, right)
             return UiGetTextSize(left.legacyName) > UiGetTextSize(right.legacyName)
         end)

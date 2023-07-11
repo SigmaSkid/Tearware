@@ -16,6 +16,8 @@ visuals_FeatureList = function()
 
     local max_features_to_display = features_available_space / font_size
 
+    local font_id = config_GetSubInt(fFeatureList, fFont) + 1
+    
     UiPush()
         if alignment == 0 then 
             UiAlign("top left")
@@ -30,7 +32,7 @@ visuals_FeatureList = function()
 
         local color = config_GetColor(fFeatureList, GetTime())
 
-        UiFont("bold.ttf", font_size)
+        UiFont(fonts_array[font_id], font_size)
         UiTextShadow(0, 0, 0, color.alpha * 0.2, 1.5)
         UiTextOutline(0, 0, 0, color.alpha * 0.7, 0.07)
 
