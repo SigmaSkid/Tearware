@@ -7,8 +7,8 @@ tools_Teleport = function()
     end
 
     local delay = config_GetSubFloat(fTeleport, fSubDelay) / 1000
-    -- sub 20ms is instant anyway
-    if delay <= 0.02 then 
+    -- sub 50ms is instant anyway
+    if delay < 0.050 then 
         tools_Teleport_instant()
     else
         tools_Teleport_smooth(delay)
@@ -20,7 +20,8 @@ tools_Teleport_instant = function()
     local TargetPos = utils_GetPosWeAreLookingAt()
 
     if TargetPos ~= nil then 
-        local t = Transform(TargetPos, GetCameraTransform().rot)
+        TargetPos[2] = TargetPos[2] + 0.1
+        local t = Transform(TargetPos, GetPlayerTransform(true).rot)
             
         SetPlayerTransform(t, true)
     end
@@ -43,8 +44,9 @@ tools_Teleport_smooth = function(delay)
         teleport_target_pos = utils_GetPosWeAreLookingAt()
         -- if looking at skybox return.
         if teleport_target_pos == nil then return end
+        teleport_target_pos[2] = teleport_target_pos[2] + 0.1
 
-        teleport_start_pos = GetPlayerTransform().pos
+        teleport_start_pos = GetPlayerTransform(true).pos
         teleport_transition_start = GetTime()
 
         teleport_current_posX = teleport_start_pos[1]
@@ -58,7 +60,7 @@ tools_Teleport_smooth = function(delay)
     end
 
     local TargetPos = { teleport_current_posX, teleport_current_posY, teleport_current_posZ }
-    local t = Transform(TargetPos, GetCameraTransform().rot)
+    local t = Transform(TargetPos, GetPlayerTransform(true).rot)
     SetPlayerTransform(t, true)
     SetPlayerVelocity({0,0,0})
 
