@@ -58,17 +58,24 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fWatermark)
                 legacyMenu_ColorSelector(fWatermark)
-                if legacyMenu_FunnySubmenuBegin(fWatermark, 120, 80, 1) then 
+                if legacyMenu_FunnySubmenuBegin(fWatermark, 200, 120, 1) then 
                     legacyMenu_SubSettingCycleList(fWatermark, fAlignmentLR, left_right_string_array)
-                    legacyMenu_SubSettingSliderInt(fWatermark, fFontSize, 10, 30)
+                    legacyMenu_SubSettingCycleList(fWatermark, fFont, fontnames)
+                    legacyMenu_SubSettingSliderInt(fWatermark, fFontSize, 10, 30, 120)
                     UiPop()
                 end
 
                 legacyMenu_Checkbox(fFeatureList)
                 legacyMenu_ColorSelector(fFeatureList)
-                if legacyMenu_FunnySubmenuBegin(fFeatureList, 120, 80, 1) then 
-                    legacyMenu_SubSettingCycleList(fFeatureList, fAlignmentLR, left_right_string_array)
-                    legacyMenu_SubSettingSliderInt(fFeatureList, fFontSize, 10, 30)
+                if legacyMenu_FunnySubmenuBegin(fFeatureList, 200, 120, 1) then 
+                    if legacyMenu_SubSettingCycleList(fFeatureList, fAlignmentLR, left_right_string_array) then 
+                        config_sortFeatureList()
+                    end
+                    if legacyMenu_SubSettingCycleList(fFeatureList, fFont, fontnames) then 
+                        config_sortFeatureList()
+                    end
+
+                    legacyMenu_SubSettingSliderInt(fFeatureList, fFontSize, 10, 30, 120)
                     UiPop()
                 end
 
@@ -141,8 +148,8 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fBulletTime)
                 if legacyMenu_FunnySubmenuBegin(fBulletTime, 120, 80) then 
-                    legacyMenu_SubSettingSlider(fBulletTime, fBulletTimeScale, 10, 100)
-                    legacyMenu_SubSettingCheckbox(fBulletTime, fBulletTimePatch)
+                    legacyMenu_SubSettingSlider(fBulletTime, fSubScale, 10, 100)
+                    legacyMenu_SubSettingCheckbox(fBulletTime, fSubPatch)
                     UiPop()
                 end
 
@@ -163,13 +170,13 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fTeleport)
                 if legacyMenu_FunnySubmenuBegin(fTeleport, 120, 50) then 
-                    legacyMenu_SubSettingCycleList(fTeleport, fMethod, method_instant_smooth)
+                    legacyMenu_SubSettingSlider(fTeleport, fSubDelay, 0, 1000)
                     UiPop()
                 end
 
                 legacyMenu_Checkbox(fExplosionBrush)
                 if legacyMenu_FunnySubmenuBegin(fExplosionBrush, 120, 50) then 
-                    legacyMenu_SubSettingSlider(fExplosionBrush, fExplosionBrushSize, 0.5, 4)
+                    legacyMenu_SubSettingSlider(fExplosionBrush, fSubSize, 0.5, 4)
                     UiPop()
                 end
 
@@ -633,7 +640,9 @@ legacyMenu_optionsSliderInt = function(val, mi, ma, width)
 	return val
 end
 
-legacyMenu_SubSettingSlider = function(var, sub, min, max) 
+legacyMenu_SubSettingSlider = function(var, sub, min, max, size) 
+    if size == nil then size = 40 end
+
     UiPush()
         local name = sub.legacyName
 
@@ -649,13 +658,15 @@ legacyMenu_SubSettingSlider = function(var, sub, min, max)
 
         UiColor(1,1,1,1)
         local value = config_GetSubFloat(var, sub)
-        value = legacyMenu_optionsSlider(value, min, max, 40)
+        value = legacyMenu_optionsSlider(value, min, max, size)
         config_SetSubFloat(var, sub, value)
     UiPop()
     UiTranslate(0, 40)
 end
 
-legacyMenu_SubSettingSliderInt = function(var, sub, min, max) 
+legacyMenu_SubSettingSliderInt = function(var, sub, min, max, size)
+    if size == nil then size = 40 end
+    
     UiPush()
         local name = sub.legacyName
 
@@ -671,7 +682,7 @@ legacyMenu_SubSettingSliderInt = function(var, sub, min, max)
 
         UiColor(1,1,1,1)
         local value = config_GetSubInt(var, sub)
-        value = legacyMenu_optionsSliderInt(value, min, max, 40)
+        value = legacyMenu_optionsSliderInt(value, min, max, size)
         config_SetSubInt(var, sub, value)
     UiPop()
     UiTranslate(0, 40)
@@ -762,8 +773,9 @@ end
 
 legacyMenu_SubSettingCycleList = function(var, sub, list)
     if #list <= 0 then return end
-
+    
     local value = config_GetSubInt(var, sub)
+
     value = utils_Clamp(value + 1, 1, #list)
 
     local string = list[value]
@@ -773,21 +785,36 @@ legacyMenu_SubSettingCycleList = function(var, sub, list)
     UiAlign("left top")
 
     local highlight = 0.8
+    local in_rect = false
 
     if UiIsMouseInRect(namew, nameh) then
         highlight = 0.9
+        in_rect = true
     end
 
     UiTextShadow(0, 0, 0, 0.5, 1.5)
     UiTextOutline(0, 0, 0, 1, 0.1)
     UiColor(highlight, highlight, highlight, 1)
+    UiText(string)
 
-    if UiTextButton(string) then
+    local return_value = true
+
+    if in_rect and InputPressed("lmb") then 
         value = value + 1 
+
         if value > #list then value = 1 end
         config_SetSubInt(var, sub, value - 1)
+
+    elseif in_rect and InputPressed("rmb") then 
+        value = value - 1
+
+        if value < 1 then value = #list end
+        config_SetSubInt(var, sub, value - 1)
+    else
+        return_value = false
     end
 
     UiPop()
     UiText("", true)
+    return return_value
 end

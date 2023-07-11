@@ -142,3 +142,10 @@ registryVisibleCache = {}
 registrySearchString = ""
 modifiedregistrySearchString = false
 lockInputs = false
+
+fonts_array = { 
+    "regular.ttf",
+    "bold.ttf", 
+    "source/fonts/Orbitron/static/Orbitron-Regular.ttf",
+    "source/fonts/Orbitron/static/Orbitron-SemiBold.ttf"
+}
