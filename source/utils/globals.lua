@@ -143,9 +143,8 @@ registrySearchString = ""
 modifiedregistrySearchString = false
 lockInputs = false
 
-fonts_array = { 
-    "regular.ttf",
-    "bold.ttf", 
-    "source/fonts/Orbitron/static/Orbitron-Regular.ttf",
-    "source/fonts/Orbitron/static/Orbitron-SemiBold.ttf"
-}
+fonts = {}
+fonts.regular = "regular.ttf"
+fonts.bold = "bold.ttf",
+fonts.orbitron ="source/fonts/Orbitron/static/Orbitron-Regular.ttf"
+fonts.orbitron_sbold = "source/fonts/Orbitron/static/Orbitron-SemiBold.ttf"

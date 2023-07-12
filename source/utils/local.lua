@@ -56,10 +56,8 @@ fSubSize = {legacyName = "Size", configString ="size"}
 fMethod = { legacyName = "Method", configString = "method"}
 fSubDelay = { legacyName = "Delay", configString = "delay"}
 
--- font stuff
-fFont = { legacyName = "Font", configString = "font"}
+-- 
 fAlignmentLR = {legacyName = "Alignment", configString = "alignmentlr"}
-fFontSize = {legacyName = "Font Size", configString = "fontsize"}
 
 -- menu items 
 fMenuResetConfig = "Reset Config"
@@ -79,4 +77,3 @@ fontnames = {
   "Orbitron Regular",
   "Orbitron SemiBold"
 }
-

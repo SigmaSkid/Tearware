@@ -4,9 +4,7 @@ visuals_Watermark = function()
     end
 
     local alignment = config_GetSubInt(fWatermark, fAlignmentLR)
-    local font_size = config_GetSubInt(fWatermark, fFontSize)
-    local font_id = config_GetSubInt(fWatermark, fFont) + 1
-
+    
     UiPush()
         local color = config_GetColor(fWatermark, GetTime())
         UiColor(color.red, color.green, color.blue, color.alpha)
@@ -17,7 +15,7 @@ visuals_Watermark = function()
             UiTranslate(1920, 0)
         end
 
-        UiFont(fonts_array[font_id], font_size)
+        UiFont(fonts.orbitron_sbold, 25)
         UiTextShadow(0, 0, 0, color.alpha * 0.5, 1.5)
         UiTextOutline(0, 0, 0, color.alpha * 0.7, 0.07)
         UiText(fProjectName)

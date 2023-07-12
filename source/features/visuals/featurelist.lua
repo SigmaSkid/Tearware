@@ -5,18 +5,15 @@ visuals_FeatureList = function()
 
     local visibleFeatures = 0.05
     local alignment = config_GetSubInt(fFeatureList, fAlignmentLR)
-    local font_size = config_GetSubInt(fFeatureList, fFontSize)
     local watermark_above = config_AdvGetBool(fWatermark) and config_GetSubInt(fWatermark, fAlignmentLR) == alignment
-    local watermark_font_size = config_GetSubInt(fWatermark, fFontSize)
-
+    
     local features_available_space = 1080
     if watermark_above then 
-        features_available_space = features_available_space - watermark_font_size
+        features_available_space = features_available_space - 25
     end
 
-    local max_features_to_display = features_available_space / font_size
+    local max_features_to_display = features_available_space / 14
 
-    local font_id = config_GetSubInt(fFeatureList, fFont) + 1
     
     UiPush()
         if alignment == 0 then 
@@ -32,7 +29,7 @@ visuals_FeatureList = function()
 
         local color = config_GetColor(fFeatureList, GetTime())
 
-        UiFont(fonts_array[font_id], font_size)
+        UiFont(fonts.orbitron_sbold, 14)
         UiTextShadow(0, 0, 0, color.alpha * 0.2, 1.5)
         UiTextOutline(0, 0, 0, color.alpha * 0.7, 0.07)
 
