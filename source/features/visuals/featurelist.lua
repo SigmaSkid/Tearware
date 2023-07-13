@@ -24,7 +24,7 @@ visuals_FeatureList = function()
         end
 
         if watermark_above then
-            UiTranslate(0, watermark_font_size)
+            UiTranslate(0, 25)
         end
 
         local color = config_GetColor(fFeatureList, GetTime())
@@ -44,5 +44,16 @@ visuals_FeatureList = function()
             end
         end
 
+    UiPop()
+end
+
+
+visuals_sortFeatureList = function() 
+    -- sort for feature list.
+    UiPush()
+        UiFont(fonts.orbitron_sbold, 14)
+        table.sort(featurelist, function (left, right)
+            return UiGetTextSize(left.legacyName) > UiGetTextSize(right.legacyName)
+        end)
     UiPop()
 end

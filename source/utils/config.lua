@@ -237,23 +237,8 @@ config_GenerateConfig = function()
     config_DefineBool(fFireBrush, false)
 
 
-    config_sortFeatureList()
+    visuals_sortFeatureList()
 end
-
-config_sortFeatureList = function() 
-    -- sort for feature list.
-    UiPush()
-
-        local font_size = config_GetSubInt(fFeatureList, fFontSize)
-        local font_id = config_GetSubInt(fFeatureList, fFont) + 1
-
-        UiFont(fonts_array[font_id], font_size)
-        table.sort(featurelist, function (left, right)
-            return UiGetTextSize(left.legacyName) > UiGetTextSize(right.legacyName)
-        end)
-    UiPop()
-end
-
 
 config_ResetAllModData = function()
     ClearKey("savegame.mod")

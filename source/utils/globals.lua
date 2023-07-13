@@ -145,6 +145,6 @@ lockInputs = false
 
 fonts = {}
 fonts.regular = "regular.ttf"
-fonts.bold = "bold.ttf",
+fonts.bold = "bold.ttf"
 fonts.orbitron ="source/fonts/Orbitron/static/Orbitron-Regular.ttf"
 fonts.orbitron_sbold = "source/fonts/Orbitron/static/Orbitron-SemiBold.ttf"
