@@ -58,7 +58,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fWatermark)
                 legacyMenu_ColorSelector(fWatermark)
-                if legacyMenu_FunnySubmenuBegin(fWatermark, 120, 50, 1) then 
+                if legacyMenu_FunnySubmenuBegin(fWatermark, 80, 40, 1) then 
                     legacyMenu_SubSettingCycleList(fWatermark, fAlignmentLR, left_right_string_array)
 
                     UiPop()
@@ -66,7 +66,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fFeatureList)
                 legacyMenu_ColorSelector(fFeatureList)
-                if legacyMenu_FunnySubmenuBegin(fFeatureList, 120, 50, 1) then 
+                if legacyMenu_FunnySubmenuBegin(fFeatureList, 80, 40, 1) then 
                     legacyMenu_SubSettingCycleList(fFeatureList, fAlignmentLR, left_right_string_array)                     
                     UiPop()
                 end
