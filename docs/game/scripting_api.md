@@ -719,9 +719,9 @@ Registry node names may only contain the characters a-z, numbers 0-9, dot, dash 
 
 | Key | Description | Write Access |
 | ------ | -------- | -------- | 
-| options | reserved for game settings (write protected from mods) | ❌ |
-| game | reserved for the game engine internals (see documentation) | ✅ |
-| savegame | used for persistent game data (write protected for mods) | ❌ |
+| options | reserved for game settings | ❌ |
+| game | reserved for the game engine internals | ✅ |
+| savegame | used for persistent game data | ❌ |
 | savegame.mod | used for persistent mod data. Use only alphanumeric character for key name. | ✅ |
 | level | not reserved, but recommended for level specific entries and script communication | ✅ |
 | promo | undocumented idk | ✅ |
