@@ -2523,7 +2523,7 @@ This will check if two shapes has physical overlap
 
 ```lua
 local touch = IsShapeTouching(a, b)
-if hit then
+if touch then
 	--Shapes are touching or overlapping
 end
 ```
