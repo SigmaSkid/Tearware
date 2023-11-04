@@ -1,5 +1,3 @@
-# Thank you gpt-sama
-# UNTESTED GPT3 OUTPUT BTW!
 import os
 import shutil
 import datetime
@@ -23,6 +21,7 @@ os.mkdir("release/source")
 
 print("Copying project files.")
 
+# define the function, (it copies a tree btw.)
 def copytree(src, dst, symlinks=False, ignore=None):
     if not os.path.exists(dst):
         os.makedirs(dst)
@@ -49,26 +48,33 @@ def copytree(src, dst, symlinks=False, ignore=None):
         else:
             shutil.copy2(s, d)
 
+# call the function ;)
 copytree("source", "release/source")
 
+# remove junk code basically
 print("Removing comments, unnecessary spaces, and newlines from .lua files.")
+
+# array
 lua_files = []
+
+# populate array with all of the source files
 for root, dirs, files in os.walk("release/source"):
     for file in files:
         if file.endswith(".lua"):
             lua_files.append(os.path.join(root, file))
 
+# do the optimizations
+# 04.11.2023, we save around 34KB ~ 36KB
 for file in lua_files:
     print(file)
     with open(file, "r") as f:
         lines = f.readlines()
     with open(file, "w") as f:
         for line in lines:
-            line = line.split('--', 1)[0].rstrip()  # remove comments and trailing spaces
+            line = line.split('--', 1)[0].lstrip().rstrip()  # remove comments and trailing spaces
             if line:
                 f.write(line + "\n")
     print("")
-
 
 print("Updating local.lua")
 
@@ -102,4 +108,3 @@ else:
     print("Error:", file, "not found")
 
 print("Finished.")
-# END OF UNTESTED AI STUFF
