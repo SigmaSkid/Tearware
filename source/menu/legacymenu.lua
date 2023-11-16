@@ -53,6 +53,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
         UiColor(1, 1, 1, 1)
         
         UiPush()
+            UiTranslate(0, -30)
             if GetInt(cfgstr .. "activetab") == 0 then 
                 -- visuals
 
@@ -219,6 +220,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 end
 
 legacyMenu_Checkbox = function(var)
+    UiTranslate(0, 25)
     UiPush()
     UiAlign("left top")
     
@@ -287,6 +289,8 @@ legacyMenu_Checkbox = function(var)
 end
 
 legacyMenu_Button = function(name)
+    local return_value = false
+    UiTranslate(0, 25)
     UiPush()
     UiAlign("left top")
 
@@ -304,16 +308,13 @@ legacyMenu_Button = function(name)
     UiColor(highlight, highlight, highlight, 1)
 
     if UiTextButton(name) then
-        UiPop()
-        UiText("", true)
-        UiTranslate(0, 3)
-        return true
+        return_value = true
     end
     UiPop()
     UiText("", true)
     -- make rects not overlap
     UiTranslate(0, 3)
-    return false
+    return return_value
 end
 
 legacyMenu_SimpleCheckbox = function(name, value) 
@@ -338,18 +339,13 @@ legacyMenu_SimpleCheckbox = function(name, value)
     end
 
     if UiTextButton(name) then
-        UiPop()
-        UiText("", true)
-        -- make rects not overlap
-        UiTranslate(0, 3)
-        return true
+        return_value = true
     end
-
     UiPop()
     UiText("", true)
     -- make rects not overlap
     UiTranslate(0, 3)
-    return false
+    return return_value
 end
 
 legacyMenu_NavButtonImg = function(image, tabid)
@@ -400,6 +396,8 @@ legacyMenu_NavSep = function(tabid)
 end
 
 legacyMenu_ColorSelector = function(var, alpha)
+
+    
     if alpha == nil then 
         alpha = true
     end
@@ -494,7 +492,7 @@ legacyMenu_ColorSelector = function(var, alpha)
 
 
                 UiPush()
-                UiTranslate(10, 5)
+                UiTranslate(0, -20)
                 if legacyMenu_Button("Copy") then 
                     funnyColorCopyCache = color
                 end
@@ -514,6 +512,7 @@ legacyMenu_ColorSelector = function(var, alpha)
 
     -- funny button
     UiPush()
+        UiTranslate(0, 20)
         UiAlign("left top")
         UiTranslate(UiWidth() - 35, -20)
 
@@ -687,6 +686,7 @@ legacyMenu_FunnySubmenuBegin = function(var, w, h, offset)
     UiTranslate(-offset * 25, 0)
     -- de_square
     UiPush()
+        UiTranslate(0, 20)
         UiAlign("left top")
         UiTranslate(UiWidth() - 35, -20)
         
