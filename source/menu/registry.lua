@@ -360,7 +360,7 @@ registry_DrawRegistry = function()
             
             UiPush()
                 local displayOffsetX, displayOffsetY = UiGetTextSize(displayText)
-                displayText =  "Last Input: " .. lastRegistryInput 
+                displayText =  " Last Input: " .. lastRegistryInput 
                 UiTranslate(displayOffsetX, -displayOffsetY + 28)
                 UiText(displayText)
             UiPop()
@@ -379,7 +379,7 @@ registry_DrawRegistry = function()
                 if editingRegistrySearchString then 
                     UiPush()
                         local searchx, __ = UiGetTextSize("Search: ")
-                        UiTranslate(searchx-2, 0)
+                        UiTranslate(searchx+3, 0)
                         utils_DrawInputStringCursor(registrySearchString, inputStringCursorPos)
                     UiPop()
                 end
