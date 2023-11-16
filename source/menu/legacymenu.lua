@@ -140,7 +140,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 -- world
 
                 legacyMenu_Checkbox(fBulletTime)
-                if legacyMenu_FunnySubmenuBegin(fBulletTime, 120, 40) then 
+                if legacyMenu_FunnySubmenuBegin(fBulletTime, 120, 50) then 
                     legacyMenu_SubSettingSlider(fBulletTime, fSubScale, 10, 100)
                     UiPop()
                 end
