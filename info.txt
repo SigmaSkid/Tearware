@@ -1,4 +1,4 @@
 name = Tearware
-author = Weaboo
+author = SigmaSkid
 description = cheat menu
 tags = Gameplay
