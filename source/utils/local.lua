@@ -13,7 +13,6 @@ fActiveGlow = { legacyName = "Active Glow", configString = "activeglow", descrip
 fRainbowFog = { legacyName = "Colored Fog", configString = "rainbowfog", description = "Changes the color of fog"}
 fPostProcess = { legacyName = "Post Processing", configString = "postprocessing"}
 fWeaponGlow = { legacyName = "Tool Glow", configString = "weaponglow", description = "Highlights held tool"}
-fSpinnyTool = { legacyName = "Spinny Tool", configString = "spinnytool", description = "Makes your tool spin"}
 
 -- player
 fSpeed = { legacyName = "Speed", configString = "speedhack", description = "Makes you faster"}

@@ -17,7 +17,6 @@
 -- visuals
 #include "features/visuals/coloredfog.lua"
 #include "features/visuals/postprocessing.lua"
-#include "features/visuals/spinningtool.lua"
 
 -- tools
 #include "features/tools/explosionbrush.lua"
@@ -81,8 +80,4 @@ function tick(dt)
     -- player
     player_SuperStrength()
     -- 
-
-    -- visuals
-    visuals_SpinningTool()
-    --
 end

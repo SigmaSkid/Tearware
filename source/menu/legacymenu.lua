@@ -94,12 +94,6 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 
                 legacyMenu_Checkbox(fPostProcess)
                 legacyMenu_ColorSelector(fPostProcess)
-                
-                legacyMenu_Checkbox(fSpinnyTool)
-                if legacyMenu_FunnySubmenuBegin(fSpinnyTool, 120, 50) then 
-                    legacyMenu_SubSettingSlider(fSpinnyTool, fSubSpeed, 0.1, 10)
-                    UiPop()
-                end
 
             elseif GetInt(cfgstr .. "activetab") == 1 then 
                 -- player
