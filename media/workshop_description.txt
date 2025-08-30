@@ -1,6 +1,7 @@
 [h1]Teardown cheat inspired by modern game cheats.[/h1]
 
 Access the menu by pressing Insert in-game or through the pause menu.
+Most features can be assigned keyboard shortcuts, by right clicking on them.
 
 [h2]Features[/h2]
 [h3]Visuals[/h3]
@@ -14,7 +15,6 @@ Access the menu by pressing Insert in-game or through the pause menu.
 [*] Active Glow
 [*] Colored Fog
 [*] Post Processing
-[*] Spinny Tool
 [/list]
 
 [h3]Player[/h3]

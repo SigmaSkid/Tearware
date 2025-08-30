@@ -1,7 +1,8 @@
 # Tearware
 Teardown cheat inspired by modern game cheats.
   
-Access the menu by pressing Insert in-game or through the pause menu.
+Access the menu by pressing Insert in-game or through the pause menu.  
+Most features can be assigned keyboard shortcuts, by right clicking on them.
 
 #### [Steam Workshop Page](https://steamcommunity.com/sharedfiles/filedetails/?id=2798126764) 
 #### [Github Page](https://github.com/SigmaSkid/Tearware)
