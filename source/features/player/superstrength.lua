@@ -1,11 +1,10 @@
--- todo:
--- account for where we grabbed the object (instead of using body center)
+-- todo: account for where we grabbed the object (instead of using body center)
 player_SuperStrength = function()
     if not config_AdvGetBool(fSuperStrength) then 
         return 
     end
 
-    -- engine grab, haha, no
+    -- replace engine grab functionality.
     ReleasePlayerGrab()
 
     if not utils_TWInputDown("rmb") then 

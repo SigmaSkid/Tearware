@@ -1,4 +1,3 @@
-
 visuals_WeaponGlow = function() 
     if not config_AdvGetBool(fWeaponGlow) then 
         return 

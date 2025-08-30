@@ -1,5 +1,3 @@
--- tearware on top
-
 legacyMenu_DrawLegacyMenu = function(rgb) 
     UiPush()
         UiFont("bold.ttf", 25)

@@ -1,6 +1,3 @@
-
--- the game.. might have problems trying to clear this up after us..
--- don't restart with anything in this cache lol
 tools_RecordAllObjectsState = function()
     local allBodies = {}
 

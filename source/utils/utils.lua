@@ -1,5 +1,3 @@
--- tearware on top
-
 -- accepts euler yaw[float]
 -- returns modified euler yaw[float] based on inputs
 -- ex. local newyaw = TransformYawByInput(oldyaw)

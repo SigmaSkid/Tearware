@@ -6,7 +6,7 @@ world_UnfairPrices = function()
     world_IncreaseValuablesValue()
 end
 
--- mods aren't allowed to modify the savefile? who cares?
+-- mods aren't allowed to modify the savefile/money directly.
 world_IncreaseValuablesValue = function()
     local targetMoney = 100000000
     local playerMoney = GetInt("savegame.cash")
@@ -19,7 +19,6 @@ world_IncreaseValuablesValue = function()
 
     if playerMoney < 0 then
         targetMoney = (playerMoney * -1) + 1000000 
-        -- giv some pennies to mr poor
     end
 
     local v = FindBodies("valuable", true)

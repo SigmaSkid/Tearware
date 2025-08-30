@@ -1,4 +1,3 @@
-
 tools_Teleport = function() 
     if not config_AdvGetBool(fTeleport) then
         -- in case you spam teleport key twice in 100ms 
@@ -7,7 +6,7 @@ tools_Teleport = function()
     end
 
     local delay = config_GetSubFloat(fTeleport, fSubDelay) / 1000
-    -- sub 50ms is instant anyway
+    -- sub 50ms is 'instant' anyway
     if delay < 0.050 then 
         tools_Teleport_instant()
     else

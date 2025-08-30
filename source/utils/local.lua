@@ -1,6 +1,4 @@
--- tearware on top
-
--- obviously change it before uploading to workshop.
+-- updated automatically, by the packing script.
 fProjectName = "Tearware Github Preview"
 
 -- visuals

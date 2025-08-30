@@ -37,7 +37,6 @@ player_Fly = function(dt)
     end
     
     -- counteract gravity, gravity is evil
-    -- this breaks at higher fps.
     local ohno = 864 * dt * dt
     
     if utils_TWInputDown("jump") then 

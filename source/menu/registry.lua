@@ -1,5 +1,4 @@
--- tearware on top
--- TODO:
+-- TODO (probably never):
 -- fix text formatting/overlap when a key or value is long or contains \n
 -- -right click opens a popup menu
 -- popup menu:
@@ -8,7 +7,6 @@
 --      -- should they have the same or separate copy/paste buffer? no clue, prolly separate.
 --  ~ insert (menu of special characters that can't be inputted normally |\?/~` etc.)
 --  ~ new - create a new key and assign value
---
 
 registryPopUp = {}
 registryPopUp.targetObject = nil
@@ -30,7 +28,7 @@ registry_ListChildren = function(var)
         end
         
         local object = {}
-        -- +1 so it starts at 1, like all lua bs
+        
         object.id = #registryCache+1
         object.name = me 
         object.value = d

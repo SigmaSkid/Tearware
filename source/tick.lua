@@ -1,5 +1,3 @@
--- tearware on top
-
 -- player
 #include "features/player/infiniteammo.lua"
 #include "features/player/godmode.lua"
@@ -15,8 +13,9 @@
 #include "features/tools/rubberband.lua"
 #include "features/tools/structurerestorer.lua"
 
--- Called once every fixed tick, 60tps (dt is a constant)
-onGameFixedTick = function(dt)
+-- In teardown update is called every fixed tick (60tps, dt = const).
+-- Refer to the offcial documentation.
+function update(dt)
     -- player
     player_InfiniteAmmo()
     player_Godmode()
@@ -34,9 +33,4 @@ onGameFixedTick = function(dt)
     tools_Rubberband()
     tools_StructureRestorer()
     --
-end
-
--- this thing is evil. AND I WONT ALLOW IT
-function update(dt)
-    onGameFixedTick(dt)
 end

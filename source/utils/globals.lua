@@ -1,6 +1,5 @@
--- tearware on top
-
 -- universal constants
+-- the tearware_ prefix is not needed, just wastes memory, and is kept for backwards compatibility.
 cfgstr = "savegame.mod.tearware_"
 -- 0.01(6)
 fixed_update_rate = 1/60

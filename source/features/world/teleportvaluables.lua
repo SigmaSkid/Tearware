@@ -1,4 +1,3 @@
-
 world_CacheValuables = function()
     if #cachedValuablesPositions == 0 then
         local v = FindBodies("valuable", true)

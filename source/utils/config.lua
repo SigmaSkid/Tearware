@@ -1,5 +1,3 @@
--- tearware on top
-
 #include "local.lua"
 
 config_DefineBool = function(var, default) 
@@ -164,7 +162,6 @@ config_UpdateAllFeatureStates = function()
         config_UpdateFeatureState(featurelist[i])
     end
 end
-
 
 config_GenerateConfig = function()
     featurelist = {}

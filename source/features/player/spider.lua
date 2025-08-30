@@ -14,7 +14,6 @@ player_Spider = function()
 
     local vel = GetPlayerVelocity()
 
-
     vel[2] = 4
     if utils_TWInputDown("shift") then 
         vel[2] = vel[2] + 3

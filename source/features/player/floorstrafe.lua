@@ -1,4 +1,3 @@
-
 player_Floorstrafe = function() 
     if not config_AdvGetBool(fFloorStrafe) then 
         return 

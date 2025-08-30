@@ -1,5 +1,3 @@
--- tearware on top
-
 -- player
 #include "features/player/spider.lua"
 #include "features/player/speedhack.lua"
@@ -26,8 +24,9 @@
 #include "features/tools/firebrush.lua"
 #include "features/tools/teleport.lua"
 
--- called once per frame (dt is a dynamic float value between 0 and .0(3), 60fps = 0.01(6) )
-onGameDynamicUpdate = function(dt) 
+-- In teardown tick is called per frame.
+-- Refer to the offcial documentation.
+function tick(dt) 
     if PauseMenuButton(fProjectName) then
 		openMenu = "tearware"
     end
@@ -44,10 +43,8 @@ onGameDynamicUpdate = function(dt)
     config_UpdateAllFeatureStates() -- utils/config.lua
 
     -- delta time scaled, .5 = 120fps, 1 = 60fps, 2 = 30fps
-    -- seems not to be fully accurate. 20fps gave me a dts of 2
     local dts = dt / fixed_update_rate
 
-    -- universal features
     -- world 
     world_Timer()
     world_ForceUpdateAllBodies()
@@ -88,12 +85,4 @@ onGameDynamicUpdate = function(dt)
     -- visuals
     visuals_SpinningTool()
     --
-end
-
-
--- i don't care what the devs of this game think.
--- tickrate is fixed. updaterate is not. not the other way around.
--- context: tick in teardown is called per frame. while update is called at 60tps
-function tick(dt) 
-    onGameDynamicUpdate(dt)
 end

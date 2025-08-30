@@ -1,5 +1,4 @@
 tools_Rubberband = function() 
-    
     if not config_AdvGetBool(fRubberband) then
         rubberband_pos = nil
 
