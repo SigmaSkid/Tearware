@@ -10,11 +10,11 @@ visuals_Watermark = function()
         UiColor(color.red, color.green, color.blue, color.alpha)
         if alignment == 0 then 
             UiAlign("top left")
-            UiTranslate(5, 0)
+            UiTranslate(5, 3)
         else 
             UiAlign("top right")
             UiTranslate(1920, 0)
-            UiTranslate(-5, 0)
+            UiTranslate(-5, 3)
         end
         
         UiFont(fonts.orbitron_sbold, 25)

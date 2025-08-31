@@ -106,7 +106,7 @@ registry_DisplayOrEditKey = function(thisObject, id, offsetAfterInt)
         UiTranslate(UiMiddle()*1.5, 0)
         if registrySelectedKey.key == thisObject.id then
             registrySelectedKey.value, __, inputStringCursorPos = utils_ModifyString(registrySelectedKey.value, inputStringCursorPos)
-            UiText(registrySelectedKey.value)
+            UiText(registrySelectedKey.value, false)
             utils_DrawInputStringCursor(registrySelectedKey.value, inputStringCursorPos)
         
             if InputDown("return") and thisObject.writeAccess then
@@ -354,22 +354,22 @@ registry_DrawRegistry = function()
 
         UiPush()
             local displayText = fProjectName .. " found " .. #registryCache .. " keys. Game version: " .. gameVersion
-            UiText(displayText)
+            UiText(displayText, false)
             
             UiPush()
                 local displayOffsetX, displayOffsetY = UiGetTextSize(displayText)
                 displayText =  " Last Input: " .. lastRegistryInput 
-                UiTranslate(displayOffsetX, -displayOffsetY + 28)
-                UiText(displayText)
+                UiTranslate(displayOffsetX, -displayOffsetY + 20)
+                UiText(displayText, false)
             UiPop()
 
             -- handle search
             UiPush()
-                UiTranslate(displayOffsetX + 240, -displayOffsetY + 28)
+                UiTranslate(displayOffsetX + 240, -displayOffsetY + 16)
                 if InputPressed("f5") or UiTextButton("Refresh") then
                     registryCache = {}
                 end
-                UiTranslate(120, 0)
+                UiTranslate(90, 0)
                 if UiTextButton("Search: " .. registrySearchString) then 
                     editingRegistrySearchString = true
                     registrySelectedKey.key = "nil"
@@ -377,7 +377,7 @@ registry_DrawRegistry = function()
                 if editingRegistrySearchString then 
                     UiPush()
                         local searchx, __ = UiGetTextSize("Search: ")
-                        UiTranslate(searchx+3, 0)
+                        UiTranslate(searchx + 9, 5)
                         utils_DrawInputStringCursor(registrySearchString, inputStringCursorPos)
                     UiPop()
                 end

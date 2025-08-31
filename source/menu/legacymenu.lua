@@ -268,8 +268,9 @@ legacyMenu_Checkbox = function(var)
 
     if currentkey ~= "" and currentkey ~= "null" then 
         UiPush()
-        UiTranslate(namew + 10, 0)
-        UiText(" - " .. currentkey, false)
+            UiFont("bold.ttf", 16)
+            UiTranslate(namew + 10, 10)
+            UiText(" - " .. currentkey, false)
         UiPop()
     end
 

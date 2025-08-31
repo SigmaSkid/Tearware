@@ -3,26 +3,28 @@ visuals_FeatureList = function()
         return 
     end
 
+    -- offset for the rainbow effect
     local visibleFeatures = 0.05
+
     local alignment = config_GetSubInt(fFeatureList, fAlignmentLR)
     local watermark_above = config_AdvGetBool(fWatermark) and config_GetSubInt(fWatermark, fAlignmentLR) == alignment
     
-    local features_available_space = 1080
+    -- 6 pixels for padding on virtual 1920x1080 screen
+    local features_available_space = 1080 - 6 
     if watermark_above then 
-        features_available_space = features_available_space - 25
+        features_available_space = features_available_space - 28
     end
 
     local max_features_to_display = features_available_space / 14
 
-    
     UiPush()
         if alignment == 0 then 
             UiAlign("top left")    
-            UiTranslate(5, 0)
+            UiTranslate(5, 3)
         else 
             UiAlign("top right")
             UiTranslate(1920, 0)
-            UiTranslate(-5, 0)
+            UiTranslate(-5, 3)
         end
 
         if watermark_above then
@@ -42,7 +44,8 @@ visuals_FeatureList = function()
                 local color = config_GetColor(fFeatureList, GetTime() + visibleFeatures)
                 UiColor(color.red, color.green, color.blue, color.alpha)
 
-                UiText(featurelist[i].legacyName, true)
+                UiText(featurelist[i].legacyName, false)
+                UiTranslate(0, 14)
             end
         end
 
