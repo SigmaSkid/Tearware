@@ -383,27 +383,29 @@ registry_DrawRegistry = function()
                 end
             UiPop()
 
-            -- draw all the visible keys
-            UiPush()
-                local offsetAfterInt, h = UiGetTextSize(registryCache[#registryCache].id .. "n")
+            -- prevent error spam from refresh
+            if #registryCache > 0 then  
+                -- draw all the visible keys
+                UiPush()
+                    local offsetAfterInt, h = UiGetTextSize(registryCache[#registryCache].id .. "n")
 
-                for i=math.floor(registryScrollPos), registryScrollPos + VisibleEntries do
-                    local thisObject = registryVisibleCache[i]
-                    if thisObject then
-                        registry_DisplayOrEditKey(thisObject, i, offsetAfterInt)
+                    for i=math.floor(registryScrollPos), registryScrollPos + VisibleEntries do
+                        local thisObject = registryVisibleCache[i]
+                        if thisObject then
+                            registry_DisplayOrEditKey(thisObject, i, offsetAfterInt)
+                        end
                     end
-                end
-            UiPop()
+                UiPop()
 
-            -- draw the seperators
-            UiPush()
-                UiColor(0.7, 0.7, 0.7, 0.7)
-                UiTranslate(offsetAfterInt - 5, 25)
-                UiRect(1, UiHeight())
-                UiTranslate(UiMiddle()*1.5, 0)
-                UiRect(1, UiHeight())
-            UiPop()
-
+                -- draw the seperators
+                UiPush()
+                    UiColor(0.7, 0.7, 0.7, 0.7)
+                    UiTranslate(offsetAfterInt - 5, 25)
+                    UiRect(1, UiHeight())
+                    UiTranslate(UiMiddle()*1.5, 0)
+                    UiRect(1, UiHeight())
+                UiPop()
+            end
             -- draw the popup
             registry_DrawPopUp()
         UiPop()
