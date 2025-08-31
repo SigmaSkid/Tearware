@@ -2,6 +2,7 @@
 
 Access the menu by pressing Insert in-game or through the pause menu.
 Most features can be assigned keyboard shortcuts, by right clicking on them.
+Remove the shortcut by assigning the "enter" key. 
 
 [h2]Features[/h2]
 [h3]Visuals[/h3]
