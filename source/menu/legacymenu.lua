@@ -57,15 +57,14 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fWatermark)
                 legacyMenu_ColorSelector(fWatermark)
-                if legacyMenu_FunnySubmenuBegin(fWatermark, 80, 40, 1) then 
+                if legacyMenu_FunnySubmenuBegin(fWatermark, 67, 40, 1) then 
                     legacyMenu_SubSettingCycleList(fWatermark, fAlignmentLR, left_right_string_array)
-
                     UiPop()
                 end
 
                 legacyMenu_Checkbox(fFeatureList)
                 legacyMenu_ColorSelector(fFeatureList)
-                if legacyMenu_FunnySubmenuBegin(fFeatureList, 80, 40, 1) then 
+                if legacyMenu_FunnySubmenuBegin(fFeatureList, 67, 40, 1) then 
                     legacyMenu_SubSettingCycleList(fFeatureList, fAlignmentLR, left_right_string_array)                     
                     UiPop()
                 end
@@ -132,7 +131,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 -- world
 
                 legacyMenu_Checkbox(fBulletTime)
-                if legacyMenu_FunnySubmenuBegin(fBulletTime, 120, 50) then 
+                if legacyMenu_FunnySubmenuBegin(fBulletTime, 120, 60) then 
                     legacyMenu_SubSettingSlider(fBulletTime, fSubScale, 10, 100)
                     UiPop()
                 end
@@ -153,13 +152,13 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 legacyMenu_ColorSelector(fRubberband, false)
 
                 legacyMenu_Checkbox(fTeleport)
-                if legacyMenu_FunnySubmenuBegin(fTeleport, 120, 50) then 
+                if legacyMenu_FunnySubmenuBegin(fTeleport, 120, 60) then 
                     legacyMenu_SubSettingSlider(fTeleport, fSubDelay, 0, 1000)
                     UiPop()
                 end
 
                 legacyMenu_Checkbox(fExplosionBrush)
-                if legacyMenu_FunnySubmenuBegin(fExplosionBrush, 120, 50) then 
+                if legacyMenu_FunnySubmenuBegin(fExplosionBrush, 120, 60) then 
                     legacyMenu_SubSettingSlider(fExplosionBrush, fSubSize, 0.5, 4)
                     UiPop()
                 end
@@ -719,7 +718,7 @@ legacyMenu_FunnySubmenuBegin = function(var, w, h, offset)
 
             UiColor(0.53, 0.53, 0.53, 0.6)
             UiRect(w -4, h-4)
-            UiTranslate(5, 5)
+            UiTranslate(5, 10)
 
     end
     return enabled
