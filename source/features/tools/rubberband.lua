@@ -6,13 +6,13 @@ tools_Rubberband = function()
             return
         end
 
-        SetPlayerTransform(rubberband_transform, true)
+        SetPlayerTransformWithPitch(rubberband_transform)
         rubberband_transform = nil
         return
     end
 
     if rubberband_transform == nil then
-        rubberband_transform = GetPlayerTransform(true)
+        rubberband_transform = GetPlayerTransformWithPitch()
         rubberband_pos = GetPlayerPos()
     end
 
