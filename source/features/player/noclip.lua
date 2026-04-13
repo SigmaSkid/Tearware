@@ -4,7 +4,7 @@ player_NoClip = function(dts)
         return 
     end
 
-    local trans = GetPlayerTransform(true)
+    local trans = GetPlayerTransformWithPitch()
 
     -- teleport/edge of map/respawn detection
     local delta = VecLength( VecSub(noclipbackuppos, trans.pos) )
@@ -48,5 +48,5 @@ player_NoClip = function(dts)
         trans.pos[2] = trans.pos[2] - speed
     end 
 
-    SetPlayerTransform(trans, true)
+    SetPlayerTransformWithPitch(trans)
 end
