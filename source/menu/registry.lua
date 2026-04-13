@@ -92,6 +92,7 @@ registry_DisplayOrEditKey = function(thisObject, id, offsetAfterInt)
     UiPop()
 
     UiPush()
+        UiTranslate(0, 5)
         if thisObject.writeAccess then
             UiColor(0.6, 1.0, 0.6, 1)
         else
@@ -106,7 +107,7 @@ registry_DisplayOrEditKey = function(thisObject, id, offsetAfterInt)
         UiTranslate(UiMiddle()*1.5, 0)
         if registrySelectedKey.key == thisObject.id then
             registrySelectedKey.value, __, inputStringCursorPos = utils_ModifyString(registrySelectedKey.value, inputStringCursorPos)
-            UiText(registrySelectedKey.value, false)
+            UiText(registrySelectedKey.value)
             utils_DrawInputStringCursor(registrySelectedKey.value, inputStringCursorPos)
         
             if InputDown("return") and thisObject.writeAccess then
@@ -227,6 +228,8 @@ registry_DrawPopUp = function()
                     UiColor(0.6, 0.6, 0.6, 0.9)
                 end
                 UiRect(popupW, 24)
+                UiTranslate(5, 4)
+                UiColor(0.3, 0.8, 0.3, 1)
                 UiText("copy")
                 registryPopUp.buttons = registryPopUp.buttons + 1
             UiPop()
@@ -254,6 +257,8 @@ registry_DrawPopUp = function()
                         end
 
                         UiRect(popupW, 24)
+                        UiTranslate(5, 4)
+                        UiColor(0.3, 0.3, 0.8, 1)
                         UiText("paste")
                         registryPopUp.buttons = registryPopUp.buttons + 1
                     UiPop()
@@ -280,6 +285,8 @@ registry_DrawPopUp = function()
                         UiColor(0.6, 0.6, 0.6, 0.9)
                     end
                     UiRect(popupW, 24)
+                    UiTranslate(5, 4)
+                    UiColor(0.8, 0.3, 0.3, 1)
                     UiText("delete")
                     registryPopUp.buttons = registryPopUp.buttons + 1
                 UiPop()
@@ -432,7 +439,7 @@ registry_DrawRegistry = function()
                 local scrollSizePercent = VisibleEntries / #registryVisibleCache
                 local scrollSize = scrollSizePercent * UiHeight()
                 
-                --DebugWatch(scrollOffset, #registryVisibleCache)
+                -- DebugWatch(scrollPercent, #registryVisibleCache)
 
                 UiColor(0.9, 0.9, 0.9, 1)
                 
@@ -457,18 +464,17 @@ registry_DrawRegistry = function()
                     end
                 elseif InputPressed("mmb") then 
                     isScrollingRegistry = true 
-                    local x, y = UiGetMousePos()
-                    registryScrollingBaseOffset = scrollSize/2
+                    registryScrollingBaseOffset = scrollPos * #registryVisibleCache / UiHeight()
                 end
 
                 if isScrollingRegistry then 
                     if InputDown("lmb") or InputDown("mmb") then 
                         local x, y = UiGetMousePos()
 
-                        local delta = (y - registryScrollingBaseOffset)/2
+                        local delta = (y - registryScrollingBaseOffset) * #registryVisibleCache / UiHeight()
 
                         if math.abs(delta) > 1 then 
-                            registryScrollPos = utils_Clamp(registryScrollPos + delta, 1, #registryVisibleCache - VisibleEntries)
+                            registryScrollPos = utils_Clamp(registryScrollPos + delta, 0, #registryVisibleCache - VisibleEntries)
                         end
                     else
                         isScrollingRegistry = false 
