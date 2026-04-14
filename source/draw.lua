@@ -37,11 +37,7 @@ menu_UiDraw = function(dt)
 end
 
 -- called on each draw, dt isn't documented :D
-function draw(dt)
+function client.draw(dt)
     visuals_DrawVisuals()
     menu_UiDraw(dt)
-
-    -- player
-    player_visuals_Godmode()
-    --
 end

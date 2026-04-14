@@ -87,10 +87,12 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fActiveGlow)
                 legacyMenu_ColorSelector(fActiveGlow)
-
-                legacyMenu_Checkbox(fRainbowFog)
-                legacyMenu_ColorSelector(fRainbowFog, false)
                 
+                if isLocalPlayerTheHost then 
+                    legacyMenu_Checkbox(fRainbowFog)
+                    legacyMenu_ColorSelector(fRainbowFog, false)
+                end
+
                 legacyMenu_Checkbox(fPostProcess)
                 legacyMenu_ColorSelector(fPostProcess)
 
@@ -106,18 +108,6 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                 legacyMenu_Checkbox(fSpider)
                 legacyMenu_Checkbox(fFly)
-                if legacyMenu_FunnySubmenuBegin(fFly, 120, 100) then 
-                    legacyMenu_SubSettingSlider(fFly, fSubSpeed, 10, 30)
-                    legacyMenu_SubSettingSlider(fFly, fSubBoost, 10, 40)
-                    UiPop()
-                end
-
-                legacyMenu_Checkbox(fNoclip)
-                if legacyMenu_FunnySubmenuBegin(fNoclip, 120, 100) then 
-                    legacyMenu_SubSettingSlider(fNoclip, fSubSpeed, 1, 5)
-                    legacyMenu_SubSettingSlider(fNoclip, fSubBoost, 1, 20)
-                    UiPop()
-                end
 
                 legacyMenu_Checkbox(fFloorStrafe)
                 legacyMenu_Checkbox(fJetpack)
@@ -130,19 +120,31 @@ legacyMenu_DrawLegacyMenu = function(rgb)
             elseif GetInt(cfgstr .. "activetab") == 2 then 
                 -- world
 
-                legacyMenu_Checkbox(fBulletTime)
-                if legacyMenu_FunnySubmenuBegin(fBulletTime, 120, 60) then 
-                    legacyMenu_SubSettingSlider(fBulletTime, fSubScale, 10, 100)
+                if isLocalPlayerTheHost then 
+                    legacyMenu_Checkbox(fBulletTime)
+                    if legacyMenu_FunnySubmenuBegin(fBulletTime, 120, 60) then 
+                        legacyMenu_SubSettingSlider(fBulletTime, fSubScale, 10, 100)
+                        UiPop()
+                    end
+
+                    legacyMenu_Checkbox(fSkipObjective)
+                    legacyMenu_Checkbox(fDisableAlarm)
+                    legacyMenu_Checkbox(fDisableRobots)
+                    legacyMenu_Checkbox(fDisablePhysics)
+                    legacyMenu_Checkbox(fForceUpdatePhysics)
+                    legacyMenu_Checkbox(fTeleportValuables)
+                    legacyMenu_Checkbox(fUnfairValuables)
+                else 
+                    UiPush()
+                        UiTranslate(0, 25)
+                        UiTextShadow(0, 0, 0, 0.5, 1.5)
+                        UiTextOutline(0, 0, 0, 1, 0.1)
+                        UiText("Features affecting the world\nare for the hosting player only")
+                        UiFont("bold.ttf", 15)
+                        UiTranslate(0, 50)
+                        UiText("unlucky")
                     UiPop()
                 end
-
-                legacyMenu_Checkbox(fSkipObjective)
-                legacyMenu_Checkbox(fDisableAlarm)
-                legacyMenu_Checkbox(fDisableRobots)
-                legacyMenu_Checkbox(fDisablePhysics)
-                legacyMenu_Checkbox(fForceUpdatePhysics)
-                legacyMenu_Checkbox(fTeleportValuables)
-                legacyMenu_Checkbox(fUnfairValuables)
 
 
             elseif GetInt(cfgstr .. "activetab") == 3 then 
@@ -164,7 +166,10 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 end
 
                 legacyMenu_Checkbox(fFireBrush)
-                legacyMenu_Checkbox(fStructureRestorer)
+
+                if isLocalPlayerTheHost then 
+                    legacyMenu_Checkbox(fStructureRestorer)
+                end
 
             elseif GetInt(cfgstr .. "activetab") == 4 then 
                 if legacyMenu_Button(fMenuResetConfig) then 

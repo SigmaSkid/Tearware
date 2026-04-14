@@ -1,83 +1,43 @@
 -- player
-#include "features/player/spider.lua"
-#include "features/player/speedhack.lua"
-#include "features/player/jesus.lua"
-#include "features/player/floorstrafe.lua"
-#include "features/player/jetpack.lua"
-#include "features/player/fly.lua"
-#include "features/player/noclip.lua"
-#include "features/player/quickstop.lua"
-#include "features/player/superstrength.lua"
+#include "features/player/infiniteammo.lua"
+#include "features/player/godmode.lua"
 
 -- world
-#include "features/world/timer.lua"
-#include "features/world/forceupdateallbodies.lua"
-#include "features/world/disablephysics.lua"
-
--- visuals
-#include "features/visuals/coloredfog.lua"
-#include "features/visuals/postprocessing.lua"
+#include "features/world/destroyeconomy.lua"
+#include "features/world/disablerobots.lua"
+#include "features/world/teleportvaluables.lua"
+#include "features/world/disablealarm.lua"
+#include "features/world/skipobjective.lua"
 
 -- tools
-#include "features/tools/explosionbrush.lua"
-#include "features/tools/firebrush.lua"
-#include "features/tools/teleport.lua"
+#include "features/tools/rubberband.lua"
+#include "features/tools/structurerestorer.lua"
 
--- In teardown tick is called per frame.
--- Refer to the offcial documentation.
-function tick(dt) 
-    if PauseMenuButton(fProjectName) then
-		openMenu = "tearware"
-    end
-
-    if InputPressed("insert") then
-        if openMenu ~= nil then 
-            openMenu = nil 
-        else 
-            openMenu = "tearware"
-        end
-    end
-
-    -- input system stuff
-    config_UpdateAllFeatureStates() -- utils/config.lua
-
-    -- delta time scaled, .5 = 120fps, 1 = 60fps, 2 = 30fps
-    local dts = dt / fixed_update_rate
-
-    -- world 
-    world_Timer()
-    world_ForceUpdateAllBodies()
-    world_DisablePhysics()
-    --
-
-    -- visuals
-    visuals_ColoredFog()
-    visuals_PostProcessing()
-    --
-
-    if GetPlayerVehicle() ~= 0 then
-        -- in vehicle
-        return
-    end
-
+-- In teardown update is called at 60tps
+function client.update(dt)
     -- player
-    player_Spider() 
-    player_Speedhack()
-    player_Jesus()
-    player_Floorstrafe()
-    player_Jetpack(dts)
-    player_Fly(dt)
-    player_NoClip(dts)
-    player_Quickstop()
-    -- 
+    -- player_InfiniteAmmo() -- still broken
+    player_Godmode()
+    --
 
     -- tools
-    tools_Teleport()
-    tools_ExplosionBrush()
-    tools_FireBrush()
-    -- 
+    -- tools_Rubberband()  -- still broken
+    --
+end
 
-    -- player
-    player_SuperStrength()
-    -- 
+function server.update(dt)
+    -- host features, they read host registry, no need for fancy workarounds.
+    -- I think? I only tested in single player so far.. I hope it works like that.
+    
+    -- world
+    world_UnfairPrices()
+    world_DisableRobots()
+    world_CollectValuables()
+    world_DisableAlarm()
+    world_SkipObjective()
+    --
+
+    -- tools
+    tools_StructureRestorer()
+    --
 end

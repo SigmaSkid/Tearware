@@ -2,47 +2,46 @@
 fProjectName = "Tearware Github Preview"
 
 -- visuals
-fWatermark = { legacyName = "Watermark", newMenuName = "Watermark", configString = "watermark"}
-fFeatureList = { legacyName = "Feature List", newMenuName = "Feature List", configString = "featurelist", description = "Lists enabled features" }
+fWatermark = { legacyName = "Watermark", configString = "watermark", hostOnly=false}
+fFeatureList = { legacyName = "Feature List", configString = "featurelist", hostOnly=false}
 
-fObjectiveEsp = { legacyName = "Objective ESP", configString = "objectiveesp", description = "Highlights mandatory objectives"}
-fOptionalEsp = { legacyName = "Optional ESP", configString = "optionalesp", description = "Highlights optional objectives"}
-fValuableEsp = { legacyName = "Valuable ESP", configString = "valueesp", description = "Highlights valuables"}
-fToolEsp = { legacyName = "Tool ESP", configString = "toolesp", description = "Highlights tools"}
-fActiveGlow = { legacyName = "Active Glow", configString = "activeglow", description = "Highlights active bodies"}
-fRainbowFog = { legacyName = "Colored Fog", configString = "rainbowfog", description = "Changes the color of fog"}
-fPostProcess = { legacyName = "Post Processing", configString = "postprocessing"}
-fWeaponGlow = { legacyName = "Tool Glow", configString = "weaponglow", description = "Highlights held tool"}
+fObjectiveEsp = { legacyName = "Objective ESP", configString = "objectiveesp", hostOnly=false}
+fOptionalEsp = { legacyName = "Optional ESP", configString = "optionalesp", hostOnly=false}
+fValuableEsp = { legacyName = "Valuable ESP", configString = "valueesp", hostOnly=false}
+fToolEsp = { legacyName = "Tool ESP", configString = "toolesp", hostOnly=false}
+fActiveGlow = { legacyName = "Active Glow", configString = "activeglow", hostOnly=false}
+fRainbowFog = { legacyName = "Colored Fog", configString = "rainbowfog", hostOnly=false}
+fPostProcess = { legacyName = "Post Processing", configString = "postprocessing", hostOnly=false}
+fWeaponGlow = { legacyName = "Tool Glow", configString = "weaponglow", hostOnly=false}
 
 -- player
-fSpeed = { legacyName = "Speed", configString = "speedhack", description = "Makes you faster"}
-fSpider = { legacyName = "Spider", configString = "spider", description = "Allows you to climb walls"}
-fFly = { legacyName = "Fly", configString = "fly", description = "Allows you to fly"}
-fNoclip = { legacyName = "Noclip", configString = "noclip", description = "Allows you to noclip"}
-fFloorStrafe = { legacyName = "Floor Strafe", configString = "floorstrafe", description = "Disables ground friction"}
-fJetpack = { legacyName = "Jetpack", configString = "jetpack"}
-fJesus = { legacyName = "Jesus", configString = "jesus", description = "Let's you turn water into wine"}
-fQuickstop = { legacyName = "Quickstop", configString = "quickstop", description = "Stops your velocity when there is no input"}
-fInfiniteAmmo = { legacyName = "Infinite Ammo", configString = "infiniteammo", description = "Disables ammo limit"}
-fSuperStrength = { legacyName = "Super Strength", configString = "superstrength", description = "Allows you to grab all dynamic objects"}
-fGodmode = { legacyName = "Godmode", configString = "godmode", description = "Prevents health loss"}
+fSpeed = { legacyName = "Speed", configString = "speedhack", hostOnly=false}
+fSpider = { legacyName = "Spider", configString = "spider", hostOnly=false}
+fFly = { legacyName = "Fly", configString = "fly", hostOnly=false}
+fFloorStrafe = { legacyName = "Floor Strafe", configString = "floorstrafe", hostOnly=false}
+fJetpack = { legacyName = "Jetpack", configString = "jetpack", hostOnly=false}
+fJesus = { legacyName = "Jesus", configString = "jesus", hostOnly=false}
+fQuickstop = { legacyName = "Quickstop", configString = "quickstop", hostOnly=false}
+fInfiniteAmmo = { legacyName = "Infinite Ammo", configString = "infiniteammo", hostOnly=false}
+fSuperStrength = { legacyName = "Super Strength", configString = "superstrength", hostOnly=false}
+fGodmode = { legacyName = "Godmode", configString = "godmode", hostOnly=false}
 
 -- world
-fBulletTime = { legacyName = "Slowmotion", configString = "timer"}
-fSkipObjective = { legacyName = "Skip Objective", configString = "skipobjective", description = "Marks all objectives as completed"}
-fDisableAlarm = { legacyName = "Disable Alarm", configString = "disablealarm", description = "Disables alarm"}
-fDisableRobots = { legacyName = "Disable Robots", configString = "disablerobots", description = "Disables robots"}
-fDisablePhysics = { legacyName = "Disable Physics", configString = "disablephysics", description = "Disables dynamic objects"}
-fForceUpdatePhysics = { legacyName = "Force Update Physics", configString = "forceupdatephysics", description = "Updates all dynamic objects"}
-fTeleportValuables = { legacyName = "Teleport Valuables", configString = "autocollect", description = "Teleports all valuables to you"}
-fUnfairValuables = { legacyName = "Unfair Valuables", configString = "inflation", description = "Increases value of all valuables"}
+fBulletTime = { legacyName = "Slowmotion", configString = "timer", hostOnly=true}
+fSkipObjective = { legacyName = "Skip Objective", configString = "skipobjective", hostOnly=true}
+fDisableAlarm = { legacyName = "Disable Alarm", configString = "disablealarm", hostOnly=true}
+fDisableRobots = { legacyName = "Disable Robots", configString = "disablerobots", hostOnly=true}
+fDisablePhysics = { legacyName = "Disable Physics", configString = "disablephysics", hostOnly=true}
+fForceUpdatePhysics = { legacyName = "Force Update Physics", configString = "forceupdatephysics", hostOnly=true}
+fTeleportValuables = { legacyName = "Teleport Valuables", configString = "autocollect", hostOnly=true}
+fUnfairValuables = { legacyName = "Unfair Valuables", configString = "inflation", hostOnly=true}
 
 -- tools
-fStructureRestorer = { legacyName = "Structure Restorer", configString = "structurerestorer"}
-fRubberband = { legacyName = "Rubberband", configString = "rubberband", description = "Teleports you to your previous position"}
-fExplosionBrush = { legacyName = "Explosion Brush", configString = "explosionbrush"}
-fFireBrush = { legacyName = "Fire Brush", configString = "firebrush"}
-fTeleport = { legacyName = "Teleport", configString = "teleport"}
+fStructureRestorer = { legacyName = "Structure Restorer", configString = "structurerestorer", hostOnly=true}
+fRubberband = { legacyName = "Rubberband", configString = "rubberband", hostOnly=false}
+fExplosionBrush = { legacyName = "Explosion Brush", configString = "explosionbrush", hostOnly=false}
+fFireBrush = { legacyName = "Fire Brush", configString = "firebrush", hostOnly=false}
+fTeleport = { legacyName = "Teleport", configString = "teleport", hostOnly=false}
 
 -- shared sub settings
 fSubSpeed = { legacyName = "Speed", configString = "amount"}

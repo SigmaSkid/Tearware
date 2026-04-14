@@ -5,8 +5,9 @@ cfgstr = "savegame.mod.tearware_"
 fixed_update_rate = 1/60
 origin_to_eye_distance = 1.7
 gameVersion = GetVersion()
-registryEntryPoints = { "options", "game", "savegame", "level", "promo", "mods" }
+registryEntryPoints = { "characters", "game", "hud", "level", "loading", "mods", "promo", "promo_mp", "savegame", "spawn" }
 colorSuffix = {"_red", "_green", "_blue", "_alpha", "_rainbow"}
+isLocalPlayerTheHost = false
 
 -- {"Name that InputLastPressedKey() Outputs", "Default Value", "Capitalized Value"}
 ghettoKeyMap = {

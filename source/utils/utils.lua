@@ -391,3 +391,7 @@ utils_ShortenKeyString = function(string)
     end
     return string 
 end
+
+utils_boolStr = function(bool)
+    if bool then return "True" else return "False" end
+end

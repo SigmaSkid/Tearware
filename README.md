@@ -1,4 +1,4 @@
-# Tearware
+# Tearware - transitioning to API v2
 Teardown cheat inspired by modern game cheats.
   
 Access the menu by pressing Insert in-game or through the pause menu.  
@@ -17,42 +17,43 @@ Remove the shortcut by assigning the "enter" key.
 - Tool ESP
 - Weapon Glow
 - Active Glow
-- Colored Fog
+- Colored Fog*
 - Post Processing
-- Spinny Tool
 
 ### Player:
-- Speed
-- Spider
+- Speed - borked
+- Spider - borked
 - Fly
-- Noclip
-- Floor Strafe
-- Jetpack
-- Jesus
-- Quickstop
-- Infinite Ammo
-- Super Strength
-- Godmode
+- Floor Strafe - borked
+- Jetpack - borked
+- Jesus - borked
+- Quickstop - borked
+- Infinite Ammo - borked
+- Super Strength - borked
+- Godmode - borked
 
 ### World:
-- Slowmotion
-- Skip Objective
-- Disable Alarm
-- Disable Robots
-- Disable Physics
-- Force Update Physics
-- Teleport Valuables
-- Unfair Valuables
+- Slowmotion*
+- Skip Objective*
+- Disable Alarm*
+- Disable Robots*
+- Disable Physics*
+- Force Update Physics*
+- Teleport Valuables*
+- Unfair Valuables*
+- Performance mod -- to implement, update and integrate intP https://steamcommunity.com/sharedfiles/filedetails/?id=2978347999 (current version removes player models..)
 
 ### Tools:
-- Structure Restorer
-- Rubberband
-- Teleport
-- Explosion Brush
-- Fire Brush
+- Structure Restorer*
+- Rubberband - borked
+- Teleport - borked
+- Explosion Brush - borked
+- Fire Brush - borked
 
 ### Miscellaneous:
 - Registry Explorer
+
+Features marked with '*' are host only.
 
 ## Installation. 
 ### Steam Workshop (recommended)
@@ -70,5 +71,5 @@ git clone https://github.com/SigmaSkid/Tearware
 or use github desktop.
 
 ## Building a release candidate.
-Navigate to the github repository and run the pack python script.
+Navigate to the github repository and run the pack python script.  
 It creates a release folder containing the packaged code.

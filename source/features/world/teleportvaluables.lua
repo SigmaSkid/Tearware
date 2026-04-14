@@ -35,7 +35,8 @@ world_CollectValuables = function()
 
     world_CacheValuables()
 
-    local camera = GetCameraTransform()
+    local camera = GetPlayerTransformWithPitch()
+    
     local v = FindBodies("valuable", true)
 
     if #v == 0 then
@@ -52,8 +53,8 @@ world_CollectValuables = function()
     local direction = VecNormalize(VecSub(camera.pos, parentpoint))
     local vector = VecScale(direction, (-radius) + 2)
 
-    -- offset circle down, so it looks nicer
-    vector[2] = -0.3
+    -- offset circle up, camera transform is reserved for client only, so we work with player transform.
+    vector[2] = 1.0
     local circleCenter = VecAdd(camera.pos, vector)
 
     -- spin the circle around using time

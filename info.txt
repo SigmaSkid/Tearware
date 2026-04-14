@@ -2,3 +2,4 @@ name = Tearware
 author = SigmaSkid
 description = cheat menu
 tags = Gameplay
+version = 2

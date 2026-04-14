@@ -7,9 +7,11 @@
 #include "draw.lua"
 
 -- entrypoint
-function init()
+function client.init()
     config_GenerateConfig()
     ghostMode()
+
+    isLocalPlayerTheHost = IsPlayerHost(GetLocalPlayer())
 end
 
 -- hides tearware from the modlist.
@@ -33,3 +35,5 @@ function ghostMode()
         end
     end
 end
+
+

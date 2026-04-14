@@ -1,19 +1,13 @@
-player_Godmode = function() 
-    if not config_AdvGetBool(fGodmode) then
+player_Godmode = function()
+    local currentGodmodeState = config_AdvGetBool(fGodmode) 
+    if currentGodmodeState == GetPlayerParam("godmode") then 
         return 
     end
-
-    if GetPlayerHealth() then
-        SetPlayerHealth(1)
-    end
+    
+    ServerCall("server.GodmodeToggle", GetLocalPlayer(), currentGodmodeState)
 end
 
--- @UnlegitSenpaii
--- BigBook wanted this. so here.
-player_visuals_Godmode = function()
-    if not config_AdvGetBool(fGodmode) then
-        return 
-    end
-
-    SetFloat("game.player.health", 1)
+server.GodmodeToggle = function(id, value)
+    SetPlayerParam("godmode", value, id)
+    DebugPrint("Set godmode " .. utils_boolStr(value) .. " for " .. id .. "-" .. GetPlayerName(id))
 end

@@ -39,13 +39,15 @@ visuals_FeatureList = function()
 
         for i=1, #featurelist do
             if config_AdvGetBool(featurelist[i]) and max_features_to_display > 0 then
-                max_features_to_display = max_features_to_display - 1
-                visibleFeatures = visibleFeatures + 0.05
-                local color = config_GetColor(fFeatureList, GetTime() + visibleFeatures)
-                UiColor(color.red, color.green, color.blue, color.alpha)
+                if not featurelist[i].hostOnly or isLocalPlayerTheHost then 
+                    max_features_to_display = max_features_to_display - 1
+                    visibleFeatures = visibleFeatures + 0.05
+                    local color = config_GetColor(fFeatureList, GetTime() + visibleFeatures)
+                    UiColor(color.red, color.green, color.blue, color.alpha)
 
-                UiText(featurelist[i].legacyName, false)
-                UiTranslate(0, 14)
+                    UiText(featurelist[i].legacyName, false)
+                    UiTranslate(0, 14)
+                end
             end
         end
 
