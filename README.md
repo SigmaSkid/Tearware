@@ -11,6 +11,7 @@ Remove the shortcut by assigning the "enter" key.
 ## Features:
 ### Visuals: 
 - Feature List
+- Player ESP - to implement
 - Objective ESP
 - Optional ESP
 - Valuable ESP
@@ -30,7 +31,8 @@ Remove the shortcut by assigning the "enter" key.
 - Quickstop - borked
 - Infinite Ammo - borked
 - Super Strength - borked
-- Godmode - borked
+- Godmode
+- Anti-aim - to implement, figure out if it's now possible to manipulate the player model without affecting camera.
 
 ### World:
 - Slowmotion*
