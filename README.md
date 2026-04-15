@@ -11,12 +11,12 @@ Remove the shortcut by assigning the "enter" key.
 ## Features:
 ### Visuals: 
 - Feature List
-- Player ESP - to implement
 - Objective ESP
 - Optional ESP
 - Valuable ESP
 - Tool ESP
-- Weapon Glow
+- Player Glow
+- Equipped Tool Glow
 - Active Glow
 - Colored Fog*
 - Post Processing

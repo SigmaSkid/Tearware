@@ -82,6 +82,9 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 legacyMenu_Checkbox(fToolEsp)
                 legacyMenu_ColorSelector(fToolEsp)
 
+                legacyMenu_Checkbox(fPlayerGlow)
+                legacyMenu_ColorSelector(fPlayerGlow)
+
                 legacyMenu_Checkbox(fWeaponGlow)
                 legacyMenu_ColorSelector(fWeaponGlow)
 

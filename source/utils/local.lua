@@ -9,10 +9,11 @@ fObjectiveEsp = { legacyName = "Objective ESP", configString = "objectiveesp", h
 fOptionalEsp = { legacyName = "Optional ESP", configString = "optionalesp", hostOnly=false}
 fValuableEsp = { legacyName = "Valuable ESP", configString = "valueesp", hostOnly=false}
 fToolEsp = { legacyName = "Tool ESP", configString = "toolesp", hostOnly=false}
+fPlayerGlow = { legacyName = "Player Glow", configString = "playerglow", hostOnly=false}
 fActiveGlow = { legacyName = "Active Glow", configString = "activeglow", hostOnly=false}
 fRainbowFog = { legacyName = "Colored Fog", configString = "rainbowfog", hostOnly=false}
 fPostProcess = { legacyName = "Post Processing", configString = "postprocessing", hostOnly=false}
-fWeaponGlow = { legacyName = "Tool Glow", configString = "weaponglow", hostOnly=false}
+fWeaponGlow = { legacyName = "Equipped Tool Glow", configString = "weaponglow", hostOnly=false}
 
 -- player
 fSpeed = { legacyName = "Speed", configString = "speedhack", hostOnly=false}

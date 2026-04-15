@@ -28,7 +28,31 @@ visuals_ActiveGlow = function()
     end
 end
 
+
+visuals_PlayerGlow = function()
+    if not config_AdvGetBool(fPlayerGlow) then 
+        return 
+    end
+
+    local color = config_GetColor(fPlayerGlow, GetTime())
+    local players = GetAllPlayers()
+    local isThirdPerson = GetBool("game.thirdperson")
+
+    for id=1, #players do
+        if IsPlayerValid(id) then 
+            if not IsPlayerLocal(id) or isThirdPerson then 
+                local bodies = GetPlayerBodies(id)
+                for i=1,#bodies do
+                    local body = bodies[i]
+                    DrawBodyOutline(body, color.red, color.green, color.blue, color.alpha)
+                end
+            end
+        end
+    end
+end 
+
 visuals_DrawGlow = function()
     visuals_WeaponGlow()
     visuals_ActiveGlow()
+    visuals_PlayerGlow()
 end
