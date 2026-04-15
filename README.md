@@ -29,7 +29,7 @@ Remove the shortcut by assigning the "enter" key.
 - Jetpack - borked
 - Jesus - borked
 - Quickstop - borked
-- Infinite Ammo - borked
+- Infinite Ammo
 - Super Strength - borked
 - Godmode
 - Anti-aim
@@ -43,7 +43,6 @@ Remove the shortcut by assigning the "enter" key.
 - Force Update Physics*
 - Teleport Valuables*
 - Unfair Valuables*
-- Performance mod -- to implement, update and integrate intP https://steamcommunity.com/sharedfiles/filedetails/?id=2978347999 (current version removes player models..)
 
 ### Tools:
 - Structure Restorer*

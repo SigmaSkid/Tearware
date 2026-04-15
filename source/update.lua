@@ -16,7 +16,7 @@
 -- In teardown update is called at 60tps
 function client.update(dt)
     -- player
-    -- player_InfiniteAmmo() -- still broken
+    player_InfiniteAmmo()
     player_Godmode()
     --
 
