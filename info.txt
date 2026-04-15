@@ -3,3 +3,4 @@ author = SigmaSkid
 description = cheat menu
 tags = Gameplay
 version = 2
+preview = tearware_preview.jpg
