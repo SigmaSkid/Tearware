@@ -1,4 +1,4 @@
-tools_Rubberband = function() 
+client_ToolsRubberband = function() 
     if not config_AdvGetBool(fRubberband) then
         rubberband_pos = nil
 
@@ -6,7 +6,8 @@ tools_Rubberband = function()
             return
         end
 
-        SetPlayerTransformWithPitch(rubberband_transform)
+        -- we could re-use teleport, but I want to preserve transform.
+        ServerCall("server.rubberbandTarget", GetLocalPlayer(), localUUID, rubberband_transform)
         rubberband_transform = nil
         return
     end
@@ -23,3 +24,25 @@ tools_Rubberband = function()
     ParticleColor(color.red, color.green, color.blue)
     SpawnParticle(rubberband_pos, Vec(0, -2, 0), 0.1)
 end
+
+-- server. 
+playersRubberbandTargets = {}
+
+server.rubberbandTarget = function(playerID, UUID, transform)
+
+    if not serverVerify(playerID, UUID) then return end
+
+    DebugPrint("server.rubberbandTarget " .. playerID .. "-" .. GetPlayerName(playerID))
+
+    playersRubberbandTargets[playerID] = { target = transform }
+end
+
+server_ToolsRubberband = function(playerID, dt)
+
+    local entry = playersRubberbandTargets[playerID]
+    if entry == nil then return end
+    
+    SetPlayerTransformWithPitch(entry.target, playerID)
+    playersRubberbandTargets[playerID] = nil
+end
+

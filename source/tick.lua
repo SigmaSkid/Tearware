@@ -71,6 +71,7 @@ end
 
 function playerServerTick(id, dt)
     server_ToolsTeleport(id, dt)
+    server_ToolsRubberband(id)
 end
 
 function server.tick(dt)

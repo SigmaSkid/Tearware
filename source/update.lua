@@ -21,7 +21,7 @@ function client.update(dt)
     --
 
     -- tools
-    -- tools_Rubberband()  -- still broken
+    client_ToolsRubberband()
     --
 end
 
