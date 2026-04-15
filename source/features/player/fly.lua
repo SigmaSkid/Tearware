@@ -4,10 +4,13 @@ client_playerFly = function()
         return 
     end
     
-    ServerCall("server.FlyToggle", GetLocalPlayer(), currentFlyState)
+    ServerCall("server.FlyToggle", GetLocalPlayer(), localUUID, currentFlyState)
 end
 
-server.FlyToggle = function(id, value)
+server.FlyToggle = function(id, UUID, value)
+    
+    if not serverVerify(id, UUID) then return end
+
     SetPlayerParam("flymode", value, id)
     DebugPrint("Set flymode " .. utils_boolStr(value) .. " for " .. id .. "-" .. GetPlayerName(id))
 end

@@ -11,22 +11,17 @@ client_ToolsTeleport = function()
 
     local delay = config_GetSubFloat(fTeleport, fSubDelay) / 1000
 
-    ServerCall("server.teleportTarget", GetLocalPlayer(), targetPos, delay)
+    ServerCall("server.teleportTarget", GetLocalPlayer(), localUUID, targetPos, delay)
 end
 
 -- server. 
--- Yes, doing it this way will cause teleports to be dropped on quick load. Can you even quickload in multiplayer? idk :D
--- Does it actually matter? maybe.
 playersTeleportTargets = {}
 
-server.teleportTarget = function(playerID, targetPos, delay)
-    DebugPrint("server.teleportTarget " .. playerID .. "-" .. GetPlayerName(playerID) .. " delay: " .. delay)
+server.teleportTarget = function(playerID, UUID, targetPos, delay)
 
-    -- validate data.
-    if not IsPlayerValid(playerID) then
-        DebugPrint("server.teleportTarget called by an invalid player ID" .. playerID)
-        return
-    end
+    if not serverVerify(playerID, UUID) then return end
+
+    DebugPrint("server.teleportTarget " .. playerID .. "-" .. GetPlayerName(playerID) .. " delay: " .. delay)
 
     playersTeleportTargets[playerID] = { startPos = GetPlayerTransform(playerID).pos, target = targetPos, delay = delay, timer = 0 }
 
@@ -47,7 +42,7 @@ server_ToolsTeleport = function(playerID, dt)
     -- teleport directly to target.
     if prog >= 1 then 
         local t = GetPlayerTransformWithPitch(playerID)
-        t.pos = entry.pos
+        t.pos = entry.target
         SetPlayerTransformWithPitch(t, playerID)
         playersTeleportTargets[playerID] = nil
         return
