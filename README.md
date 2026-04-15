@@ -48,7 +48,7 @@ Remove the shortcut by assigning the "enter" key.
 ### Tools:
 - Structure Restorer*
 - Rubberband - borked
-- Teleport - borked
+- Teleport
 - Explosion Brush - borked
 - Fire Brush - borked
 

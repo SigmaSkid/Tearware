@@ -59,7 +59,7 @@ function client.tick(dt)
     -- 
 
     -- tools
-    -- tools_Teleport() -- still broken
+    client_ToolsTeleport()
     -- tools_ExplosionBrush() -- still broken
     -- tools_FireBrush() -- still broken
     -- 
@@ -70,7 +70,7 @@ function client.tick(dt)
 end
 
 function playerServerTick(id, dt)
-
+    server_ToolsTeleport(id, dt)
 end
 
 function server.tick(dt)
