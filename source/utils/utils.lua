@@ -136,12 +136,22 @@ utils_animateDvd = function(dvd, dt)
     dvd.x = dvd.x + dvd.speedx * dt
     dvd.y = dvd.y + dvd.speedy * dt
     
-    if dvd.x < 0 or dvd.x + dvd.width > UiWidth() then
-      dvd.speedx = -dvd.speedx
+    if dvd.x < 0 then
+        dvd.x = 0
+        dvd.speedx = -dvd.speedx
+    elseif dvd.x + dvd.width > UiWidth() then
+        dvd.x = UiWidth() - dvd.width
+        dvd.speedx = -dvd.speedx
     end
-    if dvd.y < 0 or dvd.y + dvd.height > UiHeight() then
-      dvd.speedy = -dvd.speedy
+
+    if dvd.y < 0 then
+        dvd.y = 0
+        dvd.speedy = -dvd.speedy
+    elseif dvd.y + dvd.height > UiHeight() then
+        dvd.y = UiHeight() - dvd.height
+        dvd.speedy = -dvd.speedy
     end
+    
     return dvd
 end
 
@@ -269,34 +279,31 @@ end
 -- accepts a [string] and cursor[int]
 -- draws a Rect at the cursor pos,
 -- doesn't do anything if cursor is invalid [nil]
-utils_DrawInputStringCursor = function(base, cursorPos)
-    if cursorPos == nil then return end
-
+utils_DrawInputStringCursor = function(base, cursorPos, alignment)
     -- make it pop in and out like in all funny text editors.
-    if inputStringCursorSwitchTimer <= GetTime() then
-        inputStringCursorSwitchTimer = GetTime() + 0.5
-        inputStringDrawCursor = not inputStringDrawCursor
-    end
+    inputStringDrawCursor = math.floor(GetTime() * 3) % 2 == 0
 
     if not inputStringDrawCursor then return end
 
     UiPush()
-        local base = string.sub(base, 1, cursorPos - 1)
+        local prefix = string.sub(base, 1, cursorPos - 1)
         
-        -- add a dot at the end so that spaces aren't skipped
-        -- when calculating string size
-        base = base .. "dot"
+        local prefixWidth, prefixHeight = UiGetTextSize(prefix)
+        local fullWidth = UiGetTextSize(base)
 
-        local basex, basey = UiGetTextSize(base)
-        
-        -- now get the dot size
-        local dotx, doty = UiGetTextSize("dot") 
-        
-        local translatedOffset = basex - dotx + 3
+        local a,b = UiGetTextSize("|")
 
-        UiTranslate(translatedOffset, 0)
-        
-        UiRect(2, basey)
+        local x = prefixWidth
+
+        -- align it.
+        if alignment == "center" then 
+           x = prefixWidth - (fullWidth / 2)
+        elseif alignment == "right" then
+            x = prefixWidth - fullWidth
+        end
+
+        UiTranslate(x + 1, 0)
+        UiRect(2, b)
     UiPop()
 end
 
@@ -394,6 +401,11 @@ end
 
 utils_boolStr = function(bool)
     if bool then return "True" else return "False" end
+end
+
+utils_floatStr = function(float, precision)
+    precision = precision or 2
+    return string.format("%." .. precision .. "f", float)
 end
 
 -- hides tearware from the modlist.

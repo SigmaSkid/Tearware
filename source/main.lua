@@ -1,3 +1,4 @@
+#include "ui/ui_helpers.lua"
 #include "utils/local.lua"
 #include "utils/globals.lua"
 #include "utils/config.lua"

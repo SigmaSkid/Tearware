@@ -118,8 +118,8 @@ resetDvd.width = 175
 resetDvd.height = 25
 resetDvd.x = 0
 resetDvd.y = 0
-resetDvd.speedx = 100
-resetDvd.speedy = 100
+resetDvd.speedx = 1000
+resetDvd.speedy = 1000
 
 isScrollingRegistry = false
 registryScrollingBaseOffset = 0

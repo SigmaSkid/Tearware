@@ -174,15 +174,12 @@ legacyMenu_DrawLegacyMenu = function(rgb)
             elseif GetInt(cfgstr .. "activetab") == 4 then 
                 if legacyMenu_Button(fMenuResetConfig) then 
                     -- restart it's position, to prevent accidental clicks
-                    resetDvd = {} 
-                    resetDvd.width = 175 
-                    resetDvd.height = 25
                     resetDvd.x = 0
                     resetDvd.y = 0
-                    resetDvd.speedx = 100
-                    resetDvd.speedy = 100
-
                     openMenu = "reset"
+                    resetConfirmPage = 0
+                    resetConfirmString = ""
+                    resetTimerController = 20.0
                 end
 
                 if legacyMenu_Button(fMenuFinishLevel) then

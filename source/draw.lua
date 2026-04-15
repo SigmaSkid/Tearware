@@ -1,6 +1,6 @@
-#include "menu/resetconfirm.lua" -- DrawResetConfigConfirmation
 #include "menu/menu.lua" -- DrawMenu
 #include "menu/registry.lua" -- DrawRegistry
+#include "menu/resetconfirm.lua" -- DrawResetConfigConfirmation
 #include "features/visuals/visuals.lua" -- DrawVisuals
 #include "features/player/godmode.lua" -- Disable damage overlay
 
