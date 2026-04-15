@@ -1,9 +1,23 @@
+draggingMenu = false
+dragMenuLastMousePos = nil
+
 legacyMenu_DrawLegacyMenu = function(rgb) 
+    local windowPos = {}
+    local x_, y_ =  UiGetMousePos()
+
+    -- permanent temporary solution :3
+    -- I pray they never change the UI scaling from 1920x1080, 
+    -- because this entire menu will fall apart when they do.
+    windowPos.x = 255 + (config_GetFloat(fMenuX) * 1410)
+    windowPos.y = 305 + (config_GetFloat(fMenuY) * 470)
+
+    -- DebugPrint(windowPos.x .. " " .. windowPos.y)
+
     UiPush()
         UiFont("bold.ttf", 25)
         
         -- create context
-        UiTranslate(UiCenter(), UiMiddle())
+        UiTranslate(windowPos.x, windowPos.y)
         UiWindow(500, 600)
 
         -- draw window background
@@ -21,6 +35,47 @@ legacyMenu_DrawLegacyMenu = function(rgb)
             UiTranslate(0, -UiMiddle() - 2)
             UiRect(UiWidth(), 2)
         UiPop()
+
+        -- dragging the window.
+        UiPush()
+            UiTranslate(0, -UiMiddle() - 4)
+            -- UiColor(1, 0, 0)
+            -- UiRect(UiWidth(), 8)
+            
+            local hover = UiIsMouseInRect(UiWidth(), 8)
+            
+            if hover and InputPressed("lmb") then 
+                dragging = true
+                dragMenuLastMousePos = {x=x_, y=y_}
+            end
+            if hover and InputPressed("rmb") then 
+                config_SetFloat(fMenuX, 0.5)
+                config_SetFloat(fMenuY, 0.5)
+            end
+            if not InputDown("lmb") then
+                dragging = false
+            end
+            
+            if dragging then
+                local dx = x_ - dragMenuLastMousePos.x
+                local dy = y_ - dragMenuLastMousePos.y 
+
+                windowPos.x = windowPos.x + dx
+                windowPos.y = windowPos.y + dy
+
+                local nextx = (windowPos.x - 255) / 1410
+                local nexty = (windowPos.y - 305) / 470
+
+                dragMenuLastMousePos = {x=x_, y=y_}
+                
+                -- DebugWatch("x", nextx)
+                -- DebugWatch("y", nexty)
+
+                config_SetFloat(fMenuX, utils_Clamp(nextx,0.0,1.0))
+                config_SetFloat(fMenuY, utils_Clamp(nexty,0.0,1.0))
+            end
+        UiPop()
+
         
         -- navigtor
         UiPush()
@@ -119,7 +174,25 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 legacyMenu_Checkbox(fInfiniteAmmo)
                 legacyMenu_Checkbox(fSuperStrength)
                 legacyMenu_Checkbox(fGodmode)
+
                 legacyMenu_Checkbox(fAntiAim)
+                if legacyMenu_FunnySubmenuBegin(fAntiAim, 200, 400) then 
+
+                    UiColor(0.6, 0.6, 0.6, 1)
+                    UiText("Yaw: ")
+                    UiTranslate(0, 20)
+                    legacyMenu_SubSettingCycleList(fAntiAim, fAntiAimYawModes, antiaim_yaw_modes)        
+                    legacyMenu_SubSettingSlider(fAntiAim, fSubYawOffset, -180, 180)  
+                    legacyMenu_SubSettingSlider(fAntiAim, fSubYawSpeed, -10, 10)  
+                    UiTranslate(0, 20)
+
+                    UiText("Pitch: ")
+                    UiTranslate(0, 20)
+                    legacyMenu_SubSettingCycleList(fAntiAim, fAntiAimPitchModes, antiaim_pitch_modes)
+                    legacyMenu_SubSettingSlider(fAntiAim, fSubPitchOffset, -90, 90)  
+                    legacyMenu_SubSettingSlider(fAntiAim, fSubPitchSpeed, -10, 10)  
+                    UiPop()     
+                end
 
             elseif GetInt(cfgstr .. "activetab") == 2 then 
                 -- world
@@ -349,7 +422,11 @@ legacyMenu_NavButtonImg = function(image, tabid)
     UiPush()
         UiTranslate(50 + (tabid * 100), -20)
         
-        local in_rect = UiIsMouseInRect(95,95)
+        UiPush()
+            UiTranslate(0, 10)
+            local in_rect = UiIsMouseInRect(90,80)
+        UiPop()
+
         local pressed = InputPressed("lmb")
 
         -- color stuff
@@ -583,7 +660,12 @@ legacyMenu_optionsSlider = function(val, mi, ma, width)
 		val = val*(ma-mi)+mi
         val = utils_Clamp(val, mi, ma)
 
-		UiTranslate(width + 30, 0)
+        if width + 50 > UiWidth() then 
+            UiTranslate(width - 10, -20)
+        else
+            UiTranslate(width + 30, 0)
+        end
+
 		UiText(utils_Round(val*10)/10)
 	UiPop()
     
@@ -621,15 +703,22 @@ legacyMenu_optionsSliderInt = function(val, mi, ma, width)
         val = utils_Clamp(val, mi, ma)
         val = utils_Round(val)
 
-		UiTranslate(width + 30, 0)
+        if width + 50 > UiWidth() then 
+            UiTranslate(width - 10, -20)
+        else
+            UiTranslate(width + 30, 0)
+        end
+
 		UiText(val)
+
+
 	UiPop()
     
 	return val
 end
 
 legacyMenu_SubSettingSlider = function(var, sub, min, max, size) 
-    if size == nil then size = 40 end
+    if size == nil then size = UiWidth()-40 end
 
     UiPush()
         local name = sub.legacyName
@@ -653,7 +742,7 @@ legacyMenu_SubSettingSlider = function(var, sub, min, max, size)
 end
 
 legacyMenu_SubSettingSliderInt = function(var, sub, min, max, size)
-    if size == nil then size = 40 end
+    if size == nil then size = UiWidth()-40 end
     
     UiPush()
         local name = sub.legacyName
@@ -675,6 +764,8 @@ legacyMenu_SubSettingSliderInt = function(var, sub, min, max, size)
     UiPop()
     UiTranslate(0, 40)
 end
+
+open_sub_menu_offset = {x=0, y=0}
 
 legacyMenu_FunnySubmenuBegin = function(var, w, h, offset)
     if offset == nil then offset = 0 end
@@ -718,8 +809,12 @@ legacyMenu_FunnySubmenuBegin = function(var, w, h, offset)
                 end
             end
             UiColor(0.23, 0.23, 0.23, 1)
+            
+            UiTranslate(open_sub_menu_offset.x, open_sub_menu_offset.y)
+            UiWindow(w, h)
             UiRect(w, h)
 
+            UiFont("bold.ttf", 18)
             UiTranslate(1, 1)
 
             UiColor(0.53, 0.53, 0.53, 0.6)
@@ -804,6 +899,6 @@ legacyMenu_SubSettingCycleList = function(var, sub, list)
     end
 
     UiPop()
-    UiText("", true)
+    UiTranslate(0, 20)
     return return_value
 end
