@@ -19,6 +19,22 @@ config_DefineInt = function(var, default)
     SetInt(cfgstr .. var.configString, default)
 end
 
+config_DefineFloat = function(var, default) 
+    if HasKey(cfgstr .. var.configString) then
+        return
+    end
+
+    SetFloat(cfgstr .. var.configString, default)
+end
+
+config_GetFloat = function(var)
+    return GetFloat(cfgstr .. var.configString)
+end
+
+config_SetFloat = function(var, val) 
+    SetFloat(cfgstr .. var.configString, val)
+end
+
 config_GetInt = function(var)
     return GetInt(cfgstr .. var.configString)
 end
@@ -166,6 +182,10 @@ end
 config_GenerateConfig = function()
     featurelist = {}
 
+    -- 
+    config_DefineFloat(fMenuX, 0.5) -- min 255 max 1665
+    config_DefineFloat(fMenuY, 0.5) -- min 305 max 775
+
     -- visuals
     config_DefineBool(fWatermark, true)
         config_DefineColor(fWatermark, {1, 1, 1, 1, true} )
@@ -205,7 +225,18 @@ config_GenerateConfig = function()
     config_DefineBool(fInfiniteAmmo, false)
     config_DefineBool(fSuperStrength, false)
     config_DefineBool(fGodmode, false)
+
+    -- antiaim
     config_DefineBool(fAntiAim, false)
+        config_DefineSubInt(fAntiAim, fAntiAimYawModes, 0)
+        config_DefineSubFloat(fAntiAim, fSubYawOffset, 1)
+        config_DefineSubFloat(fAntiAim, fSubYawSpeed, 360)
+        config_DefineSubFloat(fAntiAim, fSubYawAmp, 45)
+
+        config_DefineSubInt(fAntiAim, fAntiAimPitchModes, 0)
+        config_DefineSubFloat(fAntiAim, fSubPitchOffset, 1)
+        config_DefineSubFloat(fAntiAim, fSubPitchSpeed, 180)
+        config_DefineSubFloat(fAntiAim, fSubPitchAmp, 20)
 
     -- world
     config_DefineBool(fDisableRobots, false)

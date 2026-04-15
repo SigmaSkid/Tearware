@@ -1,9 +1,25 @@
 -- client
-clientLastAAsettings = { enabled=false }
+clientLastAAsettings = { 
+    enabled=false,
+    yaw_mode=0,
+    yaw_offset=0,
+    yaw_speed=0,
+    yaw_amp=0,
+    pitch_mode=0,
+    pitch_offset=0,
+    pitch_speed=0,
+    pitch_amp=0
+}
 
 antiAimSettingCompare = function(A, B)
-    if A.enabled ~= B.enabled then return false end
+    if A == nil and B == nil then return true end
+    if A == nil or B == nil then return false end
 
+    for k, v in pairs(A) do
+        if B[k] ~= v then
+            return false
+        end
+    end
     return true
 end
 
@@ -13,9 +29,22 @@ client_playerAntiAim = function()
 
     if not enabled and clientLastAAsettings == nil then return end
 
-    local currentAAsettings = { enabled=enabled }
+    local currentAAsettings = { 
+        enabled=enabled,
+        yaw_mode=config_GetSubInt(fAntiAim, fAntiAimYawModes),
+        yaw_offset=config_GetSubFloat(fAntiAim, fSubYawOffset),
+        yaw_speed=config_GetSubFloat(fAntiAim, fSubYawSpeed),
+        yaw_amp=config_GetSubFloat(fAntiAim, fSubYawAmp),
+        pitch_mode=config_GetSubInt(fAntiAim, fAntiAimPitchModes),
+        pitch_offset=config_GetSubFloat(fAntiAim, fSubPitchOffset),
+        pitch_speed=config_GetSubFloat(fAntiAim, fSubPitchSpeed),
+        pitch_amp=config_GetSubFloat(fAntiAim, fSubPitchAmp)
+    }
 
     if antiAimSettingCompare(currentAAsettings, clientLastAAsettings) then 
+        if not enabled then 
+            clientLastAAsettings = nil
+        end
         return
     end
 
@@ -51,17 +80,71 @@ server_playerAntiAim = function(playerID, dt)
     local animator = GetPlayerAnimator(playerID)
     if animator == 0 then return end
 
-    local spinSpeed = 360 -- degree/second
-    local spinAngle = (GetTime() * spinSpeed) % 360
+    local time = GetTime()
 
     -- yaw spin
-    SetBoneRotation(animator, "Bip001", QuatEuler(-90, spinAngle, 0))
+    -- 0 disabled
+    if entry.yaw_mode == 1 then  -- 1 offset
+        SetBoneRotation(animator, "Bip001", QuatEuler(-90, 90 + entry.yaw_offset, 0))
+    elseif entry.yaw_mode == 2 then -- 2 spin
 
-    -- pitch down 
-    SetBoneRotation(animator, "stomach", QuatEuler(0, 0, 25))
-    SetBoneRotation(animator, "chest", QuatEuler(0, 0, 25))
-    SetBoneRotation(animator, "neck", QuatEuler(0, 0, 20))
-    SetBoneRotation(animator, "head", QuatEuler(0, 0, 20))
+        local spinSpeed = 360 * entry.yaw_speed
+        local spinAngle = (time * spinSpeed) % 360
+
+        SetBoneRotation(animator, "Bip001", QuatEuler(-90, spinAngle + entry.yaw_offset, 0))
+    elseif entry.yaw_mode == 3 then -- 3 oscillate
+
+        local spinAngle = math.sin(time * math.abs(entry.yaw_speed) * 10) * entry.yaw_amp
+        
+        SetBoneRotation(animator, "Bip001", QuatEuler(-90, 90 + spinAngle + entry.yaw_offset, 0))
+    elseif entry.yaw_mode == 4 then -- 4 jitter
+
+        local speed = math.abs(entry.yaw_speed)
+        local snap = math.sin(time * speed * 20) >= 0 and 1 or -1
+        local spinAngle = snap * entry.yaw_amp
+
+        SetBoneRotation(animator, "Bip001", QuatEuler(-90, 90 + spinAngle + entry.yaw_offset, 0))
+    elseif entry.yaw_mode == 5 then -- 5 jitter spin
+        local speed = math.abs(entry.yaw_speed)
+        local snap = math.sin(time * speed * 20) >= 0 and 1 or -1
+        local spinAngle = (snap * entry.yaw_amp) + ((time * 45 * entry.yaw_speed) % 360)
+
+        SetBoneRotation(animator, "Bip001", QuatEuler(-90, spinAngle + entry.yaw_offset, 0))
+    end
+
+    -- pitch
+    -- 0 disabled
+    if entry.pitch_mode == 1 then  -- 1 static
+
+        local pitch_scale = utils_Clamp(entry.pitch_offset/90.0, -1.0, 1.0)
+
+        SetBoneRotation(animator, "stomach", QuatEuler(0, 0, 25 * pitch_scale))
+        SetBoneRotation(animator, "chest", QuatEuler(0, 0, 25 * pitch_scale))
+        SetBoneRotation(animator, "neck", QuatEuler(0, 0, 20 * pitch_scale))
+        SetBoneRotation(animator, "head", QuatEuler(0, 0, 20 * pitch_scale))
+    elseif entry.pitch_mode == 2 then  -- 2 oscillate
+
+        local speed = math.abs(entry.pitch_speed)
+        local angle = math.sin(time * speed * 10) * entry.pitch_amp
+        local pitch_scale = utils_Clamp((entry.pitch_offset + angle) / 90.0, -1.0, 1.0)
+
+        SetBoneRotation(animator, "stomach", QuatEuler(0, 0, 25 * pitch_scale))
+        SetBoneRotation(animator, "chest",   QuatEuler(0, 0, 25 * pitch_scale))
+        SetBoneRotation(animator, "neck",    QuatEuler(0, 0, 20 * pitch_scale))
+        SetBoneRotation(animator, "head",    QuatEuler(0, 0, 20 * pitch_scale))
+
+    elseif entry.pitch_mode == 3 then  -- 3 jitter
+
+        local speed = math.abs(entry.pitch_speed)
+        local snap = math.sin(time * speed * 20) >= 0 and 1 or -1
+        local angle = snap * entry.pitch_amp
+        local pitch_scale = utils_Clamp((entry.pitch_offset + angle) / 90.0, -1.0, 1.0)
+
+        SetBoneRotation(animator, "stomach", QuatEuler(0, 0, 25 * pitch_scale))
+        SetBoneRotation(animator, "chest",   QuatEuler(0, 0, 25 * pitch_scale))
+        SetBoneRotation(animator, "neck",    QuatEuler(0, 0, 20 * pitch_scale))
+        SetBoneRotation(animator, "head",    QuatEuler(0, 0, 20 * pitch_scale))
+    end
 end
 
 --[[ 

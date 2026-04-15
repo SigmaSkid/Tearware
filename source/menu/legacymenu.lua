@@ -176,21 +176,29 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 legacyMenu_Checkbox(fGodmode)
 
                 legacyMenu_Checkbox(fAntiAim)
-                if legacyMenu_FunnySubmenuBegin(fAntiAim, 200, 400) then 
+                if legacyMenu_FunnySubmenuBegin(fAntiAim, 200, 350) then 
 
                     UiColor(0.6, 0.6, 0.6, 1)
                     UiText("Yaw: ")
+                    UiPush()
+                    UiTranslate(45, 0)
+                        legacyMenu_SubSettingCycleList(fAntiAim, fAntiAimYawModes, antiaim_yaw_modes)        
+                    UiPop()
                     UiTranslate(0, 20)
-                    legacyMenu_SubSettingCycleList(fAntiAim, fAntiAimYawModes, antiaim_yaw_modes)        
                     legacyMenu_SubSettingSlider(fAntiAim, fSubYawOffset, -180, 180)  
                     legacyMenu_SubSettingSlider(fAntiAim, fSubYawSpeed, -10, 10)  
+                    legacyMenu_SubSettingSlider(fAntiAim, fSubYawAmp, 10, 180)  
                     UiTranslate(0, 20)
 
                     UiText("Pitch: ")
+                    UiPush()
+                    UiTranslate(45, 0)
+                        legacyMenu_SubSettingCycleList(fAntiAim, fAntiAimPitchModes, antiaim_pitch_modes)
+                    UiPop()
                     UiTranslate(0, 20)
-                    legacyMenu_SubSettingCycleList(fAntiAim, fAntiAimPitchModes, antiaim_pitch_modes)
-                    legacyMenu_SubSettingSlider(fAntiAim, fSubPitchOffset, -90, 90)  
-                    legacyMenu_SubSettingSlider(fAntiAim, fSubPitchSpeed, -10, 10)  
+                    legacyMenu_SubSettingSlider(fAntiAim, fSubPitchOffset, -90, 90)
+                    legacyMenu_SubSettingSlider(fAntiAim, fSubPitchSpeed, -10, 10)
+                    legacyMenu_SubSettingSlider(fAntiAim, fSubPitchAmp, 10, 90)
                     UiPop()     
                 end
 

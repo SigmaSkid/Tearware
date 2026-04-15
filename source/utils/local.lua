@@ -26,7 +26,6 @@ fQuickstop = { legacyName = "Quickstop", configString = "quickstop", hostOnly=fa
 fInfiniteAmmo = { legacyName = "Infinite Ammo", configString = "infiniteammo", hostOnly=false}
 fSuperStrength = { legacyName = "Super Strength", configString = "superstrength", hostOnly=false}
 fGodmode = { legacyName = "Godmode", configString = "godmode", hostOnly=false}
-fAntiAim = { legacyName = "Anti-Aim", configString = "antiaim", hostOnly=false}
 
 -- world
 fBulletTime = { legacyName = "Slowmotion", configString = "timer", hostOnly=true}
@@ -63,15 +62,32 @@ fMenuFinishLevel = "Finish Level"
 fMenuActivateRobots = "Activate Robots"
 fRegistryTool = "Explore Registry"
 fEditorTool = "Editor"
+fMenuX = {configString = "MenuX" } 
+fMenuY = {configString = "MenuY" }
 
 -- used for legacyMenu_SubSettingCycleList
 left_right_string_array = {"left", "right"}
 method_instant_smooth = {"instant", "smooth"}
 method_pause_stop = {"pause", "stop"}
-
 fontnames = {
   "Roboto Regular",
   "Roboto Bold",
   "Orbitron Regular",
   "Orbitron SemiBold"
 }
+
+-- antiaim
+fAntiAim = { legacyName = "Anti-Aim", configString = "antiaim", hostOnly=false}
+
+fAntiAimYawModes = {legacyName = "Yaw", configString = "yawmode"}
+fSubYawOffset = { legacyName = "Yaw Offset", configString = "yawoffset"}
+fSubYawSpeed = { legacyName = "Yaw Speed", configString = "yawspeed"}
+fSubYawAmp = { legacyName = "Yaw Amplitude", configString = "yawamp"}
+
+fAntiAimPitchModes = {legacyName = "Pitch", configString = "pitchmode"}
+fSubPitchOffset = { legacyName = "Pitch Offset", configString = "pitchoffset"}
+fSubPitchSpeed = { legacyName = "Pitch Speed", configString = "pitchspeed"}
+fSubPitchAmp = { legacyName = "Pitch Amplitude", configString = "pitchamp"}
+
+antiaim_yaw_modes = {"disabled", "offset", "spin", "oscillate", "jitter", "jitter spin"} 
+antiaim_pitch_modes = {"disabled", "static", "oscillate", "jitter"}
