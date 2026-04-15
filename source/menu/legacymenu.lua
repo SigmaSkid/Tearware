@@ -119,6 +119,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 legacyMenu_Checkbox(fInfiniteAmmo)
                 legacyMenu_Checkbox(fSuperStrength)
                 legacyMenu_Checkbox(fGodmode)
+                legacyMenu_Checkbox(fAntiAim)
 
             elseif GetInt(cfgstr .. "activetab") == 2 then 
                 -- world

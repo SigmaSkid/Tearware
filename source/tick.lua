@@ -7,6 +7,7 @@
 #include "features/player/fly.lua"
 #include "features/player/quickstop.lua"
 #include "features/player/superstrength.lua"
+#include "features/player/antiaim.lua"
 
 -- world
 #include "features/world/timer.lua"
@@ -56,6 +57,7 @@ function client.tick(dt)
     -- player_Jetpack(dt) -- still broken
     client_playerFly()
     -- player_Quickstop() -- still broken
+    client_playerAntiAim()
     -- 
 
     -- tools

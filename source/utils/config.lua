@@ -205,6 +205,7 @@ config_GenerateConfig = function()
     config_DefineBool(fInfiniteAmmo, false)
     config_DefineBool(fSuperStrength, false)
     config_DefineBool(fGodmode, false)
+    config_DefineBool(fAntiAim, false)
 
     -- world
     config_DefineBool(fDisableRobots, false)

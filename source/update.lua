@@ -25,7 +25,22 @@ function client.update(dt)
     --
 end
 
+
+function playerServerUpdate(id, dt)
+    server_playerAntiAim(id, dt)
+end
+
+function server.postUpdate(dt)
+    local players = GetAllPlayers()
+    for id=1, #players do
+        if IsPlayerValid(id) then 
+            playerServerUpdate(id, dt)
+        end
+    end
+end
+
 function server.update(dt)
+
     -- host features, they read host registry, no need for fancy workarounds.
     -- I think? I only tested in single player so far.. I hope it works like that.
     

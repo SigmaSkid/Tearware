@@ -32,7 +32,7 @@ Remove the shortcut by assigning the "enter" key.
 - Infinite Ammo - borked
 - Super Strength - borked
 - Godmode
-- Anti-aim - to implement, figure out if it's now possible to manipulate the player model without affecting camera.
+- Anti-aim
 
 ### World:
 - Slowmotion*
