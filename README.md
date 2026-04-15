@@ -1,8 +1,6 @@
 # Tearware - transitioning to API v2
 Teardown cheat inspired by modern game cheats.
 
-Add rebinding menu key because @unlegitsenpaii skill isue
-
 Access the menu by pressing Insert in-game or through the pause menu.  
 Most features can be assigned keyboard shortcuts, by right clicking on them.  
 Remove the shortcut by assigning the "enter" key. 
@@ -78,10 +76,15 @@ Navigate to the github repository and run the pack python script.
 It creates a release folder containing the packaged code.
 
 ## Multiplayer debug session, found issues:
-Toggling flymode off doesn't work. Toggling godmode off doesn't work. GetParam does not work on clientside.
-Anti-aim only works for host, as in, everyone can enable it but only host can see it.
-Finish level button works FOR CLIENTS? Make it host only.
-If body is not active, it is not being networked? Could this explain antiaim (prolly not, might have to animate bones on clients)? 
-Infinite ammo, only works if host enables it and holds the weapon.
-Disable alarm audio issues on host, if triggered fire alarm.
-Teleport valuables only networks new positions if force update physics.
+Toggling flymode off doesn't work. Toggling godmode off doesn't work. GetParam does not work on clientside.  
+Anti-aim only works for host, as in, everyone can enable it but only host can see it.  
+Finish level button works FOR CLIENTS? Make it host only.  
+If body is not active, it is not being networked? Could this explain antiaim (prolly not, might have to animate bones on clients)?  
+Infinite ammo, only works if host enables it and holds the weapon.  
+Disable alarm audio issues on host, if triggered fire alarm.  
+Teleport valuables only networks new positions if force update physics.  
+   
+Testing build workshop:  
+https://steamcommunity.com/sharedfiles/filedetails/?id=3707414940  
+  
+Add rebinding menu key because @unlegitsenpaii can't afford a full keyboard

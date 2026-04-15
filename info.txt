@@ -1,4 +1,4 @@
-name = Tearware
+name = Tearware Multiplayer Testing
 author = SigmaSkid
 description = cheat menu
 tags = Gameplay
