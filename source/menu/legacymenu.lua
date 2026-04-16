@@ -301,20 +301,30 @@ legacyMenu_Checkbox = function(var)
     UiPush()
     UiAlign("left top")
     
+
     local currentkey = GetString(cfgstr .. var.configString .. "_key")
-    local kw, kh = UiGetTextSize(" - " .. currentkey)
-
     local namew, nameh = UiGetTextSize(var.legacyName)
-    
-    local highlight = 0.6
 
-    if UiIsMouseInRect(namew + kw, nameh) then
+    -- debug rect
+    -- UiPush()
+    --     UiTranslate(7, 2)
+    --     UiColor(0.0, 0.0, 0.0, 1.0)
+    --     UiRect(300, 25)
+    -- UiPop()
+
+    local highlight = 0.6
+    local hovering = UiIsMouseInRect(300, 25) -- whatever, just hardcode at highest width
+
+    if hovering then
         -- make the stuff we're hovering over a little brighter.
         highlight = 0.8
 
         -- right click -> edit this bind
         if InputPressed("rmb") then 
             filthyglobal_editingkeybind = var.configString
+        end
+        if InputPressed("lmb") then 
+            config_FlipBool(cfgstr .. var.configString)
         end
     end
 
@@ -324,15 +334,14 @@ legacyMenu_Checkbox = function(var)
     -- highlight the checkbox, if this is the keybind we're editing
     if filthyglobal_editingkeybind == var.configString then
         UiColor(1.0, 1.0, highlight, 1)    
+        UiButtonHoverColor(1.0, 1.0, highlight, 1.0)
     elseif GetBool(cfgstr .. var.configString) then 
         UiColor(highlight, 1.0, highlight, 1)
     else 
         UiColor(1.0, highlight, highlight, 1)
     end
 
-    if UiTextButton(var.legacyName) then
-        config_FlipBool(cfgstr .. var.configString)
-    end
+    UiText(var.legacyName)
 
     -- check if this is the checkbox of the keybind we're editing
     if filthyglobal_editingkeybind == var.configString then
@@ -352,11 +361,33 @@ legacyMenu_Checkbox = function(var)
         end
     end
 
-    if currentkey ~= "" and currentkey ~= "null" then 
+    if  currentkey ~= nil and currentkey ~= "" and currentkey ~= "null" then 
         UiPush()
             UiFont("bold.ttf", 16)
-            UiTranslate(namew + 10, 10)
-            UiText(" - " .. currentkey, false)
+            local kw, kh = UiGetTextSize(currentkey)
+            local offset = 10
+
+            -- background rect
+            -- UiPush()
+            --     local pad = 6
+            --     local halfpad = pad/2
+            --     UiTranslate(namew + offset - halfpad, halfpad)
+            --     UiColor(0.0, 0.0, 0.0, 0.5)
+            --     UiRect(kw + pad, kh + pad)
+            -- UiPop()
+
+            -- key
+            UiPush()
+                UiTranslate(namew + offset, 5)
+                UiTextShadow(0, 0, 0, 0.5, 1.0)
+                UiTextOutline(0, 0, 0, 1, 0.2)
+                
+                UiText(currentkey, false)
+            UiPop()
+
+
+
+
         UiPop()
     end
 
