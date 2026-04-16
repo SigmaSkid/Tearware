@@ -40,13 +40,14 @@ visuals_PlayerGlow = function()
 
     for id=1, #players do
         if IsPlayerValid(id) then 
-            if not IsPlayerLocal(id) or isThirdPerson then 
+            -- disable third person fix for testing.
+            -- if not IsPlayerLocal(id) or isThirdPerson then 
                 local bodies = GetPlayerBodies(id)
                 for i=1,#bodies do
                     local body = bodies[i]
                     DrawBodyOutline(body, color.red, color.green, color.blue, color.alpha)
                 end
-            end
+            -- end
         end
     end
 end 

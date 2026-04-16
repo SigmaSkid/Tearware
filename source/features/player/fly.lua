@@ -1,9 +1,12 @@
+local lastFlyState = false
 client_playerFly = function()
     local currentFlyState = config_AdvGetBool(fFly) 
-    if currentFlyState == GetPlayerParam("flymode") then 
+    if currentFlyState == lastFlyState then 
         return 
     end
     
+    lastFlyState = currentFlyState
+
     ServerCall("server.FlyToggle", GetLocalPlayer(), localUUID, currentFlyState)
 end
 

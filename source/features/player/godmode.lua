@@ -1,9 +1,13 @@
+local lastgodmodeState = false
 player_Godmode = function()
-    local currentGodmodeState = config_AdvGetBool(fGodmode) 
-    if currentGodmodeState == GetPlayerParam("godmode") then 
+    local godmodeEnabled = config_AdvGetBool(fGodmode) 
+    
+    if godmodeEnabled == lastgodmodeState then 
         return 
     end
-    
+
+    lastgodmodeState = currentGodmodeState
+
     ServerCall("server.GodmodeToggle", GetLocalPlayer(), localUUID, currentGodmodeState)
 end
 

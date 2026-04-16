@@ -86,7 +86,7 @@ world_CollectValuables = function()
 
             funny.rot = GetBodyTransform(body).rot
             SetBodyTransform(body, funny)
-            SetBodyActive(body, false)
+            SetBodyActive(body, true)
         end
     end
 end
