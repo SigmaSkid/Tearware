@@ -57,20 +57,34 @@ Remove the shortcut by assigning the "enter" key.
 
 Features marked with '*' are host only.
 
-## Installation. 
+## Installation
 ### Steam Workshop (recommended)
-Subscribe to the mod through [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2798126764)
-### Github Release Builds
-Go to releases and unzip the latest build in your local mods folder.  
-~/documents/teardown/mods/
-
-## Using the github preview build.
-Clone the repository into your local mods folder.  
-Console in ~/documents/teardown/mods/
+Subscribe to the mod through [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2798126764).
+ 
+### GitHub Release Builds
+Download the latest release and unzip it into your local mods folder.  
+The path is in the table below.
+ 
+### GitHub Preview Build (git)
+Clone the repository directly into your mods folder to get the latest changes.
+ 
+**1. Navigate to your mods folder:**
+ 
+| OS | Path |
+|---|---|
+| Windows | `~/Documents/Teardown/mods/` |
+| Linux | `~/.steam/steam/steamapps/compatdata/1167630/pfx/drive_c/users/steamuser/Documents/Teardown/mods/` |
+ 
+**2. Clone the repository:**
+ 
 ```
 git clone https://github.com/SigmaSkid/Tearware
 ```
-or use github desktop.
+ 
+**Alternatively:**
+- Use **GitHub Desktop** to clone into the path above.
+- Not contributing? You can just **Download as ZIP** and unpack it into the mods folder instead.
+ 
 
 ## Building a release candidate.
 Navigate to the github repository and run the pack python script.  
@@ -81,9 +95,6 @@ Anti-aim only works for host, as in, everyone can enable it but only host can se
 If body is not active, it is not being networked? Could this explain antiaim (prolly not, might have to animate bones on clients)?  
 Figure out if clients respect server hitboxes, or if a local hit counts, (fake angles?)
 Finish level button works FOR CLIENTS? Make it host only.  
-
-Testing build workshop:  
-https://steamcommunity.com/sharedfiles/filedetails/?id=3707414940  
   
 Add rebinding menu key because @unlegitsenpaii can't afford a full keyboard  
 
