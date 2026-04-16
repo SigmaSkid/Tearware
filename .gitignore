@@ -1,3 +1,4 @@
 .vscode/*
 release/
 source/.vs/*
+local/
