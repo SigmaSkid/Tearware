@@ -87,4 +87,6 @@ Teleport valuables only networks new positions if force update physics.
 Testing build workshop:  
 https://steamcommunity.com/sharedfiles/filedetails/?id=3707414940  
   
-Add rebinding menu key because @unlegitsenpaii can't afford a full keyboard
+Add rebinding menu key because @unlegitsenpaii can't afford a full keyboard  
+
+Also add that new multiplayer preview image.  
