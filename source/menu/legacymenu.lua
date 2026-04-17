@@ -154,11 +154,6 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 legacyMenu_Checkbox(fPostProcess)
                 legacyMenu_ColorSelector(fPostProcess)
 
-                legacyMenu_Checkbox(fSpinnyTool)
-                if legacyMenu_FunnySubmenuBegin(fSpinnyTool, 120, 50) then 
-                    legacyMenu_SubSettingSlider(fSpinnyTool, fSubSpeed, 0.1, 10)
-                    UiPop()
-                end
 
             elseif GetInt(cfgstr .. "activetab") == 1 then 
                 -- player
@@ -208,6 +203,12 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                     legacyMenu_SubSettingSlider(fAntiAim, fSubPitchAmp, 10, 90)
                     UiPop()     
                 end
+
+                -- only clients need to 'resolve.'
+                if not isLocalPlayerTheHost then 
+                    legacyMenu_Checkbox(fResolver)
+                end 
+
 
             elseif GetInt(cfgstr .. "activetab") == 2 then 
                 -- world

@@ -23,7 +23,7 @@ server_playerBunnyhop = function(playerID, dt)
     if entry ~= true then return end
 
     local max_horizontal_velocity = 20
-    local approach_factor = 0.3 -- per-jump step toward max, 0-1
+    local approach_factor = 0.1 -- per-jump step toward max, 0-1
 
     if IsPlayerGrounded(playerID) and InputDown("space", playerID) then  
         local velocity = GetPlayerVelocity(playerID)
@@ -39,7 +39,7 @@ server_playerBunnyhop = function(playerID, dt)
 
             velocity[1] = normalized[1] * new_speed
             velocity[3] = normalized[3] * new_speed
-            DebugWatch("Velocity", new_speed)
+            --DebugWatch("Velocity", new_speed)
         end
 
         velocity[2] = 5

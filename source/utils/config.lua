@@ -228,6 +228,7 @@ config_GenerateConfig = function()
     config_DefineBool(fGodmode, false)
 
     -- antiaim
+    config_DefineBool(fResolver, false)
     config_DefineBool(fAntiAim, false)
         config_DefineSubInt(fAntiAim, fAntiAimYawModes, 0)
         config_DefineSubFloat(fAntiAim, fSubYawOffset, 1)

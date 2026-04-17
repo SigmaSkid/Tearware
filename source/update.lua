@@ -15,6 +15,9 @@
 #include "features/tools/rubberband.lua"
 #include "features/tools/structurerestorer.lua"
 
+-- visuals
+#include "features/visuals/resolver.lua"
+
 
 -- In teardown update is called at 60tps
 function client.update(dt)
@@ -27,6 +30,13 @@ function client.update(dt)
     client_ToolsRubberband()
     --
 end
+
+function client.postUpdate()
+    -- visuals
+    client_applyResolver()
+    --
+end
+
 
 -- physics begone!
 function playerServerPostUpdate(playerID, dt)

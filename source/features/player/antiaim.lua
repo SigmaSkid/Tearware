@@ -24,13 +24,12 @@ client_playerAntiAim = function()
     end
 
     clientScreamAtServerPolitely(cfgVar, currentSettings)
+    ServerCall("server.forwardResolverData", GetLocalPlayer(), localUUID, currentSettings)
     clientSetSyncedSetting(cfgVar, currentSettings)
 end
 
--- server
-server_playerAntiAim = function(playerID, dt)
-    local entry = serverGetPlayerConfigValues(playerID, fAntiAim)
-
+-- shared
+shared_applyAntiAim = function(playerID, entry)
     if entry == nil then return end
 
     local animator = GetPlayerAnimator(playerID)
@@ -98,7 +97,7 @@ server_playerAntiAim = function(playerID, dt)
         SetBoneRotation(animator, "foot_r", QuatEuler(0, -180, 0))
         SetBoneRotation(animator, "toes_r", QuatEuler(0, -180, 0))
     end
-
+    
     -- pitch
     -- 0 disabled
     if entry.pitch_mode == 1 then  -- 1 static
@@ -132,6 +131,13 @@ server_playerAntiAim = function(playerID, dt)
         SetBoneRotation(animator, "neck",    QuatEuler(0, 0, 20 * pitch_scale))
         SetBoneRotation(animator, "head",    QuatEuler(0, 0, 20 * pitch_scale))
     end
+
+end
+
+-- server
+server_playerAntiAim = function(playerID, dt)
+    local entry = serverGetPlayerConfigValues(playerID, fAntiAim)
+    shared_applyAntiAim(playerID, entry)
 end
 
 --[[ 
@@ -150,9 +156,3 @@ end
     foot_l
     toes_l
 --]]
-
---[[
-
-
-
-]]--

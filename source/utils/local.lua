@@ -79,6 +79,7 @@ fontnames = {
 
 -- antiaim
 fAntiAim = { legacyName = "Anti-Aim", configString = "antiaim", hostOnly=false}
+fResolver = { legacyName = "Anti-Aim Resolver", configString = "resolver", hostOnly=false}
 
 fAntiAimYawModes = {legacyName = "Yaw", configString = "yawmode"}
 fSubYawOffset = { legacyName = "Yaw Offset", configString = "yawoffset"}

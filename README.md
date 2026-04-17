@@ -22,13 +22,13 @@ Remove the shortcut by assigning the "enter" key.
 - Post Processing
 - Radar - to implement.
 - Tracers - to implement.
+- Box ESP - to implement.
 
 ### Player:
 - Ragebot - to implement, also autowall.
 - Speed - borked - also add some funny modes to mimic how minecraft hax do it to bypass ACs
 - Spider - borked
-- Bunnyhop - works in singleplayer | jump trigger when holding space in tearware menu
-- Longjump - to implement (just copy bunnyhop switch isonground to isjumping, no need for input detection.)
+- Bunnyhop - works in singleplayer | jumps trigger when holding space in tearware menu
 - Fly - WORKS!
 - Floor Strafe - WORKS!
 - Jetpack - borked
@@ -38,7 +38,8 @@ Remove the shortcut by assigning the "enter" key.
 - Super Strength - borked
 - Godmode - WORKS!
 - No-fall - *new* tested in singleplayer [but no menu button and code not called, but code itself was checked in singleplayer, idk)
-- Anti-aim - ONLY HOST SEES REAL BONES. Changing Bones, affects clients collisions.
+- Anti-Aim - WORKS!
+- Anti-Aim Resolver - tested only in single player. 
 
 ### World:
 - Slowmotion* - CONFIRMED WORKS
@@ -96,10 +97,10 @@ Navigate to the github repository and run the pack python script.
 It creates a release folder containing the packaged code.
 
 ## Multiplayer debug session, found issues:
-Anti-aim only works for host, as in, everyone can enable it but only host can see it.  
-If body is not active, it is not being networked? Could this explain antiaim (prolly not, might have to animate bones on clients)?  
-Figure out if clients respect server hitboxes, or if a local hit counts, (fake angles?)
-Finish level button works FOR CLIENTS? Make it host only.  
+Anti-aim only visible for host.  
+Clients cannot see the anti-aim angle.  
+
+If body is not active, it is not being networked? Could this explain antiaim (prolly not, might have to animate bones on clients)?   
   
 Also add that new multiplayer preview image.  
 
