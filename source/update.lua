@@ -32,6 +32,8 @@ function playerServerUpdate(playerID, dt)
     end
 
     server_playerAntiAim(playerID, dt)
+    server_ToolsTeleport(playerID, dt)
+    server_ToolsRubberband(playerID)
 end
 
 function server.postUpdate(dt)

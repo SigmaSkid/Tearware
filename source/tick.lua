@@ -71,22 +71,7 @@ function client.tick(dt)
     -- 
 end
 
-function playerServerTick(playerID, dt)
-    if syncedPlayerSetting[playerID] == nil then
-        return 
-    end
-
-    server_ToolsTeleport(playerID, dt)
-    server_ToolsRubberband(playerID)
-end
-
 function server.tick(dt)
-    local players = GetAllPlayers()
-    for id=1, #players do
-        if IsPlayerValid(id) then 
-            playerServerTick(id, dt)
-        end
-    end
 
     -- host features, they read host registry, no need for fancy workarounds.
     visuals_ColoredFog()
