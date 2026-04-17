@@ -47,8 +47,8 @@ Remove the shortcut by assigning the "enter" key.
 
 ### Tools:
 - Structure Restorer* - fixed? not confirmed
-- Rubberband - DOES NOT WORK FOR CLIENTS. WORKS FOR HOST
-- Teleport - DOES NOT WORK FOR CLIENTS. WORKS FOR HOST
+- Rubberband - fixed? not confirmed
+- Teleport - fixed? not confirmed
 - Explosion Brush - borked
 - Fire Brush - borked
 
