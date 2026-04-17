@@ -366,6 +366,22 @@ utils_DebugDrawCylinder = function(Min, Max, r, g, b, a)
     end
 end
 
+-- accepts table A = {} B = {}
+-- returns whether A == B
+utils_tableCompare = function(A, B)
+    if A == nil and B == nil then return true end -- if both nil
+    if A == nil or B == nil then return false end -- if either nil
+    if A == B then return true end -- if not an array and same value, or if same array pointer
+
+    for k, v in pairs(A) do
+        if B[k] ~= v then
+            return false -- if A[x] != B[x] 
+        end
+    end
+    return true
+end
+
+
 utils_TWInputDown = function(input)
     if lockInputs then return false end
     return InputDown(input)

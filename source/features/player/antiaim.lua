@@ -11,18 +11,6 @@ clientLastAAsettings = {
     pitch_amp=0
 }
 
-antiAimSettingCompare = function(A, B)
-    if A == nil and B == nil then return true end
-    if A == nil or B == nil then return false end
-
-    for k, v in pairs(A) do
-        if B[k] ~= v then
-            return false
-        end
-    end
-    return true
-end
-
 client_playerAntiAim = function()
 
     local enabled = config_AdvGetBool(fAntiAim)
@@ -41,7 +29,7 @@ client_playerAntiAim = function()
         pitch_amp=config_GetSubFloat(fAntiAim, fSubPitchAmp)
     }
 
-    if antiAimSettingCompare(currentAAsettings, clientLastAAsettings) then 
+    if utils_tableCompare(currentAAsettings, clientLastAAsettings) then 
         if not enabled then 
             clientLastAAsettings = nil
         end
