@@ -4,6 +4,7 @@
 #include "utils/config.lua"
 #include "utils/utils.lua"
 #include "utils/security.lua"
+#include "utils/sync.lua"
 #include "update.lua"
 #include "tick.lua"
 #include "draw.lua"
