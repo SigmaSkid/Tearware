@@ -58,4 +58,3 @@ server_ToolsTeleport = function(playerID, dt)
     
     SetPlayerTransformWithPitch(t, playerID)
 end
-

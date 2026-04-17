@@ -36,32 +36,16 @@ client_playerAntiAim = function()
         return
     end
 
-    ServerCall("server.toggleAntiAim", GetLocalPlayer(), localUUID, currentAAsettings)
+    clientScreamAtServerPolitely(fAntiAim, currentAAsettings)
     clientLastAAsettings = currentAAsettings
 end
 
 -- server. 
-playersAntiAiming = {}
-
-server.toggleAntiAim = function(playerID, UUID, AAsettings)
-
-    if not serverVerify(playerID, UUID) then return end
-
-    DebugPrint("server.toggleAntiAim " .. playerID .. "-" .. GetPlayerName(playerID) .. " enabled: " .. utils_boolStr(AAsettings.enabled))
-
-    if AAsettings.enabled then 
-        playersAntiAiming[playerID] = AAsettings
-    else 
-        playersAntiAiming[playerID] = nil
-    end
-end
-
 server_playerAntiAim = function(playerID, dt)
-
-    local entry = playersAntiAiming[playerID]
+    local entry = syncedPlayerSetting[playerID][fAntiAim.configString]
     if entry == nil then return end
     if not entry.enabled then 
-        playersAntiAiming[playerID] = nil
+        syncedPlayerSetting[playerID][fAntiAim.configString] = nil
         return
     end
 

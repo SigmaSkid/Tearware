@@ -7,13 +7,5 @@ client_playerFly = function()
     
     lastFlyState = currentFlyState
 
-    ServerCall("server.FlyToggle", GetLocalPlayer(), localUUID, currentFlyState)
-end
-
-server.FlyToggle = function(id, UUID, value)
-    
-    if not serverVerify(id, UUID) then return end
-
-    SetPlayerParam("flymode", value, id)
-    DebugPrint("Set flymode " .. utils_boolStr(value) .. " for " .. id .. "-" .. GetPlayerName(id))
+    clientScreamParamToggle("flymode", currentFlyState)
 end

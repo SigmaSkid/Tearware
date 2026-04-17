@@ -26,8 +26,12 @@ function client.update(dt)
 end
 
 
-function playerServerUpdate(id, dt)
-    server_playerAntiAim(id, dt)
+function playerServerUpdate(playerID, dt)
+    if syncedPlayerSetting[playerID] == nil then
+        return 
+    end
+
+    server_playerAntiAim(playerID, dt)
 end
 
 function server.postUpdate(dt)

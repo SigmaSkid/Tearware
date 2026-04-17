@@ -71,9 +71,13 @@ function client.tick(dt)
     -- 
 end
 
-function playerServerTick(id, dt)
-    server_ToolsTeleport(id, dt)
-    server_ToolsRubberband(id)
+function playerServerTick(playerID, dt)
+    if syncedPlayerSetting[playerID] == nil then
+        return 
+    end
+
+    server_ToolsTeleport(playerID, dt)
+    server_ToolsRubberband(playerID)
 end
 
 function server.tick(dt)
