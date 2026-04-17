@@ -53,7 +53,8 @@ function client.tick(dt)
     -- player_Spider()   -- still broken
     -- player_Speedhack()  -- still broken
     -- player_Jesus() -- still broken
-    -- player_Floorstrafe() -- still broken
+    client_playerFloorstrafe()
+    client_playerBunnyhop()
     -- player_Jetpack(dt) -- still broken
     client_playerFly()
     -- player_Quickstop() -- still broken

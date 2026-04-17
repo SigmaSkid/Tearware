@@ -1,7 +1,7 @@
 -- client
-client_playerFloorstrafe = function()
+client_playerNofall = function()
 
-    local cfgVar = fFloorStrafe
+    local cfgVar = fNoFall
     local enabled = config_AdvGetBool(cfgVar)
     local currentSettings = nil 
 
@@ -18,12 +18,16 @@ client_playerFloorstrafe = function()
 end
 
 -- server
-server_playerFloorstrafe = function(playerID)
-    local entry = serverGetPlayerConfigValues(playerID, fFloorStrafe)
+server_playerNofall = function(playerID)
+    local entry = serverGetPlayerConfigValues(playerID, fNoFall)
 
     if entry ~= true then return end
 
     local velocity = GetPlayerVelocity(playerID)
     velocity[2] = -100
-    SetPlayerGroundVelocity(velocity, playerID)
+
+    -- yes, it's just the same code as floor strafe while not on floor :)
+    if not IsPlayerGrounded(playerID) then  
+        SetPlayerGroundVelocity(velocity, playerID)
+    end
 end

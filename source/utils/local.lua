@@ -20,6 +20,7 @@ fSpeed = { legacyName = "Speed", configString = "speedhack", hostOnly=false}
 fSpider = { legacyName = "Spider", configString = "spider", hostOnly=false}
 fFly = { legacyName = "Fly", configString = "fly", hostOnly=false}
 fFloorStrafe = { legacyName = "Floor Strafe", configString = "floorstrafe", hostOnly=false}
+fBunnyhop = { legacyName = "Bunnyhop", configString = "bunnyhop", hostOnly=false}
 fJetpack = { legacyName = "Jetpack", configString = "jetpack", hostOnly=false}
 fJesus = { legacyName = "Jesus", configString = "jesus", hostOnly=false}
 fQuickstop = { legacyName = "Quickstop", configString = "quickstop", hostOnly=false}
@@ -89,5 +90,5 @@ fSubPitchOffset = { legacyName = "Pitch Offset", configString = "pitchoffset"}
 fSubPitchSpeed = { legacyName = "Pitch Speed", configString = "pitchspeed"}
 fSubPitchAmp = { legacyName = "Pitch Amplitude", configString = "pitchamp"}
 
-antiaim_yaw_modes = {"disabled", "offset", "spin", "oscillate", "jitter", "jitter spin"} 
+antiaim_yaw_modes = {"disabled", "offset", "spin", "oscillate", "jitter", "jitter spin", "debug"} 
 antiaim_pitch_modes = {"disabled", "static", "oscillate", "jitter"}

@@ -1,4 +1,4 @@
-player_InfiniteAmmo = function() 
+client_playerInfiniteAmmo = function() 
     if not config_AdvGetBool(fInfiniteAmmo) then 
         return 
     end
@@ -16,3 +16,4 @@ player_InfiniteAmmo = function()
     end
     SetInt("game.tool." .. pTool .. ".ammo", Ammo)
 end
+

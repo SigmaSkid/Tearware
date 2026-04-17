@@ -1,3 +1,5 @@
+ -- on client this contains their networked settings, 
+ -- on server this contains ... well the same thing but indexed with playerID
 syncedPlayerSetting = {}
 
 server.updateServerConfig = function(playerID, UUID, setting, values)
@@ -63,6 +65,38 @@ client.handleRejection = function(str)
     DebugPrint("server rejected our request for: " .. str)
 end
 
+serverGetPlayerConfigValues = function(playerID, setting)
+    local e = syncedPlayerSetting[playerID]
+    if syncedPlayerSetting[playerID] == nil then 
+        return nil
+     end
+    
+    local entry = e[setting.configString]
+    if entry == nil then 
+        return nil
+    end
+
+    return entry
+end
+
+-- only the server local values.
+-- we don't want the server changing client local settings.
+serverSetPlayerConfigValues = function(playerID, setting, value)
+    local e = syncedPlayerSetting[playerID]
+    if syncedPlayerSetting[playerID] == nil then 
+        syncedPlayerSetting[playerID] = {}
+    end
+
+    syncedPlayerSetting[playerID][setting.configString] = value
+end
+
+clientGetSyncedSetting = function(var)
+    return syncedPlayerSetting[var.configString]
+end
+
+clientSetSyncedSetting = function(var, val)
+    syncedPlayerSetting[var.configString] = val
+end
 
 -- Does the API guarantee that the serverCall is received?
 -- What happens if server or client has high packet drop?

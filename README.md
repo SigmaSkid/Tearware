@@ -15,25 +15,30 @@ Remove the shortcut by assigning the "enter" key.
 - Optional ESP
 - Valuable ESP
 - Tool ESP
-- Player Glow - WORKS PARTIALLY. CLIENTS NO GLOW, HOST GLOWS IDK. potential fix? not tested
+- Player Glow - confirmed works.
 - Equipped Tool Glow
 - Active Glow
 - Colored Fog*
 - Post Processing
+- Radar - to implement.
+- Tracers - to implement.
 
 ### Player:
-- Speed - borked
+- Ragebot - to implement, also autowall.
+- Speed - borked - also add some funny modes to mimic how minecraft hax do it to bypass ACs
 - Spider - borked
-- Bunnyhop - to implement, hold spacebar to continue jumping, also boost slider for it, to allow extra speed gain.
-- Fly - fixed? not confirmed
-- Floor Strafe - borked
+- Bunnyhop - works in singleplayer | jump trigger when holding space in tearware menu
+- Longjump - to implement (just copy bunnyhop switch isonground to isjumping, no need for input detection.)
+- Fly - WORKS!
+- Floor Strafe - WORKS!
 - Jetpack - borked
 - Jesus - borked
 - Quickstop - borked
 - Infinite Ammo - borked, only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only.
 - Super Strength - borked
-- Godmode - fixed? not confirmed
-- Anti-aim - ONLY HOST SEES BONE UPDATES, hard to test solo. :shrug: might either need to animate on clients too, or maybe setactive fixes it? idk.
+- Godmode - WORKS!
+- No-fall - *new* tested in singleplayer [but no menu button and code not called, but code itself was checked in singleplayer, idk)
+- Anti-aim - ONLY HOST SEES REAL BONES. Changing Bones, affects clients collisions.
 
 ### World:
 - Slowmotion* - CONFIRMED WORKS
@@ -42,13 +47,13 @@ Remove the shortcut by assigning the "enter" key.
 - Disable Robots* - UNTESTED
 - Disable Physics* - CONFIRMED WORKS
 - Force Update Physics* - CONFIRMED WORKS
-- Teleport Valuables* - fixed? not confirmed
-- Unfair Valuables* - DIDN"T TEST
+- Teleport Valuables* - WORKS? kinda the valuables are falling and gaining infinite speed, the docs say settransform resets velocity, but it does not do that for clients.
+- Unfair Valuables* - SHOULD WORK, UNTESTED, HOST HAS THE CAMPAIGN SAVE, SO PROBABLY WORKS.
 
 ### Tools:
-- Structure Restorer* - fixed? not confirmed
-- Rubberband - fixed? not confirmed
-- Teleport - fixed? not confirmed
+- Structure Restorer* - IT KINDA WORKS. just doesn't freeze objects anymore. Figure out how to make objects freeze.
+- Rubberband - CONFIRMED WORKS
+- Teleport - CONFIRMED WORKS
 - Explosion Brush - borked
 - Fire Brush - borked
 
@@ -96,9 +101,19 @@ If body is not active, it is not being networked? Could this explain antiaim (pr
 Figure out if clients respect server hitboxes, or if a local hit counts, (fake angles?)
 Finish level button works FOR CLIENTS? Make it host only.  
   
-Add rebinding menu key because @unlegitsenpaii can't afford a full keyboard  
-
 Also add that new multiplayer preview image.  
 
 Check for player attachments in both player & active glow.  
 Prevent local player attachments from glowing in first person perspective.  
+  
+Sync menu open state, so old helper functions for InputDown being false while in menu work again.  
+Currently features like bunnyhop trigger while in menu.  
+
+Debug anti-aim breaks client collisions, movement is broken. Seems to be fine with normal AA modes.  
+Anti-aim, free-standing/arrow keys
+
+Autowall for aimbot.  
+Resolver? Only network fake bones to clients?  
+
+Throw projectiles/pipebomb in all direction? idk. @unlegitSenpaii begs me, even tho he won't even play the game with me to test shit.  
+Add rebinding menu key because @unlegitSenpaii can't afford a full keyboard  

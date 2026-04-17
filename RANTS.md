@@ -17,3 +17,7 @@ because of this, are now incorrect :D
 Also features that were coded with the expectation  
 that the globals can be randomly destroyed,  
 might potentially leak memory on quick load instead.
+
+## SetBodyTransform - not documented properly, different behavior client & server
+It resets the velocity on local/host.  
+But bodies keep their velocity on clients.  

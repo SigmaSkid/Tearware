@@ -36,7 +36,7 @@ visuals_PlayerGlow = function()
 
     local color = config_GetColor(fPlayerGlow, GetTime())
     local players = GetAllPlayers()
-    local isThirdPerson = GetBool("game.thirdperson")
+    local isThirdPerson = GetBool("game.thirdperson") -- do this differently xD
 
     for id=1, #players do
         if IsPlayerValid(id) then 

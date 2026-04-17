@@ -1,11 +1,12 @@
-local lastgodmodeState = false
-player_Godmode = function()
-    local godmodeEnabled = config_AdvGetBool(fGodmode) 
-    
-    if godmodeEnabled == lastgodmodeState then 
-        return 
+client_playerGodmode = function()
+
+    local cfgVar = fGodmode
+    local enabled = config_AdvGetBool(cfgVar)
+
+    if enabled == clientGetSyncedSetting(cfgVar) then 
+        return
     end
 
-    lastgodmodeState = currentGodmodeState
-    clientScreamParamToggle("godmode", currentGodmodeState)
+    clientScreamParamToggle("godmode", enabled)
+    clientSetSyncedSetting(cfgVar, enabled)
 end

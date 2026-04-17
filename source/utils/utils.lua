@@ -383,17 +383,16 @@ end
 
 
 utils_TWInputDown = function(input)
-    if lockInputs then return false end
+    if lockInputs ~= nil then return false end
     return InputDown(input)
 end
 
 utils_TWInputPressed = function(input)
-    if lockInputs then return false end
+    if lockInputs ~= nil then return false end
     return InputPressed(input)
 end
 
 utils_GetLastInputBetter = function()
-
     local realInput = InputLastPressedKey()
     if realInput == nil or realInput == "" then 
         for i=1, #keysNotInLastPressedKey do

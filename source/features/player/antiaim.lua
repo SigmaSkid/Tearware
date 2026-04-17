@@ -1,53 +1,37 @@
 -- client
-clientLastAAsettings = { 
-    enabled=false,
-    yaw_mode=0,
-    yaw_offset=0,
-    yaw_speed=0,
-    yaw_amp=0,
-    pitch_mode=0,
-    pitch_offset=0,
-    pitch_speed=0,
-    pitch_amp=0
-}
-
 client_playerAntiAim = function()
 
-    local enabled = config_AdvGetBool(fAntiAim)
+    local cfgVar = fAntiAim
+    local enabled = config_AdvGetBool(cfgVar)
+    local currentSettings = nil 
 
-    if not enabled and clientLastAAsettings == nil then return end
+    if enabled then 
+        currentSettings =
+        { 
+            yaw_mode=config_GetSubInt(cfgVar, fAntiAimYawModes),
+            yaw_offset=config_GetSubFloat(cfgVar, fSubYawOffset),
+            yaw_speed=config_GetSubFloat(cfgVar, fSubYawSpeed),
+            yaw_amp=config_GetSubFloat(cfgVar, fSubYawAmp),
+            pitch_mode=config_GetSubInt(cfgVar, fAntiAimPitchModes),
+            pitch_offset=config_GetSubFloat(cfgVar, fSubPitchOffset),
+            pitch_speed=config_GetSubFloat(cfgVar, fSubPitchSpeed),
+            pitch_amp=config_GetSubFloat(cfgVar, fSubPitchAmp)
+        }
+    end
 
-    local currentAAsettings = { 
-        enabled=enabled,
-        yaw_mode=config_GetSubInt(fAntiAim, fAntiAimYawModes),
-        yaw_offset=config_GetSubFloat(fAntiAim, fSubYawOffset),
-        yaw_speed=config_GetSubFloat(fAntiAim, fSubYawSpeed),
-        yaw_amp=config_GetSubFloat(fAntiAim, fSubYawAmp),
-        pitch_mode=config_GetSubInt(fAntiAim, fAntiAimPitchModes),
-        pitch_offset=config_GetSubFloat(fAntiAim, fSubPitchOffset),
-        pitch_speed=config_GetSubFloat(fAntiAim, fSubPitchSpeed),
-        pitch_amp=config_GetSubFloat(fAntiAim, fSubPitchAmp)
-    }
-
-    if utils_tableCompare(currentAAsettings, clientLastAAsettings) then 
-        if not enabled then 
-            clientLastAAsettings = nil
-        end
+    if utils_tableCompare(currentSettings, clientGetSyncedSetting(cfgVar)) then 
         return
     end
 
-    clientScreamAtServerPolitely(fAntiAim, currentAAsettings)
-    clientLastAAsettings = currentAAsettings
+    clientScreamAtServerPolitely(cfgVar, currentSettings)
+    clientSetSyncedSetting(cfgVar, currentSettings)
 end
 
--- server. 
+-- server
 server_playerAntiAim = function(playerID, dt)
-    local entry = syncedPlayerSetting[playerID][fAntiAim.configString]
+    local entry = serverGetPlayerConfigValues(playerID, fAntiAim)
+
     if entry == nil then return end
-    if not entry.enabled then 
-        syncedPlayerSetting[playerID][fAntiAim.configString] = nil
-        return
-    end
 
     local animator = GetPlayerAnimator(playerID)
     if animator == 0 then return end
@@ -82,6 +66,37 @@ server_playerAntiAim = function(playerID, dt)
         local spinAngle = (snap * entry.yaw_amp) + ((time * 45 * entry.yaw_speed) % 360)
 
         SetBoneRotation(animator, "Bip001", QuatEuler(-90, spinAngle + entry.yaw_offset, 0))
+    elseif entry.yaw_mode == 6 then -- hitbox debug.
+        local spinSpeed = 360 * entry.yaw_speed
+        local spinAngle = (time * spinSpeed) % 360
+
+        SetBoneRotation(animator, "Bip001", QuatEuler(90, -90, 0))
+        SetBoneRotation(animator, "stomach", QuatEuler(0, -180, 0))
+        SetBoneRotation(animator, "pelvis", QuatEuler(90, 90, 0))
+        SetBoneRotation(animator, "chest", QuatEuler(0, -180, 0))
+        
+        SetBoneRotation(animator, "neck", QuatEuler(0, -180, 0))
+        SetBoneRotation(animator, "head", QuatEuler(0, -180, 0))
+
+        SetBoneRotation(animator, "shoulder_l", QuatEuler(0, -180, 0))
+        SetBoneRotation(animator, "arm_upper_l", QuatEuler(0, -180, 0))
+        SetBoneRotation(animator, "arm_lower_l", QuatEuler(0, -180, 0))
+        SetBoneRotation(animator, "hand_l", QuatEuler(0, -180, 0))
+
+        SetBoneRotation(animator, "shoulder_r", QuatEuler(0, -180, 0))
+        SetBoneRotation(animator, "arm_upper_r", QuatEuler(0, -180, 0))
+        SetBoneRotation(animator, "arm_lower_r", QuatEuler(0, -180, 0))
+        SetBoneRotation(animator, "hand_r", QuatEuler(0, -180, 0))
+
+        SetBoneRotation(animator, "leg_upper_l", QuatEuler(0, 0, 0))
+        SetBoneRotation(animator, "leg_lower_l", QuatEuler(0, -180, 0))
+        SetBoneRotation(animator, "foot_l", QuatEuler(0, -180, 0))
+        SetBoneRotation(animator, "toes_l", QuatEuler(0, -180, 0))
+
+        SetBoneRotation(animator, "leg_upper_r", QuatEuler(0, 0, 0))
+        SetBoneRotation(animator, "leg_lower_r", QuatEuler(0, -180, 0))
+        SetBoneRotation(animator, "foot_r", QuatEuler(0, -180, 0))
+        SetBoneRotation(animator, "toes_r", QuatEuler(0, -180, 0))
     end
 
     -- pitch
@@ -135,3 +150,9 @@ end
     foot_l
     toes_l
 --]]
+
+--[[
+
+
+
+]]--

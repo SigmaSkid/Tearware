@@ -154,6 +154,12 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 legacyMenu_Checkbox(fPostProcess)
                 legacyMenu_ColorSelector(fPostProcess)
 
+                legacyMenu_Checkbox(fSpinnyTool)
+                if legacyMenu_FunnySubmenuBegin(fSpinnyTool, 120, 50) then 
+                    legacyMenu_SubSettingSlider(fSpinnyTool, fSubSpeed, 0.1, 10)
+                    UiPop()
+                end
+
             elseif GetInt(cfgstr .. "activetab") == 1 then 
                 -- player
 
@@ -168,6 +174,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 legacyMenu_Checkbox(fFly)
 
                 legacyMenu_Checkbox(fFloorStrafe)
+                legacyMenu_Checkbox(fBunnyhop)
                 legacyMenu_Checkbox(fJetpack)
                 legacyMenu_Checkbox(fJesus)
                 legacyMenu_Checkbox(fQuickstop)
@@ -267,8 +274,10 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                     resetTimerController = 20.0
                 end
 
-                if legacyMenu_Button(fMenuFinishLevel) then
-                    SetString("level.state", "win") 
+                if isLocalPlayerTheHost then 
+                    if legacyMenu_Button(fMenuFinishLevel) then
+                        SetString("level.state", "win") 
+                    end
                 end
 
                 if legacyMenu_Button(fMenuActivateRobots) then
