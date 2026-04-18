@@ -126,4 +126,4 @@ Currently features like bunnyhop trigger while in menu.
 
 1. Resolver works, but if player joins, he doesn't get active AA modes from before his connection.
 
-1. Structure restore, does not networking de-activating objects.
+1. Structure restorer, does not network de-activating objects.
