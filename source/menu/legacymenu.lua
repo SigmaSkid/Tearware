@@ -886,27 +886,42 @@ legacyMenu_SubSettingCheckbox = function(var, sub)
     local namew, nameh = UiGetTextSize(sub.legacyName)
     
     local highlight = 0.6
+    local in_rect = false
+
+    local pad = 5
+    UiTranslate(-pad, -pad)
+    namew = namew + 2*pad
+    nameh = nameh + 2*pad
+
+    -- debug rect
+    -- UiPush()
+    -- UiColor(0.0, 0.0, 0.0, 1.0)
+    -- UiRect(namew, nameh)
+    -- UiPop()
 
     if UiIsMouseInRect(namew, nameh) then
         highlight = 0.8
+        in_rect = true
     end
 
     UiTextShadow(0, 0, 0, 0.5, 1.5)
     UiTextOutline(0, 0, 0, 1, 0.1)
 
-    -- highlight the checkbox, if this is the keybind we're editing
     if GetBool(cfgstr .. var.configString .. sub.configString) then 
         UiColor(highlight, 1.0, highlight, 1)
     else 
         UiColor(1.0, highlight, highlight, 1)
     end
 
-    if UiTextButton(sub.legacyName) then
+    UiTranslate(pad, pad)
+    UiText(sub.legacyName)
+
+    if in_rect and InputPressed("lmb") then
         config_FlipBool(cfgstr .. var.configString .. sub.configString)
     end
 
     UiPop()
-    UiText("", true)
+    UiTranslate(0, 20)
 end
 
 legacyMenu_SubSettingCycleList = function(var, sub, list)
@@ -925,6 +940,17 @@ legacyMenu_SubSettingCycleList = function(var, sub, list)
     local highlight = 0.8
     local in_rect = false
 
+    local pad = 5 
+    UiTranslate(-pad, -pad)
+    namew = namew + 2*pad
+    nameh = nameh + 2*pad
+
+    -- debug rect
+    -- UiPush()
+    -- UiColor(0.0, 0.0, 0.0, 1.0)
+    -- UiRect(namew, nameh)
+    -- UiPop()
+
     if UiIsMouseInRect(namew, nameh) then
         highlight = 0.9
         in_rect = true
@@ -933,6 +959,7 @@ legacyMenu_SubSettingCycleList = function(var, sub, list)
     UiTextShadow(0, 0, 0, 0.5, 1.5)
     UiTextOutline(0, 0, 0, 1, 0.1)
     UiColor(highlight, highlight, highlight, 1)
+    UiTranslate(pad, pad)
     UiText(string)
 
     local return_value = true
