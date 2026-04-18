@@ -8,6 +8,7 @@ tools_RecordAllObjectsState = function()
             local data = {}
             data.trans = GetBodyTransform(thisBody)
             data.handle = thisBody
+            data.velocity = GetBodyVelocity(thisBody)
             allBodies[#allBodies+1] = data
         end
     end
@@ -25,7 +26,8 @@ tools_RewindAllObjectsState = function()
         local thisBody = thisTick[i]
         if IsHandleValid(thisBody.handle) then 
             SetBodyTransform(thisBody.handle, thisBody.trans)
-            SetBodyActive(thisBody.handle, true)
+            SetBodyVelocity(thisBody.handle, VecScale(thisBody.velocity, -1.0))
+            SetBodyActive(thisBody.handle, VecLength(thisBody.velocity) > 1.0)
         end
     end
 
