@@ -74,7 +74,7 @@ function server.update(dt)
     local players = GetAllPlayers()
     for id=1, #players do
         if IsPlayerValid(id) then 
-            playerServerPostUpdate(id, dt)
+            playerServerUpdate(id, dt)
         end
     end
 

@@ -8,6 +8,7 @@ gameVersion = GetVersion()
 registryEntryPoints = { "characters", "game", "hud", "level", "loading", "mods", "promo", "promo_mp", "savegame", "spawn" }
 colorSuffix = {"_red", "_green", "_blue", "_alpha", "_rainbow"}
 isLocalPlayerTheHost = false
+isSessionMultiplayer = false
 
 -- {"Name that InputLastPressedKey() Outputs", "Default Value", "Capitalized Value"}
 ghettoKeyMap = {

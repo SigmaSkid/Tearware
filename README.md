@@ -20,12 +20,12 @@ Remove the shortcut by assigning the "enter" key.
 - Active Glow
 - Colored Fog*
 - Post Processing
-- Radar - to implement.
-- Tracers - to implement.
-- Box ESP - to implement.
+- Radar^ - to implement.
+- Tracers^ - to implement.
+- Box ESP^ - to implement.
 
 ### Player:
-- Ragebot - to implement, also autowall.
+- Ragebot^ - to implement, also autowall.
 - Speed - borked - also add some funny modes to mimic how minecraft hax do it to bypass ACs
 - Spider - borked
 - Bunnyhop - works in singleplayer | jumps trigger when holding space in tearware menu
@@ -40,7 +40,7 @@ Remove the shortcut by assigning the "enter" key.
 - Godmode - WORKS!
 - No-fall - tested in singleplayer [but no menu button and code not called, but code itself was checked in singleplayer, idk)
 - Anti-Aim - WORKS!
-- Anti-Aim Resolver - tested only in single player. 
+- Anti-Aim Resolver^ - tested only in single player. 
 
 ### World:
 - Slowmotion* - CONFIRMED WORKS
@@ -64,6 +64,7 @@ Remove the shortcut by assigning the "enter" key.
 - Registry Explorer
 
 Features marked with '*' are host only.
+Features marked with '^' are multiplayer only.
 
 ## Installation
 ### Steam Workshop (recommended)

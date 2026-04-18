@@ -96,6 +96,7 @@ shared_applyAntiAim = function(playerID, entry)
         SetBoneRotation(animator, "leg_lower_r", QuatEuler(0, -180, 0))
         SetBoneRotation(animator, "foot_r", QuatEuler(0, -180, 0))
         SetBoneRotation(animator, "toes_r", QuatEuler(0, -180, 0))
+        return -- don't let pitch override debug mode.
     end
     
     -- pitch

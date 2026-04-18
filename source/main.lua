@@ -15,6 +15,7 @@ function client.init()
     utils_ghostMode()
 
     isLocalPlayerTheHost = IsPlayerHost(GetLocalPlayer())
+    isSessionMultiplayer = GetMaxPlayer() > 1
 
     ServerCall("server.issueUUID", GetLocalPlayer())
 end
