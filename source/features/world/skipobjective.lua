@@ -1,4 +1,6 @@
 world_SkipObjective = function()
+    if not isSessionCampagin then return end
+
     if not config_AdvGetBool(fSkipObjective) then
         return
     end

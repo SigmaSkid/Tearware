@@ -11,10 +11,10 @@ Remove the shortcut by assigning the "enter" key.
 ## Features:
 ### Visuals:
 - Feature List 
-- Objective ESP
-- Optional ESP
-- Valuable ESP
-- Tool ESP
+- Objective ESP&
+- Optional ESP& - make this a subsetting of objective esp 
+- Valuable ESP&
+- Tool ESP&
 - Player Glow - confirmed works.
 - Equipped Tool Glow
 - Active Glow
@@ -35,7 +35,7 @@ Remove the shortcut by assigning the "enter" key.
 - Jesus - borked
 - Quickstop - borked
 - Infinite Ammo - borked, only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only.
-- Unlock Guns - to implement, unlock all weapons in campaign. 
+- Unlock Guns&* - to implement, unlock all weapons in campaign. 
 - Super Strength - borked
 - Godmode - WORKS!
 - No-fall - tested in singleplayer [but no menu button and code not called, but code itself was checked in singleplayer, idk)
@@ -44,13 +44,13 @@ Remove the shortcut by assigning the "enter" key.
 
 ### World:
 - Slowmotion* - CONFIRMED WORKS
-- Skip Objective* - CONFIRMED WORKS
-- Disable Alarm* - AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
+- Skip Objective&* - CONFIRMED WORKS
+- Disable Alarm&* - AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
 - Disable Robots* - UNTESTED
 - Disable Physics* - CONFIRMED WORKS
 - Force Update Physics* - CONFIRMED WORKS
-- Teleport Valuables* - WORKS? kinda the valuables are falling and gaining infinite speed, the docs say settransform resets velocity, but it does not do that for clients.
-- Unfair Valuables* - SHOULD WORK, UNTESTED, HOST HAS THE CAMPAIGN SAVE, SO PROBABLY WORKS.
+- Teleport Valuables&* - WORKS? kinda the valuables are falling and gaining infinite speed, the docs say settransform resets velocity, but it does not do that for clients.
+- Unfair Valuables&* - SHOULD WORK, UNTESTED, HOST HAS THE CAMPAIGN SAVE, SO PROBABLY WORKS.
 - Rainbow lights - to implement. Get all light objects then apply our rgb to them.
 
 ### Tools:
@@ -65,6 +65,7 @@ Remove the shortcut by assigning the "enter" key.
 
 Features marked with '*' are host only.
 Features marked with '^' are multiplayer only.
+Features marked with '&' are campaign only.
 
 ## Installation
 ### Steam Workshop (recommended)
@@ -122,3 +123,5 @@ Currently features like bunnyhop trigger while in menu.
 1. Add sub setting for skip objectives to auto finish level.  
 
 1. Registry explorer, add key button, so we can force silly stuff like hud.hide or something idk.  
+
+1. Add a check of isCampaign.

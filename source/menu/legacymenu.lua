@@ -124,15 +124,17 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                     UiPop()
                 end
 
-                legacyMenu_Checkbox(fObjectiveEsp)
-                legacyMenu_ColorSelector(fObjectiveEsp)
-                if config_AdvGetBool(fObjectiveEsp) then 
-                    legacyMenu_Checkbox(fOptionalEsp)
-                    legacyMenu_ColorSelector(fOptionalEsp)
+                if isSessionCampagin then
+                    legacyMenu_Checkbox(fObjectiveEsp)
+                    legacyMenu_ColorSelector(fObjectiveEsp)
+                    if config_AdvGetBool(fObjectiveEsp) then 
+                        legacyMenu_Checkbox(fOptionalEsp)
+                        legacyMenu_ColorSelector(fOptionalEsp)
+                    end
+                    
+                    legacyMenu_Checkbox(fValuableEsp)
+                    legacyMenu_ColorSelector(fValuableEsp)
                 end
-
-                legacyMenu_Checkbox(fValuableEsp)
-                legacyMenu_ColorSelector(fValuableEsp)
 
                 legacyMenu_Checkbox(fToolEsp)
                 legacyMenu_ColorSelector(fToolEsp)
@@ -220,13 +222,16 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                         UiPop()
                     end
 
-                    legacyMenu_Checkbox(fSkipObjective)
-                    legacyMenu_Checkbox(fDisableAlarm)
                     legacyMenu_Checkbox(fDisableRobots)
                     legacyMenu_Checkbox(fDisablePhysics)
                     legacyMenu_Checkbox(fForceUpdatePhysics)
-                    legacyMenu_Checkbox(fTeleportValuables)
-                    legacyMenu_Checkbox(fUnfairValuables)
+
+                    if isSessionCampagin then
+                        legacyMenu_Checkbox(fSkipObjective)
+                        legacyMenu_Checkbox(fDisableAlarm)
+                        legacyMenu_Checkbox(fTeleportValuables)
+                        legacyMenu_Checkbox(fUnfairValuables)
+                    end
                 else 
                     UiPush()
                         UiTranslate(0, 25)
@@ -275,7 +280,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                     resetTimerController = 20.0
                 end
 
-                if isLocalPlayerTheHost then 
+                if isLocalPlayerTheHost and isSessionCampagin then 
                     if legacyMenu_Button(fMenuFinishLevel) then
                         SetString("level.state", "win") 
                     end

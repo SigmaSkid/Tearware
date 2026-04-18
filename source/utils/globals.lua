@@ -9,6 +9,7 @@ registryEntryPoints = { "characters", "game", "hud", "level", "loading", "mods",
 colorSuffix = {"_red", "_green", "_blue", "_alpha", "_rainbow"}
 isLocalPlayerTheHost = false
 isSessionMultiplayer = false
+isSessionCampagin = false
 
 -- {"Name that InputLastPressedKey() Outputs", "Default Value", "Capitalized Value"}
 ghettoKeyMap = {

@@ -15,7 +15,15 @@ function client.init()
     utils_ghostMode()
 
     isLocalPlayerTheHost = IsPlayerHost(GetLocalPlayer())
-    isSessionMultiplayer = GetMaxPlayer() > 1
+    isSessionMultiplayer = GetMaxPlayers() > 1
+    isSessionCampagin = HasKey("level.campaign")
+
+    --[[
+    DebugPrint("[TEARWARE INIT] "..
+        "Host: " .. utils_boolStr(isLocalPlayerTheHost) .. 
+        ", MP: " .. utils_boolStr(isSessionMultiplayer) .. 
+        ", Campaign: " .. utils_boolStr(isSessionCampagin))
+    ]]
 
     ServerCall("server.issueUUID", GetLocalPlayer())
 end

@@ -1,21 +1,46 @@
+local featureListCache = {}
+featureListCacheTime = -2137
+
+function rebuildFeatureCache(max_features)
+    featureListCache = {}
+    local count = 0
+    for i = 1, #featurelist do
+        if count >= max_features then break end
+        if config_AdvGetBool(featurelist[i]) then
+            local passHost     = not featurelist[i].hostOnly     or isLocalPlayerTheHost
+            local passClient   = not featurelist[i].clientOnly   or not isLocalPlayerTheHost
+            local passMp       = not featurelist[i].mpOnly       or isSessionMultiplayer
+            local passCampaign = not featurelist[i].campaignOnly or isSessionCampaign
+
+            if passHost and passClient and passMp and passCampaign then
+                count = count + 1
+                featureListCache[count] = featurelist[i].legacyName
+            end
+        end
+    end
+end
+
 visuals_FeatureList = function()
     if not config_AdvGetBool(fFeatureList) then 
         return 
     end
 
-    -- offset for the rainbow effect
-    local visibleFeatures = 0.05
-
     local alignment = config_GetSubInt(fFeatureList, fAlignmentLR)
     local watermark_above = config_AdvGetBool(fWatermark) and config_GetSubInt(fWatermark, fAlignmentLR) == alignment
-    
-    -- 6 pixels for padding on virtual 1920x1080 screen
-    local features_available_space = 1080 - 6 
-    if watermark_above then 
-        features_available_space = features_available_space - 28
-    end
 
-    local max_features_to_display = features_available_space / 14
+    local now = GetTime()
+
+    if now - featureListCacheTime >= 5.0 then
+        local features_available_space = 1080 - 6
+        if watermark_above then 
+            features_available_space = features_available_space - 28
+        end
+
+        local max_features_to_display = math.floor(features_available_space / 14)
+
+        rebuildFeatureCache(max_features_to_display)
+        featureListCacheTime = now
+    end
 
     UiPush()
         if alignment == 0 then 
@@ -31,24 +56,18 @@ visuals_FeatureList = function()
             UiTranslate(0, 25)
         end
 
-        local color = config_GetColor(fFeatureList, GetTime())
+        local color = config_GetColor(fFeatureList, now)
 
         UiFont(fonts.orbitron_sbold, 14)
         UiTextShadow(0, 0, 0, color.alpha * 0.2, 1.5)
         UiTextOutline(0, 0, 0, color.alpha * 0.7, 0.07)
 
-        for i=1, #featurelist do
-            if config_AdvGetBool(featurelist[i]) and max_features_to_display > 0 then
-                if not featurelist[i].hostOnly or isLocalPlayerTheHost then 
-                    max_features_to_display = max_features_to_display - 1
-                    visibleFeatures = visibleFeatures + 0.05
-                    local color = config_GetColor(fFeatureList, GetTime() + visibleFeatures)
-                    UiColor(color.red, color.green, color.blue, color.alpha)
-
-                    UiText(featurelist[i].legacyName, false)
-                    UiTranslate(0, 14)
-                end
-            end
+        for i = 1, #featureListCache do
+            local visibleFeatures = i * 0.05
+            local col = config_GetColor(fFeatureList, now + visibleFeatures)
+            UiColor(col.red, col.green, col.blue, col.alpha)
+            UiText(featureListCache[i], false)
+            UiTranslate(0, 14)
         end
 
     UiPop()

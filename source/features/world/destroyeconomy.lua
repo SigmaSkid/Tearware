@@ -1,4 +1,6 @@
 world_UnfairPrices = function()
+    if not isSessionCampagin then return end
+
 	if not config_AdvGetBool(fUnfairValuables) then
         world_RestoreValuablesValue() 
         return

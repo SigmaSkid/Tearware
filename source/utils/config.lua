@@ -156,17 +156,20 @@ end
 
 config_UpdateFeatureState = function(var)
     if not HasKey(cfgstr .. var.configString .. "_key") then 
-        return GetBool(cfgstr .. var.configString)
+        return false
     end
 
     local key = GetString(cfgstr .. var.configString .. "_key")
     if key == "null" or key == "" or key == nil then 
-        return GetBool(cfgstr .. var.configString)
+        return false
     end
 
     if InputPressed(key) then 
         SetBool(cfgstr .. var.configString, not GetBool(cfgstr .. var.configString))
+        return true
     end
+
+    return false
 end
 
 -- has to be done this way, because InputPressed
@@ -174,9 +177,16 @@ end
 config_UpdateAllFeatureStates = function()
     if lockInputs then return end
 
+    local didSomethingUpdate = false
     for i = 1, #featurelist do 
-        config_UpdateFeatureState(featurelist[i])
+        local updateState = config_UpdateFeatureState(featurelist[i])
+        if updateState then didSomethingUpdate = true end
     end
+
+    if didSomethingUpdate then 
+        featureListCacheTime = -2137
+    end
+
 end
 
 config_GenerateConfig = function()

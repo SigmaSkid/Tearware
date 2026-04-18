@@ -115,6 +115,8 @@ visuals_ToolEsp = function()
 end
 
 visuals_DrawEsp = function()
+    if not isSessionCampagin then  return end
+    
     visuals_ValueableEsp()
     visuals_ObjectiveEsp()
     visuals_ToolEsp()

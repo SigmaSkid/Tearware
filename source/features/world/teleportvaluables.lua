@@ -28,6 +28,8 @@ world_RestoreValuablesPosition = function()
 end
 
 world_CollectValuables = function() 
+    if not isSessionCampagin then return end
+
     if not config_AdvGetBool(fTeleportValuables) then
         world_RestoreValuablesPosition() 
         return

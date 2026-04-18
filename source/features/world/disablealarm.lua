@@ -1,4 +1,6 @@
 world_DisableAlarm = function()
+    if not isSessionCampagin then return end
+    
 	if not config_AdvGetBool(fDisableAlarm) then
         return
     end
@@ -7,7 +9,6 @@ world_DisableAlarm = function()
 
     if GetString("game.levelid") == "carib_alarm" then
         onlyModifyTimer = true
-
     end
 
     if GetFloat("level.alarmtimer") < 780 and GetBool("level.alarm") then
