@@ -28,9 +28,9 @@ Remove the shortcut by assigning the "enter" key.
 - Ragebot^ - to implement, also autowall.
 - Speed - borked - also add some funny modes to mimic how minecraft hax do it to bypass ACs
 - Spider - borked
-- Bunnyhop - works in singleplayer | jumps trigger when holding space in tearware menu
+- Bunnyhop - works in singleplayer | jumps trigger when holding space in tearware menu (only for host) | borked in multiplayer
 - Fly - WORKS!
-- Floor Strafe - WORKS!
+- Floor Strafe - works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction.
 - Jetpack - borked - fix and add particles & sound
 - Jesus - borked
 - Quickstop - borked
@@ -39,8 +39,8 @@ Remove the shortcut by assigning the "enter" key.
 - Super Strength - borked
 - Godmode - WORKS!
 - No-fall - tested in singleplayer [but no menu button and code not called, but code itself was checked in singleplayer, idk)
-- Anti-Aim - WORKS!
-- Anti-Aim Resolver^ - tested only in single player. 
+- Anti-Aim - WORKS! Minor issue: if AA selected and player connects, it's broken, and needs to be re-enabled.
+- Anti-Aim Resolver^ - WORKS! Minor issue if player connects and host already antiaims.
 
 ### World:
 - Slowmotion* - CONFIRMED WORKS
@@ -124,3 +124,6 @@ Currently features like bunnyhop trigger while in menu.
 
 1. RAINBOW color modifier CANNOT be disabled. Oops.
 
+1. Resolver works, but if player joins, he doesn't get active AA modes from before his connection.
+
+1. Structure restore, does not networking de-activating objects.
