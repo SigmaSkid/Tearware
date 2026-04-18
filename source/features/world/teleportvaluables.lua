@@ -87,6 +87,8 @@ world_CollectValuables = function()
             funny.rot = GetBodyTransform(body).rot
             SetBodyTransform(body, funny)
             SetBodyActive(body, true)
+            -- can't easily bruteforce magic value, because objects are static in single player
+            SetBodyVelocity(body, Vec(0, 1, 0)) 
         end
     end
 end

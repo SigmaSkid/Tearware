@@ -21,3 +21,13 @@ might potentially leak memory on quick load instead.
 ## SetBodyTransform - not documented properly, different behavior client & server
 It resets the velocity on local/host.  
 But bodies keep their velocity on clients.  
+
+## Inactive bodies not being networked.
+Despite changing position of objects through `SetBodyTransform`,  
+they are not being sent to the clients.  
+
+## String find no longer uses '.' as any symbol unlike it did before.
+This completely breaks my registry explorer search,  
+because the '.' is also not being searched correctly.  
+So I can't search for subkeys of specific keys anymore.  
+Until I fix it.  

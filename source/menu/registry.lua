@@ -143,10 +143,11 @@ registry_UpdateSearchVisibility = function()
 
         if #registrySearchString == 0 then
             registryVisibleCache[#registryVisibleCache + 1] = this
-            -- dots "." are used as placeholders for any character
-            -- so you can search for "something" with a search query like s...th..g
-        elseif string.find(this.name, registrySearchString) ~= nil then
-            registryVisibleCache[#registryVisibleCache + 1] = this
+        else 
+            local pattern = registrySearchString:gsub("([%(%)%%%+%-%*%?%[%]%^%$])", "%%%1")
+            if string.find(this.name:lower(), pattern:lower()) ~= nil then
+                registryVisibleCache[#registryVisibleCache + 1] = this
+            end
         end
     end
 end 

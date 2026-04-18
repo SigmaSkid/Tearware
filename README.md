@@ -38,7 +38,7 @@ Remove the shortcut by assigning the "enter" key.
 - Unlock Guns - to implement, unlock all weapons in campaign. 
 - Super Strength - borked
 - Godmode - WORKS!
-- No-fall - *new* tested in singleplayer [but no menu button and code not called, but code itself was checked in singleplayer, idk)
+- No-fall - tested in singleplayer [but no menu button and code not called, but code itself was checked in singleplayer, idk)
 - Anti-Aim - WORKS!
 - Anti-Aim Resolver - tested only in single player. 
 
@@ -51,6 +51,7 @@ Remove the shortcut by assigning the "enter" key.
 - Force Update Physics* - CONFIRMED WORKS
 - Teleport Valuables* - WORKS? kinda the valuables are falling and gaining infinite speed, the docs say settransform resets velocity, but it does not do that for clients.
 - Unfair Valuables* - SHOULD WORK, UNTESTED, HOST HAS THE CAMPAIGN SAVE, SO PROBABLY WORKS.
+- Rainbow lights - to implement. Get all light objects then apply our rgb to them.
 
 ### Tools:
 - Structure Restorer* - Needs testing in multiplayer to verify sync on objects returning to inactive state.
@@ -97,25 +98,26 @@ git clone https://github.com/SigmaSkid/Tearware
 Navigate to the github repository and run the pack python script.  
 It creates a release folder containing the packaged code.
 
-## Multiplayer debug session, found issues:
-Anti-aim only visible for host.  
-Clients cannot see the anti-aim angle.  
+## Multiplayer debug session / found issues / todos:
+1. Make & add the new multiplayer preview image.  
 
-If body is not active, it is not being networked? Could this explain antiaim (prolly not, might have to animate bones on clients)?   
-  
-Also add that new multiplayer preview image.  
+1. Prevent local player and their attachments from glowing in first person perspective.  
 
-Check for player attachments in both player & active glow.  
-Prevent local player attachments from glowing in first person perspective.  
-  
-Sync menu open state, so old helper functions for InputDown being false while in menu work again.  
+1. Player glow respect player color.  GetPlayerColor([playerID])
+
+1. Sync menu open state, so old helper functions for InputDown being false while in menu work again.  
 Currently features like bunnyhop trigger while in menu.  
 
-Debug anti-aim breaks client collisions, movement is broken. Seems to be fine with normal AA modes.  
-Anti-aim, free-standing/arrow keys
+1. Anti-aim, naive freestanding that can be done in both client & server (face away from players?).  
 
-Autowall for aimbot.  
-Resolver? Only network fake bones to clients?  
+1. Anti-aim modes for stand/walk/in air? This would make it insanely annoying to make a config..
 
-Throw projectiles/pipebomb in all direction? idk. @unlegitSenpaii begs me, even tho he won't even play the game with me to test shit.  
-Add rebinding menu key because @unlegitSenpaii can't afford a full keyboard  
+1. Autowall for ragebot.  
+
+1. Throw projectiles/pipebomb in all direction? idk. @unlegitSenpaii keeps crying he wants it.  
+
+1. Add rebinding menu key because @unlegitSenpaii can't afford a full keyboard. No, right shift is not a valid key.  
+
+1. Add sub setting for skip objectives to auto finish level.  
+
+1. Registry explorer, add key button, so we can force silly stuff like hud.hide or something idk.  
