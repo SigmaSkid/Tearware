@@ -112,8 +112,6 @@ Currently features like bunnyhop trigger while in menu.
 
 1. Anti-aim, naive freestanding that can be done in both client & server (face away from players?).  
 
-1. Anti-aim modes for stand/walk/in air? This would make it insanely annoying to make a config..
-
 1. Autowall for ragebot.  
 
 1. Throw projectiles/pipebomb in all direction? idk. @unlegitSenpaii keeps crying he wants it.  
@@ -124,4 +122,5 @@ Currently features like bunnyhop trigger while in menu.
 
 1. Registry explorer, add key button, so we can force silly stuff like hud.hide or something idk.  
 
-1. Add a check of isCampaign.
+1. RAINBOW color modifier CANNOT be disabled. Oops.
+
