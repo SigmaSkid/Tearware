@@ -31,10 +31,11 @@ Remove the shortcut by assigning the "enter" key.
 - Bunnyhop - works in singleplayer | jumps trigger when holding space in tearware menu
 - Fly - WORKS!
 - Floor Strafe - WORKS!
-- Jetpack - borked
+- Jetpack - borked - fix and add particles & sound
 - Jesus - borked
 - Quickstop - borked
 - Infinite Ammo - borked, only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only.
+- Unlock Guns - to implement, unlock all weapons in campaign. 
 - Super Strength - borked
 - Godmode - WORKS!
 - No-fall - *new* tested in singleplayer [but no menu button and code not called, but code itself was checked in singleplayer, idk)
@@ -52,7 +53,7 @@ Remove the shortcut by assigning the "enter" key.
 - Unfair Valuables* - SHOULD WORK, UNTESTED, HOST HAS THE CAMPAIGN SAVE, SO PROBABLY WORKS.
 
 ### Tools:
-- Structure Restorer* - IT KINDA WORKS. just doesn't freeze objects anymore. Figure out how to make objects freeze.
+- Structure Restorer* - Needs testing in multiplayer to verify sync on objects returning to inactive state.
 - Rubberband - CONFIRMED WORKS
 - Teleport - CONFIRMED WORKS
 - Explosion Brush - borked
