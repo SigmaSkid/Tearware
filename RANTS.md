@@ -31,3 +31,15 @@ This completely breaks my registry explorer search,
 because the '.' is also not being searched correctly.  
 So I can't search for subkeys of specific keys anymore.  
 Until I fix it.  
+
+## Applying velocity is buggy in multiplayer.
+Features that use SetPlayerVelocity(velocity),  
+are almost completely broken in multiplayer.  
+We need to figure out replacement strategy,  
+or lock some features in multiplayer.  
+But that defeats the point of porting it to multiplayer
+
+## SetBodyActive False not networked.
+It's just not. We need to call it on client ourselves.  
+We can't just clientcall, because the API needs to be called inside of update.  
+So we need a listener, a buffer, and to constantly check the stupid buffer.   

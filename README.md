@@ -14,6 +14,7 @@ Remove the shortcut by assigning the "enter" key.
 - Objective ESP&
 - Optional ESP& - make this a subsetting of objective esp 
 - Valuable ESP&
+- Custom ESP - to implement. (Adding custom flags)
 - Tool ESP&
 - Player Glow - confirmed works.
 - Equipped Tool Glow
@@ -120,7 +121,7 @@ Currently features like bunnyhop trigger while in menu.
 
 1. Add sub setting for skip objectives to auto finish level.  
 
-1. Registry explorer, add key button, so we can force silly stuff like hud.hide or something idk.  
+1. Registry explorer, "add key" button, so we can force silly stuff like hud.hide or something idk.  
 
 1. RAINBOW color modifier CANNOT be disabled. Oops.
 

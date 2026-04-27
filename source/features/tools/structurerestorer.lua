@@ -27,7 +27,9 @@ tools_RewindAllObjectsState = function()
         if IsHandleValid(thisBody.handle) then 
             SetBodyTransform(thisBody.handle, thisBody.trans)
             SetBodyVelocity(thisBody.handle, VecScale(thisBody.velocity, -1.0))
-            SetBodyActive(thisBody.handle, VecLength(thisBody.velocity) > 1.0)
+            
+            -- setting body inactive isn't networked to clients
+            SetBodyActive(thisBody.handle, VecLength(thisBody.velocity) > 1.0) 
         end
     end
 
