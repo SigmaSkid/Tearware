@@ -407,69 +407,79 @@ legacyMenu_Checkbox = function(var)
     end
 
     UiPop()
-    UiText("", true)
-    -- make rects not overlap
     UiTranslate(0, 3)
 end
 
 legacyMenu_Button = function(name)
-    local return_value = false
-    UiTranslate(0, 25)
     UiPush()
     UiAlign("left top")
+    
+    local namew, nameh = UiGetTextSize(name)
+    
+    local highlight = 0.7
+    local clicked = false
+
+    local pad = 5
+    UiTranslate(-pad, -pad)
+    namew = namew + 2*pad
+    nameh = nameh + 2*pad
+
+    if UiIsMouseInRect(namew, nameh) then
+        highlight = 1.0
+        if InputPressed("lmb") then
+            clicked = true
+        end
+    end
 
     UiTextShadow(0, 0, 0, 0.5, 2.0)
     UiTextOutline(0, 0, 0, 1, 0.1)
     
-    local namew, nameh = UiGetTextSize(name)
-    
-    local highlight = 0.9
-
-    if UiIsMouseInRect(namew, nameh) then
-        highlight = 1
-    end
-
     UiColor(highlight, highlight, highlight, 1)
+    
+    UiTranslate(pad, pad)
+    UiText(name)
 
-    if UiTextButton(name) then
-        return_value = true
-    end
     UiPop()
-    UiText("", true)
-    -- make rects not overlap
-    UiTranslate(0, 3)
-    return return_value
+    UiTranslate(0, nameh)
+    return clicked
 end
 
 legacyMenu_SimpleCheckbox = function(name, value) 
     UiPush()
     UiAlign("left top")
-
-    UiTextShadow(0, 0, 0, 0.5, 2.0)
-    UiTextOutline(0, 0, 0, 1, 0.1)
     
     local namew, nameh = UiGetTextSize(name)
     
     local highlight = 0.6
+    local clicked = false
+
+    local pad = 5
+    UiTranslate(-pad, -pad)
+    namew = namew + 2*pad
+    nameh = nameh + 2*pad
 
     if UiIsMouseInRect(namew, nameh) then
         highlight = 0.8
+        if InputPressed("lmb") then
+            clicked = true
+        end
     end
 
+    UiTextShadow(0, 0, 0, 0.5, 2.0)
+    UiTextOutline(0, 0, 0, 1, 0.1)
+    
     if value == true then 
         UiColor(highlight, 1.0, highlight, 1)
     else 
         UiColor(1.0, highlight, highlight, 1)
     end
 
-    if UiTextButton(name) then
-        return_value = true
-    end
+    UiTranslate(pad, pad)
+    UiText(name)
+
     UiPop()
-    UiText("", true)
-    -- make rects not overlap
-    UiTranslate(0, 3)
-    return return_value
+    UiTranslate(0, 23)
+    return clicked
 end
 
 legacyMenu_NavButtonImg = function(image, tabid)
@@ -595,7 +605,7 @@ legacyMenu_ColorSelector = function(var, alpha)
             
             config_SetColor(var, color)
         elseif active_sub_menu_mode == "alt" then 
-            local length = 90
+            local length = 100
             local width = 80
 
             UiPush()
@@ -620,7 +630,7 @@ legacyMenu_ColorSelector = function(var, alpha)
 
 
                 UiPush()
-                UiTranslate(0, -20)
+                UiTranslate(10, 10)
                 if legacyMenu_Button("Copy") then 
                     funnyColorCopyCache = color
                 end

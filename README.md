@@ -96,11 +96,6 @@ Navigate to the github repository and run the pack python script.
 It creates a release folder containing the packaged code.
 
 ## Multiplayer debug session / found issues / todos:
-1. RAINBOW color modifier CANNOT be disabled. Oops.  
-FIX THIS ASAP. Actually mod breaking.  
-The current single-player version of the mod is also affected.  
-Reported in https://steamcommunity.com/workshop/filedetails/discussion/2798126764/3273563387060372642/ by https://steamcommunity.com/profiles/76561198428363041  
-
 1. Sync menu open state, so old helper functions for InputDown being false while in menu work again.  
 Currently features like bunnyhop trigger while in menu.  
 
@@ -145,3 +140,21 @@ call SetActive False on clients, likely needs to be done in update/post-update/t
 - Buy the DLCs and make sure the mod works correctly for them? [I really don't want to, but probably should]
 - Figure out what the hell that one guy in steam comments in 22 Apr, 2024 meant by "can you add one for the sidequest racing thing so i don't need to race too fast? i keep sliding in vehicles" (I might actually have to play the campaign.)
 - Implement long jump feature using "JumpSpeed" player parameter.
+
+## Final Patch notes, credits, etc for release when ready:
+Ported to support API V2 and Multi-Player
+
+Rainbow color modifier can now be disabled. 
+Thanks [Gunbot](https://steamcommunity.com/profiles/76561198428363041)
+
+New features:  
+Anti-Aim
+Anti-Aim Resolver
+Player Glow
+No-Fall
+
+Merged features:  
+Fly combined with noclip, using the built-in player fly mode.  
+
+
+
