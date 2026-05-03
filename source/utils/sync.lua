@@ -15,6 +15,9 @@ server.updateServerConfig = function(playerID, UUID, setting, value)
     end
 
     syncedPlayerSetting[playerID][setting] = value
+
+    -- if string starts with savegame.mod.antiaim -> send new resolver data to all players.
+    -- if param based feature [fly/godmode] just set the param.
 end
 
 server.requestServerConfig = function(playerID, UUID)
