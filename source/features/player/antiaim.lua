@@ -1,33 +1,3 @@
--- client
-client_playerAntiAim = function()
-
-    local cfgVar = fAntiAim
-    local enabled = config_GetLocalFeatureState(cfgVar)
-    local currentSettings = nil 
-
-    if enabled then 
-        currentSettings =
-        { 
-            yaw_mode=config_GetSubVar(GetInt,cfgVar, fAntiAimYawModes),
-            yaw_offset=config_GetSubVar(GetFloat,cfgVar, fSubYawOffset),
-            yaw_speed=config_GetSubVar(GetFloat,cfgVar, fSubYawSpeed),
-            yaw_amp=config_GetSubVar(GetFloat,cfgVar, fSubYawAmp),
-            pitch_mode=config_GetSubVar(GetInt,cfgVar, fAntiAimPitchModes),
-            pitch_offset=config_GetSubVar(GetFloat,cfgVar, fSubPitchOffset),
-            pitch_speed=config_GetSubVar(GetFloat,cfgVar, fSubPitchSpeed),
-            pitch_amp=config_GetSubVar(GetFloat,cfgVar, fSubPitchAmp)
-        }
-    end
-
-    if utils_tableCompare(currentSettings, clientGetSyncedSetting(cfgVar)) then 
-        return
-    end
-
-    clientScreamAtServerPolitely(cfgVar, currentSettings)
-    ServerCall("server.forwardResolverData", GetLocalPlayer(), localUUID, currentSettings)
-    clientSetSyncedSetting(cfgVar, currentSettings)
-end
-
 -- shared
 shared_applyAntiAim = function(playerID, entry)
     if entry == nil then return end
@@ -137,7 +107,25 @@ end
 
 -- server
 server_playerAntiAim = function(playerID, dt)
-    local entry = serverGetPlayerConfigValues(playerID, fAntiAim)
+    local e = syncedPlayerSetting[playerID]
+    if not e then return nil end
+
+    local enabled = e[config_getKey(fAntiAim)]
+    if not enabled then return nil end
+
+    local entry = 
+    {
+        yaw_mode    = e[config_getSubKey(fAntiAim, fAntiAimYawModes)],
+        yaw_offset  = e[config_getSubKey(fAntiAim, fSubYawOffset)],
+        yaw_speed   = e[config_getSubKey(fAntiAim, fSubYawSpeed)],
+        yaw_amp     = e[config_getSubKey(fAntiAim, fSubYawAmp)],
+
+        pitch_mode   = e[config_getSubKey(fAntiAim, fAntiAimPitchModes)],
+        pitch_offset = e[config_getSubKey(fAntiAim, fSubPitchOffset)],
+        pitch_speed  = e[config_getSubKey(fAntiAim, fSubPitchSpeed)],
+        pitch_amp    = e[config_getSubKey(fAntiAim, fSubPitchAmp)]
+    }
+
     shared_applyAntiAim(playerID, entry)
 end
 

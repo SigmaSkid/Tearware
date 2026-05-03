@@ -49,26 +49,11 @@ function client.tick(dt)
         return
     end
 
-    -- player
-    -- player_Spider()   -- still broken
-    client_playerSpeedhack()
-    -- player_Jesus() -- still broken
-    client_playerFloorstrafe()
-    client_playerBunnyhop()
-    -- player_Jetpack(dt) -- still broken
-    client_playerFly()
-    -- player_Quickstop() -- still broken
-    client_playerAntiAim()
-    -- 
-
     -- tools
     client_ToolsTeleport()
+    client_ToolsRubberband()
     -- tools_ExplosionBrush() -- still broken
     -- tools_FireBrush() -- still broken
-    -- 
-
-    -- player
-    -- player_SuperStrength() -- still broken - ReleasePlayerGrab is reserved by server ._.
     -- 
 end
 

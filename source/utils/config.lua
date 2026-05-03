@@ -1,5 +1,7 @@
 #include "local.lua"
 
+configTypeRegistry = {}
+
 config_getKey = function(var)
     return cfgstr .. var.configString
 end
@@ -16,20 +18,29 @@ end
 config_DefineFeature = function(var, default)
     featurelist[#featurelist+1] = var
 
-    if not HasKey(config_getKey(var)) then
-        SetBool(config_getKey(var), default)
+    local key = config_getKey(var)
+    if not HasKey(key) then
+        SetBool(key, default)
     end
 
-    if not HasKey(config_getKeyInput(var)) then
-        SetString(config_getKeyInput(var), "null")
+    local keyInput = config_getKeyInput(var)
+    if not HasKey(keyInput) then
+        SetString(keyInput, "null")
     end
+
+    configTypeRegistry[key] = SetBool
+    configTypeRegistry[keyInput] = SetString
+
 end
 
 config_DefineVar = function(SetType, var, default)
-    if HasKey(config_getKey(var)) then
+    local key = config_getKey(var)
+    configTypeRegistry[key] = SetType
+
+    if HasKey(key) then
         return
     end
-    SetType(config_getKey(var), default)
+    SetType(key, default)
 end
 
 config_GetVar = function(GetType, var)
@@ -37,10 +48,12 @@ config_GetVar = function(GetType, var)
 end
 
 config_DefineSubVar = function(SetType, var, sub, default)
-    if HasKey(config_getSubKey(var, sub)) then 
+    local key = config_getSubKey(var, sub)
+    configTypeRegistry[key] = SetType
+    if HasKey(key) then 
         return
     end
-    SetType(config_getSubKey(var, sub), default)
+    SetType(key, default)
 end
 
 config_GetSubVar = function(GetType, var, sub)
@@ -48,34 +61,31 @@ config_GetSubVar = function(GetType, var, sub)
 end
 
 config_SetVar = function(SetType, var, val) 
-    
-    -- forward change to server 
-    -- if isSessionMultiplayer then
-    -- servercall
-    -- end
+    local key = config_getKey(var)
 
-    SetType(config_getKey(var), val)
+    -- forward change to server 
+    client.ScreamAtServerPolitely(key, val)
+
+    SetType(key, val)
 end
 
 config_SetSubVar = function(SetType, var, sub, val)
-    
-    -- forward change to server 
-    -- if isSessionMultiplayer then
-    -- servercall
-    -- end
+    local key = config_getSubKey(var, sub)
 
-    return SetType(config_getSubKey(var, sub), val)
+    -- forward change to server 
+    client.ScreamAtServerPolitely(key, val)
+
+    return SetType(key, val)
 end
 
 config_ToggleFeature = function(var)
     local key = config_getKey(var)
-    local newValue = not GetBool(key)
-    SetBool(key, newValue)
+    local val = not GetBool(key)
+    SetBool(key, val)
     featureListCacheTime = -2137
     
     -- forward change to server 
-    -- if isSessionMultiplayer then
-    -- end
+    client.ScreamAtServerPolitely(key, val)
 end
 
 config_GetLocalFeatureState = function(var)
@@ -269,7 +279,69 @@ config_GenerateConfig = function()
     visuals_sortFeatureList()
 end
 
+utils_GrabAllSubKeys = function(root, out)
+    out = out or {}
+    
+    local keys = ListKeys(root)
+    for i = 1, #keys do
+        local fullKey = root .. "." .. keys[i]
+
+        out[#out+1] = fullKey
+
+        -- recurse only if this node has children
+        if HasKey(fullKey) then
+            local sub = ListKeys(fullKey)
+            if sub and #sub > 0 then
+                utils_GrabAllSubKeys(fullKey, out)
+            end
+        end
+    end
+
+    return out
+end
+
+
+config_screamEverySecretAtTheServer = function()
+    local keys = utils_GrabAllSubKeys("savegame.mod")
+    -- DebugWatch("Subkeys", #keys)
+    if not keys then return end
+    DebugPrint("Telling the server our deepest secrets :3 All " .. #keys .. " of them.")
+
+    for i = 1, #keys do
+        local key = keys[i]
+
+        if HasKey(key) then
+            local setter = configTypeRegistry[key]
+
+            local val = nil
+            local valStr = ""
+
+            if setter == SetBool then
+                val = GetBool(key)
+                valStr = utils_boolStr(val)
+            elseif setter == SetFloat then
+                val = GetFloat(key)
+                valStr = val
+            elseif setter == SetInt then
+                val = GetInt(key)
+                valStr = val
+            elseif setter == SetString then
+                val = GetString(key)
+                valStr = val
+            end
+
+            if val ~= nil then
+                -- DebugPrint("EEEEEE " .. key .. " " .. valStr)
+                client.ScreamAtServerPolitely(key, val)
+            end
+        else
+            DebugPrint("config_screamEverySecretAtTheServer tried to iterate over invalid key. " .. key)
+        end
+    end
+end
+
 config_ResetAllModData = function()
     ClearKey("savegame.mod")
     config_GenerateConfig()
+    config_screamEverySecretAtTheServer()
 end

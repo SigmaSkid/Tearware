@@ -1,10 +1,9 @@
- -- on client this contains their networked settings, 
- -- on server this contains ... well the same thing but indexed with playerID
+-- is this.. preserved on quickload?? oh god oh no.
 syncedPlayerSetting = {}
 
-server.updateServerConfig = function(playerID, UUID, setting, values)
+server.updateServerConfig = function(playerID, UUID, setting, value)
     if not serverVerify(playerID, UUID) then 
-        serverImpolitelyReject(playerID, setting)
+        server.ImpolitelyReject(playerID, setting)
         return 
     end
 
@@ -15,12 +14,12 @@ server.updateServerConfig = function(playerID, UUID, setting, values)
         syncedPlayerSetting[playerID] = {}
     end
 
-    syncedPlayerSetting[playerID][setting] = values
+    syncedPlayerSetting[playerID][setting] = value
 end
 
 server.requestServerConfig = function(playerID, UUID)
     if not serverVerify(playerID, UUID) then 
-        serverImpolitelyReject(playerID, "request config")
+        server.ImpolitelyReject(playerID, "request config")
         return 
     end
     DebugPrint("server.requestServerConfig " .. playerID .. " " .. GetPlayerName(playerID))
@@ -32,29 +31,12 @@ client.receiveServerConfig = function(serverSideSettings)
     DebugPrint("Received config from server: " .. utils_boolStr(serverSideSettings ~= nil))
 end
 
-clientScreamAtServerPolitely = function(setting, values)
-    ServerCall("server.updateServerConfig", GetLocalPlayer(), localUUID, setting.configString, values)
+client.ScreamAtServerPolitely = function(setting, value)
+    DebugPrint("Screaming at server " .. setting)
+    ServerCall("server.updateServerConfig", GetLocalPlayer(), localUUID, setting, value)
 end
 
-clientScreamParamToggle = function(setting, value)
-    --
-    ServerCall("server.updateServerParam", GetLocalPlayer(), localUUID, setting, value)
-end
-
-server.updateServerParam = function(playerID, UUID, setting, value)
-    if not serverVerify(playerID, UUID) then 
-        serverImpolitelyReject(playerID, setting)
-        return 
-    end
-
-    SetPlayerParam(setting, value, playerID)
-    DebugPrint("server.updateServerParam " .. playerID .. " " .. GetPlayerName(playerID) .. " " .. setting .. "=" .. utils_boolStr(value))
-
-    -- verify which params the client is able to edit, to limit it to just fly and godmode?
-    -- we could also later allow the host to disable feature access per client.
-end
-
-serverImpolitelyReject = function(playerID, setting)
+server.ImpolitelyReject = function(playerID, setting)
 
     ClientCall(playerID, "client.handleRejection", setting)
 end
@@ -65,44 +47,17 @@ client.handleRejection = function(str)
     DebugPrint("server rejected our request for: " .. str)
 end
 
-serverGetPlayerConfigValues = function(playerID, setting)
+server.getPlayerConfigValue = function(playerID, key)
     local e = syncedPlayerSetting[playerID]
-    if syncedPlayerSetting[playerID] == nil then 
-        return nil
-     end
-    
-    local entry = e[setting.configString]
-    if entry == nil then 
-        return nil
+    if not e then return nil end
+
+    local val = e[key]
+    if val ~= nil then 
+        return val
     end
 
-    return entry
+    DebugPrint("[server] No value for " .. playerID .. " : " .. key)
+
+    -- server doesn't have this var yet, request current value.
+    return nil
 end
-
--- only the server local values.
--- we don't want the server changing client local settings.
-serverSetPlayerConfigValues = function(playerID, setting, value)
-    local e = syncedPlayerSetting[playerID]
-    if syncedPlayerSetting[playerID] == nil then 
-        syncedPlayerSetting[playerID] = {}
-    end
-
-    syncedPlayerSetting[playerID][setting.configString] = value
-end
-
-clientGetSyncedSetting = function(var)
-    return syncedPlayerSetting[var.configString]
-end
-
-clientSetSyncedSetting = function(var, val)
-    syncedPlayerSetting[var.configString] = val
-end
-
--- Does the API guarantee that the serverCall is received?
--- What happens if server or client has high packet drop?
-
--- Another issue with this approach. We naively trust the client to network the correct table.
--- IF the client networks garbage, they can crash functions on the server side.
--- Assume that anything in values table could be nil.
-
--- We might want to tell the client, if something failed.

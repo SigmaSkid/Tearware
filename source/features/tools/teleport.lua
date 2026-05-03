@@ -4,7 +4,7 @@ client_ToolsTeleport = function()
         return 
     end
 
-    SetBool(cfgstr .. fTeleport.configString, false)
+    config_ToggleFeature(fTeleport)
     
     local targetPos = utils_GetPosWeAreLookingAt()
     if targetPos == nil then return end

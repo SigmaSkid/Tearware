@@ -25,6 +25,8 @@ end
 client.receiveUUID = function(newUUID)
     DebugPrint("Client registered new UUID "  .. newUUID)
     localUUID = newUUID
+
+    config_screamEverySecretAtTheServer()
 end
 
 serverVerify = function(ID, UUID)

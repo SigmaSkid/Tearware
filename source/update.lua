@@ -18,25 +18,11 @@
 -- visuals
 #include "features/visuals/resolver.lua"
 
-
--- In teardown update is called at 60tps
-function client.update(dt)
-    -- player
-    client_playerInfiniteAmmo()
-    client_playerGodmode()
-    --
-
-    -- tools
-    client_ToolsRubberband()
-    --
-end
-
 function client.postUpdate()
     -- visuals
     client_applyResolver()
     --
 end
-
 
 -- physics begone!
 function playerServerPostUpdate(playerID, dt)
@@ -57,7 +43,7 @@ function playerServerUpdate(playerID, dt)
         return 
     end
 
-    server_playerSpeedhack(playerID)
+    server.playerSpeedhack(playerID)
 end
 
 
@@ -70,6 +56,7 @@ function server.postUpdate(dt)
     end
 end
 
+-- In teardown update is called at 60tps
 function server.update(dt)
 
     local players = GetAllPlayers()

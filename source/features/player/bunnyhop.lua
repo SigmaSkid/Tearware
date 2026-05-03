@@ -1,24 +1,6 @@
--- client
-client_playerBunnyhop = function()
-
-    local cfgVar = fBunnyhop
-    local enabled = config_GetLocalFeatureState(cfgVar)
-    local currentSettings = nil 
-
-    if enabled then 
-        currentSettings = true
-    end
-
-    if utils_tableCompare(currentSettings, clientGetSyncedSetting(cfgVar)) then 
-        return
-    end
-
-    clientScreamAtServerPolitely(cfgVar, currentSettings)
-    clientSetSyncedSetting(cfgVar, currentSettings)
-end
-
 -- server
 server_playerBunnyhop = function(playerID, dt)
+    --[[
     local entry = serverGetPlayerConfigValues(playerID, fBunnyhop)
     if entry ~= true then return end
 
@@ -47,5 +29,5 @@ server_playerBunnyhop = function(playerID, dt)
 
         SetPlayerTransformWithPitch(transform, playerID)
         SetPlayerVelocity(velocity, playerID)
-    end
+    end]]
 end

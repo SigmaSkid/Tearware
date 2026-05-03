@@ -1,34 +1,18 @@
-client_playerSpeedhack = function()
-    local cfgVar = fSpeed
-    local enabled = config_GetLocalFeatureState(cfgVar)
-    local currentSettings = nil 
+server.playerSpeedhack = function(playerID)
+    local e = syncedPlayerSetting[playerID]
+    if not e then return nil end
 
-    if enabled then 
-        currentSettings =
-        { 
-            baseSpeed = config_GetSubVar(GetFloat,cfgVar, fSubSpeed),
-            boostSpeed = config_GetSubVar(GetFloat,cfgVar, fSubBoost)
-        }
-    end
+    local enabled = server.getPlayerConfigValue(playerID, config_getKey(fSpeed))
+    if not enabled then return nil end
 
-    if utils_tableCompare(currentSettings, clientGetSyncedSetting(cfgVar)) then 
-        return
-    end
-
-    clientScreamAtServerPolitely(cfgVar, currentSettings)
-    clientSetSyncedSetting(cfgVar, currentSettings)
-end
-
-server_playerSpeedhack = function(playerID)
-    local entry = serverGetPlayerConfigValues(playerID, fSpeed)
-
-    if entry == null or entry.baseSpeed == null or entry.boostSpeed == null then 
-        return 
-    end
-
-    local targetSpeed = entry.baseSpeed
+    local targetSpeed = server.getPlayerConfigValue(playerID, config_getSubKey(fSpeed, fSubSpeed))
     if InputDown("shift", playerID) then
-        targetSpeed = entry.boostSpeed
+        targetSpeed = server.getPlayerConfigValue(playerID, config_getSubKey(fSpeed, fSubBoost))
+    end
+
+    if targetSpeed == nil then 
+        DebugPrint("[Server] Trying to set player speed to nil. " .. playerID)
+        return 
     end
 
     SetPlayerParam("walkingSpeed", targetSpeed, playerID)
