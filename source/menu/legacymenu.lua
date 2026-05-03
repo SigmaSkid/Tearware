@@ -478,7 +478,7 @@ legacyMenu_SimpleCheckbox = function(name, value)
     UiText(name)
 
     UiPop()
-    UiTranslate(0, 23)
+    UiTranslate(0, nameh)
     return clicked
 end
 
