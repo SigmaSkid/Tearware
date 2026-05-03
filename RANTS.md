@@ -43,3 +43,12 @@ But that defeats the point of porting it to multiplayer
 It's just not. We need to call it on client ourselves.  
 We can't just clientcall, because the API needs to be called inside of update.  
 So we need a listener, a buffer, and to constantly check the stupid buffer.   
+
+## Player Parameters being inconsistent.
+walkingSpeed and jumpSpeed are the only player parameters applied per frame.  
+"This value is applied for 1 frame!" - [docs](https://teardowngame.com/modding/api.html#SetPlayerParam)  
+Also, why is jump speed and jump height connect to this one value.  
+"The player's jump speed. The height of the jump depends non-linearly on the jump speed. This value is applied for 1 frame!"   
+Jump height SHOULD be a separate variable, why is the speed connected to height.  
+
+

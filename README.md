@@ -10,56 +10,49 @@ Remove the shortcut by assigning the "enter" key.
 
 ## Features:
 ### Visuals:
-- Feature List 
-- Objective ESP&
-- Optional ESP& - make this a subsetting of objective esp 
-- Valuable ESP&
-- Custom ESP - to implement. (Adding custom flags)
-- Tool ESP&
-- Player Glow - confirmed works.
-- Equipped Tool Glow
-- Active Glow
-- Colored Fog*
-- Post Processing
-- Radar^ - to implement.
-- Tracers^ - to implement.
-- Box ESP^ - to implement.
+- Feature List  - CONFIRMED WORKS
+- Objective ESP& - CONFIRMED WORKS
+- Optional ESP& - CONFIRMED WORKS
+- Valuable ESP& - CONFIRMED WORKS
+- Tool ESP& - CONFIRMED WORKS
+- Player Glow - CONFIRMED WORKS
+- Equipped Tool Glow - CONFIRMED WORKS
+- Active Glow - CONFIRMED WORKS 
+- Colored Fog* - CONFIRMED WORKS [host setting synced with clients]
+- Post Processing - CONFIRMED WORKS
 
 ### Player:
-- Ragebot^ - to implement, also autowall.
-- Speed - borked - also add some funny modes to mimic how minecraft hax do it to bypass ACs
-- Spider - borked
-- Bunnyhop - works in singleplayer | jumps trigger when holding space in tearware menu (only for host) | borked in multiplayer
-- Fly - WORKS!
-- Floor Strafe - works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction.
-- Jetpack - borked - fix and add particles & sound
-- Jesus - borked
-- Quickstop - borked
+- Speed - borked [uses SetPlayerVelocity] [possible mp workaround SetPlayerParam("walkingSpeed", speed, playerID) "This value is applied for 1 frame!"]
+- Spider - borked [uses SetPlayerVelocity] 
+- Bunnyhop - works in singleplayer | jumps trigger when holding space in tearware menu (only for host) | borked in multiplayer [uses SetPlayerVelocity]
+- Fly - CONFIRMED WORKS [check if param disableInteract affects collisions, if not, check collisionmask - for noclip]
+- Floor Strafe - works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction. [uses SetPlayerVelocity]
+- Jetpack - borked [uses SetPlayerVelocity]
+- Jesus - borked [uses SetPlayerVelocity]
+- Quickstop - borked [uses SetPlayerVelocity]
 - Infinite Ammo - borked, only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only.
-- Unlock Guns&* - to implement, unlock all weapons in campaign. 
-- Super Strength - borked
-- Godmode - WORKS!
-- No-fall - tested in singleplayer [but no menu button and code not called, but code itself was checked in singleplayer, idk)
-- Anti-Aim - WORKS! Minor issue: if AA selected and player connects, it's broken, and needs to be re-enabled.
-- Anti-Aim Resolver^ - WORKS! Minor issue if player connects and host already antiaims.
+- Super Strength - borked [should be possible. ReleasePlayerGrab being serverside only makes it annoying to port.]
+- Godmode - CONFIRMED WORKS
+- Anti-Aim - WORKS! Minor issue: if AA selected and player connects, it's broken, and needs to be re-enabled. (Some stupid race condition due to caching)
+- Anti-Aim Resolver^ - WORKS! Minor issue if player connects and host already antiaims. (Some stupid race condition due to caching)
 
 ### World:
 - Slowmotion* - CONFIRMED WORKS
 - Skip Objective&* - CONFIRMED WORKS
 - Disable Alarm&* - AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
-- Disable Robots* - UNTESTED
+- Disable Robots* - UNTESTED [should work]
 - Disable Physics* - CONFIRMED WORKS
 - Force Update Physics* - CONFIRMED WORKS
-- Teleport Valuables&* - WORKS? kinda the valuables are falling and gaining infinite speed, the docs say settransform resets velocity, but it does not do that for clients.
-- Unfair Valuables&* - SHOULD WORK, UNTESTED, HOST HAS THE CAMPAIGN SAVE, SO PROBABLY WORKS.
-- Rainbow lights - to implement. Get all light objects then apply our rgb to them.
+- Teleport Valuables&* - SEMI-WORKS (needs testing, might need to setActive false on clients when returning the items.)
+- Unfair Valuables&* - UNTESTED [should work] (IIRC, if client picks up the valuable it doesn't, not sure while writing this. needs testing.)
 
 ### Tools:
 - Structure Restorer* - Needs testing in multiplayer to verify sync on objects returning to inactive state.
 - Rubberband - CONFIRMED WORKS
 - Teleport - CONFIRMED WORKS
-- Explosion Brush - borked
-- Fire Brush - borked
+- Explosion Brush - borked [should be possible]
+- Fire Brush - borked [should be possible]
+- Unlock Guns&* - to implement, unlock all weapons in campaign. 
 
 ### Miscellaneous:
 - Registry Explorer
@@ -67,6 +60,7 @@ Remove the shortcut by assigning the "enter" key.
 Features marked with '*' are host only.
 Features marked with '^' are multiplayer only.
 Features marked with '&' are campaign only.
+Features marked with '@' are singleplayer only. [due to API v2 multiplayer limitations]
 
 ## Installation
 ### Steam Workshop (recommended)
@@ -102,29 +96,52 @@ Navigate to the github repository and run the pack python script.
 It creates a release folder containing the packaged code.
 
 ## Multiplayer debug session / found issues / todos:
-1. Make & add the new multiplayer preview image.  
-
-1. Prevent local player and their attachments from glowing in first person perspective.  
-
-1. Player glow respect player color.  GetPlayerColor([playerID])
+1. RAINBOW color modifier CANNOT be disabled. Oops.  
+FIX THIS ASAP. Actually mod breaking.  
+The current single-player version of the mod is also affected.  
+Reported in https://steamcommunity.com/workshop/filedetails/discussion/2798126764/3273563387060372642/ by https://steamcommunity.com/profiles/76561198428363041  
 
 1. Sync menu open state, so old helper functions for InputDown being false while in menu work again.  
 Currently features like bunnyhop trigger while in menu.  
 
-1. Anti-aim, naive freestanding that can be done in both client & server (face away from players?).  
+1. For now, get all of the movement features working in single-player again.  
+Then figure out if there's a workaround or a way for SetPlayerVelocity to behave in multiplayer. If there isn't, constrain to single-player only.
 
-1. Autowall for ragebot.  
+1. Revamp our isKeyDown functions to support multiplayer, so we can properly test features like speed and spider.
+[figure out how teardown does the inputdown for multiplayer.. I hope it's not as bad as it could be.. we might want to cache and network inputs ourselves]
 
-1. Throw projectiles/pipebomb in all direction? idk. @unlegitSenpaii keeps crying he wants it.  
+1. Resolver works, but if player joins, he doesn't get active AA modes from before his connection.  
+delay networking AA data on player join, and make sure everything is loaded first
 
-1. Add rebinding menu key because @unlegitSenpaii can't afford a full keyboard. No, right shift is not a valid key.  
+1. Structure restorer, does not network de-activating objects.  
+call SetActive False on clients, likely needs to be done in update/post-update/tick, rather than on receive call
 
-1. Add sub setting for skip objectives to auto finish level.  
+1. Prevent local player and their attachments from glowing in first person perspective.  
 
-1. Registry explorer, "add key" button, so we can force silly stuff like hud.hide or something idk.  
+1. Make & add the new multiplayer preview image.  
 
-1. RAINBOW color modifier CANNOT be disabled. Oops.
 
-1. Resolver works, but if player joins, he doesn't get active AA modes from before his connection.
-
-1. Structure restorer, does not network de-activating objects.
+### Scope creep - low priority todo
+- Ragebot^ also autowall.
+- Rainbow lights. Get all light objects then apply our rgb to them.
+[unify ESP for players/objectives/valuables/custom]
+- Radar^
+- Tracers^
+- Box ESP^
+- No-fall@ - Works only in singleplayer, due to velocity/ground-velocity being applied inconcistently in multiplayer [also still the functions aren't called]
+- Jetpack sounds & particles.
+- Persistent UUID between multiplayer sessions stored on client, so we can mark friends. [the game doesn't expose unique ids/steam ids of players, it should be different than our secret shared with the server]
+- Anti-aim, naive freestanding that can be done in both client & server (face away from players?).  
+- Throw projectiles/pipebomb in all direction? idk. @unlegitSenpaii keeps crying he wants it. (implement it yourself moron)
+- Add rebinding menu key because @unlegitSenpaii can't afford a full keyboard. No, right shift is not a valid key.  (implement it yourself moron)
+- Go through popular multiplayer mods and check if we can do team detection or features specific to them.
+- Host priviledge menu [allow disabling access to features for clients, including client side only features like visuals]
+- Spinny tool should be possible again? Maybe? In testing it was broken, I need to check for workarounds.
+- Add sub setting for skip objectives to auto finish level [only autofinish if there are objectives, to prevent glitches in level select].  
+- Registry explorer, "add key" button, so we can force silly stuff like hud.hide or something idk.  
+- Add a game version check.
+- Integrate my performance mod as a feature.
+- Recode the menu, in a way that is so damn explicit there's no way a game update breaks the font alignment again.
+- Buy the DLCs and make sure the mod works correctly for them? [I really don't want to, but probably should]
+- Figure out what the hell that one guy in steam comments in 22 Apr, 2024 meant by "can you add one for the sidequest racing thing so i don't need to race too fast? i keep sliding in vehicles" (I might actually have to play the campaign.)
+- Implement long jump feature using "JumpSpeed" player parameter.
