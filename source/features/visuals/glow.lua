@@ -3,7 +3,7 @@ visuals_WeaponGlow = function()
         return 
     end
 
-    local toolBody = GetToolBody()
+    local toolBody = GetToolBody(GetLocalPlayer())
     if toolBody~=0 then
         local color = config_GetColor(fWeaponGlow, GetTime())
         DrawBodyOutline(toolBody, color.red, color.green, color.blue, color.alpha)
@@ -26,6 +26,7 @@ visuals_ActiveGlow = function()
             DrawBodyOutline(body, color.red, color.green, color.blue, color.alpha)
         end
     end
+    -- DebugWatch("GLOW ACTIVE", #bodies)
 end
 
 
@@ -36,24 +37,35 @@ visuals_PlayerGlow = function()
 
     local color = config_GetColor(fPlayerGlow, GetTime())
     local players = GetAllPlayers()
-    local isThirdPerson = GetBool("game.thirdperson") -- do this differently xD
-
+    local isThirdPerson = GetBool("game.thirdperson") -- this needs testing in multiplayer
+    local localPlayerID = GetLocalPlayer()
+  
     for id=1, #players do
-        if IsPlayerValid(id) then 
-            -- disable third person fix for testing.
-            -- if not IsPlayerLocal(id) or isThirdPerson then 
+        if id == localPlayerID then 
+            if isThirdPerson then 
                 local bodies = GetPlayerBodies(id)
                 for i=1,#bodies do
                     local body = bodies[i]
+                    if body and body ~= equippedTool then 
+                        DrawBodyOutline(body, color.red, color.green, color.blue, color.alpha)
+                    end
+                end
+            end
+        elseif IsPlayerValid(id) then 
+            local bodies = GetPlayerBodies(id)
+            
+            for i=1,#bodies do
+                local body = bodies[i]
+                if body and body ~= equippedTool then 
                     DrawBodyOutline(body, color.red, color.green, color.blue, color.alpha)
                 end
-            -- end
+            end
         end
     end
 end 
 
 visuals_DrawGlow = function()
+    visuals_PlayerGlow()
     visuals_WeaponGlow()
     visuals_ActiveGlow()
-    visuals_PlayerGlow()
 end

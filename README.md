@@ -15,9 +15,9 @@ Remove the shortcut by assigning the "enter" key.
 - Optional ESP& - CONFIRMED WORKS
 - Valuable ESP& - CONFIRMED WORKS
 - Tool ESP& - CONFIRMED WORKS
-- Player Glow - CONFIRMED WORKS
+- Player Glow - UNCONFIRMED WORKS [needs testing in multiplayer.]
 - Equipped Tool Glow - CONFIRMED WORKS
-- Active Glow - CONFIRMED WORKS 
+- Active Glow - CONFIRMED WORKS [needs check for active bodies attached to player models]
 - Colored Fog* - CONFIRMED WORKS [host setting synced with clients]
 - Post Processing - CONFIRMED WORKS
 
@@ -33,6 +33,7 @@ Remove the shortcut by assigning the "enter" key.
 - Infinite Ammo - borked, only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only.
 - Super Strength - borked [should be possible. ReleasePlayerGrab being serverside only makes it annoying to port.]
 - Godmode - CONFIRMED WORKS
+- No-fall@ - Works only in singleplayer, due to velocity/ground-velocity being applied inconcistently in multiplayer [also still the functions aren't called]
 - Anti-Aim - WORKS! Minor issue: if AA selected and player connects, it's broken, and needs to be re-enabled. (Some stupid race condition due to caching)
 - Anti-Aim Resolver^ - WORKS! Minor issue if player connects and host already antiaims. (Some stupid race condition due to caching)
 
@@ -119,11 +120,8 @@ call SetActive False on clients, likely needs to be done in update/post-update/t
 ### Scope creep - low priority todo
 - Ragebot^ also autowall.
 - Rainbow lights. Get all light objects then apply our rgb to them.
-[unify ESP for players/objectives/valuables/custom]
+- [unify ESP, GLOW, Tracers, Box ESP for players/objectives/valuables/custom]
 - Radar^
-- Tracers^
-- Box ESP^
-- No-fall@ - Works only in singleplayer, due to velocity/ground-velocity being applied inconcistently in multiplayer [also still the functions aren't called]
 - Jetpack sounds & particles.
 - Persistent UUID between multiplayer sessions stored on client, so we can mark friends. [the game doesn't expose unique ids/steam ids of players, it should be different than our secret shared with the server]
 - Anti-aim, naive freestanding that can be done in both client & server (face away from players?).  
@@ -135,7 +133,7 @@ call SetActive False on clients, likely needs to be done in update/post-update/t
 - Add sub setting for skip objectives to auto finish level [only autofinish if there are objectives, to prevent glitches in level select].  
 - Registry explorer, "add key" button, so we can force silly stuff like hud.hide or something idk.  
 - Add a game version check.
-- Integrate my performance mod as a feature.
+- Integrate my performance mod as a feature. [we can expand the performance mod with the new IsBodyVisible API call]
 - Recode the menu, in a way that is so damn explicit there's no way a game update breaks the font alignment again.
 - Buy the DLCs and make sure the mod works correctly for them? [I really don't want to, but probably should]
 - Figure out what the hell that one guy in steam comments in 22 Apr, 2024 meant by "can you add one for the sidequest racing thing so i don't need to race too fast? i keep sliding in vehicles" (I might actually have to play the campaign.)
