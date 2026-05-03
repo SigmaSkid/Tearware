@@ -1,9 +1,9 @@
 visuals_Watermark = function()
-    if not config_AdvGetBool(fWatermark) then 
+    if not config_GetLocalFeatureState(fWatermark) then 
         return 
     end
 
-    local alignment = config_GetSubInt(fWatermark, fAlignmentLR)
+    local alignment = config_GetSubVar(GetInt,fWatermark, fAlignmentLR)
     
     UiPush()
         local color = config_GetColor(fWatermark, GetTime())

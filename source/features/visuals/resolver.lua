@@ -7,7 +7,7 @@ client_applyResolver = function()
     -- no need to resolve for host. host knows the facts.
     if isLocalPlayerTheHost then return end
     
-    if not config_AdvGetBool(fResolver) then return end
+    if not config_GetLocalFeatureState(fResolver) then return end
 
     local players = GetAllPlayers()
     for id=1, #players do

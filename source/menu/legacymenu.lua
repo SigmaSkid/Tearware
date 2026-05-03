@@ -8,8 +8,8 @@ legacyMenu_DrawLegacyMenu = function(rgb)
     -- permanent temporary solution :3
     -- I pray they never change the UI scaling from 1920x1080, 
     -- because this entire menu will fall apart when they do.
-    windowPos.x = 255 + (config_GetFloat(fMenuX) * 1410)
-    windowPos.y = 305 + (config_GetFloat(fMenuY) * 470)
+    windowPos.x = 255 + (config_GetVar(GetFloat,fMenuX) * 1410)
+    windowPos.y = 305 + (config_GetVar(GetFloat,fMenuY) * 470)
 
     -- DebugPrint(windowPos.x .. " " .. windowPos.y)
 
@@ -49,8 +49,8 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 dragMenuLastMousePos = {x=x_, y=y_}
             end
             if hover and InputPressed("rmb") then 
-                config_SetFloat(fMenuX, 0.5)
-                config_SetFloat(fMenuY, 0.5)
+                config_SetVar(SetFloat,fMenuX, 0.5)
+                config_SetVar(SetFloat,fMenuY, 0.5)
             end
             if not InputDown("lmb") then
                 dragging = false
@@ -71,8 +71,8 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 -- DebugWatch("x", nextx)
                 -- DebugWatch("y", nexty)
 
-                config_SetFloat(fMenuX, utils_Clamp(nextx,0.0,1.0))
-                config_SetFloat(fMenuY, utils_Clamp(nexty,0.0,1.0))
+                config_SetVar(SetFloat,fMenuX, utils_Clamp(nextx,0.0,1.0))
+                config_SetVar(SetFloat,fMenuY, utils_Clamp(nexty,0.0,1.0))
             end
         UiPop()
 
@@ -127,7 +127,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 if isSessionCampagin then
                     legacyMenu_Checkbox(fObjectiveEsp)
                     legacyMenu_ColorSelector(fObjectiveEsp)
-                    if config_AdvGetBool(fObjectiveEsp) then 
+                    if config_GetLocalFeatureState(fObjectiveEsp) then 
                         legacyMenu_Checkbox(fOptionalEsp)
                         legacyMenu_ColorSelector(fOptionalEsp)
                     end
@@ -317,7 +317,9 @@ legacyMenu_Checkbox = function(var)
     UiAlign("left top")
     
 
-    local currentkey = GetString(cfgstr .. var.configString .. "_key")
+    local inputStr = config_getKeyInput(var)
+
+    local currentkey = GetString(inputStr)
     local namew, nameh = UiGetTextSize(var.legacyName)
 
     -- debug rect
@@ -339,7 +341,7 @@ legacyMenu_Checkbox = function(var)
             filthyglobal_editingkeybind = var.configString
         end
         if InputPressed("lmb") then 
-            config_FlipBool(cfgstr .. var.configString)
+            config_ToggleFeature(var)
         end
     end
 
@@ -365,10 +367,10 @@ legacyMenu_Checkbox = function(var)
         if lastKey ~= "" then 
             if lastKey == "return" or lastKey == "esc" or lastKey == "insert" then 
                 -- remove keybind
-                SetString(cfgstr .. var.configString .. "_key", "null") 
+                SetString(inputStr, "null") 
                 currentkey = ""  
             else
-                SetString(cfgstr .. var.configString .. "_key", lastKey)
+                SetString(inputStr, lastKey)
                 currentkey = lastKey
             end
             -- we're no longer editing a keybind.
@@ -801,9 +803,9 @@ legacyMenu_SubSettingSlider = function(var, sub, min, max, size)
         UiTranslate(10, 35)
 
         UiColor(1,1,1,1)
-        local value = config_GetSubFloat(var, sub)
+        local value = config_GetSubVar(GetFloat,var, sub)
         value = legacyMenu_optionsSlider(value, min, max, size)
-        config_SetSubFloat(var, sub, value)
+        config_SetSubVar(SetFloat,var, sub, value)
     UiPop()
     UiTranslate(0, 40)
 end
@@ -825,9 +827,9 @@ legacyMenu_SubSettingSliderInt = function(var, sub, min, max, size)
         UiTranslate(10, 35)
 
         UiColor(1,1,1,1)
-        local value = config_GetSubInt(var, sub)
+        local value = config_GetSubVar(GetInt,var, sub)
         value = legacyMenu_optionsSliderInt(value, min, max, size)
-        config_SetSubInt(var, sub, value)
+        config_SetSubVar(SetInt,var, sub, value)
     UiPop()
     UiTranslate(0, 40)
 end
@@ -933,7 +935,8 @@ legacyMenu_SubSettingCheckbox = function(var, sub)
     UiText(sub.legacyName)
 
     if in_rect and InputPressed("lmb") then
-        config_FlipBool(cfgstr .. var.configString .. sub.configString)
+        local newVal = not config_GetSubVar(GetBool, var, sub)
+        config_SetSubVar(SetBool, var, sub, newVal)
     end
 
     UiPop()
@@ -943,7 +946,7 @@ end
 legacyMenu_SubSettingCycleList = function(var, sub, list)
     if #list <= 0 then return end
     
-    local value = config_GetSubInt(var, sub)
+    local value = config_GetSubVar(GetInt,var, sub)
 
     value = utils_Clamp(value + 1, 1, #list)
 
@@ -984,13 +987,13 @@ legacyMenu_SubSettingCycleList = function(var, sub, list)
         value = value + 1 
 
         if value > #list then value = 1 end
-        config_SetSubInt(var, sub, value - 1)
+        config_SetSubVar(SetInt,var, sub, value - 1)
 
     elseif in_rect and InputPressed("rmb") then 
         value = value - 1
 
         if value < 1 then value = #list end
-        config_SetSubInt(var, sub, value - 1)
+        config_SetSubVar(SetInt,var, sub, value - 1)
     else
         return_value = false
     end

@@ -6,7 +6,7 @@ function rebuildFeatureCache(max_features)
     local count = 0
     for i = 1, #featurelist do
         if count >= max_features then break end
-        if config_AdvGetBool(featurelist[i]) then
+        if config_GetLocalFeatureState(featurelist[i]) then
             local passHost     = not featurelist[i].hostOnly     or isLocalPlayerTheHost
             local passClient   = not featurelist[i].clientOnly   or not isLocalPlayerTheHost
             local passMp       = not featurelist[i].mpOnly       or isSessionMultiplayer
@@ -21,12 +21,12 @@ function rebuildFeatureCache(max_features)
 end
 
 visuals_FeatureList = function()
-    if not config_AdvGetBool(fFeatureList) then 
+    if not config_GetLocalFeatureState(fFeatureList) then 
         return 
     end
 
-    local alignment = config_GetSubInt(fFeatureList, fAlignmentLR)
-    local watermark_above = config_AdvGetBool(fWatermark) and config_GetSubInt(fWatermark, fAlignmentLR) == alignment
+    local alignment = config_GetSubVar(GetInt,fFeatureList, fAlignmentLR)
+    local watermark_above = config_GetLocalFeatureState(fWatermark) and config_GetSubVar(GetInt,fWatermark, fAlignmentLR) == alignment
 
     local now = GetTime()
 

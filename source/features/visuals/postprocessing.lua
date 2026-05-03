@@ -1,5 +1,5 @@
 visuals_PostProcessing = function()
-    if not config_AdvGetBool(fPostProcess) then 
+    if not config_GetLocalFeatureState(fPostProcess) then 
         if #cached_post_process > 0 then 
             SetPostProcessingProperty("colorbalance", cached_post_process[1], cached_post_process[2], cached_post_process[3])
             SetPostProcessingProperty("saturation", cached_post_process[4])

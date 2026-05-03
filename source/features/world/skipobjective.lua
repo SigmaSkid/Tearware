@@ -1,7 +1,7 @@
 world_SkipObjective = function()
     if not isSessionCampagin then return end
 
-    if not config_AdvGetBool(fSkipObjective) then
+    if not config_GetLocalFeatureState(fSkipObjective) then
         return
     end
 

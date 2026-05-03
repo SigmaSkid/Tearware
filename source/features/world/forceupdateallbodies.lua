@@ -1,5 +1,5 @@
 world_ForceUpdateAllBodies = function()
-    if not config_AdvGetBool(fForceUpdatePhysics) then
+    if not config_GetLocalFeatureState(fForceUpdatePhysics) then
         return 
     end
 

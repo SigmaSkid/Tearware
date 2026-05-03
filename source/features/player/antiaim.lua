@@ -2,20 +2,20 @@
 client_playerAntiAim = function()
 
     local cfgVar = fAntiAim
-    local enabled = config_AdvGetBool(cfgVar)
+    local enabled = config_GetLocalFeatureState(cfgVar)
     local currentSettings = nil 
 
     if enabled then 
         currentSettings =
         { 
-            yaw_mode=config_GetSubInt(cfgVar, fAntiAimYawModes),
-            yaw_offset=config_GetSubFloat(cfgVar, fSubYawOffset),
-            yaw_speed=config_GetSubFloat(cfgVar, fSubYawSpeed),
-            yaw_amp=config_GetSubFloat(cfgVar, fSubYawAmp),
-            pitch_mode=config_GetSubInt(cfgVar, fAntiAimPitchModes),
-            pitch_offset=config_GetSubFloat(cfgVar, fSubPitchOffset),
-            pitch_speed=config_GetSubFloat(cfgVar, fSubPitchSpeed),
-            pitch_amp=config_GetSubFloat(cfgVar, fSubPitchAmp)
+            yaw_mode=config_GetSubVar(GetInt,cfgVar, fAntiAimYawModes),
+            yaw_offset=config_GetSubVar(GetFloat,cfgVar, fSubYawOffset),
+            yaw_speed=config_GetSubVar(GetFloat,cfgVar, fSubYawSpeed),
+            yaw_amp=config_GetSubVar(GetFloat,cfgVar, fSubYawAmp),
+            pitch_mode=config_GetSubVar(GetInt,cfgVar, fAntiAimPitchModes),
+            pitch_offset=config_GetSubVar(GetFloat,cfgVar, fSubPitchOffset),
+            pitch_speed=config_GetSubVar(GetFloat,cfgVar, fSubPitchSpeed),
+            pitch_amp=config_GetSubVar(GetFloat,cfgVar, fSubPitchAmp)
         }
     end
 

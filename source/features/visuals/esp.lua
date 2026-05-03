@@ -1,9 +1,9 @@
 visuals_ObjectiveEsp = function() 
-    if not config_AdvGetBool(fObjectiveEsp) then 
+    if not config_GetLocalFeatureState(fObjectiveEsp) then 
         return 
     end
 
-    local drawOptional = config_AdvGetBool(fOptionalEsp)
+    local drawOptional = config_GetLocalFeatureState(fOptionalEsp)
     local objectiveColor = config_GetColor(fObjectiveEsp, GetTime())
     local optionalColor = config_GetColor(fOptionalEsp, GetTime())
 
@@ -49,7 +49,7 @@ visuals_ObjectiveEsp = function()
 end
 
 visuals_ValueableEsp = function() 
-    if not config_AdvGetBool(fValuableEsp) then 
+    if not config_GetLocalFeatureState(fValuableEsp) then 
         return 
     end
     local color = config_GetColor(fValuableEsp, GetTime())
@@ -80,7 +80,7 @@ visuals_ValueableEsp = function()
 end
 
 visuals_ToolEsp = function() 
-    if not config_AdvGetBool(fToolEsp) then 
+    if not config_GetLocalFeatureState(fToolEsp) then 
         return 
     end
 

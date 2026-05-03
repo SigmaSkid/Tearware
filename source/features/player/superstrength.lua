@@ -1,6 +1,6 @@
 -- todo: account for where we grabbed the object (instead of using body center)
 player_SuperStrength = function()
-    if not config_AdvGetBool(fSuperStrength) then 
+    if not config_GetLocalFeatureState(fSuperStrength) then 
         return 
     end
 

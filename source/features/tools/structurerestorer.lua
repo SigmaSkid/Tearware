@@ -37,7 +37,7 @@ tools_RewindAllObjectsState = function()
 end
 
 tools_StructureRestorer = function()
-    if not config_AdvGetBool(fStructureRestorer) then
+    if not config_GetLocalFeatureState(fStructureRestorer) then
         tools_RewindAllObjectsState()
         return
     end

@@ -1,5 +1,5 @@
 player_Jesus = function()
-	if not config_AdvGetBool(fJesus) then
+	if not config_GetLocalFeatureState(fJesus) then
         return
     end
     local transform = GetPlayerTransform()
@@ -25,7 +25,7 @@ end
 client_playerJesus = function()
 
     local cfgVar = fJesus
-    local enabled = config_AdvGetBool(cfgVar)
+    local enabled = config_GetLocalFeatureState(cfgVar)
     local currentSettings = nil 
 
     if enabled then 

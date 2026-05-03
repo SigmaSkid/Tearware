@@ -1,5 +1,5 @@
 tools_FireBrush = function() 
-    if not config_AdvGetBool(fFireBrush) then 
+    if not config_GetLocalFeatureState(fFireBrush) then 
         return 
     end
     

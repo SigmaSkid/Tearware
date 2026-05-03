@@ -1,5 +1,5 @@
 player_Spider = function() 
-    if not config_AdvGetBool(fSpider) then 
+    if not config_GetLocalFeatureState(fSpider) then 
         return 
     end
 

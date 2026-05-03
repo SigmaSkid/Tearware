@@ -1,171 +1,166 @@
 #include "local.lua"
 
-config_DefineBool = function(var, default) 
+config_getKey = function(var)
+    return cfgstr .. var.configString
+end
+
+config_getKeyInput = function(var)
+    return cfgstr.. var.configString .. ".key"
+end
+
+config_getSubKey = function(var, sub)
+    return cfgstr .. var.configString .. "." .. sub.configString
+end
+
+--- CONFIG SYSTEM V2
+config_DefineFeature = function(var, default)
     featurelist[#featurelist+1] = var
 
-    if HasKey(cfgstr .. var.configString) and HasKey(cfgstr .. var.configString .. "_key") then
-        return
+    if not HasKey(config_getKey(var)) then
+        SetBool(config_getKey(var), default)
     end
 
-    SetBool(cfgstr .. var.configString, default)
-    SetString(cfgstr .. var.configString .. "_key", "null")
+    if not HasKey(config_getKeyInput(var)) then
+        SetString(config_getKeyInput(var), "null")
+    end
 end
 
-config_DefineInt = function(var, default) 
-    if HasKey(cfgstr .. var.configString) then
+config_DefineVar = function(SetType, var, default)
+    if HasKey(config_getKey(var)) then
         return
     end
-
-    SetInt(cfgstr .. var.configString, default)
+    SetType(config_getKey(var), default)
 end
 
-config_DefineFloat = function(var, default) 
-    if HasKey(cfgstr .. var.configString) then
+config_GetVar = function(GetType, var)
+    return GetType(config_getKey(var))
+end
+
+config_DefineSubVar = function(SetType, var, sub, default)
+    if HasKey(config_getSubKey(var, sub)) then 
         return
     end
-
-    SetFloat(cfgstr .. var.configString, default)
+    SetType(config_getSubKey(var, sub), default)
 end
 
-config_GetFloat = function(var)
-    return GetFloat(cfgstr .. var.configString)
+config_GetSubVar = function(GetType, var, sub)
+    return GetType(config_getSubKey(var, sub))
 end
 
-config_SetFloat = function(var, val) 
-    SetFloat(cfgstr .. var.configString, val)
+config_SetVar = function(SetType, var, val) 
+    
+    -- forward change to server 
+    -- if isSessionMultiplayer then
+    -- servercall
+    -- end
+
+    SetType(config_getKey(var), val)
 end
 
-config_GetInt = function(var)
-    return GetInt(cfgstr .. var.configString)
+config_SetSubVar = function(SetType, var, sub, val)
+    
+    -- forward change to server 
+    -- if isSessionMultiplayer then
+    -- servercall
+    -- end
+
+    return SetType(config_getSubKey(var, sub), val)
 end
 
-config_SetInt = function(var, val) 
-    SetInt(cfgstr .. var.configString, val)
+config_ToggleFeature = function(var)
+    local key = config_getKey(var)
+    local newValue = not GetBool(key)
+    SetBool(key, newValue)
+    featureListCacheTime = -2137
+    
+    -- forward change to server 
+    -- if isSessionMultiplayer then
+    -- end
+end
+
+config_GetLocalFeatureState = function(var)
+    return GetBool(config_getKey(var))
 end
 
 config_DefineColor = function(var, default) 
+    local pre = config_getKey(var)
+
     for i = 1, #colorSuffix-1 do
-        if (not HasKey(cfgstr .. var.configString .. colorSuffix[i])) then
-            SetFloat(cfgstr .. var.configString .. colorSuffix[i], default[i])
+        if (not HasKey(pre .. colorSuffix[i])) then
+            SetFloat(pre .. colorSuffix[i], default[i])
         end    
-        SetFloat(cfgstr .. var.configString .. colorSuffix[i] .. "_default" , default[i])
+        SetFloat(pre .. colorSuffix[i] .. ".default" , default[i])
     end
 
-    if (not HasKey(cfgstr .. var.configString .. colorSuffix[#colorSuffix])) then
-        SetBool(cfgstr .. var.configString .. colorSuffix[#colorSuffix], default[#colorSuffix])
+    if (not HasKey(pre .. colorSuffix[#colorSuffix])) then
+        SetBool(pre .. colorSuffix[#colorSuffix], default[#colorSuffix])
     end
-    SetBool(cfgstr .. var.configString .. colorSuffix[#colorSuffix] .. "_default" , default[#colorSuffix])
+    SetBool(pre .. colorSuffix[#colorSuffix] .. ".default" , default[#colorSuffix])
 end
 
 config_ResetColorToDefault = function(var)
-    local base = var.configString
+    local pre = config_getKey(var)
+
     for i = 1, #colorSuffix-1 do
-        local default_val = GetFloat(cfgstr .. base .. colorSuffix[i] .. "_default")
-        SetFloat(cfgstr .. base .. colorSuffix[i], default_val)
+        local default_val = GetFloat(pre .. colorSuffix[i] .. ".default")
+        SetFloat(pre .. colorSuffix[i], default_val)
     end
 
-    local default_rainbow = GetBool(cfgstr .. base .. colorSuffix[#colorSuffix] .. "_default")
-    SetBool(cfgstr .. base .. colorSuffix[#colorSuffix], default_rainbow)
-end
-
--- this could probably be done for all types with 1 funny dynamic function by passing the SetFloat, SetInt etc. to it instead.
--- but whatever, 70 functions > 1 function
-config_DefineSubFloat = function(var, sub, default) 
-    if HasKey(cfgstr .. var.configString .. sub.configString) then 
-        return
-    end
-    SetFloat(cfgstr .. var.configString .. sub.configString, default)
-end
-
-config_GetSubFloat = function(var, sub)
-    return GetFloat(cfgstr .. var.configString .. sub.configString)
-end
-
-config_SetSubFloat = function(var, sub, value)
-    return SetFloat(cfgstr .. var.configString .. sub.configString, value)
-end
-
-config_DefineSubInt = function(var, sub, default) 
-    if HasKey(cfgstr .. var.configString .. sub.configString) then 
-        return
-    end
-    SetInt(cfgstr .. var.configString .. sub.configString, default)
-end
-
-config_GetSubInt = function(var, sub)
-    return GetInt(cfgstr .. var.configString .. sub.configString)
-end
-
-config_SetSubInt = function(var, sub, val)
-    return SetInt(cfgstr .. var.configString .. sub.configString, val)
-end
-
-config_DefineSubBool = function(var, sub, default) 
-    if HasKey(cfgstr .. var.configString .. sub.configString) then 
-        return
-    end
-    SetBool(cfgstr .. var.configString .. sub.configString, default)
-end
-
-config_GetSubBool = function(var, sub)
-    return GetBool(cfgstr .. var.configString .. sub.configString)
-end
-
-config_SetSubBool = function(var, sub, value)
-    return SetBool(cfgstr .. var.configString .. sub.configString, value)
+    local default_rainbow = GetBool(pre .. colorSuffix[#colorSuffix] .. ".default")
+    SetBool(pre .. colorSuffix[#colorSuffix], default_rainbow)
 end
 
 config_GetColor = function(var, seed)
-    -- nil check, just in case
+    local pre = config_getKey(var)
+
     seed=seed or GetTime()
 
     local color = {}
-    color.rainbow = GetBool(cfgstr .. var.configString .. colorSuffix[5])
+    color.rainbow = GetBool(pre .. colorSuffix[5])
     if color.rainbow then 
         color.red = math.sin(seed + 0) * 0.5 + 0.5;
         color.green = math.sin(seed + 2) * 0.5 + 0.5;
         color.blue = math.sin(seed + 4) * 0.5 + 0.5;
     else
-        color.red = GetFloat(cfgstr .. var.configString .. colorSuffix[1])
-        color.green = GetFloat(cfgstr .. var.configString .. colorSuffix[2])
-        color.blue = GetFloat(cfgstr .. var.configString .. colorSuffix[3])
+        color.red = GetFloat(pre .. colorSuffix[1])
+        color.green = GetFloat(pre .. colorSuffix[2])
+        color.blue = GetFloat(pre .. colorSuffix[3])
     end
-    color.alpha = GetFloat(cfgstr .. var.configString .. colorSuffix[4])
+    color.alpha = GetFloat(pre .. colorSuffix[4])
 
     return color
 end
 
-config_FlipBool = function(var)
-    SetBool(var, not GetBool(var))
-end
 
+-- we don't need to forward this to the server. 
+-- all features that use colors are clientside, 
+-- and the one exception (fog) is host only and networked by the game.
 config_SetColor = function(var, color)
-    SetBool(cfgstr .. var.configString .. colorSuffix[5], color.rainbow)
-    SetFloat(cfgstr .. var.configString .. colorSuffix[4], color.alpha)
+    local pre = config_getKey(var)
+    DebugPrint(pre .. colorSuffix[5])
+    SetBool(pre .. colorSuffix[5], color.rainbow)
+    SetFloat(pre .. colorSuffix[4], color.alpha)
     if color.rainbow then 
         return 
     end
-    SetFloat(cfgstr .. var.configString .. colorSuffix[1], color.red)
-    SetFloat(cfgstr .. var.configString .. colorSuffix[2], color.green)
-    SetFloat(cfgstr .. var.configString .. colorSuffix[3], color.blue)
-end
-
-config_AdvGetBool = function(var)
-    return GetBool(cfgstr .. var.configString)
+    SetFloat(pre .. colorSuffix[1], color.red)
+    SetFloat(pre .. colorSuffix[2], color.green)
+    SetFloat(pre .. colorSuffix[3], color.blue)
 end
 
 config_UpdateFeatureState = function(var)
-    if not HasKey(cfgstr .. var.configString .. "_key") then 
+    local str = config_getKeyInput(var)
+    if not HasKey(config_getKeyInput(var)) then 
         return false
     end
 
-    local key = GetString(cfgstr .. var.configString .. "_key")
+    local key = GetString(str)
     if key == "null" or key == "" or key == nil then 
         return false
     end
 
     if InputPressed(key) then 
-        SetBool(cfgstr .. var.configString, not GetBool(cfgstr .. var.configString))
+        config_ToggleFeature(var)
         return true
     end
 
@@ -193,84 +188,83 @@ config_GenerateConfig = function()
     featurelist = {}
 
     -- 
-    config_DefineFloat(fMenuX, 0.5) -- min 255 max 1665
-    config_DefineFloat(fMenuY, 0.5) -- min 305 max 775
+    config_DefineVar(SetFloat, fMenuX, 0.5)
+    config_DefineVar(SetFloat, fMenuY, 0.5)
 
     -- visuals
-    config_DefineBool(fWatermark, true)
+    config_DefineFeature(fWatermark, true)
         config_DefineColor(fWatermark, {1, 1, 1, 1, true} )
-        config_DefineSubInt(fWatermark, fAlignmentLR, 0)
-    config_DefineBool(fFeatureList, false)
+        config_DefineSubVar(SetInt, fWatermark, fAlignmentLR, 0)
+    config_DefineFeature(fFeatureList, false)
         config_DefineColor(fFeatureList, {1, 1, 1, 1, true} )
-        config_DefineSubInt(fFeatureList, fAlignmentLR, 0)
-    config_DefineBool(fObjectiveEsp, false)
+        config_DefineSubVar(SetInt, fFeatureList, fAlignmentLR, 0)
+    config_DefineFeature(fObjectiveEsp, false)
         config_DefineColor(fObjectiveEsp, {0.7, 0.3, 0.3, 0.7, false} )
-    config_DefineBool(fOptionalEsp, false)
+    config_DefineFeature(fOptionalEsp, false)
         config_DefineColor(fOptionalEsp, {0.3, 0.3, 0.7, 0.7, false} )
-    config_DefineBool(fValuableEsp, false)
+    config_DefineFeature(fValuableEsp, false)
         config_DefineColor(fValuableEsp, {0.3, 0.7, 0.3, 0.7, false} )
-    config_DefineBool(fToolEsp, false)
+    config_DefineFeature(fToolEsp, false)
         config_DefineColor(fToolEsp, {0.7, 0.7, 0.3, 0.7, false} )
-    config_DefineBool(fWeaponGlow, false)
+    config_DefineFeature(fWeaponGlow, false)
         config_DefineColor(fWeaponGlow, {1, 1, 1, 1, true} )
-    config_DefineBool(fPlayerGlow, false)
+    config_DefineFeature(fPlayerGlow, false)
         config_DefineColor(fPlayerGlow, {1, 1, 1, 1, true} )
-    config_DefineBool(fActiveGlow, false)
+    config_DefineFeature(fActiveGlow, false)
         config_DefineColor(fActiveGlow, {1, 1, 1, 1, true} )
-    config_DefineBool(fRainbowFog, false)
+    config_DefineFeature(fRainbowFog, false)
         config_DefineColor(fRainbowFog, {1, 1, 1, 1, true} )
-    config_DefineBool(fPostProcess, false)
+    config_DefineFeature(fPostProcess, false)
         config_DefineColor(fPostProcess, {0.5, 0.5, 0.5, 0.5, false} )
 
     -- player
-    config_DefineBool(fSpeed, false)
-        config_DefineSubFloat(fSpeed, fSubSpeed, 14)
-        config_DefineSubFloat(fSpeed, fSubBoost, 28)
-    config_DefineBool(fSpider, false)
-    config_DefineBool(fFly, false)
-    config_DefineBool(fFloorStrafe, false)
-    config_DefineBool(fBunnyhop, false)
-    config_DefineBool(fJetpack, false)
-    config_DefineBool(fJesus, false)
-    config_DefineBool(fQuickstop, false)
-    config_DefineBool(fInfiniteAmmo, false)
-    config_DefineBool(fSuperStrength, false)
-    config_DefineBool(fGodmode, false)
+    config_DefineFeature(fSpeed, false)
+        config_DefineSubVar(SetFloat, fSpeed, fSubSpeed, 14)
+        config_DefineSubVar(SetFloat, fSpeed, fSubBoost, 28)
+    config_DefineFeature(fSpider, false)
+    config_DefineFeature(fFly, false)
+    config_DefineFeature(fFloorStrafe, false)
+    config_DefineFeature(fBunnyhop, false)
+    config_DefineFeature(fJetpack, false)
+    config_DefineFeature(fJesus, false)
+    config_DefineFeature(fQuickstop, false)
+    config_DefineFeature(fInfiniteAmmo, false)
+    config_DefineFeature(fSuperStrength, false)
+    config_DefineFeature(fGodmode, false)
 
     -- antiaim
-    config_DefineBool(fResolver, false)
-    config_DefineBool(fAntiAim, false)
-        config_DefineSubInt(fAntiAim, fAntiAimYawModes, 0)
-        config_DefineSubFloat(fAntiAim, fSubYawOffset, 1)
-        config_DefineSubFloat(fAntiAim, fSubYawSpeed, 360)
-        config_DefineSubFloat(fAntiAim, fSubYawAmp, 45)
+    config_DefineFeature(fResolver, false)
+    config_DefineFeature(fAntiAim, false)
+        config_DefineSubVar(SetInt, fAntiAim, fAntiAimYawModes, 0)
+        config_DefineSubVar(SetFloat, fAntiAim, fSubYawOffset, 1)
+        config_DefineSubVar(SetFloat, fAntiAim, fSubYawSpeed, 360)
+        config_DefineSubVar(SetFloat, fAntiAim, fSubYawAmp, 45)
 
-        config_DefineSubInt(fAntiAim, fAntiAimPitchModes, 0)
-        config_DefineSubFloat(fAntiAim, fSubPitchOffset, 1)
-        config_DefineSubFloat(fAntiAim, fSubPitchSpeed, 180)
-        config_DefineSubFloat(fAntiAim, fSubPitchAmp, 20)
+        config_DefineSubVar(SetInt, fAntiAim, fAntiAimPitchModes, 0)
+        config_DefineSubVar(SetFloat, fAntiAim, fSubPitchOffset, 1)
+        config_DefineSubVar(SetFloat, fAntiAim, fSubPitchSpeed, 180)
+        config_DefineSubVar(SetFloat, fAntiAim, fSubPitchAmp, 20)
 
     -- world
-    config_DefineBool(fDisableRobots, false)
-    config_DefineBool(fBulletTime, false)
-        config_DefineSubFloat(fBulletTime, fSubScale, 10)
-    config_DefineBool(fSkipObjective, false)
-    config_DefineBool(fDisableAlarm, false)
-    config_DefineBool(fDisablePhysics, false)
-    config_DefineBool(fForceUpdatePhysics, false)
-    config_DefineBool(fTeleportValuables, false)
-    config_DefineBool(fUnfairValuables, false)
+    config_DefineFeature(fDisableRobots, false)
+    config_DefineFeature(fBulletTime, false)
+        config_DefineSubVar(SetFloat, fBulletTime, fSubScale, 10)
+    config_DefineFeature(fSkipObjective, false)
+    config_DefineFeature(fDisableAlarm, false)
+    config_DefineFeature(fDisablePhysics, false)
+    config_DefineFeature(fForceUpdatePhysics, false)
+    config_DefineFeature(fTeleportValuables, false)
+    config_DefineFeature(fUnfairValuables, false)
 
     -- tools
-    config_DefineBool(fStructureRestorer, false)
-    config_DefineBool(fRubberband, false)
-        config_DefineColor(fRubberband, {1.0, 0.3, 1.0, false} )
-    config_DefineBool(fTeleport, false)
-        config_DefineSubFloat(fTeleport, fSubDelay, 150)
-    config_DefineBool(fExplosionBrush, false)
-        config_DefineSubFloat(fExplosionBrush, fSubSize, 1)
-    config_DefineBool(fFireBrush, false)
-
+    config_DefineFeature(fStructureRestorer, false)
+    config_DefineFeature(fRubberband, false)
+        config_DefineColor(fRubberband, {1.0, 0.3, 1.0, 1.0, false} )
+    config_DefineFeature(fTeleport, false)
+        config_DefineSubVar(SetFloat, fTeleport, fSubDelay, 150)
+    config_DefineFeature(fExplosionBrush, false)
+        config_DefineSubVar(SetFloat, fExplosionBrush, fSubSize, 1)
+    config_DefineFeature(fFireBrush, false)
 
     visuals_sortFeatureList()
 end

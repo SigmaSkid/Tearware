@@ -1,5 +1,5 @@
 player_Quickstop = function() 
-    if not config_AdvGetBool(fQuickstop) then 
+    if not config_GetLocalFeatureState(fQuickstop) then 
         return 
     end
 

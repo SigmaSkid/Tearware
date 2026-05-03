@@ -1,6 +1,6 @@
 -- client
 client_ToolsTeleport = function()
-    if not config_AdvGetBool(fTeleport) then
+    if not config_GetLocalFeatureState(fTeleport) then
         return 
     end
 
@@ -9,7 +9,7 @@ client_ToolsTeleport = function()
     local targetPos = utils_GetPosWeAreLookingAt()
     if targetPos == nil then return end
 
-    local delay = config_GetSubFloat(fTeleport, fSubDelay) / 1000
+    local delay = config_GetSubVar(GetFloat,fTeleport, fSubDelay) / 1000
 
     ServerCall("server.teleportTarget", GetLocalPlayer(), localUUID, targetPos, delay)
 end

@@ -1,5 +1,5 @@
 visuals_ColoredFog = function() 
-    if not config_AdvGetBool(fRainbowFog) then 
+    if not config_GetLocalFeatureState(fRainbowFog) then 
         if #cached_fog_color > 0 then 
             SetEnvironmentProperty("fogcolor", cached_fog_color[1], cached_fog_color[2], cached_fog_color[3])
             cached_fog_color = {}

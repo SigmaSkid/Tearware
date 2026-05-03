@@ -1,12 +1,11 @@
 -- universal constants
--- the tearware_ prefix is not needed, just wastes memory, and is kept for backwards compatibility.
-cfgstr = "savegame.mod.tearware_"
+cfgstr = "savegame.mod."
 -- 0.01(6)
 fixed_update_rate = 1/60
 origin_to_eye_distance = 1.7
 gameVersion = GetVersion()
 registryEntryPoints = { "characters", "game", "hud", "level", "loading", "mods", "promo", "promo_mp", "savegame", "spawn" }
-colorSuffix = {"_red", "_green", "_blue", "_alpha", "_rainbow"}
+colorSuffix = {".red", ".green", ".blue", ".alpha", ".rainbow"}
 isLocalPlayerTheHost = false
 isSessionMultiplayer = false
 isSessionCampagin = false

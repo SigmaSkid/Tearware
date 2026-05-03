@@ -1,7 +1,7 @@
 world_DisableAlarm = function()
     if not isSessionCampagin then return end
     
-	if not config_AdvGetBool(fDisableAlarm) then
+	if not config_GetLocalFeatureState(fDisableAlarm) then
         return
     end
 

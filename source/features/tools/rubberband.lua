@@ -1,5 +1,5 @@
 client_ToolsRubberband = function() 
-    if not config_AdvGetBool(fRubberband) then
+    if not config_GetLocalFeatureState(fRubberband) then
         rubberband_pos = nil
 
         if rubberband_transform == nil then

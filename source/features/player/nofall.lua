@@ -2,7 +2,7 @@
 client_playerNofall = function()
 
     local cfgVar = fNoFall
-    local enabled = config_AdvGetBool(cfgVar)
+    local enabled = config_GetLocalFeatureState(cfgVar)
     local currentSettings = nil 
 
     if enabled then 

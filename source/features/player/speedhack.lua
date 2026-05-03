@@ -1,13 +1,13 @@
 client_playerSpeedhack = function()
     local cfgVar = fSpeed
-    local enabled = config_AdvGetBool(cfgVar)
+    local enabled = config_GetLocalFeatureState(cfgVar)
     local currentSettings = nil 
 
     if enabled then 
         currentSettings =
         { 
-            baseSpeed = config_GetSubFloat(cfgVar, fSubSpeed),
-            boostSpeed = config_GetSubFloat(cfgVar, fSubBoost)
+            baseSpeed = config_GetSubVar(GetFloat,cfgVar, fSubSpeed),
+            boostSpeed = config_GetSubVar(GetFloat,cfgVar, fSubBoost)
         }
     end
 

@@ -1,5 +1,5 @@
 visuals_WeaponGlow = function() 
-    if not config_AdvGetBool(fWeaponGlow) then 
+    if not config_GetLocalFeatureState(fWeaponGlow) then 
         return 
     end
 
@@ -11,7 +11,7 @@ visuals_WeaponGlow = function()
 end
 
 visuals_ActiveGlow = function() 
-    if not config_AdvGetBool(fActiveGlow) then 
+    if not config_GetLocalFeatureState(fActiveGlow) then 
         return 
     end
     local bodies = FindBodies(nil,true)
@@ -31,7 +31,7 @@ end
 
 
 visuals_PlayerGlow = function()
-    if not config_AdvGetBool(fPlayerGlow) then 
+    if not config_GetLocalFeatureState(fPlayerGlow) then 
         return 
     end
 

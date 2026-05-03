@@ -155,11 +155,12 @@ menu_DrawResetConfigConfirmation = function(dt)
                 UiPop()
                 resetTimer = resetTimer - dt
 
-                if resetTimer <= 0 then 
+                if resetTimer <= 0.0 then 
                     config_ResetAllModData()
                     openMenu = nil
                     resetConfirmPage = 0
                     resetTimer = 5.0 
+                    return
                 end
             else
                resetTimer = 5.0 

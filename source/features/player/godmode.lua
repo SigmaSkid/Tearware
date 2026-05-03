@@ -1,7 +1,7 @@
 client_playerGodmode = function()
 
     local cfgVar = fGodmode
-    local enabled = config_AdvGetBool(cfgVar)
+    local enabled = config_GetLocalFeatureState(cfgVar)
 
     if enabled == clientGetSyncedSetting(cfgVar) then 
         return

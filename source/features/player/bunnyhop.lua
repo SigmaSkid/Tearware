@@ -2,7 +2,7 @@
 client_playerBunnyhop = function()
 
     local cfgVar = fBunnyhop
-    local enabled = config_AdvGetBool(cfgVar)
+    local enabled = config_GetLocalFeatureState(cfgVar)
     local currentSettings = nil 
 
     if enabled then 

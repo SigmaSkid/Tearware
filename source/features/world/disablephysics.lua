@@ -1,5 +1,5 @@
 world_DisablePhysics = function()
-    if not config_AdvGetBool(fDisablePhysics) then
+    if not config_GetLocalFeatureState(fDisablePhysics) then
         return 
     end
 

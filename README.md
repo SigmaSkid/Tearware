@@ -101,14 +101,14 @@ It creates a release folder containing the packaged code.
 Doing this garbage for every feature is extremely stupid:
 ```
     local cfgVar = fSpeed
-    local enabled = config_AdvGetBool(cfgVar)
+    local enabled = config_GetLocalFeatureState(cfgVar)
     local currentSettings = nil 
 
     if enabled then 
         currentSettings =
         { 
-            baseSpeed = config_GetSubFloat(cfgVar, fSubSpeed),
-            boostSpeed = config_GetSubFloat(cfgVar, fSubBoost)
+            baseSpeed = config_GetSubVar(GetFloat,cfgVar, fSubSpeed),
+            boostSpeed = config_GetSubVar(GetFloat,cfgVar, fSubBoost)
         }
     end
 
@@ -169,7 +169,11 @@ call SetActive False on clients, likely needs to be done in update/post-update/t
 - Implement long jump feature using "JumpSpeed" player parameter.
 
 ## Final Patch notes, credits, etc for release when ready:
-Ported to support API V2 and Multi-Player
+Ported to support API V2 and Multi-Player.  
+Due to the new config system.  
+Old configs are not compatible.  
+I recommend resetting your config to get rid of ghost values if you used previous version of the mod on your current save file.  
+Not doing so, won't break anything, but it'll keep the obsolete data.  
 
 Rainbow color modifier can now be disabled. 
 Thanks [Gunbot](https://steamcommunity.com/profiles/76561198428363041)
@@ -182,6 +186,7 @@ No-Fall
 
 Merged features:  
 Fly combined with noclip, using the built-in player fly mode.  
+
 
 
 

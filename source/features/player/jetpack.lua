@@ -1,5 +1,5 @@
 player_Jetpack = function(dts) 
-    if not config_AdvGetBool(fJetpack) then 
+    if not config_GetLocalFeatureState(fJetpack) then 
         return 
     end
 

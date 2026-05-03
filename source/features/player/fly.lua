@@ -1,7 +1,7 @@
 client_playerFly = function()
 
     local cfgVar = fFly
-    local enabled = config_AdvGetBool(cfgVar)
+    local enabled = config_GetLocalFeatureState(cfgVar)
 
     if enabled == clientGetSyncedSetting(cfgVar) then 
         return

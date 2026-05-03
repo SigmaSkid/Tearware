@@ -1,5 +1,5 @@
 world_DisableRobots = function()
-    if not config_AdvGetBool(fDisableRobots) then
+    if not config_GetLocalFeatureState(fDisableRobots) then
         return
     end
 

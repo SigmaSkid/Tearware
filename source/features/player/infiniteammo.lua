@@ -1,5 +1,5 @@
 client_playerInfiniteAmmo = function() 
-    if not config_AdvGetBool(fInfiniteAmmo) then 
+    if not config_GetLocalFeatureState(fInfiniteAmmo) then 
         return 
     end
 

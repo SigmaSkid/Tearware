@@ -2,7 +2,7 @@
 client_playerFloorstrafe = function()
 
     local cfgVar = fFloorStrafe
-    local enabled = config_AdvGetBool(cfgVar)
+    local enabled = config_GetLocalFeatureState(cfgVar)
     local currentSettings = nil 
 
     if enabled then 
