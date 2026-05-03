@@ -106,7 +106,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
         UiColor(1, 1, 1, 1)
         
         UiPush()
-            UiTranslate(0, -30)
+            UiTranslate(0, -5)
             if GetInt(cfgstr .. "activetab") == 0 then 
                 -- visuals
 
@@ -270,6 +270,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 end
 
             elseif GetInt(cfgstr .. "activetab") == 4 then 
+                
                 if legacyMenu_Button(fMenuResetConfig) then 
                     -- restart it's position, to prevent accidental clicks
                     resetDvd.x = 0
@@ -312,7 +313,6 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 end
 
 legacyMenu_Checkbox = function(var)
-    UiTranslate(0, 25)
     UiPush()
     UiAlign("left top")
     
@@ -407,7 +407,7 @@ legacyMenu_Checkbox = function(var)
     end
 
     UiPop()
-    UiTranslate(0, 3)
+    UiTranslate(0, 28)
 end
 
 legacyMenu_Button = function(name)
@@ -533,9 +533,10 @@ legacyMenu_NavSep = function(tabid)
     UiPop()
 end
 
-legacyMenu_ColorSelector = function(var, alpha)
+legacyMenu_ColorSelector = function(var, alpha)    
+    UiPush()
+    UiTranslate(0, -28) -- checkbox offset
 
-    
     if alpha == nil then 
         alpha = true
     end
@@ -692,6 +693,8 @@ legacyMenu_ColorSelector = function(var, alpha)
             end
         end
     UiPop()
+
+    UiPop()
 end
 
 legacyMenu_optionsSlider = function(val, mi, ma, width)
@@ -834,37 +837,40 @@ open_sub_menu_offset = {x=0, y=0}
 legacyMenu_FunnySubmenuBegin = function(var, w, h, offset)
     if offset == nil then offset = 0 end
 
-    local literallyJustEnabled = false
-    UiTranslate(-offset * 25, 0)
-    -- de_square
     UiPush()
-        UiTranslate(0, 20)
-        UiAlign("left top")
-        UiTranslate(UiWidth() - 35, -20)
-        
-        local colorSquareSize = 20
+
+        local literallyJustEnabled = false
+        UiTranslate(-offset * 25, -28)
+        -- de_square
         UiPush()
-            UiColor(0.3,0.3,0.3,1)
-            UiRect(colorSquareSize, colorSquareSize)
-            UiTranslate(1,1)
-            UiColor(0.7,0.7,0.7,1)
-            UiRect(colorSquareSize-2, colorSquareSize-2)
-        UiPop()
+            UiTranslate(0, 20)
+            UiAlign("left top")
+            UiTranslate(UiWidth() - 35, -20)
+            
+            local colorSquareSize = 20
+            UiPush()
+                UiColor(0.3,0.3,0.3,1)
+                UiRect(colorSquareSize, colorSquareSize)
+                UiTranslate(1,1)
+                UiColor(0.7,0.7,0.7,1)
+                UiRect(colorSquareSize-2, colorSquareSize-2)
+            UiPop()
 
-        if UiIsMouseInRect(colorSquareSize, colorSquareSize) then
-            if InputPressed("lmb") then 
-                active_sub_menu = var.configString .. offset
-                literallyJustEnabled = true
+            if UiIsMouseInRect(colorSquareSize, colorSquareSize) then
+                if InputPressed("lmb") then 
+                    active_sub_menu = var.configString .. offset
+                    literallyJustEnabled = true
+                end
             end
-        end
-    UiPop()
-    local enabled = active_sub_menu == var.configString .. offset
+        UiPop()
+        local enabled = active_sub_menu == var.configString .. offset
 
-    UiTranslate(offset * 25, 0)
+    UiPop()
+
     -- de_popup
     if enabled then 
         UiPush()
-            UiTranslate(UiWidth() - 5, -20)
+            UiTranslate(UiWidth() - 5, -36)
             if not UiIsMouseInRect(w, h) then
                 if not literallyJustEnabled then 
                     if InputPressed("lmb") then 
@@ -884,8 +890,8 @@ legacyMenu_FunnySubmenuBegin = function(var, w, h, offset)
             UiColor(0.53, 0.53, 0.53, 0.6)
             UiRect(w -4, h-4)
             UiTranslate(5, 10)
-
     end
+
     return enabled
 end
 
