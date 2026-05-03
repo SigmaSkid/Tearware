@@ -1,42 +1,40 @@
-player_Speedhack = function()
-    if not config_AdvGetBool(fSpeed) then 
-        return 
+client_playerSpeedhack = function()
+    local cfgVar = fSpeed
+    local enabled = config_AdvGetBool(cfgVar)
+    local currentSettings = nil 
+
+    if enabled then 
+        currentSettings =
+        { 
+            baseSpeed = config_GetSubFloat(cfgVar, fSubSpeed),
+            boostSpeed = config_GetSubFloat(cfgVar, fSubBoost)
+        }
     end
 
-    if not utils_IsDirectionalInputDown() then
-        return 
-    end 
-
-    local velocity = GetPlayerVelocity()
-
-    local TargetVel = config_GetSubFloat(fSpeed, fSubSpeed)
-    if utils_TWInputDown("shift") then 
-        TargetVel = config_GetSubFloat(fSpeed, fSubBoost)
+    if utils_tableCompare(currentSettings, clientGetSyncedSetting(cfgVar)) then 
+        return
     end
 
-    -- scary math below, run.
-
-    -- get scary quat
-    local rot = GetCameraTransform().rot
-    -- convert to cool angles
-    local x, backupy, z = GetQuatEuler(rot)
-    local y = utils_TransformYawByInput(backupy)
-
-    -- euler to vector
-    local rady = math.rad(y)
-	local siny = math.sin(rady)
-	local cosy = math.cos(rady)
-
-    -- change our cool math to something the game can use
-    local forward = Vec(0,0,0)
-    forward[3] = -cosy
-    forward[1] = -siny
-
-    -- apply velocity scale
-    velocity = VecScale(forward, TargetVel)
-
-    -- make sure we didn't mess up on the axis we don't care about
-    velocity[2] = GetPlayerVelocity()[2]
-
-    SetPlayerVelocity(velocity)
+    clientScreamAtServerPolitely(cfgVar, currentSettings)
+    clientSetSyncedSetting(cfgVar, currentSettings)
 end
+
+server_playerSpeedhack = function(playerID)
+    local entry = serverGetPlayerConfigValues(playerID, fSpeed)
+
+    if entry == null or entry.baseSpeed == null or entry.boostSpeed == null then 
+        return 
+    end
+
+    local targetSpeed = entry.baseSpeed
+    if InputDown("shift", playerID) then
+        targetSpeed = entry.boostSpeed
+    end
+
+    SetPlayerParam("walkingSpeed", targetSpeed, playerID)
+end
+
+-- high speed values are harder to control
+-- compared to how we did this before.
+-- try increasing friction while using speed
+-- or having a sub setting

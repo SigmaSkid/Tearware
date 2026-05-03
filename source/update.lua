@@ -57,6 +57,7 @@ function playerServerUpdate(playerID, dt)
         return 
     end
 
+    server_playerSpeedhack(playerID)
 end
 
 

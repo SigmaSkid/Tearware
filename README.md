@@ -97,6 +97,36 @@ Navigate to the github repository and run the pack python script.
 It creates a release folder containing the packaged code.
 
 ## Multiplayer debug session / found issues / todos:
+1. OPTIMIZATION OF THE MULTIPLAYER STACK ON THE CLIENTSIDE,  
+Doing this garbage for every feature is extremely stupid:
+```
+    local cfgVar = fSpeed
+    local enabled = config_AdvGetBool(cfgVar)
+    local currentSettings = nil 
+
+    if enabled then 
+        currentSettings =
+        { 
+            baseSpeed = config_GetSubFloat(cfgVar, fSubSpeed),
+            boostSpeed = config_GetSubFloat(cfgVar, fSubBoost)
+        }
+    end
+
+    if utils_tableCompare(currentSettings, clientGetSyncedSetting(cfgVar)) then 
+        return
+    end
+
+    clientScreamAtServerPolitely(cfgVar, currentSetting
+```
+We need to intercept config value changes and only then send update to the server, rather than constantly checking on the client if a value was changed.  
+Current system prioritizes reducing bandwidth by doing useless and naive calculations on the clientside.  
+(Which was fine as a testing placeholder btw.)   
+We already use wrappers for most of this stuff, so it should be straightforward to add.  
+So, expand config_UpdateAllFeatureStates, to forward the feature changes to appropriate functions.  
+OR, make it proper and forward changes directly to the server.  
+Keybinds can only toggle the feature on/off, so it should be only few lines of code to forward the state.  
+
+
 1. Sync menu open state, so old helper functions for InputDown being false while in menu work again.  
 Currently features like bunnyhop trigger while in menu.  
 
@@ -115,7 +145,6 @@ call SetActive False on clients, likely needs to be done in update/post-update/t
 1. Prevent local player and their attachments from glowing in first person perspective.  
 
 1. Make & add the new multiplayer preview image.  
-
 
 ### Scope creep - low priority todo
 - Ragebot^ also autowall.

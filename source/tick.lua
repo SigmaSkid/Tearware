@@ -51,7 +51,7 @@ function client.tick(dt)
 
     -- player
     -- player_Spider()   -- still broken
-    -- player_Speedhack()  -- still broken
+    client_playerSpeedhack()
     -- player_Jesus() -- still broken
     client_playerFloorstrafe()
     client_playerBunnyhop()
