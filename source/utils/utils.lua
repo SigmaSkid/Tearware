@@ -50,7 +50,7 @@ end
 -- returns direction[vec3] and camera[table]
 -- ex. local direction, camera = GetForwardDirection()
 utils_GetForwardDirection = function()
-	local camera = GetCameraTransform()
+	local camera = GetCameraTransform() -- why is this client only btw
 	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 1))
     return VecNormalize(VecSub(camera.pos, parentpoint)), camera
 end

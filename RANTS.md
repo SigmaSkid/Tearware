@@ -51,4 +51,7 @@ Also, why is jump speed and jump height connect to this one value.
 "The player's jump speed. The height of the jump depends non-linearly on the jump speed. This value is applied for 1 frame!"   
 Jump height SHOULD be a separate variable, why is the speed connected to height.  
 
-
+## GetCameraTransform is client only.
+Server has to guess where the clients are looking,  
+or clients have to network that data themeslves :D  
+Even though server should probably already have this data.  
