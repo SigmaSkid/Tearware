@@ -1,22 +1,57 @@
-local featureListCache = {}
-featureListCacheTime = -2137
+local featureListCache = {} -- {str, width}
+featurelistForceCacheUpdate = true -- basically just do it once.
+
+function featurelistFilter(feature)
+    local passHost     = not feature.hostOnly     or isLocalPlayerTheHost
+    local passClient   = not feature.clientOnly   or not isLocalPlayerTheHost
+    local passMp       = not feature.mpOnly       or isSessionMultiplayer
+    local passCampaign = not feature.campaignOnly or isSessionCampaign
+
+    return passHost and passClient and passMp and passCampaign
+end
 
 function rebuildFeatureCache(max_features)
     featureListCache = {}
     local count = 0
     for i = 1, #featurelist do
         if count >= max_features then break end
-        if config_GetLocalFeatureState(featurelist[i]) then
-            local passHost     = not featurelist[i].hostOnly     or isLocalPlayerTheHost
-            local passClient   = not featurelist[i].clientOnly   or not isLocalPlayerTheHost
-            local passMp       = not featurelist[i].mpOnly       or isSessionMultiplayer
-            local passCampaign = not featurelist[i].campaignOnly or isSessionCampaign
-
-            if passHost and passClient and passMp and passCampaign then
+        local legionnaire = featurelist[i]
+        if config_GetLocalFeatureState(legionnaire) then
+            if featurelistFilter(legionnaire) then
                 count = count + 1
-                featureListCache[count] = featurelist[i].legacyName
+                featureListCache[count] = {str = legionnaire.legacyName, width = legionnaire.visibleWidth}
             end
         end
+    end
+end
+
+function insertSorted(feature)
+    local e = {str = feature.legacyName, width = feature.visibleWidth}
+    for i = 1, #featureListCache do
+        if e.width > featureListCache[i].width then
+            table.insert(featureListCache, i, e)
+            return
+        end
+    end
+
+    DebugPrint("Feature couldn't be sorted on insert? " .. feature.legacyName)
+    table.insert(featureListCache, feature.legacyName)
+end
+
+function removeFeatureFromCache(feature)
+    for i = 1, #featureListCache do
+        if featureListCache[i].str == feature.legacyName then
+            table.remove(featureListCache, i)
+            return
+        end
+    end
+end
+
+function featureListToggleSingle(feature, enabled)
+    if enabled then 
+        insertSorted(feature)
+    else
+        removeFeatureFromCache(feature)
     end
 end
 
@@ -27,19 +62,17 @@ visuals_FeatureList = function()
 
     local alignment = config_GetSubVar(GetInt,fFeatureList, fAlignmentLR)
     local watermark_above = config_GetLocalFeatureState(fWatermark) and config_GetSubVar(GetInt,fWatermark, fAlignmentLR) == alignment
-
     local now = GetTime()
+    local features_available_space = 76 -- magic value (1080[1920x1080 vertical height] - 6 [padding])/14[font size]
 
-    if now - featureListCacheTime >= 5.0 then
-        local features_available_space = 1080 - 6
-        if watermark_above then 
-            features_available_space = features_available_space - 28
-        end
+    if featurelistForceCacheUpdate then
+        rebuildFeatureCache(features_available_space)
+        featurelistForceCacheUpdate = false
+    end
 
-        local max_features_to_display = math.floor(features_available_space / 14)
-
-        rebuildFeatureCache(max_features_to_display)
-        featureListCacheTime = now
+    local maxFeaturesToDraw = features_available_space
+    if watermark_above then 
+        maxFeaturesToDraw = maxFeaturesToDraw - 2
     end
 
     UiPush()
@@ -62,24 +95,32 @@ visuals_FeatureList = function()
         UiTextShadow(0, 0, 0, color.alpha * 0.2, 1.5)
         UiTextOutline(0, 0, 0, color.alpha * 0.7, 0.07)
 
-        for i = 1, #featureListCache do
+        local drawMax = math.min(#featureListCache, maxFeaturesToDraw)
+        for i = 1, drawMax do
             local visibleFeatures = i * 0.05
             local col = config_GetColor(fFeatureList, now + visibleFeatures)
             UiColor(col.red, col.green, col.blue, col.alpha)
-            UiText(featureListCache[i], false)
+            UiText(featureListCache[i].str, false)
             UiTranslate(0, 14)
         end
 
     UiPop()
 end
 
-
+featureListMeasureWidthOfFeaturesOnce = true
 visuals_sortFeatureList = function() 
-    -- sort for feature list.
-    UiPush()
-        UiFont(fonts.orbitron_sbold, 14)
-        table.sort(featurelist, function (left, right)
-            return UiGetTextSize(left.legacyName) > UiGetTextSize(right.legacyName)
-        end)
-    UiPop()
+    if featureListMeasureWidthOfFeaturesOnce then 
+        UiPush()
+            UiFont(fonts.orbitron_sbold, 14)
+            for i = 1, #featurelist do 
+                featurelist[i].visibleWidth = UiGetTextSize(featurelist[i].legacyName)
+            end
+        UiPop()
+        featureListMeasureWidthOfFeaturesOnce = false
+    end
+
+    -- sort.
+    table.sort(featurelist, function (left, right)
+        return left.visibleWidth > right.visibleWidth
+    end)
 end

@@ -110,20 +110,21 @@ server_playerAntiAim = function(playerID, dt)
     local e = syncedPlayerSetting[playerID]
     if not e then return nil end
 
-    local enabled = e[config_getKey(fAntiAim)]
+
+    local enabled = server.getPlayerConfigValue(playerID, config_getKey(fAntiAim))
     if not enabled then return nil end
 
     local entry = 
     {
-        yaw_mode    = e[config_getSubKey(fAntiAim, fAntiAimYawModes)],
-        yaw_offset  = e[config_getSubKey(fAntiAim, fSubYawOffset)],
-        yaw_speed   = e[config_getSubKey(fAntiAim, fSubYawSpeed)],
-        yaw_amp     = e[config_getSubKey(fAntiAim, fSubYawAmp)],
+        yaw_mode    = server.getPlayerConfigValue(playerID, config_getSubKey(fAntiAim, fAntiAimYawModes)),
+        yaw_offset   = server.getPlayerConfigValue(playerID, config_getSubKey(fAntiAim, fSubYawOffset)),
+        yaw_speed    = server.getPlayerConfigValue(playerID, config_getSubKey(fAntiAim, fSubYawSpeed)),
+        yaw_amp      = server.getPlayerConfigValue(playerID, config_getSubKey(fAntiAim, fSubYawAmp)),
 
-        pitch_mode   = e[config_getSubKey(fAntiAim, fAntiAimPitchModes)],
-        pitch_offset = e[config_getSubKey(fAntiAim, fSubPitchOffset)],
-        pitch_speed  = e[config_getSubKey(fAntiAim, fSubPitchSpeed)],
-        pitch_amp    = e[config_getSubKey(fAntiAim, fSubPitchAmp)]
+        pitch_mode   = server.getPlayerConfigValue(playerID, config_getSubKey(fAntiAim, fAntiAimPitchModes)),
+        pitch_offset = server.getPlayerConfigValue(playerID, config_getSubKey(fAntiAim, fSubPitchOffset)),
+        pitch_speed  = server.getPlayerConfigValue(playerID, config_getSubKey(fAntiAim, fSubPitchSpeed)),
+        pitch_amp    = server.getPlayerConfigValue(playerID, config_getSubKey(fAntiAim, fSubPitchAmp))
     }
 
     shared_applyAntiAim(playerID, entry)

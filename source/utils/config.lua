@@ -82,8 +82,10 @@ config_ToggleFeature = function(var)
     local key = config_getKey(var)
     local val = not GetBool(key)
     SetBool(key, val)
-    featureListCacheTime = -2137
-    
+
+    -- featurelistForceCacheUpdate = true
+    featureListToggleSingle(var, val)
+
     -- forward change to server 
     client.ScreamAtServerPolitely(key, val)
 end
@@ -189,7 +191,7 @@ config_UpdateAllFeatureStates = function()
     end
 
     if didSomethingUpdate then 
-        featureListCacheTime = -2137
+        -- featurelistForceCacheUpdate = true
     end
 
 end

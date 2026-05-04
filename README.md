@@ -10,50 +10,50 @@ Remove the shortcut by assigning the "enter" key.
 
 ## Features:
 ### Visuals:
-- Feature List  - CONFIRMED WORKS
-- Objective ESP& - CONFIRMED WORKS
-- Optional ESP& - CONFIRMED WORKS
-- Valuable ESP& - CONFIRMED WORKS
-- Tool ESP& - CONFIRMED WORKS
-- Player Glow - UNCONFIRMED WORKS [needs testing in multiplayer.]
-- Equipped Tool Glow - CONFIRMED WORKS
-- Active Glow - CONFIRMED WORKS [needs check for active bodies attached to player models]
-- Colored Fog* - CONFIRMED WORKS [host setting synced with clients]
-- Post Processing - CONFIRMED WORKS
+- Feature List          - WORKS SP 
+- Objective ESP&        - WORKS SP 
+- Optional ESP&         - WORKS SP 
+- Valuable ESP&         - WORKS SP 
+- Tool ESP&             - [needs confirmation on that specific quest thing]
+- Player Glow           - WORKS SP
+- Equipped Tool Glow    - WORKS SP
+- Active Glow           - WORKS SP [check for active bodies attached to player models]
+- Colored Fog*          - WORKS SP 
+- Post Processing       - WORKS SP 
 
 ### Player:
-- Speed - borked [uses SetPlayerVelocity] [possible mp workaround SetPlayerParam("walkingSpeed", speed, playerID) "This value is applied for 1 frame!"]
-- Spider - borked [uses SetPlayerVelocity] 
-- Bunnyhop - works in singleplayer | jumps trigger when holding space in tearware menu (only for host) | borked in multiplayer [uses SetPlayerVelocity]
-- Fly - CONFIRMED WORKS [check if param disableInteract affects collisions, if not, check collisionmask - for noclip]
-- Floor Strafe - works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction. [uses SetPlayerVelocity]
-- Jetpack - borked [uses SetPlayerVelocity]
-- Jesus - borked [uses SetPlayerVelocity]
-- Quickstop - borked [uses SetPlayerVelocity]
-- Infinite Ammo - borked, only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only.
-- Super Strength - borked [should be possible. ReleasePlayerGrab being serverside only makes it annoying to port.]
-- Godmode - CONFIRMED WORKS
-- No-fall@ - Works only in singleplayer, due to velocity/ground-velocity being applied inconcistently in multiplayer [also still the functions aren't called]
-- Anti-Aim - WORKS! Minor issue: if AA selected and player connects, it's broken, and needs to be re-enabled. (Some stupid race condition due to caching)
-- Anti-Aim Resolver^ - WORKS! Minor issue if player connects and host already antiaims. (Some stupid race condition due to caching)
+- Speed                 - WORKS SP 
+- Spider                - [borked cfg v2] [borked multiplayer = SetPlayerVelocity] 
+- Bunnyhop              - [borked cfg v2] [borked multiplayer = SetPlayerVelocity] [no menu input check, jumps trigger in menu]
+- Fly                   - [borked cfg v2] [add checkbox for disabling collisionmask / noclip]
+- Floor Strafe          - [borked cfg v2] [borked multiplayer = SetPlayerGroundVelocity] works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction.
+- Jetpack               - [borked cfg v2] [borked multiplayer = SetPlayerVelocity]
+- Jesus                 - [borked cfg v2] [borked multiplayer = SetPlayerVelocity]
+- Quickstop             - [borked cfg v2] [borked multiplayer = SetPlayerVelocity]
+- Infinite Ammo         - [borked cfg v2] in mp only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only. [is there a way to check if ammo synced between players?]
+- Super Strength        - [borked cfg v2] [should be possible. ReleasePlayerGrab being serverside only makes it annoying to port, but the logic itself.. should be fine?]
+- Godmode               - [borked cfg v2]
+- No-fall@              - [borked cfg v2] [add missing function call] [borked multiplayer = SetPlayerGroundVelocity]
+- Anti-Aim              - WORKS SP [add back sending resolver data]
+- Anti-Aim Resolver^    - [borked cfg v2] [explicit request resolver data every 15 seconds as a race condition workaround]
 
 ### World:
-- Slowmotion* - CONFIRMED WORKS
-- Skip Objective&* - CONFIRMED WORKS
-- Disable Alarm&* - AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
-- Disable Robots* - UNTESTED [should work]
-- Disable Physics* - CONFIRMED WORKS
-- Force Update Physics* - CONFIRMED WORKS
-- Teleport Valuables&* - SEMI-WORKS (needs testing, might need to setActive false on clients when returning the items.)
-- Unfair Valuables&* - UNTESTED [should work] (IIRC, if client picks up the valuable it doesn't, not sure while writing this. needs testing.)
+- Slowmotion*           - [borked cfg v2]
+- Skip Objective&*      - [borked cfg v2]
+- Disable Alarm&*       - [borked cfg v2] AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
+- Disable Robots*       - [borked cfg v2]
+- Disable Physics*      - [borked cfg v2]
+- Force Update Physics* - [borked cfg v2]
+- Teleport Valuables&*  - [borked cfg v2] (needs testing, might need to setActive false on clients when returning the items.)
+- Unfair Valuables&*    - [borked cfg v2] (IIRC, if client picks up the valuable it doesn't, not sure while writing this. needs testing.)
 
 ### Tools:
-- Structure Restorer* - Needs testing in multiplayer to verify sync on objects returning to inactive state.
-- Rubberband - CONFIRMED WORKS
-- Teleport - CONFIRMED WORKS
-- Explosion Brush - borked [should be possible]
-- Fire Brush - borked [should be possible]
-- Unlock Guns&* - to implement, unlock all weapons in campaign. 
+- Structure Restorer*   - [borked cfg v2] [borked have to set body inactive on clientside]
+- Rubberband            - [borked cfg v2]
+- Teleport              - [borked cfg v2]
+- Explosion Brush       - [borked cfg v2]
+- Fire Brush            - [borked cfg v2]
+- Unlock Guns&*         - to implement, unlock all weapons in campaign. 
 
 ### Miscellaneous:
 - Registry Explorer
@@ -98,34 +98,6 @@ It creates a release folder containing the packaged code.
 
 ## Multiplayer debug session / found issues / todos:
 1. OPTIMIZATION OF THE MULTIPLAYER STACK ON THE CLIENTSIDE,  
-Doing this garbage for every feature is extremely stupid:
-```
-    local cfgVar = fSpeed
-    local enabled = config_GetLocalFeatureState(cfgVar)
-    local currentSettings = nil 
-
-    if enabled then 
-        currentSettings =
-        { 
-            baseSpeed = config_GetSubVar(GetFloat,cfgVar, fSubSpeed),
-            boostSpeed = config_GetSubVar(GetFloat,cfgVar, fSubBoost)
-        }
-    end
-
-    if utils_tableCompare(currentSettings, clientGetSyncedSetting(cfgVar)) then 
-        return
-    end
-
-    clientScreamAtServerPolitely(cfgVar, currentSetting
-```
-We need to intercept config value changes and only then send update to the server, rather than constantly checking on the client if a value was changed.  
-Current system prioritizes reducing bandwidth by doing useless and naive calculations on the clientside.  
-(Which was fine as a testing placeholder btw.)   
-We already use wrappers for most of this stuff, so it should be straightforward to add.  
-So, expand config_UpdateAllFeatureStates, to forward the feature changes to appropriate functions.  
-OR, make it proper and forward changes directly to the server.  
-Keybinds can only toggle the feature on/off, so it should be only few lines of code to forward the state.  
-
 
 1. Sync menu open state, so old helper functions for InputDown being false while in menu work again.  
 Currently features like bunnyhop trigger while in menu.  
