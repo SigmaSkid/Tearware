@@ -824,8 +824,11 @@ legacyMenu_SubSettingSlider = function(var, sub, min, max, size)
 
         UiColor(1,1,1,1)
         local value = config_GetSubVar(GetFloat,var, sub)
+        local oldval = value
         value = legacyMenu_optionsSlider(value, min, max, size)
-        config_SetSubVar(SetFloat,var, sub, value)
+        if math.abs(value - oldval) > 0.01 then
+            config_SetSubVar(SetFloat, var, sub, value)
+        end
     UiPop()
     UiTranslate(0, 40)
 end
@@ -848,8 +851,11 @@ legacyMenu_SubSettingSliderInt = function(var, sub, min, max, size)
 
         UiColor(1,1,1,1)
         local value = config_GetSubVar(GetInt,var, sub)
+        local oldval = value
         value = legacyMenu_optionsSliderInt(value, min, max, size)
-        config_SetSubVar(SetInt,var, sub, value)
+        if value ~= oldval then
+            config_SetSubVar(SetInt, var, sub, value)
+        end
     UiPop()
     UiTranslate(0, 40)
 end

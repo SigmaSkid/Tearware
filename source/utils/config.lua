@@ -148,7 +148,7 @@ end
 -- and the one exception (fog) is host only and networked by the game.
 config_SetColor = function(var, color)
     local pre = config_getKey(var)
-    DebugPrint(pre .. colorSuffix[5])
+    -- DebugPrint(pre .. colorSuffix[5])
     SetBool(pre .. colorSuffix[5], color.rainbow)
     SetFloat(pre .. colorSuffix[4], color.alpha)
     if color.rainbow then 
