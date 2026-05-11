@@ -39,8 +39,8 @@ Remove the shortcut by assigning the "enter" key.
 
 ### World:
 - Slowmotion*           - WORKS SP
-- Skip Objective&*      - [borked cfg v2]
-- Disable Alarm&*       - [borked cfg v2] AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
+- Skip Objective&*      - WORKS SP
+- Disable Alarm&*       - AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
 - Disable Robots*       - [borked cfg v2]
 - Disable Physics*      - WORKS SP
 - Force Update Physics* - WORKS SP
@@ -147,9 +147,6 @@ Old configs are not compatible.
 I recommend resetting your config to get rid of ghost values if you used previous version of the mod on your current save file.  
 Not doing so, won't break anything, but it'll keep the obsolete data.  
 
-Rainbow color modifier can now be disabled. 
-Thanks [Gunbot](https://steamcommunity.com/profiles/76561198428363041)
-
 New features:  
 Anti-Aim
 Anti-Aim Resolver
@@ -158,6 +155,13 @@ No-Fall
 
 Merged features:  
 Fly combined with noclip, using the built-in player fly mode.  
+
+
+Fixes:
+Disable Alarm causing Fire Alarm audio loop.
+
+Rainbow color modifier can now be disabled. 
+Thanks [Gunbot](https://steamcommunity.com/profiles/76561198428363041)
 
 
 
