@@ -30,7 +30,7 @@ fGodmode = { legacyName = "Godmode", configString = "godmode"}
 fNoFall = { legacyName = "No-Fall", configString = "nofall"}
 
 -- world
-fBulletTime = { legacyName = "Slowmotion", configString = "timer", hostOnly=true}
+fBulletTime = { legacyName = "Timescale", configString = "timer", hostOnly=true}
 fSkipObjective = { legacyName = "Skip Objective", configString = "skipobjective", hostOnly=true, campaignOnly=true}
 fDisableAlarm = { legacyName = "Disable Alarm", configString = "disablealarm", hostOnly=true, campaignOnly=true}
 fDisableRobots = { legacyName = "Disable Robots", configString = "disablerobots", hostOnly=true}

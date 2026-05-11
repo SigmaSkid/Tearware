@@ -238,7 +238,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 if isLocalPlayerTheHost then 
                     legacyMenu_Checkbox(fBulletTime)
                     if legacyMenu_FunnySubmenuBegin(fBulletTime, 120, 60) then 
-                        legacyMenu_SubSettingSlider(fBulletTime, fSubScale, 10, 100)
+                        legacyMenu_SubSettingSlider(fBulletTime, fSubScale, 0, 200)
                         UiPop()
                     end
 

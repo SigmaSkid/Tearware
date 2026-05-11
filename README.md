@@ -33,12 +33,12 @@ Remove the shortcut by assigning the "enter" key.
 - Infinite Ammo         - [borked cfg v2] in mp only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only. [is there a way to check if ammo synced between players?]
 - Super Strength        - [borked cfg v2] [should be possible. ReleasePlayerGrab being serverside only makes it annoying to port, but the logic itself.. should be fine?]
 - Godmode               - WORKS SP
-- No-fall@              - WORKS SP [borked multiplayer = SetPlayerGroundVelocity]
+- No-fall               - WORKS SP [borked multiplayer = SetPlayerGroundVelocity]
 - Anti-Aim              - WORKS SP [add back sending resolver data]
 - Anti-Aim Resolver^    - [borked cfg v2] [explicit request resolver data every 15 seconds as a race condition workaround]
 
 ### World:
-- Slowmotion*           - WORKS SP
+- Timescale*           - WORKS SP
 - Skip Objective&*      - WORKS SP
 - Disable Alarm&*       - AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
 - Disable Robots*       - [needs confirmation on that specific campaign mission]
@@ -147,6 +147,7 @@ Old configs are not compatible.
 I recommend resetting your config to get rid of ghost values if you used previous version of the mod on your current save file.  
 Not doing so, won't break anything, but it'll keep the obsolete data.  
 
+
 New features:  
 Anti-Aim
 Anti-Aim Resolver
@@ -163,6 +164,7 @@ Disable Alarm causing Fire Alarm audio loop.
 Rainbow color modifier can now be disabled. 
 Thanks [Gunbot](https://steamcommunity.com/profiles/76561198428363041)
 
-
+Misc:
+Slowmotion renamed to Timescale.
 
 
