@@ -1,6 +1,5 @@
 -- player
 #include "features/player/infiniteammo.lua"
-#include "features/player/godmode.lua"
 #include "features/player/floorstrafe.lua"
 #include "features/player/bunnyhop.lua"
 #include "features/player/quickstop.lua"

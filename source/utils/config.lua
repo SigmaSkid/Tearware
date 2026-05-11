@@ -83,7 +83,6 @@ config_ToggleFeature = function(var)
     local val = not GetBool(key)
     SetBool(key, val)
 
-    -- featurelistForceCacheUpdate = true
     featureListToggleSingle(var, val)
 
     -- forward change to server 
@@ -203,7 +202,7 @@ config_GenerateConfig = function()
     -- 
     config_DefineVar(SetFloat, fMenuX, 0.5)
     config_DefineVar(SetFloat, fMenuY, 0.5)
-    config_DefineVar(SetBool, fInputLock, 0.5)
+    config_DefineVar(SetBool, fInputLock, false)
 
     -- visuals
     config_DefineFeature(fWatermark, true)
@@ -279,7 +278,7 @@ config_GenerateConfig = function()
     config_DefineFeature(fExplosionBrush, false)
         config_DefineSubVar(SetFloat, fExplosionBrush, fSubSize, 1)
     config_DefineFeature(fFireBrush, false)
-
+    
     visuals_sortFeatureList()
 end
 

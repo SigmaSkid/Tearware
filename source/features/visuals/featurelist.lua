@@ -28,14 +28,15 @@ end
 function insertSorted(feature)
     local e = {str = feature.legacyName, width = feature.visibleWidth}
     for i = 1, #featureListCache do
-        if e.width > featureListCache[i].width then
+        local z = featureListCache[i]
+        if e.width > z.width then
             table.insert(featureListCache, i, e)
             return
         end
     end
 
     DebugPrint("Feature couldn't be sorted on insert? " .. feature.legacyName)
-    table.insert(featureListCache, feature.legacyName)
+    table.insert(featureListCache, e)
 end
 
 function removeFeatureFromCache(feature)

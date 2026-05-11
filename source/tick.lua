@@ -4,7 +4,6 @@
 #include "features/player/jesus.lua"
 #include "features/player/floorstrafe.lua"
 #include "features/player/jetpack.lua"
-#include "features/player/fly.lua"
 #include "features/player/superstrength.lua"
 #include "features/player/antiaim.lua"
 

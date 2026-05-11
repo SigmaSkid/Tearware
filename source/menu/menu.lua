@@ -28,8 +28,9 @@ for i = 1, 23 do
         radius = math.random(40, 100),
         alpha = math.random(20, 80) / 100,
         rotation = math.random(0, 360),
-        speedRotation = math.random(10, 100),
-        speedRadius = math.random(10, 25)
+        speedRotation = math.random(10, 200),
+        speedRadius = math.random(10, 25),
+        speedAlpha = math.random(5, 30)/100
     }
 end
 
@@ -46,12 +47,20 @@ function menu_DrawBackgroundParticles(rgb, dt)
         
         dot.rotation = dot.rotation + dot.speedRotation * dt
 
-        -- pulse
+        -- size pulse
         dot.radius = dot.radius + dot.speedRadius * dt
         if dot.radius > 100 then
             dot.speedRadius = -math.abs(dot.speedRadius)
         elseif dot.radius < 40 then 
             dot.speedRadius = math.abs(dot.speedRadius)
+        end
+
+        -- alpha pulse
+        dot.alpha = dot.alpha + dot.speedAlpha * dt
+        if dot.alpha >= 1 then 
+            dot.speedAlpha = -math.abs(dot.speedAlpha)
+        elseif dot.alpha <= 0 then
+            dot.speedAlpha = math.abs(dot.speedAlpha)
         end
 
         UiPush()

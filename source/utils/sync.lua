@@ -18,6 +18,8 @@ server.updateServerConfig = function(playerID, UUID, setting, value)
 
     -- if string starts with savegame.mod.antiaim -> send new resolver data to all players.
     -- if param based feature [fly/godmode] just set the param.
+    server.handleParamFeatures(playerID, setting, value)
+
 end
 
 server.requestServerConfig = function(playerID, UUID)
@@ -63,4 +65,13 @@ server.getPlayerConfigValue = function(playerID, key)
 
     -- server doesn't have this var yet, request current value.
     return nil
+end
+
+server.handleParamFeatures = function(playerID, setting, value)
+    -- DebugPrint("Setting: " .. setting)
+    if setting == cfgstr .. fGodmode.configString then 
+        SetPlayerParam("godmode", value, playerID)
+    elseif setting == cfgstr .. fFly.configString then 
+        SetPlayerParam("flymode", value, playerID)
+    end
 end

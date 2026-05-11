@@ -25,14 +25,14 @@ Remove the shortcut by assigning the "enter" key.
 - Speed                 - WORKS SP 
 - Spider                - [borked cfg v2] [borked multiplayer = SetPlayerVelocity] 
 - Bunnyhop              - [borked cfg v2] [borked multiplayer = SetPlayerVelocity] [no menu input check, jumps trigger in menu]
-- Fly                   - [borked cfg v2] [add checkbox for disabling collisionmask / noclip]
+- Fly                   - WORKS SP
 - Floor Strafe          - [borked cfg v2] [borked multiplayer = SetPlayerGroundVelocity] works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction.
 - Jetpack               - [borked cfg v2] [borked multiplayer = SetPlayerVelocity]
 - Jesus                 - [borked cfg v2] [borked multiplayer = SetPlayerVelocity]
 - Quickstop             - WORKS SP
 - Infinite Ammo         - [borked cfg v2] in mp only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only. [is there a way to check if ammo synced between players?]
 - Super Strength        - [borked cfg v2] [should be possible. ReleasePlayerGrab being serverside only makes it annoying to port, but the logic itself.. should be fine?]
-- Godmode               - [borked cfg v2]
+- Godmode               - WORKS SP
 - No-fall@              - [borked cfg v2] [add missing function call] [borked multiplayer = SetPlayerGroundVelocity]
 - Anti-Aim              - WORKS SP [add back sending resolver data]
 - Anti-Aim Resolver^    - [borked cfg v2] [explicit request resolver data every 15 seconds as a race condition workaround]
