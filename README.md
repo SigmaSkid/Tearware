@@ -14,7 +14,7 @@ Remove the shortcut by assigning the "enter" key.
 - Objective ESP&        - WORKS SP 
 - Optional ESP&         - WORKS SP 
 - Valuable ESP&         - WORKS SP 
-- Tool ESP&             - [needs confirmation on that specific quest thing]
+- Tool ESP&             - [needs confirmation on that specific campaign mission]
 - Player Glow           - WORKS SP
 - Equipped Tool Glow    - WORKS SP
 - Active Glow           - WORKS SP [check for active bodies attached to player models]
@@ -26,14 +26,14 @@ Remove the shortcut by assigning the "enter" key.
 - Spider                - [borked cfg v2] [borked multiplayer = SetPlayerVelocity] 
 - Bunnyhop              - [borked cfg v2] [borked multiplayer = SetPlayerVelocity] [no menu input check, jumps trigger in menu]
 - Fly                   - WORKS SP
-- Floor Strafe          - [borked cfg v2] [borked multiplayer = SetPlayerGroundVelocity] works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction.
+- Floor Strafe          - WORKS SP [borked multiplayer = SetPlayerGroundVelocity] works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction.
 - Jetpack               - [borked cfg v2] [borked multiplayer = SetPlayerVelocity]
 - Jesus                 - [borked cfg v2] [borked multiplayer = SetPlayerVelocity]
 - Quickstop             - WORKS SP
 - Infinite Ammo         - [borked cfg v2] in mp only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only. [is there a way to check if ammo synced between players?]
 - Super Strength        - [borked cfg v2] [should be possible. ReleasePlayerGrab being serverside only makes it annoying to port, but the logic itself.. should be fine?]
 - Godmode               - WORKS SP
-- No-fall@              - [borked cfg v2] [add missing function call] [borked multiplayer = SetPlayerGroundVelocity]
+- No-fall@              - WORKS SP [borked multiplayer = SetPlayerGroundVelocity]
 - Anti-Aim              - WORKS SP [add back sending resolver data]
 - Anti-Aim Resolver^    - [borked cfg v2] [explicit request resolver data every 15 seconds as a race condition workaround]
 
@@ -41,7 +41,7 @@ Remove the shortcut by assigning the "enter" key.
 - Slowmotion*           - WORKS SP
 - Skip Objective&*      - WORKS SP
 - Disable Alarm&*       - AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
-- Disable Robots*       - [borked cfg v2]
+- Disable Robots*       - [needs confirmation on that specific campaign mission]
 - Disable Physics*      - WORKS SP
 - Force Update Physics* - WORKS SP
 - Teleport Valuables&*  - WORKS SP (needs MP testing, might need to setActive false on clients when returning the items.)

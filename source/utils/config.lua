@@ -244,6 +244,7 @@ config_GenerateConfig = function()
     config_DefineFeature(fInfiniteAmmo, false)
     config_DefineFeature(fSuperStrength, false)
     config_DefineFeature(fGodmode, false)
+    config_DefineFeature(fNoFall, false)
 
     -- antiaim
     config_DefineFeature(fResolver, false)
@@ -278,7 +279,7 @@ config_GenerateConfig = function()
     config_DefineFeature(fExplosionBrush, false)
         config_DefineSubVar(SetFloat, fExplosionBrush, fSubSize, 1)
     config_DefineFeature(fFireBrush, false)
-    
+
     visuals_sortFeatureList()
 end
 

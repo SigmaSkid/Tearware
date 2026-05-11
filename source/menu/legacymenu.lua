@@ -197,6 +197,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                 legacyMenu_Checkbox(fInfiniteAmmo)
                 legacyMenu_Checkbox(fSuperStrength)
                 legacyMenu_Checkbox(fGodmode)
+                legacyMenu_Checkbox(fNoFall)
 
                 legacyMenu_Checkbox(fAntiAim)
                 if legacyMenu_FunnySubmenuBegin(fAntiAim, 200, 350) then 

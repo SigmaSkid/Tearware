@@ -1,6 +1,7 @@
 -- player
 #include "features/player/infiniteammo.lua"
 #include "features/player/floorstrafe.lua"
+#include "features/player/nofall.lua"
 #include "features/player/bunnyhop.lua"
 #include "features/player/quickstop.lua"
 
@@ -33,7 +34,6 @@ function playerServerPostUpdate(playerID, dt)
     server.playerAntiAim(playerID, dt)
     server.ToolsTeleport(playerID, dt)
     server.ToolsRubberband(playerID)
-    server.playerFloorstrafe(playerID)
     server.playerBunnyhop(playerID, dt)
     server.playerQuickstop(playerID)
 end
@@ -45,6 +45,8 @@ function playerServerUpdate(playerID, dt)
     end
 
     server.playerSpeedhack(playerID)
+    server.playerFloorstrafe(playerID)
+    server.playerNofall(playerID)
 end
 
 

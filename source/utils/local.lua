@@ -27,6 +27,7 @@ fQuickstop = { legacyName = "Quickstop", configString = "quickstop"}
 fInfiniteAmmo = { legacyName = "Infinite Ammo", configString = "infiniteammo", hostOnly=true}
 fSuperStrength = { legacyName = "Super Strength", configString = "superstrength"}
 fGodmode = { legacyName = "Godmode", configString = "godmode"}
+fNoFall = { legacyName = "No-Fall", configString = "nofall"}
 
 -- world
 fBulletTime = { legacyName = "Slowmotion", configString = "timer", hostOnly=true}
