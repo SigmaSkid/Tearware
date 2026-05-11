@@ -6,7 +6,8 @@ server.playerSpeedhack = function(playerID)
     if not enabled then return nil end
 
     local targetSpeed = server.getPlayerConfigValue(playerID, config_getSubKey(fSpeed, fSubSpeed))
-    if InputDown("shift", playerID) then
+    
+    if server.utils_Input(InputDown, "shift", playerID) then
         targetSpeed = server.getPlayerConfigValue(playerID, config_getSubKey(fSpeed, fSubBoost))
     end
 

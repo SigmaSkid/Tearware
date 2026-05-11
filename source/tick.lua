@@ -1,6 +1,4 @@
 -- player
-#include "features/player/spider.lua"
-#include "features/player/speedhack.lua"
 #include "features/player/jesus.lua"
 #include "features/player/floorstrafe.lua"
 #include "features/player/jetpack.lua"

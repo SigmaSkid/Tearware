@@ -23,7 +23,7 @@ Remove the shortcut by assigning the "enter" key.
 
 ### Player:
 - Speed                 - WORKS SP 
-- Spider                - [borked cfg v2] [borked multiplayer = SetPlayerVelocity] 
+- Spider                - WORKS SP [borked multiplayer = SetPlayerVelocity] 
 - Bunnyhop              - [borked cfg v2] [borked multiplayer = SetPlayerVelocity] [no menu input check, jumps trigger in menu]
 - Fly                   - WORKS SP
 - Floor Strafe          - WORKS SP [borked multiplayer = SetPlayerGroundVelocity] works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction.
@@ -38,7 +38,7 @@ Remove the shortcut by assigning the "enter" key.
 - Anti-Aim Resolver^    - [borked cfg v2] [explicit request resolver data every 15 seconds as a race condition workaround]
 
 ### World:
-- Timescale*           - WORKS SP
+- Timescale*            - WORKS SP
 - Skip Objective&*      - WORKS SP
 - Disable Alarm&*       - AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
 - Disable Robots*       - [needs confirmation on that specific campaign mission]
@@ -48,7 +48,7 @@ Remove the shortcut by assigning the "enter" key.
 - Unfair Valuables&*    - WORKS SP
 
 ### Tools:
-- Structure Restorer*   - [borked cfg v2] [borked have to set body inactive on clientside]
+- Structure Restorer*   - WORKS SP [borked mp, have to set body inactive on clientside]
 - Rubberband            - WORKS SP 
 - Teleport              - WORKS SP 
 - Explosion Brush       - [borked cfg v2]

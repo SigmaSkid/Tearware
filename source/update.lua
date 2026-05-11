@@ -4,6 +4,8 @@
 #include "features/player/nofall.lua"
 #include "features/player/bunnyhop.lua"
 #include "features/player/quickstop.lua"
+#include "features/player/spider.lua"
+#include "features/player/speedhack.lua"
 
 -- world
 #include "features/world/destroyeconomy.lua"
@@ -47,6 +49,7 @@ function playerServerUpdate(playerID, dt)
     server.playerSpeedhack(playerID)
     server.playerFloorstrafe(playerID)
     server.playerNofall(playerID)
+    server.playerSpider(playerID)
 end
 
 
