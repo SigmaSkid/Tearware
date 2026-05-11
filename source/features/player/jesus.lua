@@ -1,61 +1,30 @@
-player_Jesus = function()
-	if not config_GetLocalFeatureState(fJesus) then
-        return
-    end
-    local transform = GetPlayerTransform()
+server.playerJesus = function(playerID)
+    local e = syncedPlayerSetting[playerID]
+    if not e then return nil end
+
+    local enabled = server.getPlayerConfigValue(playerID, config_getKey(fJesus))
+    if not enabled then return nil end
+
+    local transform = GetPlayerTransform(playerID)
     local inWater, depth = IsPointInWater(transform.pos)
 
     if not inWater then 
         return 
     end
 
-    local velocity = GetPlayerVelocity()
+    local velocity = GetPlayerVelocity(playerID)
     
-    if utils_TWInputDown("jump") then 
+    if server.utils_Input(InputDown, "jump", playerID) then
         velocity[2] = 5
     else
         velocity[2] = utils_Clamp(depth*20, 0, 6)
     end
 
-    SetPlayerVelocity(velocity)
-end
-
-
--- client
-client_playerJesus = function()
-
-    local cfgVar = fJesus
-    local enabled = config_GetLocalFeatureState(cfgVar)
-    local currentSettings = nil 
-
-    if enabled then 
-        currentSettings = true
-    end
-
-    if utils_tableCompare(currentSettings, clientGetSyncedSetting(cfgVar)) then 
-        return
-    end
-
-    clientScreamAtServerPolitely(cfgVar, currentSettings)
-    clientSetSyncedSetting(cfgVar, currentSettings)
-end
-
--- server
-server.playerJesus = function(playerID)
-    local entry = serverGetPlayerConfigValues(playerID, fJesus)
-
-    if entry ~= true then return end
-
-    local velocity = GetPlayerVelocity(playerID)
-    
-    velocity[2] = utils_Clamp(depth*20, 0, 6)
-    
-    --[[ 
-    borked, need to sync menu open state.
-    if utils_TWInputDown("jump") then 
-        velocity[2] = 5
-    else
-    ]]
-    
     SetPlayerVelocity(velocity, playerID)
+
+    --[[
+        We could use SetAnimatorPositionIK to do inverse kinematics to make it look like the player
+        is standing on the water, rather than floating..
+        BUT we would have to do that on every client.
+    ]]
 end

@@ -1,10 +1,3 @@
--- player
-#include "features/player/jesus.lua"
-#include "features/player/floorstrafe.lua"
-#include "features/player/jetpack.lua"
-#include "features/player/superstrength.lua"
-#include "features/player/antiaim.lua"
-
 -- world
 #include "features/world/timer.lua"
 #include "features/world/forceupdateallbodies.lua"

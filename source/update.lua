@@ -6,6 +6,10 @@
 #include "features/player/quickstop.lua"
 #include "features/player/spider.lua"
 #include "features/player/speedhack.lua"
+#include "features/player/jesus.lua"
+#include "features/player/jetpack.lua"
+#include "features/player/superstrength.lua"
+#include "features/player/antiaim.lua"
 
 -- world
 #include "features/world/destroyeconomy.lua"
@@ -37,6 +41,7 @@ function playerServerPostUpdate(playerID, dt)
     server.ToolsTeleport(playerID, dt)
     server.ToolsRubberband(playerID)
     server.playerBunnyhop(playerID, dt)
+    server.playerJesus(playerID)
     server.playerQuickstop(playerID)
 end
 
