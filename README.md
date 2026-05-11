@@ -14,10 +14,10 @@ Remove the shortcut by assigning the "enter" key.
 - Objective ESP&        - WORKS SP 
 - Optional ESP&         - WORKS SP 
 - Valuable ESP&         - WORKS SP 
-- Tool ESP&             - [needs confirmation on that specific campaign mission]
+- Tool ESP&             - WORKS SP
 - Player Glow           - WORKS SP
 - Equipped Tool Glow    - WORKS SP
-- Active Glow           - WORKS SP [check for active bodies attached to player models]
+- Active Glow           - WORKS SP
 - Colored Fog*          - WORKS SP 
 - Post Processing       - WORKS SP 
 
@@ -40,8 +40,8 @@ Remove the shortcut by assigning the "enter" key.
 ### World:
 - Timescale*            - WORKS SP
 - Skip Objective&*      - WORKS SP
-- Disable Alarm&*       - AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
-- Disable Robots*       - [needs confirmation on that specific campaign mission]
+- Disable Alarm&*       - WORKS SP
+- Disable Robots*       - WORKS SP
 - Disable Physics*      - WORKS SP
 - Force Update Physics* - WORKS SP
 - Teleport Valuables&*  - WORKS SP
