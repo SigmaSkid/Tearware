@@ -1,6 +1,6 @@
 client.utils_IsDirectionalInput = function()
     local lockInputs = config_GetVar(GetBool, fInputLock)
-    if lockInputs ~= nil then 
+    if lockInputs then 
         return false 
     end
 
@@ -23,7 +23,7 @@ end
 
 client.utils_Input = function(InputFunction, input)
     local lockInputs = config_GetVar(GetBool, fInputLock)
-    if lockInputs ~= nil then 
+    if lockInputs then 
         return false 
     end
 
@@ -52,16 +52,20 @@ end
 
 -- returns direction[vec3] and camera[table]
 -- ex. local direction, camera = GetForwardDirection()
-utils_GetForwardDirection = function()
-	local camera = GetCameraTransform() -- why is this client only btw
+utils_GetForwardDirection = function(playerID)
+    playerID = playerID or 0
+    
+	local camera = GetPlayerEyeTransform(playerID)
 	local parentpoint = TransformToParentPoint(camera, Vec(0, 0, 1))
     return VecNormalize(VecSub(camera.pos, parentpoint)), camera
 end
 
 -- returns ray hit[vec3]
 -- ex. local endpos = GetPosWeAreLookingAt()
-utils_GetPosWeAreLookingAt = function()
-    local direction, camera = utils_GetForwardDirection() 
+utils_GetPosWeAreLookingAt = function(playerID)
+    playerID = playerID or 0
+    
+    local direction, camera = utils_GetForwardDirection(playerID) 
     local hit, dist = QueryRaycast(camera.pos, direction, 666)
     if hit then 
         return TransformToParentPoint(camera, Vec(0, 0, -dist))
@@ -71,8 +75,10 @@ end
 
 -- returns body[handle] and distance[float]
 -- ex. local body, dist = GetObjectWeAreLookingAt()
-utils_GetObjectWeAreLookingAt = function()
-    local direction, camera = utils_GetForwardDirection() 
+utils_GetObjectWeAreLookingAt = function(playerID)
+    playerID = playerID or 0
+
+    local direction, camera = utils_GetForwardDirection(playerID) 
     local hit, dist, normal, shape = QueryRaycast(camera.pos, direction, 666)
 
     if hit then 

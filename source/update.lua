@@ -21,6 +21,8 @@
 -- tools
 #include "features/tools/rubberband.lua"
 #include "features/tools/structurerestorer.lua"
+#include "features/tools/explosionbrush.lua"
+#include "features/tools/firebrush.lua"
 
 -- visuals
 #include "features/visuals/resolver.lua"
@@ -37,6 +39,11 @@ function playerServerPostUpdate(playerID, dt)
         return 
     end
 
+    if GetPlayerVehicle(playerID) ~= 0 then
+        -- in vehicle
+        return
+    end
+    
     server.playerAntiAim(playerID, dt)
     server.ToolsTeleport(playerID, dt)
     server.ToolsRubberband(playerID)
@@ -45,12 +52,20 @@ function playerServerPostUpdate(playerID, dt)
     server.playerJetpack(playerID, dt)
     server.playerQuickstop(playerID)
     server.playerInfiniteAmmo(playerID)
+    server.playerSuperStrength(playerID)
+    server.toolsFireBrush(playerID)
+    server.toolsExplosionBrush(playerID)
 end
 
 -- physics?
 function playerServerUpdate(playerID, dt)
     if syncedPlayerSetting[playerID] == nil then
         return 
+    end
+
+    if GetPlayerVehicle(playerID) ~= 0 then
+        -- in vehicle
+        return
     end
 
     server.playerSpeedhack(playerID)

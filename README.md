@@ -26,12 +26,12 @@ Remove the shortcut by assigning the "enter" key.
 - Spider                - WORKS SP [borked multiplayer = SetPlayerVelocity] 
 - Bunnyhop              - WORKS SP [borked multiplayer = SetPlayerVelocity] [no menu input check, jumps trigger in menu]
 - Fly                   - WORKS SP
-- Floor Strafe          - WORKS SP [borked multiplayer = SetPlayerGroundVelocity] works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction.
+- Floor Strafe          - WORKS SP [borked multiplayer = SetPlayerGroundVelocity]
 - Jetpack               - WORKS SP [borked multiplayer = SetPlayerVelocity]
 - Jesus                 - WORKS SP [borked multiplayer = SetPlayerVelocity]
 - Quickstop             - WORKS SP
 - Infinite Ammo         - WORKS SP
-- Super Strength        - [borked cfg v2] [should be possible. ReleasePlayerGrab being serverside only makes it annoying to port, but the logic itself.. should be fine?]
+- Super Strength        - WORKS SP
 - Godmode               - WORKS SP
 - No-fall               - WORKS SP [borked multiplayer = SetPlayerGroundVelocity]
 - Anti-Aim              - WORKS SP [add back sending resolver data]
@@ -51,8 +51,8 @@ Remove the shortcut by assigning the "enter" key.
 - Structure Restorer*   - WORKS SP [borked mp, have to set body inactive on clientside]
 - Rubberband            - WORKS SP 
 - Teleport              - WORKS SP 
-- Explosion Brush       - [borked cfg v2]
-- Fire Brush            - [borked cfg v2]
+- Explosion Brush       - WORKS SP 
+- Fire Brush            - WORKS SP 
 
 ### Miscellaneous:
 - Registry Explorer

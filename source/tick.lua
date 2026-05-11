@@ -8,9 +8,11 @@
 #include "features/visuals/postprocessing.lua"
 
 -- tools
-#include "features/tools/explosionbrush.lua"
-#include "features/tools/firebrush.lua"
 #include "features/tools/teleport.lua"
+#include "features/tools/rubberband.lua"
+
+-- player
+#include "features/player/superstrength.lua"
 
 -- In teardown tick is called per frame.
 function client.tick(dt) 
@@ -38,11 +40,13 @@ function client.tick(dt)
         return
     end
 
+    -- player
+    client.playerSuperStrength()
+    --
+
     -- tools
     client_ToolsTeleport()
     client_ToolsRubberband()
-    -- tools_ExplosionBrush() -- still broken
-    -- tools_FireBrush() -- still broken
     -- 
 end
 
