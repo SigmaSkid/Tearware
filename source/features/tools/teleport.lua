@@ -21,7 +21,7 @@ server.teleportTarget = function(playerID, UUID, targetPos, delay)
 
     if not serverVerify(playerID, UUID) then return end
 
-    DebugPrint("server.teleportTarget " .. playerID .. "-" .. GetPlayerName(playerID) .. " delay: " .. delay)
+    -- DebugPrint("server.teleportTarget " .. playerID .. "-" .. GetPlayerName(playerID) .. " delay: " .. delay)
 
     playersTeleportTargets[playerID] = { startPos = GetPlayerTransform(playerID).pos, target = targetPos, delay = delay, timer = 0 }
 

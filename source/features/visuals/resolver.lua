@@ -50,7 +50,7 @@ server.forwardResolverData = function(playerID)
         pitch_amp    = server.getPlayerConfigValue(playerID, config_getSubKey(fAntiAim, fSubPitchAmp))
     }
 
-    DebugPrint("[server] forwardResolverData: " .. playerID)
+    -- DebugPrint("[server] forwardResolverData: " .. playerID)
 
     -- sent current AA settings to everyone.
     local players = GetAllPlayers()

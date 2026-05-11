@@ -72,7 +72,7 @@ server.mrServerIWantThisObjectPlease = function(playerID, UUID, object, dist)
     server.objectGrabTarget[playerID] = object
     server.objectGrabDist[playerID] = dist
 
-    DebugPrint("Player " .. playerID .. " grabbed object.")
+    -- DebugPrint("Player " .. playerID .. " grabbed object.")
 end
 
 server.playerSuperStrength = function(playerID)

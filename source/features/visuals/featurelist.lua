@@ -35,7 +35,7 @@ function insertSorted(feature)
         end
     end
 
-    DebugPrint("Feature couldn't be sorted on insert? " .. feature.legacyName)
+    -- DebugPrint("Feature couldn't be sorted on insert? " .. feature.legacyName)
     table.insert(featureListCache, e)
 end
 

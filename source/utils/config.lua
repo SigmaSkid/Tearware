@@ -311,7 +311,7 @@ config_screamEverySecretAtTheServer = function()
     local keys = utils_GrabAllSubKeys("savegame.mod")
     -- DebugWatch("Subkeys", #keys)
     if not keys then return end
-    DebugPrint("Telling the server our deepest secrets :3 All " .. #keys .. " of them.")
+    -- DebugPrint("Telling the server our deepest secrets :3 All " .. #keys .. " of them.")
 
     for i = 1, #keys do
         local key = keys[i]
@@ -341,7 +341,7 @@ config_screamEverySecretAtTheServer = function()
                 client.ScreamAtServerPolitely(key, val)
             end
         else
-            DebugPrint("config_screamEverySecretAtTheServer tried to iterate over invalid key. " .. key)
+            -- DebugPrint("config_screamEverySecretAtTheServer tried to iterate over invalid key. " .. key)
         end
     end
 end

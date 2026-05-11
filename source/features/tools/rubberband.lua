@@ -32,7 +32,7 @@ server.rubberbandTarget = function(playerID, UUID, transform)
 
     if not serverVerify(playerID, UUID) then return end
 
-    DebugPrint("server.rubberbandTarget " .. playerID .. "-" .. GetPlayerName(playerID))
+    -- DebugPrint("server.rubberbandTarget " .. playerID .. "-" .. GetPlayerName(playerID))
 
     playersRubberbandTargets[playerID] = { target = transform }
 end

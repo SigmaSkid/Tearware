@@ -7,7 +7,7 @@ server.updateServerConfig = function(playerID, UUID, setting, value)
         return 
     end
 
-    DebugPrint("server.updateServerConfig " .. playerID .. " " .. GetPlayerName(playerID) .. " " .. setting)
+    -- DebugPrint("server.updateServerConfig " .. playerID .. " " .. GetPlayerName(playerID) .. " " .. setting)
 
     -- register serverside config if not present yet.
     if syncedPlayerSetting[playerID] == nil then 
@@ -27,22 +27,21 @@ server.requestServerConfig = function(playerID, UUID)
         server.ImpolitelyReject(playerID, "request config")
         return 
     end
-    DebugPrint("server.requestServerConfig " .. playerID .. " " .. GetPlayerName(playerID))
+    -- DebugPrint("server.requestServerConfig " .. playerID .. " " .. GetPlayerName(playerID))
 
     ClientCall(playerID, "client.receiveServerConfig", syncedPlayerSetting[playerID])
 end
 
 client.receiveServerConfig = function(serverSideSettings)
-    DebugPrint("Received config from server: " .. utils_boolStr(serverSideSettings ~= nil))
+    -- DebugPrint("Received config from server: " .. utils_boolStr(serverSideSettings ~= nil))
 end
 
 client.ScreamAtServerPolitely = function(setting, value)
-    DebugPrint("Screaming at server " .. setting)
+    -- DebugPrint("Screaming at server " .. setting)
     ServerCall("server.updateServerConfig", GetLocalPlayer(), localUUID, setting, value)
 end
 
 server.ImpolitelyReject = function(playerID, setting)
-
     ClientCall(playerID, "client.handleRejection", setting)
 end
 
