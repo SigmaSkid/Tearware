@@ -5,7 +5,6 @@
 #include "features/player/floorstrafe.lua"
 #include "features/player/jetpack.lua"
 #include "features/player/fly.lua"
-#include "features/player/quickstop.lua"
 #include "features/player/superstrength.lua"
 #include "features/player/antiaim.lua"
 
@@ -30,7 +29,7 @@ function client.tick(dt)
     end
 
     if InputPressed("insert") then
-        if openMenu ~= nil then 
+        if openMenu ~= nil and openMenu ~= 0 then 
             openMenu = nil 
         else 
             openMenu = "tearware"

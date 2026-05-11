@@ -139,7 +139,6 @@ editingRegistrySearchString = false
 registryVisibleCache = {}
 registrySearchString = ""
 modifiedregistrySearchString = false
-lockInputs = false
 
 fonts = {}
 fonts.regular = "regular.ttf"

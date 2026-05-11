@@ -106,7 +106,7 @@ shared_applyAntiAim = function(playerID, entry)
 end
 
 -- server
-server_playerAntiAim = function(playerID, dt)
+server.playerAntiAim = function(playerID, dt)
     local e = syncedPlayerSetting[playerID]
     if not e then return nil end
 

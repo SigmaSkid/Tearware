@@ -29,7 +29,7 @@ Remove the shortcut by assigning the "enter" key.
 - Floor Strafe          - [borked cfg v2] [borked multiplayer = SetPlayerGroundVelocity] works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction.
 - Jetpack               - [borked cfg v2] [borked multiplayer = SetPlayerVelocity]
 - Jesus                 - [borked cfg v2] [borked multiplayer = SetPlayerVelocity]
-- Quickstop             - [borked cfg v2] [borked multiplayer = SetPlayerVelocity]
+- Quickstop             - WORKS SP
 - Infinite Ammo         - [borked cfg v2] in mp only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only. [is there a way to check if ammo synced between players?]
 - Super Strength        - [borked cfg v2] [should be possible. ReleasePlayerGrab being serverside only makes it annoying to port, but the logic itself.. should be fine?]
 - Godmode               - [borked cfg v2]
@@ -38,7 +38,7 @@ Remove the shortcut by assigning the "enter" key.
 - Anti-Aim Resolver^    - [borked cfg v2] [explicit request resolver data every 15 seconds as a race condition workaround]
 
 ### World:
-- Slowmotion*           - [borked cfg v2]
+- Slowmotion*           - WORKS SP
 - Skip Objective&*      - [borked cfg v2]
 - Disable Alarm&*       - [borked cfg v2] AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
 - Disable Robots*       - [borked cfg v2]
@@ -49,11 +49,10 @@ Remove the shortcut by assigning the "enter" key.
 
 ### Tools:
 - Structure Restorer*   - [borked cfg v2] [borked have to set body inactive on clientside]
-- Rubberband            - [borked cfg v2]
-- Teleport              - [borked cfg v2]
+- Rubberband            - WORKS SP 
+- Teleport              - WORKS SP 
 - Explosion Brush       - [borked cfg v2]
 - Fire Brush            - [borked cfg v2]
-- Unlock Guns&*         - to implement, unlock all weapons in campaign. 
 
 ### Miscellaneous:
 - Registry Explorer
@@ -139,6 +138,7 @@ call SetActive False on clients, likely needs to be done in update/post-update/t
 - Buy the DLCs and make sure the mod works correctly for them? [I really don't want to, but probably should]
 - Figure out what the hell that one guy in steam comments in 22 Apr, 2024 meant by "can you add one for the sidequest racing thing so i don't need to race too fast? i keep sliding in vehicles" (I might actually have to play the campaign.)
 - Implement long jump feature using "JumpSpeed" player parameter.
+- Unlock Guns&*         - to implement, unlock all weapons in campaign. 
 
 ## Final Patch notes, credits, etc for release when ready:
 Ported to support API V2 and Multi-Player.  

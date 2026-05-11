@@ -41,7 +41,7 @@ client_playerJesus = function()
 end
 
 -- server
-server_playerJesus = function(playerID)
+server.playerJesus = function(playerID)
     local entry = serverGetPlayerConfigValues(playerID, fJesus)
 
     if entry ~= true then return end

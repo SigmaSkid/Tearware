@@ -37,7 +37,7 @@ server.rubberbandTarget = function(playerID, UUID, transform)
     playersRubberbandTargets[playerID] = { target = transform }
 end
 
-server_ToolsRubberband = function(playerID, dt)
+server.ToolsRubberband = function(playerID, dt)
 
     local entry = playersRubberbandTargets[playerID]
     if entry == nil then return end

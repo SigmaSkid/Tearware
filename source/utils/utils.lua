@@ -1,8 +1,53 @@
--- returns whether any input is pressed[bool]
--- ex. if IsDirectionalInputDown then
-utils_IsDirectionalInputDown = function() 
-    if lockInputs then return false end
+client.utils_IsDirectionalInput = function()
+    local lockInputs = config_GetVar(GetBool, fInputLock)
+    if lockInputs ~= nil then 
+        return false 
+    end
+
     return InputDown("up") or InputDown("down") or InputDown("left") or InputDown("right")
+end
+
+server.utils_IsDirectionalInput = function(playerID)
+    local e = syncedPlayerSetting[playerID]
+    if not e then 
+        return false 
+    end
+
+    local lockInputs = server.getPlayerConfigValue(playerID, config_getKey(fInputLock))
+    if lockInputs then 
+        return false 
+    end
+
+    return InputDown("up", playerID) or InputDown("down", playerID) or InputDown("left", playerID) or InputDown("right", playerID)
+end
+
+client.utils_Input = function(InputFunction, input)
+    local lockInputs = config_GetVar(GetBool, fInputLock)
+    if lockInputs ~= nil then 
+        return false 
+    end
+
+    --[[
+        InputDown / InputPressed
+    ]]
+    return InputFunction(input)
+end
+
+server.utils_Input = function(InputFunction, input, playerID)
+    local e = syncedPlayerSetting[playerID]
+    if not e then 
+        return false 
+    end
+
+    local lockInputs = server.getPlayerConfigValue(playerID, config_getKey(fInputLock))
+    if lockInputs then 
+        return false 
+    end
+
+    --[[
+        InputDown / InputPressed
+    ]]
+    return InputFunction(input, playerID)
 end
 
 -- returns direction[vec3] and camera[table]
@@ -337,17 +382,6 @@ utils_tableCompare = function(A, B)
         end
     end
     return true
-end
-
-
-utils_TWInputDown = function(input)
-    if lockInputs ~= nil then return false end
-    return InputDown(input)
-end
-
-utils_TWInputPressed = function(input)
-    if lockInputs ~= nil then return false end
-    return InputPressed(input)
 end
 
 utils_GetLastInputBetter = function()

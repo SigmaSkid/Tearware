@@ -3,6 +3,7 @@
 #include "features/player/godmode.lua"
 #include "features/player/floorstrafe.lua"
 #include "features/player/bunnyhop.lua"
+#include "features/player/quickstop.lua"
 
 -- world
 #include "features/world/destroyeconomy.lua"
@@ -30,11 +31,12 @@ function playerServerPostUpdate(playerID, dt)
         return 
     end
 
-    server_playerAntiAim(playerID, dt)
-    server_ToolsTeleport(playerID, dt)
-    server_ToolsRubberband(playerID)
-    server_playerFloorstrafe(playerID)
-    server_playerBunnyhop(playerID, dt)
+    server.playerAntiAim(playerID, dt)
+    server.ToolsTeleport(playerID, dt)
+    server.ToolsRubberband(playerID)
+    server.playerFloorstrafe(playerID)
+    server.playerBunnyhop(playerID, dt)
+    server.playerQuickstop(playerID)
 end
 
 -- physics?

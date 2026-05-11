@@ -65,6 +65,7 @@ fRegistryTool = "Explore Registry"
 fEditorTool = "Editor"
 fMenuX = {configString = "MenuX" } 
 fMenuY = {configString = "MenuY" }
+fInputLock = {configString = "InputLock" }
 
 -- used for legacyMenu_SubSettingCycleList
 left_right_string_array = {"left", "right"}

@@ -182,6 +182,7 @@ end
 -- has to be done this way, because InputPressed
 -- is for some reason unreliable in update function
 config_UpdateAllFeatureStates = function()
+    local lockInputs = config_GetVar(GetBool, fInputLock)
     if lockInputs then return end
 
     local didSomethingUpdate = false
@@ -202,6 +203,7 @@ config_GenerateConfig = function()
     -- 
     config_DefineVar(SetFloat, fMenuX, 0.5)
     config_DefineVar(SetFloat, fMenuY, 0.5)
+    config_DefineVar(SetBool, fInputLock, 0.5)
 
     -- visuals
     config_DefineFeature(fWatermark, true)

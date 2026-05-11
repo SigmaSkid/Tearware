@@ -12,11 +12,23 @@ menu_UiDraw = function(dt)
         editingRegistrySearchString = false
         registryCache = {}
         registrySelectedKey.key = "nil"
-        lockInputs = false
+
+        config_SetVar(SetBool, fInputLock, false)
         inputStringCursorPos = nil
+        openMenu = 0
+        return
+    elseif openMenu == 0 then
+        --[[
+            we set to nil to reset the values.
+            I should probably at some point replace the string comparisons with an enum. 
+            But I'm assuming we're comparing string pointers, so it shouldn't be that bad.
+        ]]
         return
     end
-    lockInputs = true
+    
+    if not config_GetVar(GetBool, fInputLock) then 
+        config_SetVar(SetBool, fInputLock, true)
+    end
 
     UiPush()
         UiMakeInteractive()

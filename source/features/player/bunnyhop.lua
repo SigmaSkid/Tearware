@@ -1,5 +1,5 @@
 -- server
-server_playerBunnyhop = function(playerID, dt)
+server.playerBunnyhop = function(playerID, dt)
     --[[
     local entry = serverGetPlayerConfigValues(playerID, fBunnyhop)
     if entry ~= true then return end

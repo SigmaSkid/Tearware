@@ -18,7 +18,7 @@ client_playerNofall = function()
 end
 
 -- server
-server_playerNofall = function(playerID)
+server.playerNofall = function(playerID)
     local entry = serverGetPlayerConfigValues(playerID, fNoFall)
 
     if entry ~= true then return end

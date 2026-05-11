@@ -1,5 +1,5 @@
 -- server
-server_playerFloorstrafe = function(playerID)
+server.playerFloorstrafe = function(playerID)
     return
     --[[
     local entry = serverGetPlayerConfigValues(playerID, fFloorStrafe)

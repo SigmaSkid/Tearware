@@ -31,7 +31,7 @@ end
 
 -- potential issue: do I.. clear the teleport target if someone disconnects..
 -- will the next person that joins just teleport there.. can someone even join in the middle of a game?
-server_ToolsTeleport = function(playerID, dt)
+server.ToolsTeleport = function(playerID, dt)
 
     local entry = playersTeleportTargets[playerID]
     if entry == nil then return end
