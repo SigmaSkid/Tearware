@@ -1,19 +1,18 @@
-client_playerInfiniteAmmo = function() 
-    if not config_GetLocalFeatureState(fInfiniteAmmo) then 
+server.playerInfiniteAmmo = function(playerID)
+    local e = syncedPlayerSetting[playerID]
+    if not e then 
         return 
     end
 
-    -- already has inf ammo / return to prevent visual glitches 
-    if GetBool("level.unlimitedammo") then
+    local enabled = server.getPlayerConfigValue(playerID, config_getKey(fInfiniteAmmo))
+    if not enabled then 
         return
     end
 
-    local pTool = GetString("game.player.tool")
-    local Ammo = GetInt("savegame.tool." .. pTool .. ".ammo")
-    if Ammo == nil or Ammo == 0 then
-        -- at 9999 ammo, the engine doesn't display ammo count
-        Ammo = 9999
-    end
-    SetInt("game.tool." .. pTool .. ".ammo", Ammo)
-end
+    local tool = GetPlayerTool(playerID)
+    local curAmmo = GetToolAmmo(tool, playerID)
 
+    if curAmmo < 9999 then 
+        SetToolAmmo(tool, 9999, playerID)
+    end
+end

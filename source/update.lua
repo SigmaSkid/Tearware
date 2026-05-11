@@ -44,6 +44,7 @@ function playerServerPostUpdate(playerID, dt)
     server.playerJesus(playerID)
     server.playerJetpack(playerID, dt)
     server.playerQuickstop(playerID)
+    server.playerInfiniteAmmo(playerID)
 end
 
 -- physics?

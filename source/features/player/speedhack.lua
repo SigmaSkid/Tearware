@@ -1,9 +1,13 @@
 server.playerSpeedhack = function(playerID)
     local e = syncedPlayerSetting[playerID]
-    if not e then return nil end
+    if not e then 
+        return
+    end
 
     local enabled = server.getPlayerConfigValue(playerID, config_getKey(fSpeed))
-    if not enabled then return nil end
+    if not enabled then 
+        return
+    end
 
     local targetSpeed = server.getPlayerConfigValue(playerID, config_getSubKey(fSpeed, fSubSpeed))
     

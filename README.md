@@ -30,7 +30,7 @@ Remove the shortcut by assigning the "enter" key.
 - Jetpack               - WORKS SP [borked multiplayer = SetPlayerVelocity]
 - Jesus                 - WORKS SP [borked multiplayer = SetPlayerVelocity]
 - Quickstop             - WORKS SP
-- Infinite Ammo         - [borked cfg v2] in mp only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only. [is there a way to check if ammo synced between players?]
+- Infinite Ammo         - WORKS SP
 - Super Strength        - [borked cfg v2] [should be possible. ReleasePlayerGrab being serverside only makes it annoying to port, but the logic itself.. should be fine?]
 - Godmode               - WORKS SP
 - No-fall               - WORKS SP [borked multiplayer = SetPlayerGroundVelocity]
