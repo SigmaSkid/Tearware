@@ -91,7 +91,8 @@ visuals_ToolEsp = function()
         local body = interactables[i]
         if not IsBodyBroken(body) then 
             local interactType = GetTagValue(body, "interact")
-            local isTool = interactType == "Pick up" 
+            -- DebugPrint(interactType)
+            local isTool = interactType == "Pick up" or interactType == "loc@PICK_UP"
             
             local targetpos = utils_GetBodyCenter(body)
             local x, y, dist = UiWorldToPixel(targetpos)

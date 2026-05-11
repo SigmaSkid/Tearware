@@ -248,6 +248,11 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
                     if isSessionCampagin then
                         legacyMenu_Checkbox(fSkipObjective)
+                        if legacyMenu_FunnySubmenuBegin(fSkipObjective, 120, 40) then 
+                            legacyMenu_SubSettingCheckbox(fSkipObjective, fSubSkipObjectiveFinish)
+                            UiPop()
+                        end
+
                         legacyMenu_Checkbox(fDisableAlarm)
                         legacyMenu_Checkbox(fTeleportValuables)
                         legacyMenu_Checkbox(fUnfairValuables)
@@ -307,6 +312,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                     end
                 end
 
+                --[[
                 if legacyMenu_Button(fMenuActivateRobots) then
                     local robots = FindBodies("body", true)
 
@@ -317,7 +323,8 @@ legacyMenu_DrawLegacyMenu = function(rgb)
                         end 
                     end
                 end
-
+                ]]
+                
                 if legacyMenu_Button(fRegistryTool) then
                     openMenu = "registry"
                 end
@@ -951,7 +958,7 @@ legacyMenu_SubSettingCheckbox = function(var, sub)
     UiTextShadow(0, 0, 0, 0.5, 1.5)
     UiTextOutline(0, 0, 0, 1, 0.1)
 
-    if GetBool(cfgstr .. var.configString .. sub.configString) then 
+    if config_GetSubVar(GetBool, var, sub) then
         UiColor(highlight, 1.0, highlight, 1)
     else 
         UiColor(1.0, highlight, highlight, 1)

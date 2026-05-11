@@ -14,9 +14,13 @@ visuals_ActiveGlow = function()
     if not config_GetLocalFeatureState(fActiveGlow) then 
         return 
     end
-    local bodies = FindBodies(nil,true)
+    
     local color = config_GetColor(fActiveGlow, GetTime())
 
+    local bodies = FindBodies(nil,true)
+    local playerBodies = GetPlayerBodies(GetLocalPlayer())
+    bodies = utils_filterArray(bodies, playerBodies)
+    
 	for i=1,#bodies do
 		local body = bodies[i]
 		if IsBodyActive(body) then

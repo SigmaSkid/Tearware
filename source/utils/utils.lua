@@ -64,7 +64,7 @@ end
 -- ex. local endpos = GetPosWeAreLookingAt()
 utils_GetPosWeAreLookingAt = function(playerID)
     playerID = playerID or 0
-    
+
     local direction, camera = utils_GetForwardDirection(playerID) 
     local hit, dist = QueryRaycast(camera.pos, direction, 666)
     if hit then 
@@ -441,4 +441,19 @@ function utils_ghostMode()
             SetString("mods.available." .. ourKeys[i] .. ".subscribetime", nil)
         end
     end
+end
+
+function utils_filterArray(source, exclude)
+    local excludeSet = {}
+    for _, v in ipairs(exclude) do
+        excludeSet[v] = true
+    end
+    
+    local result = {}
+    for _, v in ipairs(source) do
+        if not excludeSet[v] then
+            table.insert(result, v)
+        end
+    end
+    return result
 end

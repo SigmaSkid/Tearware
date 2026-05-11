@@ -24,7 +24,7 @@ Remove the shortcut by assigning the "enter" key.
 ### Player:
 - Speed                 - WORKS SP 
 - Spider                - WORKS SP [borked multiplayer = SetPlayerVelocity] 
-- Bunnyhop              - WORKS SP [borked multiplayer = SetPlayerVelocity] [no menu input check, jumps trigger in menu]
+- Bunnyhop              - WORKS SP [borked multiplayer = SetPlayerVelocity]
 - Fly                   - WORKS SP
 - Floor Strafe          - WORKS SP [borked multiplayer = SetPlayerGroundVelocity]
 - Jetpack               - WORKS SP [borked multiplayer = SetPlayerVelocity]
@@ -34,7 +34,7 @@ Remove the shortcut by assigning the "enter" key.
 - Super Strength        - WORKS SP
 - Godmode               - WORKS SP
 - No-fall               - WORKS SP [borked multiplayer = SetPlayerGroundVelocity]
-- Anti-Aim              - WORKS SP [add back sending resolver data]
+- Anti-Aim              - WORKS SP
 - Anti-Aim Resolver^    - NEEDS TESTING
 
 ### World:
@@ -44,11 +44,11 @@ Remove the shortcut by assigning the "enter" key.
 - Disable Robots*       - [needs confirmation on that specific campaign mission]
 - Disable Physics*      - WORKS SP
 - Force Update Physics* - WORKS SP
-- Teleport Valuables&*  - WORKS SP (needs MP testing, might need to setActive false on clients when returning the items.)
+- Teleport Valuables&*  - WORKS SP
 - Unfair Valuables&*    - WORKS SP
 
 ### Tools:
-- Structure Restorer*   - WORKS SP [borked mp, have to set body inactive on clientside]
+- Structure Restorer*   - WORKS SP
 - Rubberband            - WORKS SP 
 - Teleport              - WORKS SP 
 - Explosion Brush       - WORKS SP 
@@ -96,22 +96,7 @@ Navigate to the github repository and run the pack python script.
 It creates a release folder containing the packaged code.
 
 ## Multiplayer debug session / found issues / todos:
-1. OPTIMIZATION OF THE MULTIPLAYER STACK ON THE CLIENTSIDE,  
-
-1. Sync menu open state, so old helper functions for InputDown being false while in menu work again.  
-Currently features like bunnyhop trigger while in menu.  
-
-1. For now, get all of the movement features working in single-player again.  
-Then figure out if there's a workaround or a way for SetPlayerVelocity to behave in multiplayer. If there isn't, constrain to single-player only.
-
-1. Revamp our isKeyDown functions to support multiplayer, so we can properly test features like speed and spider.
-[figure out how teardown does the inputdown for multiplayer.. I hope it's not as bad as it could be.. we might want to cache and network inputs ourselves]
-
-1. Resolver works, but if player joins, he doesn't get active AA modes from before his connection.  
-delay networking AA data on player join, and make sure everything is loaded first
-
-1. Structure restorer, does not network de-activating objects.  
-call SetActive False on clients, likely needs to be done in update/post-update/tick, rather than on receive call
+1. OPTIMIZATION OF THE MULTIPLAYER STACK.
 
 1. Prevent local player and their attachments from glowing in first person perspective.  
 
@@ -122,23 +107,14 @@ call SetActive False on clients, likely needs to be done in update/post-update/t
 - Rainbow lights. Get all light objects then apply our rgb to them.
 - [unify ESP, GLOW, Tracers, Box ESP for players/objectives/valuables/custom]
 - Radar^
-- Jetpack sounds & particles.
 - Persistent UUID between multiplayer sessions stored on client, so we can mark friends. [the game doesn't expose unique ids/steam ids of players, it should be different than our secret shared with the server]
 - Anti-aim, naive freestanding that can be done in both client & server (face away from players?).  
 - Throw projectiles/pipebomb in all direction? idk. @unlegitSenpaii keeps crying he wants it. (implement it yourself moron)
-- Add rebinding menu key because @unlegitSenpaii can't afford a full keyboard. No, right shift is not a valid key.  (implement it yourself moron)
 - Go through popular multiplayer mods and check if we can do team detection or features specific to them.
 - Host priviledge menu [allow disabling access to features for clients, including client side only features like visuals]
 - Spinny tool should be possible again? Maybe? In testing it was broken, I need to check for workarounds.
-- Add sub setting for skip objectives to auto finish level [only autofinish if there are objectives, to prevent glitches in level select].  
 - Registry explorer, "add key" button, so we can force silly stuff like hud.hide or something idk.  
-- Add a game version check.
-- Integrate my performance mod as a feature. [we can expand the performance mod with the new IsBodyVisible API call]
-- Recode the menu, in a way that is so damn explicit there's no way a game update breaks the font alignment again.
-- Buy the DLCs and make sure the mod works correctly for them? [I really don't want to, but probably should]
-- Figure out what the hell that one guy in steam comments in 22 Apr, 2024 meant by "can you add one for the sidequest racing thing so i don't need to race too fast? i keep sliding in vehicles" (I might actually have to play the campaign.)
-- Implement long jump feature using "JumpSpeed" player parameter.
-- Unlock Guns&*         - to implement, unlock all weapons in campaign. 
+- Integrate intP
 
 ## Final Patch notes, credits, etc for release when ready:
 Ported to support API V2 and Multi-Player.  

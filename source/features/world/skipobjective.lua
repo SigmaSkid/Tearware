@@ -1,3 +1,4 @@
+skipped_objective_count = 0
 world_SkipObjective = function()
     if not isSessionCampagin then return end
 
@@ -5,8 +6,15 @@ world_SkipObjective = function()
         return
     end
 
-    if skipped_objective then
+    if skipped_objective then    
+        if skipped_objective_count and config_GetSubVar(GetBool, fSkipObjective, fSubSkipObjectiveFinish) then 
+            SetString("level.state", "win") 
+        end
         return
+    end
+
+    if GetTime() < 0.1 then 
+        return 
     end
 
     skipped_objective = true
@@ -17,5 +25,5 @@ world_SkipObjective = function()
         SetTag(targets[i], "target", "cleared")
     end
 
-    -- SetString("level.state", "win") 
+    skipped_objective_count = #targets
 end

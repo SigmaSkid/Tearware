@@ -264,6 +264,8 @@ config_GenerateConfig = function()
     config_DefineFeature(fBulletTime, false)
         config_DefineSubVar(SetFloat, fBulletTime, fSubScale, 10)
     config_DefineFeature(fSkipObjective, false)
+        config_DefineSubVar(SetBool, fSkipObjective, fSubSkipObjectiveFinish, false)
+
     config_DefineFeature(fDisableAlarm, false)
     config_DefineFeature(fDisablePhysics, false)
     config_DefineFeature(fForceUpdatePhysics, false)

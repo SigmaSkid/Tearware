@@ -21,19 +21,28 @@ tools_RewindAllObjectsState = function()
         return 
     end
 
+    local playerlist = GetAllPlayers()
     local thisTick = insaneObjectCache[#insaneObjectCache]
     for i=1, #thisTick do 
         local thisBody = thisTick[i]
         if IsHandleValid(thisBody.handle) then 
             SetBodyTransform(thisBody.handle, thisBody.trans)
-            SetBodyVelocity(thisBody.handle, VecScale(thisBody.velocity, -1.0))
-            
-            -- setting body inactive isn't networked to clients
-            SetBodyActive(thisBody.handle, VecLength(thisBody.velocity) > 1.0) 
+            SetBodyActive(thisBody.handle, false) 
+
+            if isSessionMultiplayer then 
+                for i=1, #playerlist do 
+                    ClientCall(i, "client.structureRestorerReceive", thisBody.handle, thisBody.trans)
+                end
+            end
         end
     end
 
     insaneObjectCache[#insaneObjectCache] = nil
+end
+
+client.structureRestorerReceive = function(handle, transform)
+    SetBodyTransform(handle, transform)
+    SetBodyActive(handle, false) 
 end
 
 tools_StructureRestorer = function()

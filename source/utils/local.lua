@@ -54,6 +54,7 @@ fSubPatch = {legacyName = "Patch", configString = "patch"}
 fSubSize = {legacyName = "Size", configString ="size"}
 fMethod = { legacyName = "Method", configString = "method"}
 fSubDelay = { legacyName = "Delay", configString = "delay"}
+fSubSkipObjectiveFinish = { legacyName = "Auto Finish", configString = "finish"}
 
 -- 
 fAlignmentLR = {legacyName = "Alignment", configString = "alignmentlr"}

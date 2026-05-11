@@ -20,7 +20,6 @@ world_RestoreValuablesPosition = function()
             if IsHandleValid(v[1]) then
                 SetBodyTransform(v[1], v[2])
                 SetBodyActive(v[1], v[3])
-                -- can't be bothered with restoring joints.
             end
         end
         cachedValuablesPositions = {}
