@@ -1,17 +1,18 @@
-player_Jetpack = function(dts) 
-    if not config_GetLocalFeatureState(fJetpack) then 
-        return 
-    end
+server.playerJetpack = function(playerID, dt)
+    local e = syncedPlayerSetting[playerID]
+    if not e then return nil end
 
-    if utils_TWInputDown("jump") then 
-        local velocity = GetPlayerVelocity()
+    local enabled = server.getPlayerConfigValue(playerID, config_getKey(fJetpack))
+    if not enabled then return nil end
 
-        velocity[2] = velocity[2] + (0.5 * dts)
+    if server.utils_Input(InputDown, "jump", playerID) then
+        local velocity = GetPlayerVelocity(playerID)
+
+        velocity[2] = velocity[2] + (25 * dt)
         if velocity[2] > 7 then 
             velocity[2] = 7 
         end
 
-        SetPlayerVelocity(velocity) 
+        SetPlayerVelocity(velocity, playerID) 
     end
-
 end

@@ -42,6 +42,7 @@ function playerServerPostUpdate(playerID, dt)
     server.ToolsRubberband(playerID)
     server.playerBunnyhop(playerID, dt)
     server.playerJesus(playerID)
+    server.playerJetpack(playerID, dt)
     server.playerQuickstop(playerID)
 end
 

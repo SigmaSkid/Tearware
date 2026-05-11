@@ -27,7 +27,7 @@ Remove the shortcut by assigning the "enter" key.
 - Bunnyhop              - [borked cfg v2] [borked multiplayer = SetPlayerVelocity] [no menu input check, jumps trigger in menu]
 - Fly                   - WORKS SP
 - Floor Strafe          - WORKS SP [borked multiplayer = SetPlayerGroundVelocity] works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction.
-- Jetpack               - [borked cfg v2] [borked multiplayer = SetPlayerVelocity]
+- Jetpack               - WORKS SP [borked multiplayer = SetPlayerVelocity]
 - Jesus                 - WORKS SP [borked multiplayer = SetPlayerVelocity]
 - Quickstop             - WORKS SP
 - Infinite Ammo         - [borked cfg v2] in mp only works if host enables it, and only the weapon host holds. weapon ammo is synced, make this host only. [is there a way to check if ammo synced between players?]
