@@ -74,4 +74,9 @@ server.handleParamFeatures = function(playerID, setting, value)
     elseif setting == cfgstr .. fFly.configString then 
         SetPlayerParam("flymode", value, playerID)
     end
+
+    -- if setting contains antiaim
+    if string.find(setting, "antiaim") then 
+        server.forwardResolverData(playerID)
+    end
 end

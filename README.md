@@ -35,7 +35,7 @@ Remove the shortcut by assigning the "enter" key.
 - Godmode               - WORKS SP
 - No-fall               - WORKS SP [borked multiplayer = SetPlayerGroundVelocity]
 - Anti-Aim              - WORKS SP [add back sending resolver data]
-- Anti-Aim Resolver^    - [borked cfg v2] [explicit request resolver data every 15 seconds as a race condition workaround]
+- Anti-Aim Resolver^    - NEEDS TESTING
 
 ### World:
 - Timescale*            - WORKS SP
