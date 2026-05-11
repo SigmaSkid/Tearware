@@ -42,10 +42,10 @@ Remove the shortcut by assigning the "enter" key.
 - Skip Objective&*      - [borked cfg v2]
 - Disable Alarm&*       - [borked cfg v2] AUDIO ISSUES ON FIRE ALARM ONLY FOR HOST, also countdown doesn't disappear.
 - Disable Robots*       - [borked cfg v2]
-- Disable Physics*      - [borked cfg v2]
-- Force Update Physics* - [borked cfg v2]
-- Teleport Valuables&*  - [borked cfg v2] (needs testing, might need to setActive false on clients when returning the items.)
-- Unfair Valuables&*    - [borked cfg v2] (IIRC, if client picks up the valuable it doesn't, not sure while writing this. needs testing.)
+- Disable Physics*      - WORKS SP
+- Force Update Physics* - WORKS SP
+- Teleport Valuables&*  - WORKS SP (needs MP testing, might need to setActive false on clients when returning the items.)
+- Unfair Valuables&*    - WORKS SP
 
 ### Tools:
 - Structure Restorer*   - [borked cfg v2] [borked have to set body inactive on clientside]

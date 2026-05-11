@@ -55,3 +55,6 @@ Jump height SHOULD be a separate variable, why is the speed connected to height.
 Server has to guess where the clients are looking,  
 or clients have to network that data themeslves :D  
 Even though server should probably already have this data.  
+
+## Entity Tags are not serverside/synced.
+What the hell?

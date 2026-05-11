@@ -27,7 +27,7 @@ menu_UiDraw = function(dt)
         end
 
         if openMenu == "tearware" then
-            menu_DrawMenu()
+            menu_DrawMenu(dt)
         elseif openMenu == "registry" then
             registry_DrawRegistry()
         elseif openMenu == "reset" then

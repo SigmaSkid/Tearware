@@ -1,8 +1,6 @@
 -- universal constants
 cfgstr = "savegame.mod."
--- 0.01(6)
-fixed_update_rate = 1/60
-origin_to_eye_distance = 1.7
+
 gameVersion = GetVersion()
 registryEntryPoints = { "characters", "game", "hud", "level", "loading", "mods", "promo", "promo_mp", "savegame", "spawn" }
 colorSuffix = {".red", ".green", ".blue", ".alpha", ".rainbow"}
@@ -84,6 +82,7 @@ keyShort["backspace"] = "bsp"
 keyShort["space"] = "spc"
 
 -- temp values (reset to default on restart/level load/quick load)
+-- unconfirmed whether they actually reset on current game version.
 openMenu = nil
 featurelist = {}
 filthyglobal_editingkeybind = " "
@@ -94,9 +93,7 @@ cached_post_process = {}
 cachedValuablesPositions = {}
 active_sub_menu = nil
 active_sub_menu_mode = "default"
-overrideConfigValues = false
 activeBodyCache = {}
-noclipbackuppos = {}
 
 funnyColorCopyCache = {}
 funnyColorCopyCache.red = 1

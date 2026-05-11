@@ -49,3 +49,9 @@ world_RestoreValuablesValue = function()
         valuablesBackup = {}
     end
 end
+
+--[[
+    So, fun thing about SetTag, it's not serversided.
+    Clients can call this/have to call this for proper sync. 
+    :) :) :) :) :-)
+]]

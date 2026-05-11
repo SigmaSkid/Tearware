@@ -1,4 +1,6 @@
+#!/usr/bin/env python3
 import os
+import re
 import shutil
 import datetime
 
@@ -63,18 +65,39 @@ for root, dirs, files in os.walk("release/source"):
         if file.endswith(".lua"):
             lua_files.append(os.path.join(root, file))
 
-# do the optimizations
-# 04.11.2023, we save around 34KB ~ 36KB
+# remove comments to reduce size.
+# 11.05.2026, we save around ~41.53 KB
+total_bytes_saved = 0
 for file in lua_files:
     print(file)
-    with open(file, "r") as f:
-        lines = f.readlines()
-    with open(file, "w") as f:
-        for line in lines:
-            line = line.split('--', 1)[0].lstrip().rstrip()  # remove comments and trailing spaces
-            if line:
-                f.write(line + "\n")
-    print("")
+
+    original_size = os.path.getsize(file)
+
+    with open(file, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    # Remove multiline comments --[[ ... ]]
+    content = re.sub(r'--\[\[.*?\]\]', '', content, flags=re.DOTALL)
+
+    # Split into lines again to handle single-line comments
+    lines = content.splitlines()
+    new_lines = []
+    for line in lines:
+        # Remove single-line comments
+        line = re.sub(r'--.*$', '', line)
+        line = line.strip()
+        if line:  # skip empty lines
+            new_lines.append(line)
+    
+    # Write back
+    with open(file, "w", encoding="utf-8") as f:
+        f.write("\n".join(new_lines))
+
+    new_size = os.path.getsize(file)
+    saved = original_size - new_size
+    total_bytes_saved += saved
+
+print(f"Total memory savings: {total_bytes_saved/1024:.2f} KB\n")
 
 print("Updating local.lua")
 

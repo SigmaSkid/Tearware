@@ -1,15 +1,19 @@
 draggingMenu = false
-dragMenuLastMousePos = nil
+dragStartMouse = nil
+dragStartX = 0
+dragStartY = 0
 
 legacyMenu_DrawLegacyMenu = function(rgb) 
-    local windowPos = {}
     local x_, y_ =  UiGetMousePos()
 
     -- permanent temporary solution :3
     -- I pray they never change the UI scaling from 1920x1080, 
     -- because this entire menu will fall apart when they do.
-    windowPos.x = 255 + (config_GetVar(GetFloat,fMenuX) * 1410)
-    windowPos.y = 305 + (config_GetVar(GetFloat,fMenuY) * 470)
+    local menuX = config_GetVar(GetFloat, fMenuX)
+    local menuY = config_GetVar(GetFloat, fMenuY)
+
+    local windowPosX = 255 + (menuX * 1410)
+    local windowPosY = 305 + (menuY * 470)
 
     -- DebugPrint(windowPos.x .. " " .. windowPos.y)
 
@@ -17,7 +21,7 @@ legacyMenu_DrawLegacyMenu = function(rgb)
         UiFont("bold.ttf", 25)
         
         -- create context
-        UiTranslate(windowPos.x, windowPos.y)
+        UiTranslate(windowPosX, windowPosY)
         UiWindow(500, 600)
 
         -- draw window background
@@ -38,6 +42,22 @@ legacyMenu_DrawLegacyMenu = function(rgb)
 
         -- dragging the window.
         UiPush()
+            --[[
+                Sometimes, dragging the window causes it to glitch out and snap to bottom right.
+                But the values seem to all be correct. 
+                Is it my system or game issue?
+                Is it some weird race condition?
+                Is it caused by high polling mice?
+                Is it caused by running the game through proton & gamescope? 
+                Is it a bug of the games version of imgui?
+                No clue. Just don't drag the window in circles really fast and it won't break.
+
+                do we sometimes leak UiTranslate?
+                Nope, doing a debuwatch on UiGetCursorPos didn't return any anomalies.
+                scope issue?
+                Nope, having a full screen window didn't fix it.
+
+            ]]
             UiTranslate(0, -UiMiddle() - 4)
             -- UiColor(1, 0, 0)
             -- UiRect(UiWidth(), 8)
@@ -46,33 +66,32 @@ legacyMenu_DrawLegacyMenu = function(rgb)
             
             if hover and InputPressed("lmb") then 
                 dragging = true
-                dragMenuLastMousePos = {x=x_, y=y_}
+                dragStartX = config_GetVar(GetFloat, fMenuX)
+                dragStartY = config_GetVar(GetFloat, fMenuY)
+                dragStartMouse = {x=x_, y=y_}
             end
+
             if hover and InputPressed("rmb") then 
-                config_SetVar(SetFloat,fMenuX, 0.5)
-                config_SetVar(SetFloat,fMenuY, 0.5)
+                config_SetVar(SetFloat, fMenuX, 0.5)
+                config_SetVar(SetFloat, fMenuY, 0.5)
             end
+
             if not InputDown("lmb") then
                 dragging = false
             end
             
             if dragging then
-                local dx = x_ - dragMenuLastMousePos.x
-                local dy = y_ - dragMenuLastMousePos.y 
-
-                windowPos.x = windowPos.x + dx
-                windowPos.y = windowPos.y + dy
-
-                local nextx = (windowPos.x - 255) / 1410
-                local nexty = (windowPos.y - 305) / 470
-
-                dragMenuLastMousePos = {x=x_, y=y_}
+                local dx = (x_ - dragStartMouse.x) / 1410
+                local dy = (y_ - dragStartMouse.y) / 470
                 
-                -- DebugWatch("x", nextx)
-                -- DebugWatch("y", nexty)
+                -- DebugWatch("x", dx)
+                -- DebugWatch("y", dy)
 
-                config_SetVar(SetFloat,fMenuX, utils_Clamp(nextx,0.0,1.0))
-                config_SetVar(SetFloat,fMenuY, utils_Clamp(nexty,0.0,1.0))
+                local newX = dragStartX + dx
+                local newY = dragStartY + dy
+                
+                config_SetVar(SetFloat, fMenuX, utils_Clamp(newX, 0.0, 1.0))
+                config_SetVar(SetFloat, fMenuY, utils_Clamp(newY, 0.0, 1.0))
             end
         UiPop()
 
