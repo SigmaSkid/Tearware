@@ -1,9 +1,13 @@
 server.playerSpider = function(playerID)
     local e = syncedPlayerSetting[playerID]
-    if not e then return nil end
+    if not e then 
+        return 
+    end
 
     local enabled = server.getPlayerConfigValue(playerID, config_getKey(fSpider))
-    if not enabled then return nil end
+    if not enabled then
+         return 
+    end
 
     local pos = GetPlayerTransform(playerID).pos
     pos[2] = pos[2] + 1

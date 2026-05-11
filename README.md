@@ -24,7 +24,7 @@ Remove the shortcut by assigning the "enter" key.
 ### Player:
 - Speed                 - WORKS SP 
 - Spider                - WORKS SP [borked multiplayer = SetPlayerVelocity] 
-- Bunnyhop              - [borked cfg v2] [borked multiplayer = SetPlayerVelocity] [no menu input check, jumps trigger in menu]
+- Bunnyhop              - WORKS SP [borked multiplayer = SetPlayerVelocity] [no menu input check, jumps trigger in menu]
 - Fly                   - WORKS SP
 - Floor Strafe          - WORKS SP [borked multiplayer = SetPlayerGroundVelocity] works in singleplayer | networking screws it up in multiplayer, try achieving the same effect with param friction.
 - Jetpack               - WORKS SP [borked multiplayer = SetPlayerVelocity]

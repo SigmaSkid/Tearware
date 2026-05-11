@@ -1,33 +1,43 @@
 -- server
 server.playerBunnyhop = function(playerID, dt)
-    --[[
-    local entry = serverGetPlayerConfigValues(playerID, fBunnyhop)
-    if entry ~= true then return end
+    local e = syncedPlayerSetting[playerID]
+    if not e then 
+        return  
+    end
 
-    local max_horizontal_velocity = 20
-    local approach_factor = 0.1 -- per-jump step toward max, 0-1
+    local enabled = server.getPlayerConfigValue(playerID, config_getKey(fBunnyhop))
+    if not enabled then 
+        return  
+    end
 
-    if IsPlayerGrounded(playerID) and InputDown("space", playerID) then  
-        local velocity = GetPlayerVelocity(playerID)
-        local transform = GetPlayerTransformWithPitch(playerID)
+    if not IsPlayerGrounded(playerID) then 
+        return 
+    end
 
-        velocity[2] = 0
+    if not server.utils_Input(InputDown, "jump", playerID) then
+        return
+    end
 
-        local speed = VecLength(velocity)
+    if IsPlayerJumping(playerID) then
+        return 
+    end
+    
+    local pos = GetPlayerTransform(playerID).pos
+    pos[2] = pos[2] - 1.7
 
-        if speed > 0 then
-            local normalized = VecNormalize(velocity)
-            local new_speed = speed + (max_horizontal_velocity - speed) * approach_factor
+    local hit, dist, normal, shape = QueryRaycast(pos, Vec(0, 1, 0), 1.1, 0.3)
 
-            velocity[1] = normalized[1] * new_speed
-            velocity[3] = normalized[3] * new_speed
-            --DebugWatch("Velocity", new_speed)
-        end
+    if not hit then 
+        return 
+    end
 
-        velocity[2] = 5
-        transform.pos[2] = transform.pos[2] + 0.05
+    local velocity = GetPlayerVelocity(playerID)
 
-        SetPlayerTransformWithPitch(transform, playerID)
-        SetPlayerVelocity(velocity, playerID)
-    end]]
+    if velocity[2] < -1 then 
+        return 
+    end
+
+    velocity[2] = 6.5
+
+    SetPlayerVelocity(velocity, playerID)
 end
