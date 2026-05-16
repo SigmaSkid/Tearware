@@ -10,49 +10,49 @@ Remove the shortcut by assigning the "enter" key.
 
 ## Features:
 ### Visuals:
-- Feature List          - WORKS SP 
-- Objective ESP&        - WORKS SP 
-- Optional ESP&         - WORKS SP 
-- Valuable ESP&         - WORKS SP 
-- Tool ESP&             - WORKS SP
-- Player Glow           - WORKS SP
-- Equipped Tool Glow    - WORKS SP
-- Active Glow           - WORKS SP
-- Colored Fog*          - WORKS SP 
-- Post Processing       - WORKS SP 
+- Feature List          - WORKS SP|MP 
+- Objective ESP&        - WORKS SP|MP
+- Optional ESP&         - WORKS SP|MP
+- Valuable ESP&         - WORKS SP|MP 
+- Tool ESP&             - WORKS SP|MP
+- Player Glow           - WORKS SP|MP
+- Equipped Tool Glow    - WORKS SP|MP
+- Active Glow           - WORKS SP|MP
+- Colored Fog*          - WORKS SP|MP
+- Post Processing       - WORKS SP|MP
 
 ### Player:
-- Speed                 - WORKS SP 
-- Spider                - WORKS SP [borked multiplayer = SetPlayerVelocity] 
-- Bunnyhop              - WORKS SP [borked multiplayer = SetPlayerVelocity]
-- Fly                   - WORKS SP
-- Floor Strafe          - WORKS SP [borked multiplayer = SetPlayerGroundVelocity]
-- Jetpack               - WORKS SP [borked multiplayer = SetPlayerVelocity]
-- Jesus                 - WORKS SP [borked multiplayer = SetPlayerVelocity]
-- Quickstop             - WORKS SP
-- Infinite Ammo         - WORKS SP
-- Super Strength        - WORKS SP
-- Godmode               - WORKS SP
-- No-fall               - WORKS SP [borked multiplayer = SetPlayerGroundVelocity]
-- Anti-Aim              - WORKS SP
-- Anti-Aim Resolver^    - NEEDS TESTING
+- Speed                 - WORKS SP|MP
+- Spider                - WORKS SP|MP 
+- Bunnyhop              - WORKS SP|MP
+- Fly                   - WORKS SP|MP
+- Floor Strafe          - WORKS SP|MP
+- Jetpack               - WORKS SP|MP
+- Jesus                 - WORKS SP|MP
+- Quickstop             - WORKS SP|MP
+- Infinite Ammo         - WORKS SP|MP
+- Super Strength        - WORKS SP|MP
+- Godmode               - WORKS SP|MP
+- No-fall               - WORKS SP|MP
+- Anti-Aim              - WORKS SP|MP
+- Anti-Aim Resolver^    - BORKED
 
 ### World:
-- Timescale*            - WORKS SP
-- Skip Objective&*      - WORKS SP
-- Disable Alarm&*       - WORKS SP
-- Disable Robots*       - WORKS SP
-- Disable Physics*      - WORKS SP
-- Force Update Physics* - WORKS SP
-- Teleport Valuables&*  - WORKS SP
-- Unfair Valuables&*    - WORKS SP
+- Timescale*            - WORKS SP|MP
+- Skip Objective&*      - WORKS SP|MP
+- Disable Alarm&*       - WORKS SP|MP
+- Disable Robots*       - WORKS SP|MP
+- Disable Physics*      - WORKS SP|MP
+- Force Update Physics* - WORKS SP|MP
+- Teleport Valuables&*  - WORKS SP|MP
+- Unfair Valuables&*    - WORKS SP|MP
 
 ### Tools:
-- Structure Restorer*   - WORKS SP
-- Rubberband            - WORKS SP 
-- Teleport              - WORKS SP 
-- Explosion Brush       - WORKS SP 
-- Fire Brush            - WORKS SP 
+- Structure Restorer*   - WORKS SP|MP
+- Rubberband            - WORKS SP|MP
+- Teleport              - WORKS SP|MP
+- Explosion Brush       - WORKS SP|MP
+- Fire Brush            - WORKS SP|MP
 
 ### Miscellaneous:
 - Registry Explorer
@@ -96,11 +96,11 @@ Navigate to the github repository and run the pack python script.
 It creates a release folder containing the packaged code.
 
 ## Multiplayer debug session / found issues / todos:
-1. OPTIMIZATION OF THE MULTIPLAYER STACK.
-
-1. Prevent local player and their attachments from glowing in first person perspective.  
-
-1. Make & add the new multiplayer preview image.  
+1. Resolver does not work. :/
+1. Host needs resolver? But only sometimes?
+1. Anti-aim being disabled is not networked, so resolver sometimes shows fake antiaim.
+1. Unfair valuables, the tags are networked only when loading the map, client has to manually SetTag otherwise.
+1. Structure restorer, maybe
 
 ### Scope creep - low priority todo
 - Ragebot^ also autowall.
@@ -115,6 +115,7 @@ It creates a release folder containing the packaged code.
 - Spinny tool should be possible again? Maybe? In testing it was broken, I need to check for workarounds.
 - Registry explorer, "add key" button, so we can force silly stuff like hud.hide or something idk.  
 - Integrate intP
+- Fix DESYNC between host and clients.
 
 ## Final Patch notes, credits, etc for release when ready:
 Ported to support API V2 and Multi-Player.  
