@@ -309,6 +309,7 @@ legacyMenu_Button = function(name)
 end
 
 legacyMenu_SimpleCheckbox = function(name, value) 
+    local return_value = false
     UiPush()
     UiAlign("left top")
 
